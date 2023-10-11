@@ -1,11 +1,32 @@
 import NiceSelect from "@/ui/nice-select";
 import React from "react";
 
-const EmployExperience = () => {
-  const handleExperience = (item: { value: string; label: string }) => {};
-  const handleLocation = (item: { value: string; label: string }) => {};
-  const handleIndustry = (item: { value: string; label: string }) => {};
-  const handleEnglishFluency = (item: { value: string; label: string }) => {};
+interface obj {
+  experience: string;
+  location: string;
+}
+
+interface Props {
+  selected: obj;
+  setSelected: React.Dispatch<React.SetStateAction<obj>>;
+}
+
+const EmployExperience = ({ selected, setSelected }: Props) => {
+  const handleExperience = (item: { value: string; label: string }) => {
+    setSelected((prev) => ({
+      ...prev,
+      experience: item.value,
+    }));
+    // console.log(selected, item.value);
+  };
+  const handleLocation = (item: { value: string; label: string }) => {
+    setSelected((prev) => ({
+      ...prev,
+      location: item.value,
+    }));
+    // console.log(selected, item.value);
+  };
+
   return (
     <div className="row align-items-end">
       <div className="col-md-6">
@@ -36,36 +57,6 @@ const EmployExperience = () => {
             defaultCurrent={0}
             onChange={(item) => handleLocation(item)}
             name="Experience"
-          />
-        </div>
-      </div>
-      <div className="col-md-6">
-        <div className="dash-input-wrapper mb-30">
-          <label htmlFor="">Industry*</label>
-          <NiceSelect
-            options={[
-              { value: "Select Industry", label: "Select Industry" },
-              { value: "Select Industry 2", label: "Select Industry 2" },
-            ]}
-            defaultCurrent={0}
-            onChange={(item) => handleIndustry(item)}
-            name="Industry"
-          />
-        </div>
-      </div>
-      <div className="col-md-6">
-        <div className="dash-input-wrapper mb-30">
-          <label htmlFor="">English Fluency</label>
-          <NiceSelect
-            options={[
-              { value: "Basic", label: "Basic" },
-              { value: "Conversational", label: "Conversational" },
-              { value: "Fluent", label: "Fluent" },
-              { value: "Native/Bilingual", label: "Native/Bilingual" },
-            ]}
-            defaultCurrent={0}
-            onChange={(item) => handleEnglishFluency(item)}
-            name="English Fluency"
           />
         </div>
       </div>

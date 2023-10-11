@@ -11,7 +11,9 @@ import type { RootState } from "@/redux/store";
 // portfolio item
 function PortfolioItem({ img }: { img: StaticImageData }) {
   // const pathname = usePathname();
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user } = useSelector(
+    (state: RootState) => state.persistedReducer.user
+  );
   return (
     <div className="col-lg-3 col-6">
       <div className="candidate-portfolio-block position-relative mb-25">

@@ -15,7 +15,9 @@ import Image from "next/image";
 const LogoutButton = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { loading } = useSelector((state: RootState) => state.user);
+  const { loading } = useSelector(
+    (state: RootState) => state.persistedReducer.user
+  );
 
   const handleClick = async () => {
     dispatch(getUserStart());

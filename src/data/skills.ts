@@ -1,0 +1,23 @@
+export const cybersecuritySkills = [
+    { label: 'Network Security', skill: 'Network Security' },
+    { label: 'Firewall Management', skill: 'Firewall Management' },
+    { label: 'Intrusion Detection System (IDS)', skill: 'IDS' },
+    { label: 'Intrusion Prevention System (IPS)', skill: 'IPS' },
+    { label: 'SIEM (Security Information and Event Management)', skill: 'SIEM' },
+    { label: 'Penetration Testing', skill: 'Penetration Testing' },
+    { label: 'Vulnerability Assessment', skill: 'Vulnerability Assessment' },
+    { label: 'Incident Response', skill: 'Incident Response' },
+    { label: 'Malware Analysis', skill: 'Malware Analysis' },
+    { label: 'Identity and Access Management (IAM)', skill: 'IAM' },
+    { label: 'Cryptography', skill: 'Cryptography' },
+    { label: 'Security Compliance', skill: 'Security Compliance' },
+    { label: 'Security Awareness and Training', skill: 'Security Awareness' },
+    { label: 'Cloud Security', skill: 'Cloud Security' },
+    { label: 'Endpoint Security', skill: 'Endpoint Security' },
+    { label: 'Mobile Security', skill: 'Mobile Security' },
+    { label: 'Wireless Security', skill: 'Wireless Security' },
+    { label: 'Secure Coding Practices', skill: 'Secure Coding' },
+    { label: 'Security Governance', skill: 'Security Governance' },
+    { label: 'Security Risk Management', skill: 'Risk Management' },
+];
+

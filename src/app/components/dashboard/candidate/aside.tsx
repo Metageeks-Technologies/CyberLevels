@@ -95,7 +95,9 @@ type IProps = {
 
 const CandidateAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
   const pathname = usePathname();
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user } = useSelector(
+    (state: RootState) => state.persistedReducer.user
+  );
   return (
     <>
       <aside className={`dash-aside-navbar ${isOpenSidebar ? "show" : ""}`}>

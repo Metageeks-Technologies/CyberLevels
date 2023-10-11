@@ -1,36 +1,24 @@
 import React, { useState, useEffect, Fragment } from "react";
-import axios from "axios";
 import { Combobox, Transition } from "@headlessui/react";
 
-interface Props {
+interface MyComponentProps {
+  query: string;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
   selected: string;
   setSelected: React.Dispatch<React.SetStateAction<string>>;
-  endPoint: string;
+  suggestions: string[];
+  //   setSuggestions: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-function AutocompletePosition({ selected, setSelected, endPoint }: Props) {
-  const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
-
-  const serverUrl = `http://localhost:8000/api/v1/${endPoint}/search`;
-  useEffect(() => {
-    console.log(query.length);
-
-    const callApi = async () => {
-      try {
-        if (query.length >= 3) {
-          const { data } = await axios.get(`${serverUrl}?query=${query}`);
-          console.log(data);
-          setSuggestions(data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    callApi();
-  }, [query]);
+function AutocompletePosition({
+  query,
+  setQuery,
+  selected,
+  setSelected,
+  suggestions,
+}: MyComponentProps) {
   return (
-    <div className="nice-select" style={{ border: "none", padding: "0" }}>
+    <div className="nice-select " id="_my_nice_select">
       <Combobox value={selected} onChange={setSelected}>
         <div className="">
           <div className="">
@@ -48,7 +36,7 @@ function AutocompletePosition({ selected, setSelected, endPoint }: Props) {
             leaveTo="opacity-0"
             afterLeave={() => setQuery("")}
           >
-            <Combobox.Options className="_my_nice_select_options _my_nice_select_options_extended">
+            <Combobox.Options className="_my_nice_select_options">
               {suggestions.length === 0 && query !== "" ? (
                 <div className=" px-4">Nothing found.</div>
               ) : (
@@ -69,16 +57,15 @@ function AutocompletePosition({ selected, setSelected, endPoint }: Props) {
                         >
                           {person.name}
                         </span>
-                        {selected ? (
+                        {/* {selected ? (
                           <span
                             // onClick={() => selected(person)}
                             className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
                               active ? "text-white" : "text-teal-600"
                             }`}
                           >
-                            {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
                           </span>
-                        ) : null}
+                        ) : null} */}
                       </>
                     )}
                   </Combobox.Option>

@@ -15,7 +15,9 @@ type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user } = useSelector(
+    (state: RootState) => state.persistedReducer.user
+  );
   return (
     <div className="dashboard-body">
       <div className="position-relative">
@@ -46,8 +48,13 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
             <button className="delete-btn tran3s">Delete</button>
           </div>
           <div className="dash-input-wrapper mb-30">
-            <label htmlFor="">Full Name*</label>
-            <input type="text" placeholder="Md James Brower" />
+            <label htmlFor="">First Name*</label>
+
+            <input type="text" value={"shiva"} readOnly placeholder="James" />
+          </div>
+          <div className="dash-input-wrapper mb-30">
+            <label htmlFor="">Last Name*</label>
+            <input type="text" placeholder="Brower" />
           </div>
           <div className="dash-input-wrapper">
             <label htmlFor="">Bio*</label>

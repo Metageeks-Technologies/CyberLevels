@@ -1,0 +1,104 @@
+"use client";
+import React, { useState } from "react";
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng,
+} from "react-places-autocomplete";
+
+interface MyComponentProps {
+  selected: string;
+  setSelected: React.Dispatch<React.SetStateAction<string>>;
+  setCountry?: React.Dispatch<React.SetStateAction<string>>;
+  type: string;
+  label: string;
+}
+
+function AddressForm({
+  selected,
+  setSelected,
+  setCountry,
+  type,
+  label,
+}: MyComponentProps) {
+  const [query, setQuery] = useState("");
+  // const [selected, setSelected] = useState("");
+  const handleQueryChange = (value: string) => {
+    setQuery(value);
+  };
+
+  const handleSelect = async (address: any) => {
+    try {
+      const results = await geocodeByAddress(address);
+      console.log(results);
+      if (results.length > 0) {
+        const arr = results[0].formatted_address.split(",");
+        setSelected(arr[0].trim());
+        setQuery(arr[0].trim());
+        setCountry && setCountry(arr[arr.length - 1].trim());
+      }
+    } catch (error) {
+      console.error("Error geocoding address:", error);
+    }
+  };
+  console.log();
+
+  const autocompleteOptions = {
+    types: [`(${type})`],
+    // types: ["(cities)"],
+  };
+  return (
+    <div className="nice-select " id="_my_nice_select">
+      <PlacesAutocomplete
+        value={query}
+        onChange={handleQueryChange}
+        searchOptions={autocompleteOptions}
+        onSelect={handleSelect}
+        shouldFetchSuggestions={query.length >= 2}
+      >
+        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+          <div>
+            <input
+              name={`${label}`}
+              {...getInputProps({
+                placeholder: "Search city ...",
+                className: "location-search-input",
+              })}
+            />
+
+            <ul
+              className="_my_nice_select_options"
+              style={{
+                border: `${
+                  suggestions.length === 0
+                    ? "none"
+                    : "1px solid rgba(0, 0, 0, 0.05)"
+                }`,
+              }}
+            >
+              {loading && <div className="option">Loading...</div>}
+              {suggestions.map((suggestion) => {
+                const className = `option ${
+                  suggestion.active && "selected focus"
+                }`;
+                // const style = suggestion.active
+                //   ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                //   : { backgroundColor: "#ffffff", cursor: "pointer" };
+                return (
+                  <li
+                    {...getSuggestionItemProps(suggestion, {
+                      className,
+                    })}
+                  >
+                    <span>{suggestion.description}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
+      </PlacesAutocomplete>
+    </div>
+  );
+}
+
+export default AddressForm;

@@ -9,3 +9,48 @@
   width: 100vw;
   background-color: white;
 }
+
+#_my_nice_select {
+  border: none;
+  padding: 0;
+}
+
+._my_nice_select_options {
+  background-color: white;
+  // max-height: 15rem;
+  // overflow-y: scroll;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 13px 35px -12px rgba(35, 35, 35, 0.1);
+  // box-sizing: border-box;
+  // opacity: 0;
+  z-index: 9;
+  position: relative;
+  overflow-x: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 5px 0 15px;
+  // transform: scale(0.75) translateY(-21px);
+  transition: all 0.2s cubic-bezier(0.5, 0, 0, 1.25), opacity 0.15s ease-out;
+}
+._my_nice_select_options_extended {
+  max-height: 15rem;
+  overflow-y: scroll;
+}
+
+// loader
+._loader {
+  width: 2.5rem; /* Equivalent to w-10 in Tailwind */
+  height: 2.5rem; /* Equivalent to h-10 in Tailwind */
+  margin-right: 0.5rem; /* Equivalent to mr-2 in Tailwind */
+  color: #ccc; /* Equivalent to text-gray-200 in Tailwind */
+  animation: spin 0.7s linear infinite; /* Equivalent to animate-spin in Tailwind */
+  fill: $color-three; /* Equivalent to fill-[#6469ff] in Tailwind */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

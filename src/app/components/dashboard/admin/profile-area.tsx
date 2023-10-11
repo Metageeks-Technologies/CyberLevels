@@ -1,151 +1,346 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import avatar from "@/assets/dashboard/images/avatar_04.jpg";
-import icon from "@/assets/dashboard/images/icon/icon_16.svg";
-import CountrySelect from "../candidate/country-select";
-import CitySelect from "../candidate/city-select";
-import StateSelect from "../candidate/state-select";
 import DashboardHeader from "../candidate/dashboard-header";
+import TeamSizeSelect from "./team-size-select";
+import LocationAutoComplete from "@/ui/locationAutoComplete";
+import PhoneInput from "@/ui/phoneInput";
+import AutocompletePosition from "@/ui/autoCompletePosistion";
+import axios, { AxiosError } from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/redux/store";
+import {
+  submitCompanyStart,
+  submitCompanyFail,
+  submitCompanySuccess,
+} from "@/redux/features/companySlice";
+import Loader from "@/ui/loader";
 
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state: RootState) => state.company);
+  const [form, setForm] = useState({
+    logo: "",
+    name: "",
+    email: "",
+    contactNumber: "",
+    website: "",
+    foundedDate: "",
+    about: "",
+  });
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
+
+  const [socialSites, setSocialSites] = useState<string[]>([]);
+  const [socialSitesInput, setSocialSitesInput] = useState("");
+  const handleAddMoreLink = () => {
+    setSocialSites((prev) => [...prev, socialSitesInput]);
+  };
+  const [location, setLocation] = useState({
+    locality: "",
+    zipcode: "",
+    maplocation: "",
+  });
+  const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLocation({
+      ...location,
+      [name]: value,
+    });
+  };
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [country, setCountry] = useState("");
+  const [teamSize, setTeamSize] = useState("");
+  const [category, setCategory] = useState("");
+  const handleSubmit = async () => {
+    const ILocation = {
+      ...location,
+      city: city,
+      state: state,
+      country: country,
+    };
+    const bodyObj = {
+      ...form,
+      location: ILocation,
+      teamSize,
+      category,
+      socialSites,
+    };
+
+    dispatch(submitCompanyStart());
+    try {
+      const { data } = await axios.post(
+        "http://localhost:8000/api/v1/company/add",
+        bodyObj
+      );
+      dispatch(submitCompanySuccess(data.company));
+    } catch (error) {
+      console.log(error);
+      const e = error as AxiosError;
+      dispatch(submitCompanyFail(e.message));
+    }
+
+    setForm({
+      logo: "",
+      name: "",
+      email: "",
+      contactNumber: "",
+      website: "",
+      foundedDate: "",
+      about: "",
+    });
+    setCity("");
+    setCategory("");
+    setCountry("");
+    setState("");
+    setTeamSize("");
+    setLocation({
+      locality: "",
+      zipcode: "",
+      maplocation: "",
+    });
+    setSocialSites([]);
+  };
+  // const handleLocationSubmit = () => {
+  //   console.log(location, { city: city, state: state, country: country });
+  // };
   return (
     <div className="dashboard-body">
       <div className="position-relative">
         {/* header start */}
+
         <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
         {/* header end */}
 
-        <h2 className="main-title">Profile</h2>
-
+        <h2 className="main-title">Create Company</h2>
+        {/* from for about */}
         <div className="bg-white card-box border-20">
           <div className="user-avatar-setting d-flex align-items-center mb-30">
+            {/* company logo url */}
             <Image src={avatar} alt="avatar" className="lazy-img user-img" />
-            <div className="upload-btn position-relative tran3s ms-4 me-3">
-              new photo
+            <div className="dash-input-wrapper ml-6 mb-30">
+              <label htmlFor="logo">Logo*</label>
               <input
-                type="file"
-                id="uploadImg"
-                name="uploadImg"
-                placeholder=""
+                name="logo"
+                value={form.logo}
+                type="text"
+                onChange={handleInputChange}
+                placeholder="https://www.example.com/logo.png"
               />
             </div>
-            <button className="delete-btn tran3s">Delete</button>
           </div>
           <div className="dash-input-wrapper mb-30">
-            <label htmlFor="">Employer Name*</label>
-            <input type="text" placeholder="John Doe" />
+            <label htmlFor="name">Company Name*</label>
+            <input
+              type="text"
+              name="name"
+              value={form.name}
+              onChange={handleInputChange}
+              placeholder="John Doe"
+            />
           </div>
           <div className="row">
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
-                <label htmlFor="">Email*</label>
-                <input type="email" placeholder="companyinc@gmail.com" />
+                <label htmlFor="email">Email*</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleInputChange}
+                  placeholder="companyinc@gmail.com"
+                />
               </div>
             </div>
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
-                <label htmlFor="">Website*</label>
-                <input type="text" placeholder="http://somename.come" />
+                <label htmlFor="website">Website*</label>
+                <input
+                  type="text"
+                  name="website"
+                  value={form.website}
+                  onChange={handleInputChange}
+                  placeholder="http://somename.come"
+                />
               </div>
             </div>
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
-                <label htmlFor="">Founded Date*</label>
-                <input type="date" />
+                <label htmlFor="foundedDate">Founded Date*</label>
+                <input
+                  name="foundedDate"
+                  value={form.foundedDate}
+                  onChange={handleInputChange}
+                  type="date"
+                />
               </div>
             </div>
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
                 <label htmlFor="">Company Size*</label>
-                <input type="text" placeholder="700" />
+                {/* <TeamSizeSelect teamSize={teamSize} setTeamSize={setTeamSize} /> */}
+                <TeamSizeSelect setSelected={setTeamSize} />
               </div>
             </div>
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
-                <label htmlFor="">Phone Number*</label>
-                <input type="tel" placeholder="+880 01723801729" />
+                <label htmlFor="contactNumber">Phone Number*</label>
+                <input
+                  name="contactNumber"
+                  onChange={handleInputChange}
+                  value={form.contactNumber}
+                  type="text"
+                  placeholder="+880 01723801729"
+                />
+                {/* <PhoneInput /> */}
               </div>
             </div>
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
-                <label htmlFor="">Category*</label>
-                <input type="text" placeholder="Account, Finance, Marketing" />
+                <label htmlFor="category">Category*</label>
+                {/* <input
+                  name="category"
+                  value={form.category}
+                  onChange={handleInputChange}
+                  type="text"
+                  placeholder="Account, Finance, Marketing"
+                /> */}
+
+                <AutocompletePosition
+                  selected={category}
+                  setSelected={setCategory}
+                  endPoint="companyCategory"
+                />
               </div>
             </div>
           </div>
           <div className="dash-input-wrapper">
-            <label htmlFor="">About Company*</label>
+            <label htmlFor="about">About Company*</label>
             <textarea
+              name="about"
+              value={form.about}
+              onChange={handleInputChange}
               className="size-lg"
               placeholder="Write something interesting about you...."
             ></textarea>
             <div className="alert-text">
-              Brief description for your company. URLs are hyperlinked.
+              Brief description for your company.
             </div>
           </div>
+          {/* <button
+            type="submit"
+            onClick={handleSubmit}
+            className="dash-btn-two tran3s me-3"
+          >
+            Save
+          </button> */}
         </div>
-
+        {/* from for social links */}
         <div className="bg-white card-box border-20 mt-40">
           <h4 className="dash-title-three">Social Media</h4>
-          <div className="dash-input-wrapper mb-20">
-            <label htmlFor="">Network 1</label>
-            <input type="text" placeholder="https://www.facebook.com/" />
-          </div>
-          <div className="dash-input-wrapper mb-20">
+          {[...socialSites, "temp"].map((obj, index) => (
+            <div className="dash-input-wrapper mb-20">
+              <label htmlFor="">Network {index + 1}</label>
+              <input type="text" placeholder="https://twitter.com/FIFAcom" />
+            </div>
+          ))}
+          {/* <div className="dash-input-wrapper mb-20">
             <label htmlFor="">Network 2</label>
             <input type="text" placeholder="https://twitter.com/FIFAcom" />
-          </div>
-          <a href="#" className="dash-btn-one">
+          </div> */}
+          <button onClick={handleAddMoreLink} className="dash-btn-one">
             <i className="bi bi-plus"></i> Add more link
-          </a>
+          </button>
         </div>
-
+        {/* form for location */}
         <div className="bg-white card-box border-20 mt-40">
           <h4 className="dash-title-three">Address & Location</h4>
           <div className="row">
             <div className="col-12">
               <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Address*</label>
+                <label htmlFor="locality">Local Address*</label>
                 <input
+                  name="locality"
+                  value={location.locality}
                   type="text"
+                  onChange={handleLocationChange}
                   placeholder="Cowrasta, Chandana, Gazipur Sadar"
+                />
+              </div>
+            </div>
+
+            <div className="col-lg-3">
+              <div className="dash-input-wrapper mb-25">
+                <label htmlFor="city">City*</label>
+                <LocationAutoComplete
+                  selected={city}
+                  setSelected={setCity}
+                  setCountry={setCountry}
+                  type="cities"
+                  label="city"
+                />
+              </div>
+            </div>
+
+            <div className="col-lg-3">
+              <div className="dash-input-wrapper mb-25">
+                <label htmlFor="">State*</label>
+                <LocationAutoComplete
+                  selected={state}
+                  setSelected={setState}
+                  type="regions"
+                  label="state"
                 />
               </div>
             </div>
             <div className="col-lg-3">
               <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Country*</label>
-                <CountrySelect />
+                <label htmlFor="zipcode">Zip Code*</label>
+                <input
+                  name="zipcode"
+                  value={location.zipcode}
+                  onChange={handleLocationChange}
+                  type="text"
+                  placeholder="1708"
+                />
               </div>
             </div>
             <div className="col-lg-3">
               <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">City*</label>
-                <CitySelect />
+                <label htmlFor="country">Country*</label>
+                <input
+                  name="country"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  type="text"
+                  placeholder="country"
+                />
               </div>
             </div>
-            <div className="col-lg-3">
+            {/* <div className="col-12">
               <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Zip Code*</label>
-                <input type="number" placeholder="1708" />
-              </div>
-            </div>
-            <div className="col-lg-3">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">State*</label>
-                <StateSelect />
-              </div>
-            </div>
-            <div className="col-12">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Map Location*</label>
+                <label htmlFor="maplocation">Map Location*</label>
                 <div className="position-relative">
-                  <input type="text" placeholder="XC23+6XC, Moiran, N105" />
+                  <input
+                    name="maplocation"
+                    value={location.maplocation}
+                    onChange={handleLocationChange}
+                    type="text"
+                    placeholder="XC23+6XC, Moiran, N105"
+                  />
                   <button className="location-pin tran3s">
                     <Image src={icon} alt="icon" className="lazy-img m-auto" />
                   </button>
@@ -159,11 +354,19 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
+            {/* <button
+              type="submit"
+              onClick={handleLocationSubmit}
+              className="dash-btn-two tran3s me-3"
+            >
+              Save
+            </button> */}
           </div>
         </div>
+        {/* from for others */}
 
-        <div className="bg-white card-box border-20 mt-40">
+        {/* <div className="bg-white card-box border-20 mt-40">
           <h4 className="dash-title-three">Members</h4>
           <div className="dash-input-wrapper">
             <label htmlFor="">Add & Remove Member</label>
@@ -240,12 +443,17 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
           <a href="#" className="dash-btn-one">
             <i className="bi bi-plus"></i> Add Another Member
           </a>
-        </div>
+        </div> */}
 
         <div className="button-group d-inline-flex align-items-center mt-30">
-          <a href="#" className="dash-btn-two tran3s me-3">
-            Save
-          </a>
+          <button
+            disabled={loading}
+            type="submit"
+            onClick={handleSubmit}
+            className=" d-flex dash-btn-two tran3s me-3 justify-content-center align-items-center"
+          >
+            {loading ? <Loader /> : <span>Save</span>}
+          </button>
           <a href="#" className="dash-cancel-btn tran3s">
             Cancel
           </a>

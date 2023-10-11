@@ -14,7 +14,7 @@ const page = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { whoIsTryingToLoginWithLn } = useSelector(
-    (state: RootState) => state.user
+    (state: RootState) => state.persistedReducer.user
   );
 
   const urlParams = new URLSearchParams(window.location.search);
