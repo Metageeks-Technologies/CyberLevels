@@ -2,7 +2,7 @@ import { IExperience } from "@/types/user-type";
 import React from "react";
 
 interface Props {
-  experience: IExperience[] | undefined;
+  experience?: IExperience[] | undefined;
 }
 
 const WorkExperience = ({ experience }: Props) => {

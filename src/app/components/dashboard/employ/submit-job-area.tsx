@@ -34,7 +34,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
           <div className="dash-input-wrapper mb-30">
             <label htmlFor="">Job Title*</label>
             {/* <input type="text" placeholder="Ex: Product Designer" /> */}
-            <AutocompletePosition />
+            {/* <AutocompletePosition /> */}
           </div>
           <div className="dash-input-wrapper mb-30">
             <label htmlFor="">Job Description*</label>

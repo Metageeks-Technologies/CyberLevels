@@ -2,7 +2,7 @@ import { IEducation } from "@/types/user-type";
 import React from "react";
 
 interface Props {
-  education: IEducation[] | undefined;
+  education?: IEducation[] | undefined;
 }
 
 const Education = ({ education }: Props) => {
