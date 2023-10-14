@@ -18,6 +18,7 @@ import type { RootState } from "@/redux/store";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { lnAuthEnd } from "@/redux/features/lnAuthSlice";
+import FormatText from "@/ui/temp";
 
 export default function Home() {
   const router = useRouter();
@@ -25,7 +26,7 @@ export default function Home() {
   const isLnAuthIsInProgress = useSelector(
     (state: RootState) => state.lnAuth.isLnAuthIsInProgress
   );
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState("");
 
   return (
     <Wrapper>

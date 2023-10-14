@@ -14,9 +14,11 @@ type IPropType = {
   cls?: string | undefined;
   onChange: (item: Option) => void;
   name: string;
+  isScroll?: boolean;
 };
 
 const NiceSelect = ({
+  isScroll = false,
   options,
   defaultCurrent,
   placeholder,
@@ -41,14 +43,18 @@ const NiceSelect = ({
 
   return (
     <div
-      className={`nice-select ${cls ? cls : ""} ${open && "open"}`}
+      className={`nice-select ${cls ? cls : ""} ${open && "open"} `}
       role="button"
       tabIndex={0}
       onClick={() => setOpen((prev) => !prev)}
       ref={ref}
     >
       <span className="current">{current?.label || placeholder}</span>
-      <ul className="list" role="menubar" onClick={(e) => e.stopPropagation()}>
+      <ul
+        className={`list ${isScroll && "add_Scroll_to_nice_select"} `}
+        role="menubar"
+        onClick={(e) => e.stopPropagation()}
+      >
         {options?.map((item, i) => (
           <li
             key={i}

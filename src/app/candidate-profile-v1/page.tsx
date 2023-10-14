@@ -17,10 +17,14 @@ const CandidateProfileDetailsPage = () => {
       <div className="main-page-wrapper">
         {/* header start */}
         <Header />
+
         {/* header end */}
 
         {/* breadcrumb start */}
-        <CandidateProfileBreadcrumb title="Candidate Profile" subtitle="Candidate Profile" />
+        <CandidateProfileBreadcrumb
+          title="Candidate Profile"
+          subtitle="Candidate Profile"
+        />
         {/* breadcrumb end */}
 
         {/* candidate details area start */}

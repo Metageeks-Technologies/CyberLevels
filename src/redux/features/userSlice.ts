@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { ICandidate, IEmployer } from '@/types/user-type'
 
-type myUser = ICandidate | IEmployer | null
+type myUser = ICandidate | null;
 
 export interface userState {
     user: myUser
@@ -27,6 +27,13 @@ export const userSlice = createSlice({
     reducers: {
         getUserStart: (state) => {
             state.loading = true;
+        },
+        requestStart: (state) => {
+            state.loading = true;
+        },
+        requestFail: (state, action: PayloadAction<string>) => {
+            state.loading = false;
+            state.error = action.payload
         },
         getUserSuccess: (state, action: PayloadAction<myUser>) => {
             state.loading = false;
@@ -53,10 +60,26 @@ export const userSlice = createSlice({
         },
         setLoggerWithLn: (state, action: PayloadAction<string>) => {
             state.whoIsTryingToLoginWithLn = action.payload
+        },
+        updateUserSuccess: (state, action: PayloadAction<myUser>) => {
+            state.user = action.payload;
+            state.loading = false;
+        },
+        updateEduSuccess: (state, action: PayloadAction<any>) => {
+            if (state.user && 'education' in state.user) {
+                state.user.education = [...state.user.education, action.payload]
+            }
+
+            state.loading = false;
+        },
+        updateExpSuccess: (state, action: PayloadAction<any>) => {
+            if (state.user && 'experience' in state.user)
+                state.user.experience = [...state.user.experience, action.payload]
+            state.loading = false;
         }
     },
 })
 
-export const { getUserFail, getUserStart, setLoggerWithLn, getUserSuccess, logoutUserFail, logoutUserSuccess } = userSlice.actions
+export const { updateExpSuccess, updateEduSuccess, requestStart, requestFail, updateUserSuccess, getUserFail, getUserStart, setLoggerWithLn, getUserSuccess, logoutUserFail, logoutUserSuccess } = userSlice.actions
 
 export default userSlice.reducer

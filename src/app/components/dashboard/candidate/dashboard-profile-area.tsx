@@ -1,23 +1,104 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import avatar from "@/assets/dashboard/images/avatar_02.jpg";
-import search from "@/assets/dashboard/images/icon/icon_16.svg";
 import DashboardHeader from "./dashboard-header";
-import CountrySelect from "./country-select";
-import CitySelect from "./city-select";
-import StateSelect from "./state-select";
-import { useSelector } from "react-redux";
+import icon_3 from "@/assets/images/icon/icon_10.svg";
+import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/redux/store";
-
+import { ICandidate } from "@/types/user-type";
+import Loader from "@/ui/loader";
+import LocationAutoComplete from "@/ui/locationAutoComplete";
+import {
+  requestStart,
+  requestFail,
+  updateUserSuccess,
+} from "@/redux/features/userSlice";
+import axios, { AxiosError } from "axios";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
-  const { user } = useSelector(
+  const { user: candidate, loading } = useSelector(
     (state: RootState) => state.persistedReducer.user
   );
+  const dispatch = useDispatch();
+  const user = candidate as ICandidate;
+
+  const [isEditable, SetIsEditable] = useState({
+    firstName: false,
+    lastName: false,
+    bio: false,
+    address: false,
+    phoneNumber: false,
+  });
+  const [form, setForm] = useState({
+    firstName: user.firstName || "",
+    lastName: user.lastName || "",
+    bio: user.bio || "",
+    phoneNumber: user.phoneNumber || "",
+  });
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
+  const [location, setLocation] = useState({
+    locality: user.location.locality || "",
+    zipcode: user.location.zipcode || "",
+  });
+  const [city, setCity] = useState(user.location.city || "");
+  const [state, setState] = useState(user.location.state || "");
+  const [country, setCountry] = useState(user.location.country || "");
+  const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLocation({
+      ...location,
+      [name]: value,
+    });
+  };
+  const [social, setSocial] = useState<string[]>([]);
+  const [SocialInput, setSocialInput] = useState("");
+  const [isAddingSocialLink, setSocialLink] = useState(false);
+  const addToSocial = () => {
+    setSocial((prev) => [...prev, SocialInput]);
+    setSocialLink(false);
+    setSocialInput("");
+  };
+  console.log(social);
+  const handleSubmit = async () => {
+    const ILocation = {
+      ...location,
+      city: city,
+      state: state,
+      country: country,
+    };
+    const bodyObj = {
+      ...form,
+      socialSites: social,
+      location: ILocation,
+    };
+    console.log(bodyObj);
+    dispatch(requestStart());
+    try {
+      const { data } = await axios.patch(
+        `http://localhost:8000/api/v1/candidate/update/${user._id}`,
+        bodyObj
+      );
+      console.log(data);
+      dispatch(updateUserSuccess(data?.candidate));
+    } catch (error) {
+      const e = error as AxiosError;
+      dispatch(requestFail(e.message));
+    }
+  };
+  console.log(user.socialSites);
   return (
     <div className="dashboard-body">
       <div className="position-relative">
@@ -36,7 +117,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
               alt="avatar"
               className="lazy-img user-img"
             />
-            <div className="upload-btn position-relative tran3s ms-4 me-3">
+            {/* <div className="upload-btn position-relative tran3s ms-4 me-3">
               Upload new photo
               <input
                 type="file"
@@ -45,111 +126,220 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
                 placeholder=""
               />
             </div>
-            <button className="delete-btn tran3s">Delete</button>
+            <button className="delete-btn tran3s">Delete</button> */}
           </div>
           <div className="dash-input-wrapper mb-30">
-            <label htmlFor="">First Name*</label>
-
-            <input type="text" value={"shiva"} readOnly placeholder="James" />
+            <label htmlFor="firstName">First Name</label>
+            {isEditable.firstName ? (
+              <input
+                type="text"
+                name="firstName"
+                onChange={handleInputChange}
+                value={form.firstName}
+                placeholder="James"
+              />
+            ) : (
+              <div className="d-flex align-items-center position-relative">
+                <input type="text" value={user.firstName} readOnly />
+                <Image
+                  onClick={() =>
+                    SetIsEditable({ ...isEditable, firstName: true })
+                  }
+                  src={icon_3}
+                  height={24}
+                  width={24}
+                  alt="icon"
+                  className="lazy-img position-absolute end-0 cursor-pointer"
+                />
+              </div>
+            )}
           </div>
           <div className="dash-input-wrapper mb-30">
-            <label htmlFor="">Last Name*</label>
-            <input type="text" placeholder="Brower" />
+            <label htmlFor="lastName">Last Name</label>
+            {isEditable.lastName ? (
+              <input
+                type="text"
+                name="lastName"
+                onChange={handleInputChange}
+                value={form.lastName}
+                placeholder="brown"
+              />
+            ) : (
+              <div className="d-flex align-items-center position-relative">
+                <input type="text" value={user.lastName} readOnly />
+                <Image
+                  onClick={() =>
+                    SetIsEditable({ ...isEditable, lastName: true })
+                  }
+                  src={icon_3}
+                  height={24}
+                  width={24}
+                  alt="icon"
+                  className="lazy-img position-absolute end-0 cursor-pointer"
+                />
+              </div>
+            )}
+          </div>
+          <div className="dash-input-wrapper mb-30">
+            <label htmlFor="">Email</label>
+            <div className="d-flex align-items-center position-relative">
+              <input type="text" value={user.email} readOnly />
+            </div>
+          </div>
+          <div className="dash-input-wrapper mb-30">
+            <label htmlFor="">Phone Number</label>
+            {isEditable.phoneNumber ? (
+              <input
+                type="text"
+                name="phoneNumber"
+                onChange={handleInputChange}
+                value={form.phoneNumber}
+                placeholder="+880 01723801729"
+              />
+            ) : (
+              <div className="d-flex align-items-center position-relative">
+                <input type="text" value={user.phoneNumber} readOnly />
+                <Image
+                  onClick={() =>
+                    SetIsEditable({ ...isEditable, phoneNumber: true })
+                  }
+                  src={icon_3}
+                  height={24}
+                  width={24}
+                  alt="icon"
+                  className="lazy-img position-absolute end-0 cursor-pointer"
+                />
+              </div>
+            )}
+            {/* <input type="text" placeholder="Brower" /> */}
           </div>
           <div className="dash-input-wrapper">
-            <label htmlFor="">Bio*</label>
-            <textarea
-              className="size-lg"
-              placeholder="Write something interesting about you...."
-            ></textarea>
-            <div className="alert-text">
+            <label htmlFor="bio">Bio</label>
+            {isEditable.bio ? (
+              <textarea
+                className="size-lg"
+                placeholder="Write something interesting about you...."
+                value={form.bio}
+                name="bio"
+                onChange={handleInputChange}
+              ></textarea>
+            ) : (
+              <div className="d-flex  position-relative">
+                <textarea
+                  value={user.bio}
+                  readOnly
+                  className="size-lg"
+                  placeholder="Write something interesting about you...."
+                ></textarea>
+                <Image
+                  onClick={() => SetIsEditable({ ...isEditable, bio: true })}
+                  src={icon_3}
+                  height={24}
+                  width={24}
+                  alt="icon"
+                  className="lazy-img position-absolute end-0 cursor-pointer"
+                />
+              </div>
+            )}
+            {/* <div className="alert-text">
               Brief description for your profile. URLs are hyperlinked.
-            </div>
+            </div> */}
           </div>
         </div>
 
         <div className="bg-white card-box border-20 mt-40">
           <h4 className="dash-title-three">Social Media</h4>
+          {[...user?.socialSites, ...social].map((val, index) => (
+            <div key={val} className="dash-input-wrapper mb-20">
+              <label htmlFor="">Network {index + 1}</label>
+              <input type="text" readOnly value={val} />
+            </div>
+          ))}
 
-          <div className="dash-input-wrapper mb-20">
-            <label htmlFor="">Network 1</label>
-            <input type="text" placeholder="#" />
-          </div>
-          <div className="dash-input-wrapper mb-20">
-            <label htmlFor="">Network 2</label>
-            <input type="text" placeholder="#" />
-          </div>
-          <a href="#" className="dash-btn-one">
+          {isAddingSocialLink && (
+            <div className="dash-input-wrapper mb-20">
+              <label htmlFor="SocialInput">
+                Network {user?.socialSites.length + social.length + 1}
+              </label>
+              <input
+                name="SocialInput"
+                value={SocialInput}
+                onChange={(e) => setSocialInput(e.target.value)}
+                onBlur={addToSocial}
+                type="text"
+                placeholder="#"
+              />
+            </div>
+          )}
+
+          <button onClick={() => setSocialLink(true)} className="dash-btn-one">
             <i className="bi bi-plus"></i> Add more link
-          </a>
+          </button>
         </div>
 
+        {/* from for location  */}
         <div className="bg-white card-box border-20 mt-40">
           <h4 className="dash-title-three">Address & Location</h4>
           <div className="row">
             <div className="col-12">
               <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Address*</label>
+                <label htmlFor="">Local Address*</label>
                 <input
+                  name="locality"
+                  value={location.locality}
                   type="text"
+                  onChange={handleLocationChange}
                   placeholder="Cowrasta, Chandana, Gazipur Sadar"
                 />
               </div>
             </div>
             <div className="col-lg-3">
               <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Country*</label>
-                <CountrySelect />
-              </div>
-            </div>
-            <div className="col-lg-3">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">City*</label>
-                <CitySelect />
-              </div>
-            </div>
-            <div className="col-lg-3">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Zip Code*</label>
-                <input type="number" placeholder="1708" />
+                <label htmlFor="city">City*</label>
+                <LocationAutoComplete
+                  selected={city}
+                  setSelected={setCity}
+                  setCountry={setCountry}
+                  type="cities"
+                  label="city"
+                />
               </div>
             </div>
             <div className="col-lg-3">
               <div className="dash-input-wrapper mb-25">
                 <label htmlFor="">State*</label>
-                <StateSelect />
+                <LocationAutoComplete
+                  selected={state}
+                  setSelected={setState}
+                  type="regions"
+                  label="state"
+                />
               </div>
             </div>
-            <div className="col-12">
+            <div className="col-lg-3">
               <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Map Location*</label>
-                <div className="position-relative">
-                  <input type="text" placeholder="XC23+6XC, Moiran, N105" />
-                  <button className="location-pin tran3s">
-                    <Image
-                      src={search}
-                      alt="icon"
-                      className="lazy-img m-auto"
-                    />
-                  </button>
-                </div>
-                <div className="map-frame mt-30">
-                  <div className="gmap_canvas h-100 w-100">
-                    <iframe
-                      className="gmap_iframe h-100 w-100"
-                      src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=bass hill plaza medical centre&amp;t=&amp;z=12&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-                    ></iframe>
-                  </div>
-                </div>
+                <label htmlFor="zipcode">Zip Code*</label>
+                <input
+                  name="zipcode"
+                  value={location.zipcode}
+                  onChange={handleLocationChange}
+                  type="text"
+                  placeholder="1708"
+                />
               </div>
             </div>
           </div>
         </div>
 
         <div className="button-group d-inline-flex align-items-center mt-30">
-          <a href="#" className="dash-btn-two tran3s me-3">
-            Save
-          </a>
+          <button
+            type="submit"
+            disabled={loading}
+            onClick={handleSubmit}
+            className="dash-btn-two tran3s me-3"
+          >
+            {loading ? <Loader /> : <span>Save</span>}
+          </button>
           <a href="#" className="dash-cancel-btn tran3s">
             Cancel
           </a>

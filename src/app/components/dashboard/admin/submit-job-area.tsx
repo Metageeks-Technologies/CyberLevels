@@ -14,6 +14,11 @@ import {
   submitJobPostSuccess,
 } from "@/redux/features/jobPostSlice";
 import axios, { AxiosError } from "axios";
+import FormatText from "@/ui/temp";
+import { MagicWand } from "@phosphor-icons/react";
+import { setLoading } from "@/redux/features/authSlice";
+import Loader from "@/ui/loader";
+import TinyMCEEditor from "@/ui/textEditor";
 
 // props type
 type IProps = {
@@ -46,6 +51,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
 
   const [fileAttachment, setFileAttachment] = useState<File | null>(null);
   const [skills, setSkills] = useState<string[]>([]);
+  const [txt, setTxt] = useState<any>("");
 
   const handleSalary = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -55,18 +61,17 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     });
   };
   // console.log(skills);
+  const bodyObj = {
+    title: title,
+    location: expLocation.location,
+    jobType: jobType,
+    jobCategory: jobCategory,
+    skillsRequired: skills,
+    salary: salary,
+    preferredExperience: expLocation.experience,
+  };
 
   const handleSubmit = async () => {
-    const bodyObj = {
-      title: title,
-      location: expLocation.location,
-      jobType: jobType,
-      jobCategory: jobCategory,
-      skillsRequired: skills,
-      salary: salary,
-      preferredExperience: expLocation.experience,
-    };
-
     dispatch(submitJobPostStart());
     const formData = new FormData();
     formData.append("fileAttachment", fileAttachment as File);
@@ -83,10 +88,74 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
       dispatch(submitJobPostFail(e.message));
     }
     console.log(bodyObj);
+    setTitle("");
+    setJobCategory("");
+    setJobType("");
+    setExpLocation({
+      experience: "",
+      location: "",
+    });
+    setSalary({
+      minimum: "",
+      maximum: "",
+      isDisclosed: true,
+    });
+    setSkills([]);
+    setTxt("");
+  };
+
+  const messages = [
+    { role: "system", content: "You are a helpful assistant." },
+    {
+      role: "user",
+      content: "Does Azure OpenAI support customer managed keys?",
+    },
+    {
+      role: "assistant",
+      content: "Yes, customer managed keys are supported by Azure OpenAI",
+    },
+    {
+      role: "user",
+      content: `give me job description for job post ${
+        bodyObj.title
+      }  in job category of ${bodyObj.jobCategory} with ${
+        bodyObj.jobType
+      } job type,skills required are  ${bodyObj.skillsRequired.join(
+        ","
+      )}, with experience of ${bodyObj.preferredExperience} at location of ${
+        bodyObj.location
+      }, make it an intreating paragraph of 50 to 75 words with necessary bullet points`,
+    },
+  ];
+
+  const [txtLoading, setTxtLoading] = useState(false);
+
+  const draftWithAi = async () => {
+    setTxtLoading(true);
+    const serverUrl =
+      "https://cyberlevels.openai.azure.com/openai/deployments/cyberlevels/chat/completions?api-version=2023-05-15";
+
+    try {
+      const { data } = await axios.post(
+        serverUrl,
+        { messages },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "api-key": "0a995d6ac1fb47b9a19629e9ffe6f14e",
+          },
+        }
+      );
+      setTxt(data);
+      setTxtLoading(false);
+      console.log(data);
+    } catch (error) {
+      setTxtLoading(false);
+    }
   };
 
   return (
-    <div className="dashboard-body">
+    <div className="dashboard-body job-details">
       <div className="position-relative">
         {/* header start */}
         <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
@@ -194,16 +263,33 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
             <Upload setSelected={setFileAttachment} text="Upload File" />
           </div>
           <small>Upload file .pdf, .doc, .docx</small>
-          <h4 className="dash-title-three pt-50 lg-pt-30">
-            Add Description With AI
-          </h4>
-          <div className="dash-input-wrapper mb-30">
+          <h4 className="dash-title-three pt-50 lg-pt-30">Add Description</h4>
+          <div className="dash-input-wrapper mb-30 ">
             <label htmlFor="">Job Description*</label>
-            <textarea
-              className="size-lg"
-              placeholder="Write about the job in details..."
-            ></textarea>
+            <div className="position-relative">
+              {txt ? (
+                <TinyMCEEditor text={txt.choices[0].message.content} />
+              ) : (
+                <TinyMCEEditor text={""} />
+              )}
+              <button
+                style={{
+                  backgroundColor: "#D2F34C",
+                  padding: "5px 10px",
+                  borderRadius: "13%",
+                  zIndex: `${txt ? 0 : 9}`,
+                }}
+                type="button"
+                className="position-absolute d-flex justify-content-center top-0 end-0"
+                onClick={draftWithAi}
+              >
+                <MagicWand size={30} color="white" weight="bold" />
+                {txtLoading ? <Loader /> : "Draft"}
+              </button>
+            </div>
           </div>
+          {/* {txt && <FormatText txt={txt.choices[0].message.content} />} */}
+
           {/* <h4 className="dash-title-three pt-50 lg-pt-30">
             Address & Location
           </h4> */}
@@ -260,11 +346,12 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
 
         <div className="button-group d-inline-flex align-items-center mt-30">
           <button
+            disabled={loading}
             type={"submit"}
             onClick={handleSubmit}
             className="dash-btn-two tran3s me-3"
           >
-            Next
+            {loading ? <Loader /> : "Next"}
           </button>
           <a href="#" className="dash-cancel-btn tran3s">
             Cancel

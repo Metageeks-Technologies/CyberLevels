@@ -15,6 +15,13 @@
   padding: 0;
 }
 
+.add_Scroll_to_nice_select {
+  overflow-y: scroll !important;
+  // overflow-x: hidden;
+  max-height: 25rem;
+  // width: 100% !important;
+}
+
 ._my_nice_select_options {
   background-color: white;
   // max-height: 15rem;

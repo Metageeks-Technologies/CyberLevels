@@ -253,8 +253,14 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
           <h4 className="dash-title-three">Social Media</h4>
           {[...socialSites, "temp"].map((obj, index) => (
             <div className="dash-input-wrapper mb-20">
-              <label htmlFor="">Network {index + 1}</label>
-              <input type="text" placeholder="https://twitter.com/FIFAcom" />
+              <label htmlFor="socialSitesInput">Network {index + 1}</label>
+              <input
+                type="text"
+                name="socialSitesInput"
+                onChange={(e) => setSocialSitesInput(e.target.value)}
+                value={socialSitesInput}
+                placeholder="https://twitter.com/FIFAcom"
+              />
             </div>
           ))}
           {/* <div className="dash-input-wrapper mb-20">
