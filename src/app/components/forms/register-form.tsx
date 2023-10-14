@@ -16,6 +16,7 @@ import {
   getUserStart,
   getUserSuccess,
 } from "@/redux/features/userSlice";
+import instance from "@/lib/axios";
 
 // form data type
 type IFormData = {
@@ -72,13 +73,9 @@ const RegisterForm = ({ role }: { role: string }) => {
     }
     dispatch(getUserStart());
     try {
-      const { data } = await axios.post(
-        `http://localhost:8000/api/v1/${role}/auth/signup`,
-        formData,
-        {
-          withCredentials: true,
-        }
-      );
+      const { data } = await instance.post(`/${role}/auth/signup`, formData, {
+        withCredentials: true,
+      });
 
       dispatch(getUserSuccess(data.user));
       console.log(data);

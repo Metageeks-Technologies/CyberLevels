@@ -16,6 +16,7 @@ import {
   submitCompanySuccess,
 } from "@/redux/features/companySlice";
 import Loader from "@/ui/loader";
+import instance from "@/lib/axios";
 
 // props type
 type IProps = {
@@ -82,10 +83,7 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
 
     dispatch(submitCompanyStart());
     try {
-      const { data } = await axios.post(
-        "http://localhost:8000/api/v1/company/add",
-        bodyObj
-      );
+      const { data } = await instance.post("company/add", bodyObj);
       dispatch(submitCompanySuccess(data.company));
     } catch (error) {
       console.log(error);

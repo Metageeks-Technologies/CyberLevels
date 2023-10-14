@@ -11,6 +11,7 @@ import {
   logoutUserSuccess,
 } from "@/redux/features/userSlice";
 import Image from "next/image";
+import instance from "@/lib/axios";
 
 const LogoutButton = () => {
   const router = useRouter();
@@ -22,12 +23,9 @@ const LogoutButton = () => {
   const handleClick = async () => {
     dispatch(getUserStart());
     try {
-      const { data } = await axios(
-        "http://localhost:8000/api/v1/candidate/logout",
-        {
-          withCredentials: true,
-        }
-      );
+      const { data } = await instance("/candidate/logout", {
+        withCredentials: true,
+      });
       console.log(data);
       dispatch(logoutUserSuccess(null));
       router.push("/");

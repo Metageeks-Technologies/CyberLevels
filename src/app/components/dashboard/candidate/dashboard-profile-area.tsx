@@ -15,6 +15,7 @@ import {
   updateUserSuccess,
 } from "@/redux/features/userSlice";
 import axios, { AxiosError } from "axios";
+import instance from "@/lib/axios";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -87,8 +88,8 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
     console.log(bodyObj);
     dispatch(requestStart());
     try {
-      const { data } = await axios.patch(
-        `http://localhost:8000/api/v1/candidate/update/${user._id}`,
+      const { data } = await instance.patch(
+        `/candidate/update/${user._id}`,
         bodyObj
       );
       console.log(data);

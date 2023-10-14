@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import { Combobox, Transition } from "@headlessui/react";
+import instance from "@/lib/axios";
 
 interface Props {
   selected: string;
@@ -12,14 +13,15 @@ function AutocompletePosition({ selected, setSelected, endPoint }: Props) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
-  const serverUrl = `http://localhost:8000/api/v1/${endPoint}/search`;
   useEffect(() => {
     console.log(query.length);
 
     const callApi = async () => {
       try {
         if (query.length >= 3) {
-          const { data } = await axios.get(`${serverUrl}?query=${query}`);
+          const { data } = await instance.get(
+            `${endPoint}/search?query=${query}`
+          );
           console.log(data);
           setSuggestions(data);
         }

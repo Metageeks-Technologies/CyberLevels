@@ -9,6 +9,7 @@ import {
   getUserStart,
   getUserSuccess,
 } from "@/redux/features/userSlice";
+import instance from "@/lib/axios";
 
 const page = () => {
   const router = useRouter();
@@ -58,8 +59,8 @@ const page = () => {
       const callApi = async () => {
         dispatch(getUserStart());
         try {
-          const { data } = await axios.post(
-            "http://localhost:8000/api/v1/candidate/auth/getCandidate",
+          const { data } = await instance.post(
+            "/candidate/auth/getCandidate",
             formData,
             { headers: headers, withCredentials: true }
           );

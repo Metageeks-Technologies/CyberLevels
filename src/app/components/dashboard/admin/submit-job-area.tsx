@@ -19,6 +19,7 @@ import { MagicWand } from "@phosphor-icons/react";
 import { setLoading } from "@/redux/features/authSlice";
 import Loader from "@/ui/loader";
 import TinyMCEEditor from "@/ui/textEditor";
+import instance from "@/lib/axios";
 
 // props type
 type IProps = {
@@ -77,10 +78,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     formData.append("fileAttachment", fileAttachment as File);
     formData.append("bodyObj", JSON.stringify(bodyObj));
     try {
-      const { data } = await axios.post(
-        "http://localhost:8000/api/v1/jobPost/add",
-        formData
-      );
+      const { data } = await instance.post("/jobPost/add", formData);
       dispatch(submitJobPostSuccess(data.job));
     } catch (error) {
       console.log(error);
