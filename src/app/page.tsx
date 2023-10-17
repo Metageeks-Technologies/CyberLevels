@@ -13,21 +13,8 @@ import FancyBanner from "./components/fancy-banner/fancy-banner";
 import JobPortalIntro from "./components/job-portal-intro/job-portal-intro";
 import FooterOne from "@/layouts/footers/footer-one";
 import Wrapper from "@/layouts/wrapper";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "@/redux/store";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { lnAuthEnd } from "@/redux/features/lnAuthSlice";
-import FormatText from "@/ui/temp";
 
 export default function Home() {
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const isLnAuthIsInProgress = useSelector(
-    (state: RootState) => state.lnAuth.isLnAuthIsInProgress
-  );
-  const [loading, setLoading] = useState("");
-
   return (
     <Wrapper>
       {/* header start */}

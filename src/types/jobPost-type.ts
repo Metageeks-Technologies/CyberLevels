@@ -3,18 +3,20 @@ export interface IJobPost {
     title: string;
     description: string;
     location: string;
-    jobType: 'full-time' | 'part-time' | 'internship' | 'hourly-contract' | 'fixed-price';
-    jobCategory?: string;
-    skillsRequired: string[];
+    jobType: string[];
+    jobCategory: string;
+    workMode: string;
+    preferredLanguage: string;
+    primarySkills: string[];
+    secondarySkills: string[];
     salary: {
-        minimum: string;
-        maximum: string;
+        minimum: number;
+        maximum: number;
         isDisclosed: boolean;
     };
-    preferredExperience: string;
-    companyId?: string
-    fileAttachment?: {
-        data: Buffer;
-        contentType: string;
-    };
+    preferredExperience: string[];
+    companyId: string;
+    testQuestions: string;
+    __v: number,
+    id: string
 }

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { resetFilter } from "@/redux/features/filterSlice";
+import { resetFilter } from "@/redux/features/filterJobPostSlice";
 import { useAppDispatch } from "@/redux/hook";
 import { animationCreate } from "@/utils/utils";
 import { usePathname } from "next/navigation";
@@ -26,7 +26,7 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
   }, [pathname]);
   return (
     <>
-      {children} 
+      {children}
       <ToastContainer />
     </>
   );

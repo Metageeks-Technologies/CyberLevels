@@ -2,8 +2,7 @@ import React from "react";
 import job_data from "@/data/job-data";
 import { useAppDispatch } from "@/redux/hook";
 import NiceSelect from "@/ui/nice-select";
-import { setEnglishFluency } from "@/redux/features/filterSlice";
-
+import { setEnglishFluency } from "@/redux/features/filterJobPostSlice";
 
 const FilterEnglishFluency = () => {
   const uniqueEnglishFluency = [
@@ -11,7 +10,7 @@ const FilterEnglishFluency = () => {
   ];
   const dispatch = useAppDispatch();
   const handleEnglishFluency = (item: { value: string; label: string }) => {
-    dispatch(setEnglishFluency(item.value))
+    dispatch(setEnglishFluency(item.value));
   };
   const options = uniqueEnglishFluency.map((e) => {
     return { value: e, label: e };

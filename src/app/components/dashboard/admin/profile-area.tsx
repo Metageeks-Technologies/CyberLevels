@@ -299,7 +299,7 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
               </div>
             </div>
 
-            <div className="col-lg-3">
+            {/* <div className="col-lg-3">
               <div className="dash-input-wrapper mb-25">
                 <label htmlFor="">State*</label>
                 <LocationAutoComplete
@@ -309,8 +309,8 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
                   label="state"
                 />
               </div>
-            </div>
-            <div className="col-lg-3">
+            </div> */}
+            {/* <div className="col-lg-3">
               <div className="dash-input-wrapper mb-25">
                 <label htmlFor="zipcode">Zip Code*</label>
                 <input
@@ -321,7 +321,7 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
                   placeholder="1708"
                 />
               </div>
-            </div>
+            </div> */}
             <div className="col-lg-3">
               <div className="dash-input-wrapper mb-25">
                 <label htmlFor="country">Country*</label>

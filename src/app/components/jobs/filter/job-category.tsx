@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import job_data from "@/data/job-data";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { setCategory } from "@/redux/features/filterSlice";
+import { setCategory } from "@/redux/features/filterJobPostSlice";
 
 const JobCategory = () => {
   const uniqueCategories = [

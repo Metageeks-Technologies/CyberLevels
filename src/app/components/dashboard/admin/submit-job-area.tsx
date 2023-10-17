@@ -8,18 +8,16 @@ import AutocompleteSkill from "@/ui/autoCompleteSkill";
 import Upload from "@/ui/upload";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
-import {
-  submitJobPostFail,
-  submitJobPostStart,
-  submitJobPostSuccess,
-} from "@/redux/features/jobPostSlice";
+import { addJobPost } from "@/redux/features/jobPost/api";
 import axios, { AxiosError } from "axios";
 import FormatText from "@/ui/temp";
 import { MagicWand } from "@phosphor-icons/react";
-import { setLoading } from "@/redux/features/authSlice";
+// import { setLoading } from "@/redux/features/authSlice";
 import Loader from "@/ui/loader";
 import TinyMCEEditor from "@/ui/textEditor";
 import instance from "@/lib/axios";
+import MultipleChoiceQuestion from "@/ui/question";
+import { useAppDispatch } from "@/redux/hook";
 
 // props type
 type IProps = {
@@ -34,7 +32,8 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const handleJobType = (item: { value: string; label: string }) => {
     setJobType(item.value);
   };
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { loading } = useSelector((state: RootState) => state.jobPost);
 
   const [title, setTitle] = useState("");
@@ -73,19 +72,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   };
 
   const handleSubmit = async () => {
-    dispatch(submitJobPostStart());
-    const formData = new FormData();
-    formData.append("fileAttachment", fileAttachment as File);
-    formData.append("bodyObj", JSON.stringify(bodyObj));
-    try {
-      const { data } = await instance.post("/jobPost/add", formData);
-      dispatch(submitJobPostSuccess(data.job));
-    } catch (error) {
-      console.log(error);
-      const e = error as AxiosError;
-      dispatch(submitJobPostFail(e.message));
-    }
-    console.log(bodyObj);
+    await addJobPost(dispatch, bodyObj);
     setTitle("");
     setJobCategory("");
     setJobType("");
@@ -125,6 +112,9 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
       }, make it an intreating paragraph of 50 to 75 words with necessary bullet points`,
     },
   ];
+  if (txt) {
+    console.log(txt.choices[0]);
+  }
 
   const [txtLoading, setTxtLoading] = useState(false);
 
@@ -150,6 +140,11 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     } catch (error) {
       setTxtLoading(false);
     }
+  };
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleOptionChange = (event: any) => {
+    setSelectedOption(event.target.value);
   };
 
   return (
@@ -200,6 +195,38 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                 />
               </div>
             </div>
+            <div className="col-md-6">
+              <div className="dash-input-wrapper mb-30">
+                <label htmlFor="">Work Mode</label>
+                <NiceSelect
+                  options={[
+                    { value: "Hybrid", label: "Hybrid" },
+                    { value: "Remote", label: "Remote" },
+                    { value: "On-Site", label: "On-Site" },
+                    { value: "Flexible", label: "Flexible" },
+                  ]}
+                  defaultCurrent={0}
+                  onChange={(item) => handleJobType(item)}
+                  name="Job Type"
+                />
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="dash-input-wrapper mb-30">
+                <label htmlFor="">Preferred Language</label>
+                <NiceSelect
+                  options={[
+                    { value: "English", label: "English" },
+                    { value: "Spanish", label: "Spanish" },
+                    { value: "French", label: "French" },
+                    { value: "Others", label: "Others" },
+                  ]}
+                  defaultCurrent={0}
+                  onChange={(item) => handleJobType(item)}
+                  name="Job Type"
+                />
+              </div>
+            </div>
 
             <div className="col-md-3">
               <div className="dash-input-wrapper mb-30">
@@ -229,8 +256,20 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
           <h4 className="dash-title-three pt-50 lg-pt-30">
             Skills & Experience
           </h4>
+          {/* primary skills */}
           <div className="dash-input-wrapper mb-30">
-            <label htmlFor="">Skills*</label>
+            <label htmlFor="">Primary Skills*</label>
+            <AutocompleteSkill skills={skills} setSkills={setSkills} />
+            {/* <input type="text" placeholder="Add Skills" /> */}
+            <div className="skill-input-data d-flex align-items-center flex-wrap">
+              {skills.map((value) => (
+                <button key={value}>{value}</button>
+              ))}
+            </div>
+          </div>
+          {/* secondary skills */}
+          <div className="dash-input-wrapper mb-30">
+            <label htmlFor="">Secondary Skills*</label>
             <AutocompleteSkill skills={skills} setSkills={setSkills} />
             {/* <input type="text" placeholder="Add Skills" /> */}
             <div className="skill-input-data d-flex align-items-center flex-wrap">
@@ -246,7 +285,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
             setSelected={setExpLocation}
           />
           {/* employ experience end */}
-          <h4 className="dash-title-three pt-50 lg-pt-30">File Attachment</h4>
+          {/* <h4 className="dash-title-three pt-50 lg-pt-30">File Attachment</h4>
           <div className="dash-input-wrapper mb-20">
             <label htmlFor="">File Attachment*</label>
             <div className="attached-file d-flex align-items-center justify-content-between mb-15">
@@ -255,91 +294,48 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                 <i className="bi bi-x"></i>
               </a>
             </div>
-          </div>
-          <div className="dash-btn-one d-inline-block position-relative me-3">
-            {/* <input type="file" id="uploadCV" name="uploadCV" placeholder="" /> */}
+          </div> */}
+          {/* <div className="dash-btn-one d-inline-block position-relative me-3">
             <Upload setSelected={setFileAttachment} text="Upload File" />
           </div>
-          <small>Upload file .pdf, .doc, .docx</small>
+          <small>Upload file .pdf, .doc, .docx</small> */}
           <h4 className="dash-title-three pt-50 lg-pt-30">Add Description</h4>
           <div className="dash-input-wrapper mb-30 ">
             <label htmlFor="">Job Description*</label>
-            <div className="position-relative">
-              {txt ? (
-                <TinyMCEEditor text={txt.choices[0].message.content} />
-              ) : (
-                <TinyMCEEditor text={""} />
-              )}
-              <button
-                style={{
-                  backgroundColor: "#D2F34C",
-                  padding: "5px 10px",
-                  borderRadius: "13%",
-                  zIndex: `${txt ? 0 : 9}`,
-                }}
-                type="button"
-                className="position-absolute d-flex justify-content-center top-0 end-0"
-                onClick={draftWithAi}
-              >
-                <MagicWand size={30} color="white" weight="bold" />
-                {txtLoading ? <Loader /> : "Draft"}
-              </button>
-            </div>
+            <button
+              disabled={loading}
+              type={"button"}
+              onClick={draftWithAi}
+              className="dash-btn-ai mb-3  tran3s me-3 d-flex align-content-center gap-2  justify-content-center   "
+            >
+              <span>Write a description With Ai</span>
+              <span className="">
+                <MagicWand size={32} color="#244034" weight="light" />
+              </span>
+            </button>
+            {txt ? (
+              <TinyMCEEditor text={txt.choices[0].message.content} />
+            ) : (
+              <TinyMCEEditor text={""} />
+            )}
           </div>
-          {/* {txt && <FormatText txt={txt.choices[0].message.content} />} */}
-
-          {/* <h4 className="dash-title-three pt-50 lg-pt-30">
-            Address & Location
-          </h4> */}
-          {/* <div className="row">
-            <div className="col-12">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Address*</label>
-                <input
-                  type="text"
-                  placeholder="Cowrasta, Chandana, Gazipur Sadar"
-                />
-              </div>
-            </div>
-            <div className="col-lg-4">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Country*</label>
-                <CountrySelect />
-              </div>
-            </div>
-            <div className="col-lg-4">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">City*</label>
-              
-                <AutocompleteCity />
-              </div>
-            </div>
-            <div className="col-lg-4">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">State*</label>
-                <StateSelect />
-              </div>
-            </div>
-            <div className="col-12">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Map Location*</label>
-                <div className="position-relative">
-                  <input type="text" placeholder="XC23+6XC, Moiran, N105" />
-                  <button className="location-pin tran3s">
-                    <Image src={icon} alt="icon" className="lazy-img m-auto" />
-                  </button>
-                </div>
-                <div className="map-frame mt-30">
-                  <div className="gmap_canvas h-100 w-100">
-                    <iframe
-                      className="gmap_iframe h-100 w-100"
-                      src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=bass hill plaza medical centre&amp;t=&amp;z=12&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-                    ></iframe>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
+          <h4 className="dash-title-three pt-50 lg-pt-30">
+            Add Test for Candidate{" "}
+          </h4>
+          <div className="dash-input-wrapper mb-30 ">
+            {/* <label htmlFor="">*</label> */}
+            <button
+              disabled={loading}
+              type={"button"}
+              className="dash-btn-ai mb-3  tran3s me-3 d-flex align-content-center gap-2  justify-content-center "
+            >
+              <span>Generate Test</span>
+              <span className="">
+                <MagicWand size={32} color="#244034" weight="light" />
+              </span>
+            </button>
+            <MultipleChoiceQuestion />
+          </div>
         </div>
 
         <div className="button-group d-inline-flex align-items-center mt-30">

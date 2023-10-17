@@ -12,25 +12,27 @@ type IProps = {
 
 const Pagination = ({ handlePageClick, pageCount }: IProps) => {
   return (
-    <ReactPaginate
-      className="pagination-one d-flex align-items-center justify-content-center justify-content-sm-start style-none"
-      breakLabel="..."
-      activeClassName="active"
-      nextLabel={
-        <span className="d-flex align-items-center">
-          Last <Image src={icon} alt="icon" className="ms-2" />
-        </span>
-      }
-      onPageChange={handlePageClick}
-      pageRangeDisplayed={5}
-      pageCount={pageCount}
-      previousLabel={
-        <span className="d-flex align-items-center">
-          <Image src={icon_2} className="me-2" alt="icon" /> Prev
-        </span>
-      }
-      renderOnZeroPageCount={null}
-    />
+    <>
+      <ReactPaginate
+        className="pagination-one d-flex align-items-center justify-content-center justify-content-sm-start style-none"
+        breakLabel="..."
+        activeClassName="active"
+        nextLabel={
+          <span className="d-flex align-items-center">
+            Last <Image src={icon} alt="icon" className="ms-2" />
+          </span>
+        }
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={6}
+        pageCount={pageCount}
+        previousLabel={
+          <span className="d-flex align-items-center">
+            <Image src={icon_2} className="me-2" alt="icon" /> Prev
+          </span>
+        }
+        renderOnZeroPageCount={null}
+      />
+    </>
   );
 };
 

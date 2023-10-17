@@ -61,3 +61,92 @@
     transform: rotate(360deg);
   }
 }
+
+// MultipleChoiceQuestion.scss
+
+._questionContainer {
+  // padding-top: 4rem;
+  // padding-bottom: 4rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 100%;
+  p {
+    font-size: 1.25rem;
+    font-weight: 500;
+    padding: 0 15px;
+    line-height: 45px;
+    color: #244034;
+  }
+}
+
+._row {
+  max-width: 28rem;
+  width: 100%;
+  // margin-left: auto;
+  // margin-right: auto;
+}
+._common {
+  position: relative;
+  display: flex;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 0.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  background-color: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  :focus {
+    outline: none;
+  }
+  ._active {
+    --ring-color: #ffffff;
+    --ring-opacity: 0.6;
+    --ring-offset-width: 2px;
+    box-shadow: 0 0 0 var(--ring-offset-width) var(--ring-offset-color),
+      var(--ring-shadow);
+  }
+  .circle {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+}
+._checked {
+  background: $color-three;
+  --tw-bg-opacity: 0.75;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+.bg-white {
+  background-color: white;
+}
+.text-white {
+  color: white;
+}
+.text-gray-900 {
+  color: gainsboro;
+}
+
+._insideDiv1 {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+._insideDiv2 {
+  display: flex;
+  align-items: center;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

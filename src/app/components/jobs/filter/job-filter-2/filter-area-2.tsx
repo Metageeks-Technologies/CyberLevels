@@ -6,7 +6,7 @@ import FilterJobType from "./filter-job-type";
 import FilterExperience from "./filter-experience";
 import { SalaryRangeSlider } from "../job-prices";
 import FilterEnglishFluency from "./filter-english-fluency";
-import { resetFilter } from "@/redux/features/filterSlice";
+import { resetFilter } from "@/redux/features/filterJobPostSlice";
 import { useAppDispatch } from "@/redux/hook";
 
 // prop type
@@ -21,8 +21,8 @@ const FilterAreaTwo = ({ priceValue, setPriceValue, maxPrice }: IProps) => {
   // handleReset
   const handleReset = () => {
     dispatch(resetFilter());
-    setPriceValue([0,maxPrice])
-  }
+    setPriceValue([0, maxPrice]);
+  };
   return (
     <div className="filter-area-tab">
       <div className="light-bg border-20 ps-4 pe-4">
@@ -48,7 +48,7 @@ const FilterAreaTwo = ({ priceValue, setPriceValue, maxPrice }: IProps) => {
                 <FilterLocation />
               </div>
               <div className="col-lg-3 col-sm-6">
-                <FilterEnglishFluency/>
+                <FilterEnglishFluency />
               </div>
             </div>
 
@@ -77,7 +77,8 @@ const FilterAreaTwo = ({ priceValue, setPriceValue, maxPrice }: IProps) => {
 
             <div className="row">
               <div className="col-xl-2 m-auto">
-                <button onClick={handleReset}
+                <button
+                  onClick={handleReset}
                   className="btn-ten fw-500 text-white w-100 text-center tran3s mt-30 md-mt-10"
                 >
                   Reset Filter
@@ -85,7 +86,6 @@ const FilterAreaTwo = ({ priceValue, setPriceValue, maxPrice }: IProps) => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

@@ -11,7 +11,6 @@ const initialState: jobPstState = {
     company: null,
     loading: false,
     error: null,
-
 }
 
 export const companySlice = createSlice({

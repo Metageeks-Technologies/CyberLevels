@@ -1,10 +1,9 @@
 import wishlistSlice from './features/wishlist';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import filterSlice from './features/filterSlice';
-import lnAuthSlice from './features/lnAuthSlice';
+import filterSlice from './features/filterJobPostSlice';
 import userSlice from './features/userSlice';
 import companySlice from './features/companySlice';
-import jobPostSlice from './features/jobPostSlice';
+import jobPostSlice from './features/jobPost/slice';
 
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
@@ -28,7 +27,6 @@ export const store = configureStore({
     jobPost: jobPostSlice,
     filter: filterSlice,
     wishlist: wishlistSlice,
-    lnAuth: lnAuthSlice,
   },
 
 })

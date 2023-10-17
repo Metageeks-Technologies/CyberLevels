@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
 const TextEditor = ({ text }: { text: string }) => {
-  console.log("form the", text);
+  // console.log("form the", text);
   let dynamicContent = "<div>";
   const sections = text.split("\n\n");
   sections.map((section, index) => {

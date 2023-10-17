@@ -1,13 +1,13 @@
 import React from "react";
 import job_data from "@/data/job-data";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { setJobType } from "@/redux/features/filterSlice";
+import { setJobType } from "@/redux/features/filterJobPostSlice";
 
 // job type items
 
 export function JobTypeItems({ showLength = true }: { showLength?: boolean }) {
   const jobDuration = [...new Set(job_data.map((job) => job.duration))];
-  const { job_type } = useAppSelector((state) => state.filter);
+  const { jobType } = useAppSelector((state) => state.filter);
   const dispatch = useAppDispatch();
   return (
     <>
@@ -18,7 +18,7 @@ export function JobTypeItems({ showLength = true }: { showLength?: boolean }) {
             type="checkbox"
             name="JobType"
             defaultValue={duration}
-            checked={job_type.includes(duration)}
+            checked={jobType.includes(duration)}
           />
           <label>
             {duration}{" "}

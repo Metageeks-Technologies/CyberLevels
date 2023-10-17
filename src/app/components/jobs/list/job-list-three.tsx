@@ -4,77 +4,60 @@ import slugify from "slugify";
 import FilterArea from "../filter/filter-area";
 import job_data from "@/data/job-data";
 import ListItemTwo from "./list-item-2";
-import { IJobType } from "@/types/job-data-type";
+import type { IJobType } from "@/types/job-data-type";
+import type { IFilterState } from "@/redux/features/filterJobPostSlice";
 import Pagination from "@/ui/pagination";
 import JobGridItem from "../grid/job-grid-item";
-import { useAppSelector } from "@/redux/hook";
+import { useAppSelector, useAppDispatch } from "@/redux/hook";
 import NiceSelect from "@/ui/nice-select";
+import { getJObPosts } from "@/redux/features/jobPost/api";
+import { IJobPost } from "@/types/jobPost-type";
 
-
-const JobListThree = ({ itemsPerPage,grid_style=false }: { itemsPerPage: number;grid_style?:boolean }) => {
+const JobListThree = ({
+  itemsPerPage,
+  grid_style = false,
+}: {
+  itemsPerPage: number;
+  grid_style?: boolean;
+}) => {
   let all_jobs = job_data;
   const maxPrice = job_data.reduce((max, job) => {
     return job.salary > max ? job.salary : max;
   }, 0);
-  const { category, experience, job_type, location, tags } = useAppSelector(
-    (state) => state.filter
+  const filterState = useAppSelector((state) => state.filter);
+  const {
+    location,
+    jobCategory,
+    jobType,
+    salary,
+    preferredExperience,
+    workMode,
+  } = filterState;
+  const { allJobPost, totalJobPost, totalNumOfPage, loading, page } =
+    useAppSelector((state) => state.jobPost);
+  const dispatch = useAppDispatch();
+  const [currentItems, setCurrentItems] = useState<IJobPost[] | null>(
+    allJobPost
   );
-  const [currentItems, setCurrentItems] = useState<IJobType[] | null>(null);
   const [filterItems, setFilterItems] = useState<IJobType[]>([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
-  const [jobType, setJobType] = useState(grid_style ?"grid" : "list");
+  const [jobTypeTemp, setJobTypeTemp] = useState(grid_style ? "grid" : "list");
   const [priceValue, setPriceValue] = useState([0, maxPrice]);
-  const [shortValue, setShortValue] = useState('');
+  const [shortValue, setShortValue] = useState("");
 
   useEffect(() => {
-    // Filter the job_data array based on the selected filters
-    let filteredData = all_jobs
-      .filter((item) => category.length !== 0 ? category.some((c) => item.category.includes(c)) : true)
-      .filter((item) =>
-        experience.length !== 0
-          ? experience.some((e) => item.experience.trim().toLowerCase() === e.trim().toLowerCase()) : true
-      )
-      .filter((item) => (job_type ? item.duration === job_type : true))
-      .filter((l) => location ? slugify(l.location.split(',').join('-').toLowerCase(),'-') === location : true)
-      .filter((item) => tags.length !== 0 ? tags.some((t) => item?.tags?.includes(t)) : true)
-      .filter((j) => j.salary >= priceValue[0] && j.salary <= priceValue[1]);
-
-      if (shortValue === 'price-low-to-high') {
-        filteredData = filteredData.slice()
-          .sort((a, b) => Number(a.salary) - Number(b.salary))
-      }
-    
-      if (shortValue === 'price-high-to-low') {
-        filteredData = filteredData.slice()
-          .sort((a, b) => Number(b.salary) - Number(a.salary));
-      }
-    const endOffset = itemOffset + itemsPerPage;
-    setFilterItems(filteredData)
-    setCurrentItems(filteredData.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(filteredData.length / itemsPerPage));
-  }, [
-    itemOffset,
-    itemsPerPage,
-    category,
-    experience,
-    job_type,
-    location,
-    tags,
-    all_jobs,
-    priceValue,
-    shortValue
-  ]);
-
+    getJObPosts(dispatch, filterState, page);
+  }, [location, jobCategory, jobType, workMode, salary, preferredExperience]);
 
   const handlePageClick = (event: { selected: number }) => {
     const newOffset = (event.selected * itemsPerPage) % all_jobs.length;
     setItemOffset(newOffset);
   };
-// handleShort
-const handleShort = (item: { value: string; label: string }) => {
-  setShortValue(item.value)
-}
+  // handleShort
+  const handleShort = (item: { value: string; label: string }) => {
+    setShortValue(item.value);
+  };
   return (
     <section className="job-listing-three pt-110 lg-pt-80 pb-160 xl-pb-150 lg-pb-80">
       <div className="container">
@@ -90,7 +73,11 @@ const handleShort = (item: { value: string; label: string }) => {
               Filter
             </button>
             {/* filter area start */}
-            <FilterArea priceValue={priceValue} setPriceValue={setPriceValue} maxPrice={maxPrice} />
+            <FilterArea
+              priceValue={priceValue}
+              setPriceValue={setPriceValue}
+              maxPrice={maxPrice}
+            />
             {/* filter area end */}
           </div>
 
@@ -98,7 +85,10 @@ const handleShort = (item: { value: string; label: string }) => {
             <div className="job-post-item-wrapper ms-xxl-5 ms-xl-3">
               <div className="upper-filter d-flex justify-content-between align-items-center mb-20">
                 <div className="total-job-found">
-                  All <span className="text-dark">{filterItems.length}</span> jobs
+                  <div>
+                    <Pagination pageCount={0} handlePageClick={() => {}} />
+                  </div>
+                  All <span className="text-dark">{totalJobPost}</span> jobs
                   found
                 </div>
                 <div className="d-flex align-items-center">
@@ -106,9 +96,9 @@ const handleShort = (item: { value: string; label: string }) => {
                     <div className="text-dark fw-500 me-2">Short:</div>
                     <NiceSelect
                       options={[
-                        {value:'',label:'Price Short'},
-                        {value:'price-low-to-high',label:'low to high'},
-                        {value:'price-high-to-low',label:'High to low'},
+                        { value: "", label: "Price Short" },
+                        { value: "price-low-to-high", label: "low to high" },
+                        { value: "price-high-to-low", label: "High to low" },
                       ]}
                       defaultCurrent={0}
                       onChange={(item) => handleShort(item)}
@@ -116,17 +106,17 @@ const handleShort = (item: { value: string; label: string }) => {
                     />
                   </div>
                   <button
-                    onClick={() => setJobType("list")}
+                    onClick={() => setJobTypeTemp("list")}
                     className={`style-changer-btn text-center rounded-circle tran3s ms-2 list-btn 
-                    ${jobType === "grid" ? "active" : ""}`}
+                    ${jobTypeTemp === "grid" ? "active" : ""}`}
                     title="Active List"
                   >
                     <i className="bi bi-list"></i>
                   </button>
                   <button
-                    onClick={() => setJobType("grid")}
+                    onClick={() => setJobTypeTemp("grid")}
                     className={`style-changer-btn text-center rounded-circle tran3s ms-2 grid-btn 
-                    ${jobType === "list" ? "active" : ""}`}
+                    ${jobTypeTemp === "list" ? "active" : ""}`}
                     title="Active Grid"
                   >
                     <i className="bi bi-grid"></i>
@@ -134,45 +124,44 @@ const handleShort = (item: { value: string; label: string }) => {
                 </div>
               </div>
               <div
-                className={`accordion-box list-style ${jobType === "list" ? "show" : ""}`}
+                className={`accordion-box list-style ${
+                  jobTypeTemp === "list" ? "show" : ""
+                }`}
               >
-                {currentItems &&
-                  currentItems.map((job) => (
-                    <ListItemTwo key={job.id} item={job} />
+                {allJobPost &&
+                  allJobPost.map((job) => (
+                    <ListItemTwo key={job.location} item={job} />
                   ))}
               </div>
 
               <div
-                className={`accordion-box grid-style ${jobType === "grid" ? "show" : ""}`}
+                className={`accordion-box grid-style ${
+                  jobTypeTemp === "grid" ? "show" : ""
+                }`}
               >
-                <div className="row">
+                {/* <div className="row">
                   {currentItems &&
                     currentItems.map((job) => (
                       <div key={job.id} className="col-sm-6 mb-30">
                         <JobGridItem item={job} />
                       </div>
                     ))}
-                </div>
+                </div> */}
               </div>
 
-              {currentItems && (
+              {true && (
                 <div className="pt-30 lg-pt-20 d-sm-flex align-items-center justify-content-between">
                   <p className="m0 order-sm-last text-center text-sm-start xs-pb-20">
-                    Showing{" "}
-                    <span className="text-dark fw-500">{itemOffset + 1}</span>{" "}
-                    to{" "}
+                    Showing <span className="text-dark fw-500">{page}</span> to{" "}
                     <span className="text-dark fw-500">
-                      {Math.min(itemOffset + itemsPerPage, currentItems.length)}
+                      {Math.min(page + itemsPerPage, totalJobPost)}
                     </span>{" "}
-                    of{" "}
-                    <span className="text-dark fw-500">{filterItems.length}</span>
+                    of <span className="text-dark fw-500">{totalJobPost}</span>
                   </p>
-                  {filterItems.length > itemsPerPage && (
-                    <Pagination
-                      pageCount={pageCount}
-                      handlePageClick={handlePageClick}
-                    />
-                  )}
+                  {/* <Pagination pageCount={0} handlePageClick={() => {}} /> */}
+                  {/* {true && (
+                   
+                  )} */}
                 </div>
               )}
             </div>

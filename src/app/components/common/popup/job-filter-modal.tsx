@@ -1,6 +1,6 @@
-"use client"
+"use client";
 import React from "react";
-import { resetFilter } from "@/redux/features/filterSlice";
+import { resetFilter } from "@/redux/features/filterJobPostSlice";
 import { useAppDispatch } from "@/redux/hook";
 import SearchFilter from "../../jobs/filter/job-filter-2/search-filter";
 import FilterCategory from "../../jobs/filter/job-filter-2/filter-category";
