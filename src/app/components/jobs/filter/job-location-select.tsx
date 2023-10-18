@@ -1,30 +1,35 @@
 import React from "react";
 import job_data from "@/data/job-data";
-import { setPreferredExperience } from "@/redux/features/filterJobPostSlice";
+import { setLocation } from "@/redux/features/filterJobPostSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 
-const PreferredExperienceOption = ["Fresher", "Intermediate", "Expert"];
-export function JobExperienceItems({
+const LocationOption = [
+  "Tongshan",
+  "Orodo",
+  "Guanyinge",
+  "Shiziling",
+  "Wanling",
+];
+export function JobLocationSelectItems({
   showLength = true,
 }: {
   showLength?: boolean;
 }) {
-  const uniqueExperiences = [...new Set(job_data.map((job) => job.experience))];
-  const { preferredExperience } = useAppSelector((state) => state.filter);
+  const { location } = useAppSelector((state) => state.filter);
   const dispatch = useAppDispatch();
   return (
     <>
-      {PreferredExperienceOption.map((e, index) => (
+      {LocationOption.map((l, index) => (
         <li key={index}>
           <input
-            onChange={() => dispatch(setPreferredExperience(e))}
+            onChange={() => dispatch(setLocation(l))}
             type="checkbox"
-            name={e}
-            defaultValue={e}
-            checked={preferredExperience.includes(e)}
+            name={l}
+            defaultValue={l}
+            checked={location.includes(l)}
           />
           <label>
-            {e}
+            {l}
             {/* {showLength && (
               <span>
                 {job_data.filter((job) => job.experience === e).length}
@@ -37,16 +42,16 @@ export function JobExperienceItems({
   );
 }
 
-const JobExperience = () => {
+const JobLocationSelect = () => {
   return (
     <>
       <div className="main-body">
         <ul className="style-none filter-input">
-          <JobExperienceItems />
+          <JobLocationSelectItems />
         </ul>
       </div>
     </>
   );
 };
 
-export default JobExperience;
+export default JobLocationSelect;

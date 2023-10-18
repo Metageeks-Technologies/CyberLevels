@@ -45,22 +45,22 @@ const slider_b = {
 // slider a data
 const slider_a_data = [
   {
-    desc: "“The best service I've ever received is from Jobi, and highly recommended.”",
+    desc: "“The best service I've ever received is from CyberLevels, and highly recommended.”",
     name: "James Stephens",
     location: "Sydney",
   },
   {
-    desc: "“The best service I've ever received is from Jobi, and highly recommended.”",
+    desc: "“The best service I've ever received is from CyberLevels, and highly recommended.”",
     name: "Angelina Jolie",
     location: "Sydney",
   },
   {
-    desc: "“The best service I've ever received is from Jobi, and highly recommended.”",
+    desc: "“The best service I've ever received is from CyberLevels, and highly recommended.”",
     name: "James Brower",
     location: "Sydney",
   },
   {
-    desc: "“The best service I've ever received is from Jobi, and highly recommended.”",
+    desc: "“The best service I've ever received is from CyberLevels, and highly recommended.”",
     name: "Maria Gomez",
     location: "Sydney",
   },
@@ -80,7 +80,7 @@ const FeedbackFour = () => {
     sliderRef.current?.slickNext();
   };
 
-  // handle slider 
+  // handle slider
   // const handleSlider = (slider:Slider) => {
   //   setSlider1(slider)
   // }
@@ -90,7 +90,9 @@ const FeedbackFour = () => {
         <div className="row">
           <div className="col-xl-5 col-lg-6 ms-auto order-lg-last">
             <div className="title-one ps-xxl-5">
-              <h2 className="main-font wow fadeInUp" data-wow-delay="0.3s">Our Customer Feedback</h2>
+              <h2 className="main-font wow fadeInUp" data-wow-delay="0.3s">
+                Our Customer Feedback
+              </h2>
             </div>
           </div>
           <div className="col-xxl-7 col-lg-6 order-lg-first">

@@ -44,14 +44,13 @@ export const jobPostSlice = createSlice({
             state.jobPost = action.payload;
         },
         getJobPostsSuccess: (state, action: PayloadAction<IForGetAllJobPost>) => {
+            state.loading = false
             state.allJobPost = action.payload.allJobPost;
             state.totalNumOfPage = action.payload.totalNumOfPage;
             state.totalJobPost = action.payload.totalJobPost
         },
-        setPage: (state, action: PayloadAction<boolean>) => {
-            if (action.payload) {
-                state.page = +1
-            } else state.page = -1
+        setPage: (state, action: PayloadAction<number>) => {
+            state.page = action.payload;
         }
 
     },

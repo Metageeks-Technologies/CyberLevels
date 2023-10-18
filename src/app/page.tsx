@@ -13,6 +13,7 @@ import FancyBanner from "./components/fancy-banner/fancy-banner";
 import JobPortalIntro from "./components/job-portal-intro/job-portal-intro";
 import FooterOne from "@/layouts/footers/footer-one";
 import Wrapper from "@/layouts/wrapper";
+import Pagination from "@/ui/pagination";
 
 export default function Home() {
   return (

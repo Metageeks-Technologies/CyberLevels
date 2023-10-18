@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import InputRange from "@/ui/input-range";
+import SuperSimple from "@/ui/SingleRange";
+import SingleRange from "@/ui/SingleRange";
 
 // prop type
 type IProps = {
   priceValue: number[];
   setPriceValue: React.Dispatch<React.SetStateAction<number[]>>;
   maxPrice: number;
+  setFinalPrice: (values: number[]) => void;
 };
 // Salary Range Slider
-export function SalaryRangeSlider({ priceValue, setPriceValue, maxPrice }: IProps) {
+export function SalaryRangeSlider({
+  priceValue,
+  setPriceValue,
+  maxPrice,
+  setFinalPrice,
+}: IProps) {
   // handleChanges
   const handleChanges = (val: number[]) => {
     setPriceValue(val);
@@ -16,47 +24,61 @@ export function SalaryRangeSlider({ priceValue, setPriceValue, maxPrice }: IProp
   return (
     <div className="salary-slider">
       <div className="price-input d-flex align-items-center pt-5">
-        <div className="field d-flex align-items-center">
+        {/* <div className="field d-flex align-items-center">
           <input
             type="number"
             className="input-min"
             defaultValue={priceValue[0]}
             readOnly
           />
-        </div>
-        <div className="pe-1 ps-1">-</div>
+        </div> */}
+        {/* <div className="pe-1 ps-1">-</div> */}
         <div className="field d-flex align-items-center">
           <input
             type="number"
             className="input-max"
-            defaultValue={priceValue[1]}
+            value={priceValue[0]}
             readOnly
           />
         </div>
-        <div className="currency ps-1">USD</div>
+        <div className="currency ps-1">$ PA</div>
       </div>
       <div className="range-input mb-10">
-        <InputRange
+        {/* <InputRange
           MAX={maxPrice}
           MIN={0}
           STEP={1}
           values={priceValue}
           handleChanges={handleChanges}
+        /> */}
+        <SingleRange
+          MAX={maxPrice}
+          MIN={0}
+          STEP={1}
+          values={priceValue}
+          handleChanges={handleChanges}
+          setFinalPrice={setFinalPrice}
         />
       </div>
     </div>
   );
 }
 
-const JobPrices = ({ priceValue, setPriceValue, maxPrice }: IProps) => {
+const JobPrices = ({
+  priceValue,
+  setPriceValue,
+  maxPrice,
+  setFinalPrice,
+}: IProps) => {
   return (
     <div className="main-body">
       <SalaryRangeSlider
         maxPrice={maxPrice}
         priceValue={priceValue}
         setPriceValue={setPriceValue}
+        setFinalPrice={setFinalPrice}
       />
-      <ul className="style-none d-flex flex-wrap justify-content-between radio-filter mb-5">
+      {/* <ul className="style-none d-flex flex-wrap justify-content-between radio-filter mb-5">
         <li>
           <input type="radio" name="jobDuration" defaultValue="01" />
           <label>Weekly</label>
@@ -69,7 +91,7 @@ const JobPrices = ({ priceValue, setPriceValue, maxPrice }: IProps) => {
           <input type="radio" name="jobDuration" defaultValue="03" />
           <label>Hourly</label>
         </li>
-      </ul>
+      </ul> */}
     </div>
   );
 };

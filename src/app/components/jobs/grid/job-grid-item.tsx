@@ -1,59 +1,77 @@
-'use client'
+"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { IJobType } from "@/types/job-data-type";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { add_to_wishlist } from "@/redux/features/wishlist";
+import type { IJobPost } from "@/types/jobPost-type";
+import job_img_1 from "@/assets/images/logo/media_22.png";
 
-const JobGridItem = ({ item,style_2=true }: { item: IJobType;style_2?:boolean }) => {
-  const {
-    id,
-    logo,
-    duration,
-    location,
-    salary,
-    salary_duration,
-    title,
-  } = item || {};
-  const {wishlist} = useAppSelector(state => state.wishlist);
-  const isActive = wishlist.some(p => p.id === id);
+const JobGridItem = ({
+  item,
+  style_2 = true,
+}: {
+  item: IJobPost;
+  style_2?: boolean;
+}) => {
+  const { id, title, salary } = item || {};
+  const { wishlist } = useAppSelector((state) => state.wishlist);
+  const isActive = wishlist.some((p) => p.id === id);
   const dispatch = useAppDispatch();
   // handle add wishlist
   const handleAddWishlist = (item: IJobType) => {
     dispatch(add_to_wishlist(item));
   };
   return (
-    <div className={`job-list-two ${style_2?'style-two':''} position-relative`}>
+    <div
+      className={`job-list-two ${style_2 ? "style-two" : ""} position-relative`}
+    >
       <Link href={`/job-details-v1/${id}`} className="logo">
-        <Image src={logo} alt="logo" style={{height:'auto',width:'auto'}} className="lazy-img m-auto" />
+        <Image
+          src={job_img_1}
+          alt="logo"
+          style={{ height: "auto", width: "auto" }}
+          className="lazy-img m-auto"
+        />
       </Link>
-      <a onClick={() => handleAddWishlist(item)}
-        className={`save-btn text-center rounded-circle tran3s cursor-pointer ${isActive?'active':''}`}
-        title={`${isActive?'Remove Job':'Save Job'}`}
+      <a
+        // onClick={() => handleAddWishlist(item)}
+        className={`save-btn text-center rounded-circle tran3s cursor-pointer ${
+          isActive ? "active" : ""
+        }`}
+        title={`${isActive ? "Remove Job" : "Save Job"}`}
       >
         <i className="bi bi-bookmark-dash"></i>
       </a>
       <div>
-        <Link href={`/job-details-v1/${id}`}
-          className={`job-duration fw-500 ${duration === "Part time" ? "part-time" : ""}`}
+        <Link
+          href={`/job-details-v1/${id}`}
+          className={`job-duration fw-500 ${
+            item.jobType[0] == "part-time" ? "part-time" : ""
+          }`}
         >
-          {duration}
+          {item.jobType[0]}
         </Link>
       </div>
       <div>
         <Link href={`/job-details-v1/${id}`} className="title fw-500 tran3s">
-          {title}
+          {item.title}
         </Link>
       </div>
       <div className="job-salary">
-        <span className="fw-500 text-dark">${salary}</span> / {salary_duration}
+        <span className="fw-500 text-dark">
+          ${`${salary.maximum}-${salary.minimum}`}
+        </span>
       </div>
       <div className="d-flex align-items-center justify-content-between mt-auto">
         <div className="job-location">
-          <Link href={`/job-details-v1/${id}`}>{location}</Link>
+          <Link href={`/job-details-v1/${item.location}`}>{item.location}</Link>
         </div>
-        <Link href={`/job-details-v1/${id}`} className="apply-btn text-center tran3s">
+        <Link
+          href={`/job-details-v1/${item.location}`}
+          className="apply-btn text-center tran3s"
+        >
           APPLY
         </Link>
       </div>

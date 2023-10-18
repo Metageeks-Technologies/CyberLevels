@@ -11,8 +11,11 @@ const BlogFive = () => {
         <div className="position-relative">
           <div className="row">
             <div className="col-xl-7">
-              <div className="title-one mb-20 lg-mb-10 wow fadeInUp" data-wow-delay="0.3s">
-                <h2 className="main-font">Jobi Guides</h2>
+              <div
+                className="title-one mb-20 lg-mb-10 wow fadeInUp"
+                data-wow-delay="0.3s"
+              >
+                <h2 className="main-font">CyberLevels Guides</h2>
               </div>
             </div>
           </div>

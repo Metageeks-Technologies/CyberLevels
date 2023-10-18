@@ -4,29 +4,35 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { setJobType } from "@/redux/features/filterJobPostSlice";
 
 // job type items
-
+const JobTypeOption = [
+  "full-time",
+  "part-time",
+  "internship",
+  "hourly-contract",
+  "fixed-price",
+];
 export function JobTypeItems({ showLength = true }: { showLength?: boolean }) {
   const jobDuration = [...new Set(job_data.map((job) => job.duration))];
   const { jobType } = useAppSelector((state) => state.filter);
   const dispatch = useAppDispatch();
   return (
     <>
-      {jobDuration.map((duration, index) => (
+      {JobTypeOption.map((duration, index) => (
         <li key={index}>
           <input
             onChange={() => dispatch(setJobType(duration))}
             type="checkbox"
-            name="JobType"
+            name={duration}
             defaultValue={duration}
             checked={jobType.includes(duration)}
           />
           <label>
             {duration}{" "}
-            {showLength && (
+            {/* {showLength && (
               <span>
                 {job_data.filter((job) => job.duration === duration).length}
               </span>
-            )}
+            )} */}
           </label>
         </li>
       ))}

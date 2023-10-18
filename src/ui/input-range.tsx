@@ -1,50 +1,44 @@
-"use client"
+"use client";
 import { getTrackBackground, Range } from "react-range";
-// prop type 
+// prop type
 type IProps = {
-  STEP:number;
-  MIN:number;
-  MAX:number;
-  values:number[];
-  handleChanges: (val: number[]) => void
-}
-const InputRange = ({ STEP, MIN, MAX, values, handleChanges }:IProps) => {
+  STEP: number;
+  MIN: number;
+  MAX: number;
+  values: number[];
+  handleChanges: (val: number[]) => void;
+};
+const InputRange = ({ STEP, MIN, MAX, values, handleChanges }: IProps) => {
   return (
     <>
       <Range
         step={STEP}
-        min={MIN}
         max={MAX}
+        min={0}
         values={values}
         onChange={(vals) => handleChanges(vals)}
         renderTrack={({ props, children }) => (
           <div
             {...props}
-            key='track'
+            // key="track"
             style={{
               ...props.style,
-              height: '3px',
-              width: '100%',
-              background: getTrackBackground({
-                values: values,
-                colors: ["#EDEDED", "#00BF58", "#EDEDED"],
-                min: MIN,
-                max: MAX
-              }),
+              height: "3px",
+              width: "100%",
             }}
           >
             {children}
           </div>
         )}
-        renderThumb={({ props,index }) => (
+        renderThumb={({ props }) => (
           <div
             {...props}
-            key={`thumb-${index}`}
+            // key={`thumb-${index}`}
             style={{
               ...props.style,
-              height: '17px',
-              width: '5px',
-              backgroundColor: "#00BF58"
+              height: "17px",
+              width: "5px",
+              backgroundColor: "#00BF58",
             }}
           />
         )}
@@ -52,6 +46,5 @@ const InputRange = ({ STEP, MIN, MAX, values, handleChanges }:IProps) => {
     </>
   );
 };
-
 
 export default InputRange;

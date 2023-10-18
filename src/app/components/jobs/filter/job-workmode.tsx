@@ -1,30 +1,29 @@
 import React from "react";
 import job_data from "@/data/job-data";
-import { setPreferredExperience } from "@/redux/features/filterJobPostSlice";
+import { setWorkMode } from "@/redux/features/filterJobPostSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 
-const PreferredExperienceOption = ["Fresher", "Intermediate", "Expert"];
-export function JobExperienceItems({
+const WorkModeOption = ["Hybrid", "On-Site", "Remote", "Flexible"];
+export function JobWorkModeItems({
   showLength = true,
 }: {
   showLength?: boolean;
 }) {
-  const uniqueExperiences = [...new Set(job_data.map((job) => job.experience))];
-  const { preferredExperience } = useAppSelector((state) => state.filter);
+  const { workMode } = useAppSelector((state) => state.filter);
   const dispatch = useAppDispatch();
   return (
     <>
-      {PreferredExperienceOption.map((e, index) => (
+      {WorkModeOption.map((w, index) => (
         <li key={index}>
           <input
-            onChange={() => dispatch(setPreferredExperience(e))}
+            onChange={() => dispatch(setWorkMode(w))}
             type="checkbox"
-            name={e}
-            defaultValue={e}
-            checked={preferredExperience.includes(e)}
+            name={w}
+            defaultValue={w}
+            checked={workMode.includes(w)}
           />
           <label>
-            {e}
+            {w}
             {/* {showLength && (
               <span>
                 {job_data.filter((job) => job.experience === e).length}
@@ -37,16 +36,16 @@ export function JobExperienceItems({
   );
 }
 
-const JobExperience = () => {
+const JobWorkMode = () => {
   return (
     <>
       <div className="main-body">
         <ul className="style-none filter-input">
-          <JobExperienceItems />
+          <JobWorkModeItems />
         </ul>
       </div>
     </>
   );
 };
 
-export default JobExperience;
+export default JobWorkMode;

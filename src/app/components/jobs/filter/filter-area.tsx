@@ -8,14 +8,22 @@ import JobTags from "./job-tags";
 import JobPrices from "./job-prices";
 import { useAppDispatch } from "@/redux/hook";
 import { resetFilter } from "@/redux/features/filterJobPostSlice";
+import JobWorkMode from "./job-workmode";
+import JobLocationSelect from "./job-location-select";
 
 // prop type
 type IProps = {
   priceValue: number[];
   setPriceValue: React.Dispatch<React.SetStateAction<number[]>>;
   maxPrice: number;
+  setFinalPrice: (values: number[]) => void;
 };
-const FilterArea = ({ priceValue, setPriceValue, maxPrice }: IProps) => {
+const FilterArea = ({
+  priceValue,
+  setPriceValue,
+  maxPrice,
+  setFinalPrice,
+}: IProps) => {
   const dispatch = useAppDispatch();
   // handleReset
   const handleReset = () => {
@@ -43,11 +51,12 @@ const FilterArea = ({ priceValue, setPriceValue, maxPrice }: IProps) => {
             role="button"
             aria-expanded="false"
           >
-            Location temp
+            Location
           </a>
           <div className="collapse show" id="collapseLocation">
             <div className="main-body">
-              <JobLocations />
+              {/* <JobLocations /> */}
+              <JobLocationSelect />
             </div>
           </div>
         </div>
@@ -63,7 +72,7 @@ const FilterArea = ({ priceValue, setPriceValue, maxPrice }: IProps) => {
             Job Type
           </a>
           <div className="collapse show" id="collapseJobType">
-            {/* <JobType /> */}
+            <JobType />
           </div>
         </div>
         {/* <!-- /.filter-block --> */}
@@ -78,7 +87,23 @@ const FilterArea = ({ priceValue, setPriceValue, maxPrice }: IProps) => {
             Experience
           </a>
           <div className="collapse show" id="collapseExp">
-            {/* <JobExperience /> */}
+            <JobExperience />
+          </div>
+        </div>
+        {/* <!-- /.filter-block --> */}
+        {/* <!-- /.filter-block --> */}
+        <div className="filter-block bottom-line pb-25 mt-25">
+          <a
+            className="filter-title fw-500 text-dark"
+            data-bs-toggle="collapse"
+            href="#collapseExp"
+            role="button"
+            aria-expanded="false"
+          >
+            Work Mode
+          </a>
+          <div className="collapse show" id="collapseExp">
+            <JobWorkMode />
           </div>
         </div>
         {/* <!-- /.filter-block --> */}
@@ -93,11 +118,12 @@ const FilterArea = ({ priceValue, setPriceValue, maxPrice }: IProps) => {
             Salary
           </a>
           <div className="collapse show" id="collapseSalary">
-            {/* <JobPrices
+            <JobPrices
               priceValue={priceValue}
               setPriceValue={setPriceValue}
               maxPrice={maxPrice}
-            /> */}
+              setFinalPrice={setFinalPrice}
+            />
           </div>
         </div>
         {/* <!-- /.filter-block --> */}
@@ -112,11 +138,11 @@ const FilterArea = ({ priceValue, setPriceValue, maxPrice }: IProps) => {
             Category
           </a>
           <div className="collapse" id="collapseCategory">
-            {/* <JobCategory /> */}
+            <JobCategory />
           </div>
         </div>
         {/* <!-- /.filter-block --> */}
-        <div className="filter-block bottom-line pb-25 mt-25">
+        {/* <div className="filter-block bottom-line pb-25 mt-25">
           <a
             className="filter-title fw-500 text-dark collapsed"
             data-bs-toggle="collapse"
@@ -127,9 +153,9 @@ const FilterArea = ({ priceValue, setPriceValue, maxPrice }: IProps) => {
             Tags
           </a>
           <div className="collapse" id="collapseTag">
-            {/* <JobTags /> */}
+            <JobTags />
           </div>
-        </div>
+        </div> */}
         {/* <!-- /.filter-block --> */}
 
         <button
