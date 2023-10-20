@@ -12,9 +12,9 @@ import RelatedJobs from "../components/jobs/related-jobs";
 import { useAppSelector } from "@/redux/hook";
 import { usePathname } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Job Details v1",
-};
+// export const metadata: Metadata = {
+//   title: "Job Details v1",
+// };
 
 const JobDetailsV1Page = () => {
   const { allJobPost } = useAppSelector((state) => state.jobPost);
