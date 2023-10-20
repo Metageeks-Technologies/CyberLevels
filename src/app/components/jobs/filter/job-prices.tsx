@@ -8,7 +8,7 @@ type IProps = {
   priceValue: number[];
   setPriceValue: React.Dispatch<React.SetStateAction<number[]>>;
   maxPrice: number;
-  setFinalPrice: (values: number[]) => void;
+  setFinalPrice?: (values: number[]) => void;
 };
 // Salary Range Slider
 export function SalaryRangeSlider({

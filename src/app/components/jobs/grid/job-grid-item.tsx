@@ -15,19 +15,20 @@ const JobGridItem = ({
   item: IJobPost;
   style_2?: boolean;
 }) => {
-  const { id, title, salary } = item || {};
+  const { _id, title, salary } = item || {};
   const { wishlist } = useAppSelector((state) => state.wishlist);
-  const isActive = wishlist.some((p) => p.id === id);
+  // const isActive = wishlist.some((p) => p.id == _id);
   const dispatch = useAppDispatch();
   // handle add wishlist
   const handleAddWishlist = (item: IJobType) => {
     dispatch(add_to_wishlist(item));
   };
+  const isActive = true;
   return (
     <div
       className={`job-list-two ${style_2 ? "style-two" : ""} position-relative`}
     >
-      <Link href={`/job-details-v1/${id}`} className="logo">
+      <Link href={`/job-details-v1/${_id}`} className="logo">
         <Image
           src={job_img_1}
           alt="logo"
@@ -46,7 +47,7 @@ const JobGridItem = ({
       </a>
       <div>
         <Link
-          href={`/job-details-v1/${id}`}
+          href={`/job-details-v1/${_id}`}
           className={`job-duration fw-500 ${
             item.jobType[0] == "part-time" ? "part-time" : ""
           }`}
@@ -55,7 +56,7 @@ const JobGridItem = ({
         </Link>
       </div>
       <div>
-        <Link href={`/job-details-v1/${id}`} className="title fw-500 tran3s">
+        <Link href={`/job-details-v1/${_id}`} className="title fw-500 tran3s">
           {item.title}
         </Link>
       </div>

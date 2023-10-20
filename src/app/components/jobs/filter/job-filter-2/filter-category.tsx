@@ -3,7 +3,7 @@ import slugify from "slugify";
 import job_data from "@/data/job-data";
 import NiceSelect from "@/ui/nice-select";
 import { useAppDispatch } from "@/redux/hook";
-import { setCategory } from "@/redux/features/filterJobPostSlice";
+import { setJobCategory } from "@/redux/features/filterJobPostSlice";
 
 const FilterCategory = () => {
   const dispatch = useAppDispatch();
@@ -14,7 +14,7 @@ const FilterCategory = () => {
     return { value: slugify(c, "-"), label: c };
   });
   const handleCategory = (item: { value: string; label: string }) => {
-    dispatch(setCategory(item.value));
+    dispatch(setJobCategory(item.value));
   };
   return (
     <div className="filter-block pb-50 lg-pb-20">

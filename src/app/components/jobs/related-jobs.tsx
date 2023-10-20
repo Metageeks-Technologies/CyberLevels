@@ -1,5 +1,5 @@
 "use client";
-import React,{useRef} from "react";
+import React, { useRef } from "react";
 import job_data from "@/data/job-data";
 import Slider from "react-slick";
 import JobGridItem from "./grid/job-grid-item";
@@ -28,10 +28,10 @@ const slider_setting = {
     },
   ],
 };
-const RelatedJobs = ({category}:{category:string[]}) => {
+const RelatedJobs = ({ category }: { category: string[] }) => {
   const job_items = job_data.filter((job) => {
     return category.some((c) => job.category.includes(c));
-  });;
+  });
   const sliderRef = useRef<Slider | null>(null);
 
   const sliderPrev = () => {
@@ -49,10 +49,14 @@ const RelatedJobs = ({category}:{category:string[]}) => {
             <h2 className="main-font">Related Jobs</h2>
           </div>
 
-          <Slider {...slider_setting} ref={sliderRef} className="related-job-slider">
+          <Slider
+            {...slider_setting}
+            ref={sliderRef}
+            className="related-job-slider"
+          >
             {job_items.map((j) => (
               <div key={j.id} className="item">
-                <JobGridItem item={j} />
+                {/* <JobGridItem item={j} /> */}
               </div>
             ))}
           </Slider>

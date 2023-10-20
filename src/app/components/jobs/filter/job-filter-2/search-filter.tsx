@@ -1,13 +1,13 @@
 import React from "react";
 import { useAppDispatch } from "@/redux/hook";
-import { setSearchKey } from "@/redux/features/filterJobPostSlice";
+// import { setSearchKey } from "@/redux/features/filterJobPostSlice";
 
 const SearchFilter = () => {
   const dispatch = useAppDispatch();
 
   // handle search
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSearchKey(e.target.value));
+    // dispatch(setSearchKey(e.target.value));
   };
   return (
     <div className="filter-block pb-50 lg-pb-20">

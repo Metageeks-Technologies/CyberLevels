@@ -15,9 +15,9 @@ const JobGridV3Area = ({ itemsPerPage }: { itemsPerPage: number }) => {
   const maxPrice = job_data.reduce((max, job) => {
     return job.salary > max ? job.salary : max;
   }, 0);
-  const { category, experience, job_type, location, english_fluency, search_key } = useAppSelector(
-    (state) => state.filter
-  );
+  // const { category, experience, job_type, location, english_fluency, search_key } = useAppSelector(
+  //   (state) => state.filter
+  // );
   const [currentItems, setCurrentItems] = useState<IJobType[] | null>(null);
   const [filterItems, setFilterItems] = useState<IJobType[]>([]);
   const [pageCount, setPageCount] = useState(0);
@@ -26,49 +26,49 @@ const JobGridV3Area = ({ itemsPerPage }: { itemsPerPage: number }) => {
   const [priceValue, setPriceValue] = useState([0, maxPrice]);
   const [shortValue, setShortValue] = useState("");
 
-  useEffect(() => {
-    // Filter the job_data array based on the selected filters
-    let filteredData = all_jobs
-      .filter((item) => category.length !== 0 ? category.some((c) => item.category.includes(c)) : true)
-      .filter((item) =>
-        experience.length !== 0
-          ? experience.some((e) => item.experience.trim().toLowerCase() === e.trim().toLowerCase()) : true
-      )
-      .filter((e) => english_fluency ? e.english_fluency.toLowerCase() === english_fluency.toLowerCase() : true)
-      .filter((item) => search_key ? item.title.toLowerCase().includes(search_key.toLowerCase()) : true)
-      .filter((item) => (job_type ? item.duration === job_type : true))
-      .filter((l) => location ? slugify(l.location.split(',').join('-').toLowerCase(), '-') === location : true)
-      .filter((j) => j.salary >= priceValue[0] && j.salary <= priceValue[1]);
+  // useEffect(() => {
+  //   // Filter the job_data array based on the selected filters
+  //   let filteredData = all_jobs
+  //     .filter((item) => category.length !== 0 ? category.some((c) => item.category.includes(c)) : true)
+  //     .filter((item) =>
+  //       experience.length !== 0
+  //         ? experience.some((e) => item.experience.trim().toLowerCase() === e.trim().toLowerCase()) : true
+  //     )
+  //     .filter((e) => english_fluency ? e.english_fluency.toLowerCase() === english_fluency.toLowerCase() : true)
+  //     .filter((item) => search_key ? item.title.toLowerCase().includes(search_key.toLowerCase()) : true)
+  //     .filter((item) => (job_type ? item.duration === job_type : true))
+  //     .filter((l) => location ? slugify(l.location.split(',').join('-').toLowerCase(), '-') === location : true)
+  //     .filter((j) => j.salary >= priceValue[0] && j.salary <= priceValue[1]);
 
-    if (shortValue === "price-low-to-high") {
-      filteredData = filteredData
-        .slice()
-        .sort((a, b) => Number(a.salary) - Number(b.salary));
-    }
+  //   if (shortValue === "price-low-to-high") {
+  //     filteredData = filteredData
+  //       .slice()
+  //       .sort((a, b) => Number(a.salary) - Number(b.salary));
+  //   }
 
-    if (shortValue === "price-high-to-low") {
-      filteredData = filteredData
-        .slice()
-        .sort((a, b) => Number(b.salary) - Number(a.salary));
-    }
+  //   if (shortValue === "price-high-to-low") {
+  //     filteredData = filteredData
+  //       .slice()
+  //       .sort((a, b) => Number(b.salary) - Number(a.salary));
+  //   }
 
-    const endOffset = itemOffset + itemsPerPage;
-    setFilterItems(filteredData)
-    setCurrentItems(filteredData.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(filteredData.length / itemsPerPage));
-  }, [
-    itemOffset,
-    itemsPerPage,
-    category,
-    experience,
-    job_type,
-    location,
-    english_fluency,
-    all_jobs,
-    priceValue,
-    shortValue,
-    search_key
-  ]);
+  //   const endOffset = itemOffset + itemsPerPage;
+  //   setFilterItems(filteredData)
+  //   setCurrentItems(filteredData.slice(itemOffset, endOffset));
+  //   setPageCount(Math.ceil(filteredData.length / itemsPerPage));
+  // }, [
+  //   itemOffset,
+  //   itemsPerPage,
+  //   category,
+  //   experience,
+  //   job_type,
+  //   location,
+  //   english_fluency,
+  //   all_jobs,
+  //   priceValue,
+  //   shortValue,
+  //   search_key
+  // ]);
 
   const handlePageClick = (event: { selected: number }) => {
     const newOffset = (event.selected * itemsPerPage) % all_jobs.length;
@@ -87,12 +87,21 @@ const JobGridV3Area = ({ itemsPerPage }: { itemsPerPage: number }) => {
               <div className="job-post-item-wrapper">
                 <div className="upper-filter d-flex justify-content-between align-items-start align-items-md-center mb-25">
                   <div className="d-md-flex justify-content-between align-items-center">
-                    <button type="button" className="filter-btn fw-500 tran3s me-3" data-bs-toggle="modal" data-bs-target="#filterPopUp">
+                    <button
+                      type="button"
+                      className="filter-btn fw-500 tran3s me-3"
+                      data-bs-toggle="modal"
+                      data-bs-target="#filterPopUp"
+                    >
                       <i className="bi bi-funnel"></i>
                       Filter
                     </button>
-                    <div className="total-job-found xs-mt-10">All <span className="text-dark fw-500">
-                      {all_jobs.length}</span> jobs found
+                    <div className="total-job-found xs-mt-10">
+                      All{" "}
+                      <span className="text-dark fw-500">
+                        {all_jobs.length}
+                      </span>{" "}
+                      jobs found
                     </div>
                   </div>
                   <div className="d-flex justify-content-between align-items-center">
@@ -128,19 +137,28 @@ const JobGridV3Area = ({ itemsPerPage }: { itemsPerPage: number }) => {
                   </div>
                 </div>
 
-                <div className={`accordion-box list-style ${jobType === "list" ? "show" : ""}`}>
+                <div
+                  className={`accordion-box list-style ${
+                    jobType === "list" ? "show" : ""
+                  }`}
+                >
                   {currentItems &&
                     currentItems.map((job) => (
-                      <ListItemTwo key={job.id} item={job} />
+                      <></>
+                      // <ListItemTwo key={job.id} item={job} />
                     ))}
                 </div>
 
-                <div className={`accordion-box grid-style ${jobType === "grid" ? "show" : ""}`}>
+                <div
+                  className={`accordion-box grid-style ${
+                    jobType === "grid" ? "show" : ""
+                  }`}
+                >
                   <div className="row">
                     {currentItems &&
                       currentItems.map((job) => (
                         <div key={job.id} className="col-lg-4 mb-30">
-                          <JobGridItem item={job} />
+                          {/* <JobGridItem item={job} /> */}
                         </div>
                       ))}
                   </div>
@@ -178,7 +196,11 @@ const JobGridV3Area = ({ itemsPerPage }: { itemsPerPage: number }) => {
       </section>
 
       {/* filter modal start */}
-      <JobFilterModal maxPrice={maxPrice} priceValue={priceValue} setPriceValue={setPriceValue} />
+      <JobFilterModal
+        maxPrice={maxPrice}
+        priceValue={priceValue}
+        setPriceValue={setPriceValue}
+      />
       {/* filter modal end */}
     </>
   );
