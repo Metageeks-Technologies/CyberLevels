@@ -21,7 +21,9 @@ type IProps = {
 
 const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const dispatch = useAppDispatch();
-  const { loading } = useSelector((state: RootState) => state.jobPost);
+  const { loading, gptLoading } = useSelector(
+    (state: RootState) => state.jobPost
+  );
 
   const [title, setTitle] = useState("");
   const [jobCategory, setJobCategory] = useState("");
@@ -45,6 +47,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const [isAddingBenefits, setAddingBenefits] = useState(false);
   const [descriptionWithAI, setDescriptionWithAI] = useState<any>("");
   const [questionWithAI, setQuestionWithAI] = useState<any>("");
+  console.log(questionWithAI);
 
   const handleSalary = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -140,9 +143,9 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     }
   };
   const draftQuestion = async () => {
-    const query = `generate 4 easy to medium  question with answer in multiple choice form on the topic ${bodyObj.primarySkills.join(
+    const query = `generate 4 easy to medium  question with answer in multiple choice of exact four option on the topic ${bodyObj.primarySkills.join(
       ","
-    )}. make sure give the corresponding answer in new line only not in double new line so that i can make an 4 sized array for each question`;
+    )}. do not give any extra information or text just question and corresponding answer`;
 
     try {
       const data = await askToGpt(dispatch, query);
@@ -337,58 +340,58 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
               </div>
             </div>
           </div>
+          {/* <div className="bg-white card-box border-20 mt-40">
+            
+          </div> */}
+          <h4 className="dash-title-three">Benefits && Offerings</h4>
+          {[...benefits].map((val, index) => (
+            <div key={val} className="dash-input-wrapper mb-20">
+              <label htmlFor="">Benefit {index + 1}</label>
+              <input type="text" readOnly value={val} />
+            </div>
+          ))}
+          {isAddingBenefits && (
+            <div className="dash-input-wrapper mb-20">
+              <label htmlFor="benefitsInput">
+                Benefit {benefits.length + 1}
+              </label>
+              <input
+                type="text"
+                name="benefitsInput"
+                onChange={(e) => setBenefitsInput(e.target.value)}
+                onBlur={addToBenefits}
+                value={benefitsInput}
+                placeholder="Gym"
+              />
+            </div>
+          )}
+          <button
+            onClick={() => setAddingBenefits(true)}
+            className="dash-btn-one"
+          >
+            <i className="bi bi-plus"></i>{" "}
+            {benefits.length == 0 ? "Add Benefit" : "Add More Benefit"}
+          </button>
           {/* <EmployExperience
             selected={expLocation}
             setSelected={setExpLocation}
           /> */}
           {/* from for adding benefits of company */}
-          <div className="bg-white card-box border-20 mt-40">
-            <h4 className="dash-title-three">Benefits && Offerings</h4>
-            {[...benefits].map((val, index) => (
-              <div key={val} className="dash-input-wrapper mb-20">
-                <label htmlFor="">Benefit {index + 1}</label>
-                <input type="text" readOnly value={val} />
-              </div>
-            ))}
-            {isAddingBenefits && (
-              <div className="dash-input-wrapper mb-20">
-                <label htmlFor="benefitsInput">
-                  Benefit {benefits.length + 1}
-                </label>
-                <input
-                  type="text"
-                  name="benefitsInput"
-                  onChange={(e) => setBenefitsInput(e.target.value)}
-                  onBlur={addToBenefits}
-                  value={benefitsInput}
-                  placeholder="Gym"
-                />
-              </div>
-            )}
-            {/* <div className="dash-input-wrapper mb-20">
-            <label htmlFor="">Network 2</label>
-            <input type="text" placeholder="https://twitter.com/FIFAcom" />
-          </div> */}
-            <button
-              onClick={() => setAddingBenefits(true)}
-              className="dash-btn-one"
-            >
-              <i className="bi bi-plus"></i>{" "}
-              {benefits.length == 0 ? "Add Benefit" : "Add More Benefit"}
-            </button>
-          </div>
+
           {/* employ experience end */}
 
           <h4 className="dash-title-three pt-50 lg-pt-30">Add Description</h4>
           <div className="dash-input-wrapper mb-30 ">
             <label htmlFor="">Job Description*</label>
             <button
-              disabled={loading}
+              disabled={gptLoading}
               type={"button"}
               onClick={draftDescription}
               className="dash-btn-ai mb-3  tran3s me-3 d-flex align-content-center gap-2  justify-content-center   "
             >
-              <span>Write a description With Ai</span>
+              <span>
+                {!gptLoading ? "Write a description With Ai" : <Loader />}
+              </span>
               <span className="">
                 <MagicWand size={32} color="#244034" weight="light" />
               </span>
@@ -407,12 +410,12 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
           <div className="dash-input-wrapper mb-30 ">
             {/* <label htmlFor="">*</label> */}
             <button
-              disabled={loading}
+              disabled={gptLoading}
               type={"button"}
               onClick={draftQuestion}
               className="dash-btn-ai mb-3  tran3s me-3 d-flex align-content-center gap-2  justify-content-center "
             >
-              <span>Generate Test</span>
+              <span>{!gptLoading ? "Generate Test" : <Loader />}</span>
               <span className="">
                 <MagicWand size={32} color="#244034" weight="light" />
               </span>

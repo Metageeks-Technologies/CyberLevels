@@ -10,6 +10,7 @@ export interface jobPstState {
     page: number,
     totalNumOfPage: number,
     totalJobPost: number,
+    gptLoading: boolean,
 
 }
 type IForGetAllJobPost = {
@@ -21,6 +22,7 @@ type IForGetAllJobPost = {
 const initialState: jobPstState = {
     jobPost: null,
     loading: false,
+    gptLoading: false,
     error: null,
     allJobPost: [],
     page: 1,
@@ -34,13 +36,16 @@ export const jobPostSlice = createSlice({
     reducers: {
         requestStart: (state) => {
             state.loading = true;
+            state.gptLoading = true;
         },
         requestFail: (state, action: PayloadAction<string>) => {
             state.loading = false;
             state.error = action.payload;
+            state.gptLoading = false;
         },
         requestSuccess: (state) => {
             state.loading = false;
+            state.gptLoading = false
         },
         submitJobPostSuccess: (state, action: PayloadAction<IJobPost>) => {
             state.loading = false;

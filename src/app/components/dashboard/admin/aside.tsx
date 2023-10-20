@@ -3,7 +3,7 @@ import React from "react";
 import Image, { StaticImageData } from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import logo from "@/assets/dashboard/images/logo_01.png";
+import logo from "@/assets/images/logo/CL_Logo.png";
 import avatar from "@/assets/dashboard/images/avatar_03.jpg";
 import profile_icon_1 from "@/assets/dashboard/images/icon/icon_23.svg";
 import profile_icon_2 from "@/assets/dashboard/images/icon/icon_24.svg";
