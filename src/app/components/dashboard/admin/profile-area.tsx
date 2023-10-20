@@ -7,16 +7,13 @@ import TeamSizeSelect from "./team-size-select";
 import LocationAutoComplete from "@/ui/locationAutoComplete";
 import PhoneInput from "@/ui/phoneInput";
 import AutocompletePosition from "@/ui/autoCompletePosistion";
-import axios, { AxiosError } from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
-import {
-  submitCompanyStart,
-  submitCompanyFail,
-  submitCompanySuccess,
-} from "@/redux/features/companySlice";
+import { addCompany } from "@/redux/features/company/api";
 import Loader from "@/ui/loader";
-import instance from "@/lib/axios";
+import SelectYear from "../candidate/select-year";
+import { IFunding } from "@/types/company";
+import SelectRound from "./selectRound";
 
 // props type
 type IProps = {
@@ -32,6 +29,7 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
     contactNumber: "",
     website: "",
     foundedDate: "",
+    founderName: "",
     about: "",
   });
   const handleInputChange = (
@@ -46,9 +44,52 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
 
   const [socialSites, setSocialSites] = useState<string[]>([]);
   const [socialSitesInput, setSocialSitesInput] = useState("");
-  const handleAddMoreLink = () => {
+  const [isAddingSocialLink, setSocialLink] = useState(false);
+  const addToSocial = () => {
     setSocialSites((prev) => [...prev, socialSitesInput]);
+    setSocialLink(false);
+    setSocialSitesInput("");
   };
+
+  const [benefits, setBenefits] = useState<string[]>([]);
+  const [benefitsInput, setBenefitsInput] = useState("");
+  const [isAddingBenefits, setAddingBenefits] = useState(false);
+  const addToBenefits = () => {
+    setBenefits((prev) => [...prev, benefitsInput]);
+    setAddingBenefits(false);
+    setBenefitsInput("");
+  };
+  const [funding, setFunding] = useState<IFunding[]>([]);
+  const [fundingInput, setFundingInput] = useState({
+    amount: "",
+    fundedBy: "",
+  });
+
+  const [yearOfFunding, setYearOfFunding] = useState("");
+  const [round, setRound] = useState("");
+  const handleAddFunding = () => {
+    const fund = {
+      ...fundingInput,
+      round: round,
+      yearOfFunding: yearOfFunding,
+    };
+    setFunding((prev) => [...prev, fund]);
+    setFundingInput({
+      amount: "",
+      fundedBy: "",
+    });
+    setYearOfFunding("");
+    setRound("");
+  };
+
+  const handleFundingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFundingInput({
+      ...fundingInput,
+      [name]: value,
+    });
+  };
+
   const [location, setLocation] = useState({
     locality: "",
     zipcode: "",
@@ -66,6 +107,7 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
   const [country, setCountry] = useState("");
   const [teamSize, setTeamSize] = useState("");
   const [category, setCategory] = useState("");
+
   const handleSubmit = async () => {
     const ILocation = {
       ...location,
@@ -75,21 +117,18 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
     };
     const bodyObj = {
       ...form,
-      location: ILocation,
+      location: [ILocation],
       teamSize,
       category,
       socialSites,
+      benefits,
+      funding,
     };
+    console.log(bodyObj);
 
-    dispatch(submitCompanyStart());
-    try {
-      const { data } = await instance.post("company/add", bodyObj);
-      dispatch(submitCompanySuccess(data.company));
-    } catch (error) {
-      console.log(error);
-      const e = error as AxiosError;
-      dispatch(submitCompanyFail(e.message));
-    }
+    // return;
+
+    addCompany(dispatch, bodyObj);
 
     setForm({
       logo: "",
@@ -97,6 +136,7 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
       email: "",
       contactNumber: "",
       website: "",
+      founderName: "",
       foundedDate: "",
       about: "",
     });
@@ -111,6 +151,8 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
       maplocation: "",
     });
     setSocialSites([]);
+    setBenefits([]);
+    setFunding([]);
   };
   // const handleLocationSubmit = () => {
   //   console.log(location, { city: city, state: state, country: country });
@@ -124,7 +166,7 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
         {/* header end */}
 
         <h2 className="main-title">Create Company</h2>
-        {/* from for about */}
+        {/* from for general details */}
         <div className="bg-white card-box border-20">
           <div className="user-avatar-setting d-flex align-items-center mb-30">
             {/* company logo url */}
@@ -183,6 +225,18 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
                   value={form.foundedDate}
                   onChange={handleInputChange}
                   type="date"
+                />
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="dash-input-wrapper mb-30">
+                <label htmlFor="founderName">Founder Name*</label>
+                <input
+                  type="text"
+                  name="founderName"
+                  value={form.founderName}
+                  onChange={handleInputChange}
+                  placeholder="Shiva shah"
                 />
               </div>
             </div>
@@ -249,26 +303,177 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
         {/* from for social links */}
         <div className="bg-white card-box border-20 mt-40">
           <h4 className="dash-title-three">Social Media</h4>
-          {[...socialSites, "temp"].map((obj, index) => (
+          {[...socialSites].map((val, index) => (
+            <div key={val} className="dash-input-wrapper mb-20">
+              <label htmlFor="">Network {index + 1}</label>
+              <input type="text" readOnly value={val} />
+            </div>
+          ))}
+          {isAddingSocialLink && (
             <div className="dash-input-wrapper mb-20">
-              <label htmlFor="socialSitesInput">Network {index + 1}</label>
+              <label htmlFor="socialSitesInput">
+                Network {socialSites.length + 1}
+              </label>
               <input
                 type="text"
                 name="socialSitesInput"
                 onChange={(e) => setSocialSitesInput(e.target.value)}
                 value={socialSitesInput}
+                onBlur={addToSocial}
                 placeholder="https://twitter.com/FIFAcom"
               />
             </div>
-          ))}
+          )}
           {/* <div className="dash-input-wrapper mb-20">
             <label htmlFor="">Network 2</label>
             <input type="text" placeholder="https://twitter.com/FIFAcom" />
           </div> */}
-          <button onClick={handleAddMoreLink} className="dash-btn-one">
-            <i className="bi bi-plus"></i> Add more link
+          <button onClick={() => setSocialLink(true)} className="dash-btn-one">
+            <i className="bi bi-plus"></i> Add link
           </button>
         </div>
+        {/* form for finance */}
+        <div className="bg-white card-box border-20 mt-40">
+          <h4 className="dash-title-three">Funding && Finance</h4>
+          <div className="accordion dash-accordion-one" id="accordionOne">
+            <div className="accordion-item">
+              <div className="accordion-header" id="headingOne">
+                <button
+                  className="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseOne"
+                  aria-expanded="false"
+                  aria-controls="collapseOne"
+                >
+                  Add Funding*
+                </button>
+              </div>
+              <div
+                id="collapseOne"
+                className="accordion-collapse collapse"
+                aria-labelledby="headingOne"
+                data-bs-parent="#accordionOne"
+              >
+                <div className="accordion-body">
+                  <div className="row">
+                    <div className="col-lg-2">
+                      <div className="dash-input-wrapper mb-30 md-mb-10">
+                        <label htmlFor="amount">Amount*</label>
+                      </div>
+                    </div>
+                    <div className="col-lg-10">
+                      <div className="dash-input-wrapper mb-30">
+                        <input
+                          name="amount"
+                          value={fundingInput.amount}
+                          onChange={handleFundingChange}
+                          type="text"
+                          placeholder="345M"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-lg-2">
+                      <div className="dash-input-wrapper mb-30 md-mb-10">
+                        <label htmlFor="fundedBy">Funded By*</label>
+                      </div>
+                    </div>
+                    <div className="col-lg-10">
+                      <div className="dash-input-wrapper mb-30">
+                        <input
+                          name="fundedBy"
+                          value={fundingInput.fundedBy}
+                          onChange={handleFundingChange}
+                          type="text"
+                          placeholder="GGV capitals"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-lg-2">
+                      <div className="dash-input-wrapper mb-30 md-mb-10">
+                        <label htmlFor="">Year of funding*</label>
+                      </div>
+                    </div>
+                    <div className="col-lg-10">
+                      <div className="row">
+                        <div className="">
+                          <SelectYear
+                            setYear={setYearOfFunding}
+                            firstInput="select"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-lg-2">
+                      <div className="dash-input-wrapper mb-30 md-mb-10">
+                        <label htmlFor="">Round*</label>
+                      </div>
+                    </div>
+                    <div className="col-lg-10">
+                      <div className="row">
+                        <div className="">
+                          <SelectRound
+                            firstInput="select"
+                            setRound={setRound}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={handleAddFunding}
+                    className="dash-btn-two tran3s me-3 mb-15"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* from for adding benefits of company */}
+        <div className="bg-white card-box border-20 mt-40">
+          <h4 className="dash-title-three">Benefits && Offerings</h4>
+          {[...benefits].map((val, index) => (
+            <div key={val} className="dash-input-wrapper mb-20">
+              <label htmlFor="">Benefit {index + 1}</label>
+              <input type="text" readOnly value={val} />
+            </div>
+          ))}
+          {isAddingBenefits && (
+            <div className="dash-input-wrapper mb-20">
+              <label htmlFor="benefitsInput">
+                Benefit {benefits.length + 1}
+              </label>
+              <input
+                type="text"
+                name="benefitsInput"
+                onChange={(e) => setBenefitsInput(e.target.value)}
+                onBlur={addToBenefits}
+                value={benefitsInput}
+                placeholder="Gym"
+              />
+            </div>
+          )}
+          {/* <div className="dash-input-wrapper mb-20">
+            <label htmlFor="">Network 2</label>
+            <input type="text" placeholder="https://twitter.com/FIFAcom" />
+          </div> */}
+          <button
+            onClick={() => setAddingBenefits(true)}
+            className="dash-btn-one"
+          >
+            <i className="bi bi-plus"></i>{" "}
+            {benefits.length == 0 ? "Add Benefit" : "Add More Benefit"}
+          </button>
+        </div>
+
         {/* form for location */}
         <div className="bg-white card-box border-20 mt-40">
           <h4 className="dash-title-three">Address & Location</h4>
@@ -368,86 +573,6 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
             </button> */}
           </div>
         </div>
-        {/* from for others */}
-
-        {/* <div className="bg-white card-box border-20 mt-40">
-          <h4 className="dash-title-three">Members</h4>
-          <div className="dash-input-wrapper">
-            <label htmlFor="">Add & Remove Member</label>
-          </div>
-          <div className="accordion dash-accordion-one" id="accordionOne">
-            <div className="accordion-item">
-              <div className="accordion-header" id="headingOne">
-                <button
-                  className="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapseOne"
-                  aria-expanded="false"
-                  aria-controls="collapseOne"
-                >
-                  Add Member 1
-                </button>
-              </div>
-              <div
-                id="collapseOne"
-                className="accordion-collapse collapse"
-                aria-labelledby="headingOne"
-                data-bs-parent="#accordionOne"
-              >
-                <div className="accordion-body">
-                  <div className="row">
-                    <div className="col-lg-2">
-                      <div className="dash-input-wrapper mb-30 md-mb-10">
-                        <label htmlFor="">Name*</label>
-                      </div>
-                    </div>
-                    <div className="col-lg-10">
-                      <div className="dash-input-wrapper mb-30">
-                        <input
-                          type="text"
-                          placeholder="Product Designer (Google)"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-lg-2">
-                      <div className="dash-input-wrapper mb-30 md-mb-10">
-                        <label htmlFor="">Designation*</label>
-                      </div>
-                    </div>
-                    <div className="col-lg-10">
-                      <div className="dash-input-wrapper mb-30">
-                        <input type="text" placeholder="Account Manager" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-lg-2">
-                      <div className="dash-input-wrapper mb-30 md-mb-10">
-                        <label htmlFor="">Email*</label>
-                      </div>
-                    </div>
-                    <div className="col-lg-10">
-                      <div className="dash-input-wrapper mb-30">
-                        <input type="email" placeholder="newmmwber@gmail.com" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-end mb-20">
-                    <a href="#" className="dash-btn-one">
-                      Remove
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <a href="#" className="dash-btn-one">
-            <i className="bi bi-plus"></i> Add Another Member
-          </a>
-        </div> */}
 
         <div className="button-group d-inline-flex align-items-center mt-30">
           <button

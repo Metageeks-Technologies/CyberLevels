@@ -1,8 +1,30 @@
-import React from "react";
-import { IJobType } from "@/types/job-data-type";
+import React, { useEffect } from "react";
 import Image from "next/image";
+import type { IJobPost } from "@/types/jobPost-type";
+import job_img_1 from "@/assets/images/logo/media_22.png";
 
-const JobDetailsV1Area = ({ job }: { job: IJobType }) => {
+const JobDetailsV1Area = ({ job, url }: { job: IJobPost; url: string }) => {
+  const URL = `${process.env.NEXT_PUBLIC_HOME_ENDPOINT}${url}`;
+  // console.log(job);
+  // const description = job?.testQuestions?.split(`\n\n`);
+
+  // const sections = text.split("\n\n");
+  // sections.map((section, index) => {
+  //   const paragraphs = section.split("\n");
+  //   dynamicContent = `${dynamicContent} ${
+  //     paragraphs[0].length < 30
+  //       ? `<h4 >${paragraphs[0]}</h4>`
+  //       : `<p >${paragraphs[0]}</p>`
+  //   }   <ul>`;
+  //   paragraphs.slice(1).map((paragraph, i) => {
+  //     dynamicContent = `${dynamicContent} <li>${paragraph}</li>`;
+  //   });
+  //   dynamicContent += "</ul></div>";
+  // });
+  // console.log({ content: description });
+  const date = new Date(job.createdAt);
+  const readableString = date.toLocaleDateString();
+
   return (
     <section className="job-details pt-100 lg-pt-80 pb-130 lg-pb-80">
       <div className="container">
@@ -10,32 +32,34 @@ const JobDetailsV1Area = ({ job }: { job: IJobType }) => {
           <div className="col-xxl-9 col-xl-8">
             <div className="details-post-data me-xxl-5 pe-xxl-4">
               <div className="post-date">
-                {job.date} by{" "}
-                <a href="#" className="fw-500 text-dark">
+                {readableString} by {"MetaGeeks"}
+                {/* <a href="#" className="fw-500 text-dark">
                   {job.company}
-                </a>
+                </a> */}
               </div>
               <h3 className="post-title">{job.title}</h3>
               <ul className="share-buttons d-flex flex-wrap style-none">
                 <li>
                   <a
-                    href="#"
+                    target="_blank"
+                    href={`https://twitter.com/intent/tweet?text=${""}&url=${URL}`}
                     className="d-flex align-items-center justify-content-center"
                   >
-                    <i className="bi bi-facebook"></i>
-                    <span>Facebook</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="d-flex align-items-center justify-content-center"
-                  >
-                    <i className="bi bi-twitter"></i>
+                    <i className="bi bi-linkedin"></i>
                     <span>Twitter</span>
                   </a>
                 </li>
                 <li>
+                  <a
+                    target="_blank"
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${URL}`}
+                    className="d-flex align-items-center justify-content-center"
+                  >
+                    <i className="bi bi-twitter"></i>
+                    <span>LinkedIn</span>
+                  </a>
+                </li>
+                {/* <li>
                   <a
                     href="#"
                     className="d-flex align-items-center justify-content-center"
@@ -43,22 +67,33 @@ const JobDetailsV1Area = ({ job }: { job: IJobType }) => {
                     <i className="bi bi-link-45deg"></i>
                     <span>Copy</span>
                   </a>
-                </li>
+                </li> */}
               </ul>
 
-              <div className="post-block border-style mt-50 lg-mt-30">
-                <div className="d-flex align-items-center">
-                  <div className="block-numb text-center fw-500 text-white rounded-circle me-2">
-                    1
+              {/* {description?.map((text, index) => {
+                const paragraph = text.split("\n");
+                // console.log("temp", paragraph);
+                return (
+                  <div className="post-block border-style mt-50 lg-mt-30">
+                    <div className="d-flex align-items-center">
+                      <div className="block-numb text-center fw-500 text-white rounded-circle me-2">
+                        1
+                      </div>
+                      <h4 className="block-title">{paragraph[0]}</h4>
+                    </div>
+                    <ul className="list-type-one style-none mb-15">
+                      {paragraph.splice(1).map((val, index) => {
+                        return <li>{val}</li>;
+                      })}
+                    </ul>
                   </div>
-                  <h4 className="block-title">Overview</h4>
-                </div>
-                <p>{job.overview}</p>
-              </div>
+                );
+              })} */}
+
               <div className="post-block border-style mt-30">
                 <div className="d-flex align-items-center">
                   <div className="block-numb text-center fw-500 text-white rounded-circle me-2">
-                    2
+                    1
                   </div>
                   <h4 className="block-title">Job Description</h4>
                 </div>
@@ -77,7 +112,7 @@ const JobDetailsV1Area = ({ job }: { job: IJobType }) => {
               <div className="post-block border-style mt-40 lg-mt-30">
                 <div className="d-flex align-items-center">
                   <div className="block-numb text-center fw-500 text-white rounded-circle me-2">
-                    3
+                    2
                   </div>
                   <h4 className="block-title">Responsibilities</h4>
                 </div>
@@ -116,66 +151,42 @@ const JobDetailsV1Area = ({ job }: { job: IJobType }) => {
                   </li>
                 </ul>
               </div>
+
               <div className="post-block border-style mt-40 lg-mt-30">
                 <div className="d-flex align-items-center">
                   <div className="block-numb text-center fw-500 text-white rounded-circle me-2">
-                    4
-                  </div>
-                  <h4 className="block-title">Required Skills:</h4>
-                </div>
-                <ul className="list-type-two style-none mb-15">
-                  <li>You’ve been designing digital products for 2+ years.</li>
-                  <li>
-                    A portfolio that exemplifies strong visual design and a
-                    focus on defining the user experience.
-                  </li>
-                  <li>You’ve proudly shipped and launched several products.</li>
-                  <li>
-                    You have some past experience working in an agile
-                    environment – Think two-week sprints.
-                  </li>
-                  <li>
-                    Experience effectively presenting and communicating your
-                    design decisions to clients and team members
-                  </li>
-                  <li>
-                    Up-to-date knowledge of design software like Figma, Sketch
-                    etc.
-                  </li>
-                </ul>
-              </div>
-              <div className="post-block border-style mt-40 lg-mt-30">
-                <div className="d-flex align-items-center">
-                  <div className="block-numb text-center fw-500 text-white rounded-circle me-2">
-                    5
+                    3
                   </div>
                   <h4 className="block-title">Benefits:</h4>
                 </div>
                 <ul className="list-type-two style-none mb-15">
-                  <li>We are a remote-first company.</li>
+                  {job?.benefits?.map((val, index) => {
+                    return <li key={index}>{val}</li>;
+                  })}
+                  {/* <li>We are a remote-first company.</li>
                   <li>
                     100% company-paid health insurance premiums for you & your
                     dependents
                   </li>
                   <li>Vacation stipend</li>
                   <li>Unlimited paid vacation and paid company holidays</li>
-                  <li>Monthly wellness/gym stipend</li>
+                  <li>Monthly wellness/gym stipend</li> */}
                 </ul>
               </div>
             </div>
           </div>
-
+          {/* side section */}
           <div className="col-xxl-3 col-xl-4">
             <div className="job-company-info ms-xl-5 ms-xxl-0 lg-mt-50">
               <Image
-                src={job.logo}
+                src={job_img_1}
                 alt="logo"
                 className="lazy-img m-auto logo"
                 width={60}
                 height={60}
               />
               <div className="text-md text-dark text-center mt-15 mb-20 text-capitalize">
-                {job.company}
+                {/* {job.company} */}
               </div>
               <a href="#" className="website-btn tran3s">
                 Visit website
@@ -186,12 +197,13 @@ const JobDetailsV1Area = ({ job }: { job: IJobType }) => {
                   <li className="col-xl-7 col-md-4 col-sm-6">
                     <span>Salary</span>
                     <div>
-                      {job.salary}/{job.salary_duration}
+                      $ {job.salary.maximum}-{job.salary.minimum} PA
                     </div>
                   </li>
                   <li className="col-xl-5 col-md-4 col-sm-6">
                     <span>Expertise</span>
-                    <div>{job.experience}</div>
+                    {/* <div>{job.primarySkills.join(",")}</div> */}
+                    <div>{job.primarySkills[0]}</div>
                   </li>
                   <li className="col-xl-7 col-md-4 col-sm-6">
                     <span>Location</span>
@@ -199,20 +211,26 @@ const JobDetailsV1Area = ({ job }: { job: IJobType }) => {
                   </li>
                   <li className="col-xl-5 col-md-4 col-sm-6">
                     <span>Job Type</span>
-                    <div>{job.duration}</div>
+                    <div>{job.jobType[0]}</div>
                   </li>
                   <li className="col-xl-7 col-md-4 col-sm-6">
                     <span>Date</span>
-                    <div>{job.date} </div>
+                    <div>{readableString} </div>
                   </li>
                   <li className="col-xl-5 col-md-4 col-sm-6">
                     <span>Experience</span>
-                    <div>{job.experience}</div>
+                    <div>{job.preferredExperience[0]}</div>
                   </li>
                 </ul>
                 <div className="job-tags d-flex flex-wrap pt-15">
-                  {job.tags &&
-                    job.tags.map((t, i) => (
+                  {job.primarySkills &&
+                    job.primarySkills.map((t, i) => (
+                      <a key={i} href="#">
+                        {t}
+                      </a>
+                    ))}
+                  {job.secondarySkills &&
+                    job.secondarySkills.map((t, i) => (
                       <a key={i} href="#">
                         {t}
                       </a>

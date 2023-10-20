@@ -18,5 +18,8 @@ export interface IJobPost {
     companyId: string;
     testQuestions: string;
     __v: number,
-    id: string
+    _id: string,
+    benefits: string[],
+    createdAt: string,
+
 }

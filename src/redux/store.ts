@@ -2,7 +2,7 @@ import wishlistSlice from './features/wishlist';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import filterSlice from './features/filterJobPostSlice';
 import userSlice from './features/userSlice';
-import companySlice from './features/companySlice';
+import companySlice from './features/company/slice';
 import jobPostSlice from './features/jobPost/slice';
 
 import { persistReducer } from 'redux-persist'

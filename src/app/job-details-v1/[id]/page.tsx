@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import Wrapper from "@/layouts/wrapper";
 import Header from "@/layouts/headers/header";
 import JobDetailsV1Area from "@/app/components/job-details/job-details-v1-area";
@@ -6,10 +7,19 @@ import JobPortalIntro from "@/app/components/job-portal-intro/job-portal-intro";
 import JobDetailsBreadcrumb from "@/app/components/jobs/breadcrumb/job-details-breadcrumb";
 import RelatedJobs from "@/app/components/jobs/related-jobs";
 import FooterOne from "@/layouts/footers/footer-one";
-import job_data from "@/data/job-data";
+import { useAppSelector, useAppDispatch } from "@/redux/hook";
+import { usePathname } from "next/navigation";
+import { getJobPostDetails } from "@/redux/features/jobPost/api";
+import { useDispatch } from "react-redux";
 
 const JobDetailsDynamicPage = ({ params }: { params: { id: string } }) => {
-  const job = job_data.find((j) => Number(j.id) === Number(params.id));
+  const dispatch = useAppDispatch();
+  const { jobPost } = useAppSelector((state) => state.jobPost);
+  const pathName = usePathname();
+  useEffect(() => {
+    getJobPostDetails(dispatch, params.id);
+  }, [params.id]);
+
   return (
     <Wrapper>
       <div className="main-page-wrapper">
@@ -22,11 +32,11 @@ const JobDetailsDynamicPage = ({ params }: { params: { id: string } }) => {
         {/* job details breadcrumb end */}
 
         {/* job details area start */}
-        {job && <JobDetailsV1Area job={job} />}
+        {jobPost && <JobDetailsV1Area job={jobPost} url={pathName} />}
         {/* job details area end */}
 
         {/* related job start */}
-        {job && <RelatedJobs category={job.category} />}
+        {jobPost && <RelatedJobs category={[jobPost.jobCategory]} />}
         {/* related job end */}
 
         {/* job portal intro start */}

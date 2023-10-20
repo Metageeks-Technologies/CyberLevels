@@ -6,7 +6,12 @@ interface ILocation {
     zipcode: string;
     maplocation: string;
 }
-
+export interface IFunding {
+    amount: string,
+    fundedBy: string,
+    yearOfFunding: string,
+    round: string,
+}
 export interface ICompany {
     name: string;
     email: string;
@@ -14,10 +19,13 @@ export interface ICompany {
     contactNumber?: string;
     website: string;
     foundedDate: Date;
+    founderName: string;
+    funding: IFunding[];
     location: ILocation[];
     teamSize: string;
     category: string;
     about: string;
+    benefits: string[];
     jobPosts: string[];
     socialSites: string[];
 }

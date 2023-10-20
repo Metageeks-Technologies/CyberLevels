@@ -10,8 +10,9 @@ import job_img_1 from "@/assets/images/logo/media_22.png";
 
 const ListItemTwo = ({ item }: { item: IJobPost }) => {
   const { wishlist } = useAppSelector((state) => state.wishlist);
-  const isActive = wishlist.some((p) => p.location === item.id);
+  const isActive = wishlist.some((p) => p.location === item._id);
   const dispatch = useAppDispatch();
+  console.log(item);
   // handle add wishlist
   const handleAddWishlist = (item: IJobType) => {
     dispatch(add_to_wishlist(item));
@@ -21,18 +22,18 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
       <div className="row justify-content-between align-items-center">
         <div className="col-md-5">
           <div className="job-title d-flex align-items-center">
-            <Link href={`/job-details-v1/${item.id}`} className="logo">
+            <Link href={`/job-details-v1/${item._id}`} className="logo">
               <Image src={job_img_1} alt="logo" className="lazy-img m-auto" />
             </Link>
             <div className="split-box1">
               <Link
-                href={`/job-details-v1/${item.id}`}
+                href={`/job-details-v1/${item._id}`}
                 className="job-duration fw-500"
               >
                 {item.jobType}
               </Link>
               <Link
-                href={`/job-details-v1/${item.id}`}
+                href={`/job-details-v1/${item._id}`}
                 className="title fw-500 tran3s"
               >
                 {item.title.slice(0, 22)} {item.title.length > 20 ? ".." : ""}
@@ -42,7 +43,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
         </div>
         <div className="col-md-4 col-sm-6">
           <div className="job-location">
-            <Link href={`/job-details-v1/${item.id}`}>{item.location}</Link>
+            <Link href={`/job-details-v1/${item._id}`}>{item.location}</Link>
           </div>
           <div className="job-salary">
             <span className="fw-500 text-dark">
@@ -63,7 +64,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
               <i className="bi bi-bookmark-dash"></i>
             </a>
             <Link
-              href={`/job-details-v1/${item.id}`}
+              href={`/job-details-v1/${item._id}`}
               className="apply-btn text-center tran3s"
             >
               APPLY

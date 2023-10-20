@@ -39,6 +39,9 @@ export const jobPostSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        requestSuccess: (state) => {
+            state.loading = false;
+        },
         submitJobPostSuccess: (state, action: PayloadAction<IJobPost>) => {
             state.loading = false;
             state.jobPost = action.payload;
@@ -57,6 +60,7 @@ export const jobPostSlice = createSlice({
 })
 
 export const {
+    requestSuccess,
     getJobPostsSuccess,
     requestFail,
     requestStart,

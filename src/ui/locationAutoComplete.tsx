@@ -6,9 +6,10 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 
 interface MyComponentProps {
-  selected: string;
-  setSelected: React.Dispatch<React.SetStateAction<string>>;
-  setCountry?: React.Dispatch<React.SetStateAction<string>>;
+  selected?: string;
+  setSelected: React.Dispatch<React.SetStateAction<any>>;
+  setCountry?: React.Dispatch<React.SetStateAction<any>>;
+  isMultiple?: Boolean;
   type: string;
   label: string;
 }
@@ -19,6 +20,7 @@ function AddressForm({
   setCountry,
   type,
   label,
+  isMultiple,
 }: MyComponentProps) {
   const [query, setQuery] = useState("");
   // const [selected, setSelected] = useState("");
@@ -32,8 +34,11 @@ function AddressForm({
       console.log(results);
       if (results.length > 0) {
         const arr = results[0].formatted_address.split(",");
-        setSelected(arr[0].trim());
-        setQuery(arr[0].trim());
+        if (isMultiple) {
+          setSelected((prev: any) => [...prev, arr[0].trim()]);
+        } else setSelected(arr[0].trim());
+
+        isMultiple ? setQuery("") : setQuery(arr[0].trim());
         setCountry && setCountry(arr[arr.length - 1].trim());
       }
     } catch (error) {

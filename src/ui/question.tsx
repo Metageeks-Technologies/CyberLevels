@@ -72,17 +72,18 @@ const Question = ({
   );
 };
 
-export default function Example() {
+export default function Example({ text }: { text: string }) {
   // const text =
   //   "1. Which of the following is an example of a security tool used for monitoring network traffic? \na) Firewall\nb) Antivirus\nc) VPN\nd) None of the above\nAnswer: a) Firewall\n\n2. What is the purpose of a Security Information and Event Management (SIEM) tool? \na) To detect and respond to security threats in real-time\nb) To encrypt sensitive data\nc) To block all incoming network traffic\nd) None of the above\nAnswer: a) To detect and respond to security threats in real-time\n\n3. What is the term used to describe the practice of disguising malicious code or software as legitimate code or software? \na) Hacking\nb) Phishing\nc) Spoofing\nd) Malware obfuscation\nAnswer: d) Malware obfuscation\n\n4. Which of the following is an example of a cyber attack that could be prevented through the use of security tools? \na) Physical theft of company property\nb) Ransomware attack\nc) Employee negligence\nd) None of the above\nAnswer: b) Ransomware attack";
-  const text =
-    "1) What is JavaScript?\na) A programming language \nb) A markup language\nc) A styling language\nd) None of the above.\nAnswer: a) A programming language \n\n2) What is React?\na) A programming language\nb) A JavaScript library\nc) A database\nd) None of the above\nAnswer: b) A JavaScript library\n\n3) What does frontend development refer to?\na) Development of server-side code \nb) Development of user interface (UI) \nc) Development of network protocols\nd) None of the above \nAnswer: b) Development of user interface (UI) \n\n4) What are the basic data types in JavaScript?\na) Strings, numbers, booleans, null, undefined \nb) Arrays, objects, functions, dates \nc) HTML, CSS, JavaScript \nd) None of the above \nAnswer: a) Strings, numbers, booleans, null, undefined";
+  // const text =
+  //   "1) What is JavaScript?\na) A programming language \nb) A markup language\nc) A styling language\nd) None of the above.\nAnswer: a) A programming language \n\n2) What is React?\na) A programming language\nb) A JavaScript library\nc) A database\nd) None of the above\nAnswer: b) A JavaScript library\n\n3) What does frontend development refer to?\na) Development of server-side code \nb) Development of user interface (UI) \nc) Development of network protocols\nd) None of the above \nAnswer: b) Development of user interface (UI) \n\n4) What are the basic data types in JavaScript?\na) Strings, numbers, booleans, null, undefined \nb) Arrays, objects, functions, dates \nc) HTML, CSS, JavaScript \nd) None of the above \nAnswer: a) Strings, numbers, booleans, null, undefined";
+
   const questions = text.split("\n\n");
-  questions.map((obj, index) => {
-    const question = obj.split("\n");
-    // console.log(question);
-  });
-  // console.log(questions);
+  // questions.map((obj, index) => {
+  //   const question = obj.split("\n");
+  //   // console.log(question);
+  // });
+  // // console.log(questions);
 
   return (
     <div>

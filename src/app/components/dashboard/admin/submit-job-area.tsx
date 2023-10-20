@@ -1,57 +1,50 @@
 "use client";
-import React, { useState } from "react";
-import DashboardHeader from "../candidate/dashboard-header";
-import EmployExperience from "./employ-experience";
-import NiceSelect from "@/ui/nice-select";
+import { addJobPost } from "@/redux/features/jobPost/api";
+import { RootState } from "@/redux/store";
 import AutocompletePosition from "@/ui/autoCompletePosistion";
 import AutocompleteSkill from "@/ui/autoCompleteSkill";
-import Upload from "@/ui/upload";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/redux/store";
-import { addJobPost } from "@/redux/features/jobPost/api";
-import axios, { AxiosError } from "axios";
-import FormatText from "@/ui/temp";
+import NiceSelect from "@/ui/nice-select";
 import { MagicWand } from "@phosphor-icons/react";
-// import { setLoading } from "@/redux/features/authSlice";
-import Loader from "@/ui/loader";
-import TinyMCEEditor from "@/ui/textEditor";
-import instance from "@/lib/axios";
-import MultipleChoiceQuestion from "@/ui/question";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import DashboardHeader from "../candidate/dashboard-header";
 import { useAppDispatch } from "@/redux/hook";
+import Loader from "@/ui/loader";
+import LocationAutoComplete from "@/ui/locationAutoComplete";
+import MultipleChoiceQuestion from "@/ui/question";
+import TinyMCEEditor from "@/ui/textEditor";
+import { askToGpt } from "@/redux/features/jobPost/api";
 
-// props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
-interface IFileAttachment {
-  type: Buffer;
-  contentType: String;
-}
 
 const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
-  const handleJobType = (item: { value: string; label: string }) => {
-    setJobType(item.value);
-  };
-  // const dispatch = useDispatch();
   const dispatch = useAppDispatch();
   const { loading } = useSelector((state: RootState) => state.jobPost);
 
   const [title, setTitle] = useState("");
   const [jobCategory, setJobCategory] = useState("");
-  const [jobType, setJobType] = useState("");
-  const [expLocation, setExpLocation] = useState({
-    experience: "",
-    location: "",
-  });
+  const [jobType, setJobType] = useState<string[]>([]);
+  const [workMode, setWorkMode] = useState("");
+  const [experience, setExperience] = useState<string[]>([]);
+  const [language, setLanguage] = useState("");
+
+  const [location, setLocation] = useState<string[]>([]);
   const [salary, setSalary] = useState({
     minimum: "",
     maximum: "",
     isDisclosed: true,
   });
+  // console.log(jobType);
 
-  const [fileAttachment, setFileAttachment] = useState<File | null>(null);
-  const [skills, setSkills] = useState<string[]>([]);
-  const [txt, setTxt] = useState<any>("");
+  const [primarySkills, setPrimarySkills] = useState<string[]>([]);
+  const [secondarySkills, setSecondarySkills] = useState<string[]>([]);
+  const [benefits, setBenefits] = useState<string[]>([]);
+  const [benefitsInput, setBenefitsInput] = useState("");
+  const [isAddingBenefits, setAddingBenefits] = useState(false);
+  const [descriptionWithAI, setDescriptionWithAI] = useState<any>("");
+  const [questionWithAI, setQuestionWithAI] = useState<any>("");
 
   const handleSalary = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -60,91 +53,104 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
       [name]: value,
     });
   };
-  // console.log(skills);
+  const addToBenefits = () => {
+    setBenefits((prev) => [...prev, benefitsInput]);
+    setAddingBenefits(false);
+    setBenefitsInput("");
+  };
+  const handleJobType = (item: { value: string; label: string }) => {
+    setJobType((prev) => [...prev, item.value]);
+    console.log(item.value);
+    // setJobType("");
+  };
+  const handleWorkMode = (item: { value: string; label: string }) => {
+    setWorkMode(item.value);
+    console.log(item.value);
+    // setJobType("");
+  };
+  const handleExperience = (item: { value: string; label: string }) => {
+    setExperience((prev) => [...prev, item.value]);
+    // console.log(selected, item.value);
+  };
+  const handleLanguage = (item: { value: string; label: string }) => {
+    setLanguage(item.value);
+  };
+
   const bodyObj = {
     title: title,
-    location: expLocation.location,
+    location: location,
     jobType: jobType,
     jobCategory: jobCategory,
-    skillsRequired: skills,
+    primarySkills,
+    secondarySkills,
     salary: salary,
-    preferredExperience: expLocation.experience,
+    preferredExperience: experience,
+    workMode: workMode,
+    testQuestions: questionWithAI
+      ? questionWithAI.choices[0].message.content
+      : "",
+    description: descriptionWithAI
+      ? descriptionWithAI.choices[0].message.content
+      : "",
+    benefits: benefits,
   };
 
   const handleSubmit = async () => {
+    console.log(bodyObj);
+    // return;
     await addJobPost(dispatch, bodyObj);
-    setTitle("");
-    setJobCategory("");
-    setJobType("");
-    setExpLocation({
-      experience: "",
-      location: "",
-    });
-    setSalary({
-      minimum: "",
-      maximum: "",
-      isDisclosed: true,
-    });
-    setSkills([]);
-    setTxt("");
+    // setTitle("");
+    // setJobCategory("");
+    // setJobType([]);
+    // setLocation([]);
+    // setExperience([]);
+    // setSalary({
+    //   minimum: "",
+    //   maximum: "",
+    //   isDisclosed: true,
+    // });
+    // setPrimarySkills([]);
+    // setSecondarySkills([]);
+    // setDescriptionWithAI("");
+    // setQuestionWithAI("");
   };
 
-  const messages = [
-    { role: "system", content: "You are a helpful assistant." },
-    {
-      role: "user",
-      content: "Does Azure OpenAI support customer managed keys?",
-    },
-    {
-      role: "assistant",
-      content: "Yes, customer managed keys are supported by Azure OpenAI",
-    },
-    {
-      role: "user",
-      content: `give me job description for job post ${
-        bodyObj.title
-      }  in job category of ${bodyObj.jobCategory} with ${
-        bodyObj.jobType
-      } job type,skills required are  ${bodyObj.skillsRequired.join(
-        ","
-      )}, with experience of ${bodyObj.preferredExperience} at location of ${
-        bodyObj.location
-      }, make it an intreating paragraph of 50 to 75 words with necessary bullet points`,
-    },
-  ];
-  if (txt) {
-    console.log(txt.choices[0]);
-  }
-
-  const [txtLoading, setTxtLoading] = useState(false);
-
-  const draftWithAi = async () => {
-    setTxtLoading(true);
-    const serverUrl =
-      "https://cyberlevels.openai.azure.com/openai/deployments/cyberlevels/chat/completions?api-version=2023-05-15";
+  const draftDescription = async () => {
+    const query = `give me job description for job post ${
+      bodyObj.title
+    }  in job category of ${bodyObj.jobCategory} with ${bodyObj.jobType.join(
+      ", "
+    )} job type,primary skills  are  ${bodyObj.primarySkills.join(
+      ", "
+    )}and secondary skills are ${bodyObj.secondarySkills.join(
+      ", "
+    )}, with work mode ${
+      bodyObj.workMode
+    } and experience of ${bodyObj.preferredExperience.join(
+      ", "
+    )} at location of ${bodyObj.location.join(
+      ", "
+    )}, make it an intreating paragraph of 50 to 75 words with necessary bullet points`;
 
     try {
-      const { data } = await axios.post(
-        serverUrl,
-        { messages },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "api-key": "0a995d6ac1fb47b9a19629e9ffe6f14e",
-          },
-        }
-      );
-      setTxt(data);
-      setTxtLoading(false);
-      console.log(data);
+      const data = await askToGpt(dispatch, query);
+      setDescriptionWithAI(data);
     } catch (error) {
-      setTxtLoading(false);
+      console.log(error);
     }
   };
-  const [selectedOption, setSelectedOption] = useState(null);
+  const draftQuestion = async () => {
+    const query = `generate 4 easy to medium  question with answer in multiple choice form on the topic ${bodyObj.primarySkills.join(
+      ","
+    )}. make sure give the corresponding answer in new line only not in double new line so that i can make an 4 sized array for each question`;
 
-  const handleOptionChange = (event: any) => {
-    setSelectedOption(event.target.value);
+    try {
+      const data = await askToGpt(dispatch, query);
+      setQuestionWithAI(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -155,7 +161,6 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
         {/* header end */}
 
         <h2 className="main-title">Post a New Job</h2>
-
         <div className="bg-white card-box border-20">
           <h4 className="dash-title-three">Job Details</h4>
           <div className="dash-input-wrapper mb-30">
@@ -193,6 +198,11 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   onChange={(item) => handleJobType(item)}
                   name="Job Type"
                 />
+                <div className="skill-input-data d-flex align-items-center flex-wrap">
+                  {jobType.map((value) => (
+                    <button key={value}>{value}</button>
+                  ))}
+                </div>
               </div>
             </div>
             <div className="col-md-6">
@@ -206,8 +216,8 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                     { value: "Flexible", label: "Flexible" },
                   ]}
                   defaultCurrent={0}
-                  onChange={(item) => handleJobType(item)}
-                  name="Job Type"
+                  onChange={(item) => handleWorkMode(item)}
+                  name="work mode"
                 />
               </div>
             </div>
@@ -222,7 +232,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                     { value: "Others", label: "Others" },
                   ]}
                   defaultCurrent={0}
-                  onChange={(item) => handleJobType(item)}
+                  onChange={(item) => handleLanguage(item)}
                   name="Job Type"
                 />
               </div>
@@ -259,10 +269,13 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
           {/* primary skills */}
           <div className="dash-input-wrapper mb-30">
             <label htmlFor="">Primary Skills*</label>
-            <AutocompleteSkill skills={skills} setSkills={setSkills} />
+            <AutocompleteSkill
+              skills={primarySkills}
+              setSkills={setPrimarySkills}
+            />
             {/* <input type="text" placeholder="Add Skills" /> */}
             <div className="skill-input-data d-flex align-items-center flex-wrap">
-              {skills.map((value) => (
+              {primarySkills.map((value) => (
                 <button key={value}>{value}</button>
               ))}
             </div>
@@ -270,42 +283,109 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
           {/* secondary skills */}
           <div className="dash-input-wrapper mb-30">
             <label htmlFor="">Secondary Skills*</label>
-            <AutocompleteSkill skills={skills} setSkills={setSkills} />
+            <AutocompleteSkill
+              skills={secondarySkills}
+              setSkills={setSecondarySkills}
+            />
             {/* <input type="text" placeholder="Add Skills" /> */}
             <div className="skill-input-data d-flex align-items-center flex-wrap">
-              {skills.map((value) => (
+              {secondarySkills.map((value) => (
                 <button key={value}>{value}</button>
               ))}
             </div>
           </div>
 
           {/* employ experience start */}
-          <EmployExperience
+          <div className="row align-items-end">
+            <div className="col-md-6">
+              <div className="dash-input-wrapper mb-30">
+                <label htmlFor="">Experience*</label>
+                <NiceSelect
+                  options={[
+                    { value: "Intermediate", label: "Intermediate" },
+                    { value: "No-Experience", label: "No-Experience" },
+                    { value: "Expert", label: "Expert" },
+                  ]}
+                  defaultCurrent={0}
+                  onChange={(item) => handleExperience(item)}
+                  name="Experience"
+                />
+                <div className="skill-input-data d-flex align-items-center flex-wrap">
+                  {experience.map((value) => (
+                    <button key={value}>{value}</button>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="dash-input-wrapper mb-30">
+                <label htmlFor="">Location*</label>
+                <LocationAutoComplete
+                  setSelected={setLocation}
+                  type="cities"
+                  label="location"
+                  isMultiple={true}
+                />
+                <div
+                  style={{ marginTop: "10px" }}
+                  className="skill-input-data d-flex align-items-center flex-wrap "
+                >
+                  {location.map((value) => (
+                    <button key={value}>{value}</button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* <EmployExperience
             selected={expLocation}
             setSelected={setExpLocation}
-          />
-          {/* employ experience end */}
-          {/* <h4 className="dash-title-three pt-50 lg-pt-30">File Attachment</h4>
-          <div className="dash-input-wrapper mb-20">
-            <label htmlFor="">File Attachment*</label>
-            <div className="attached-file d-flex align-items-center justify-content-between mb-15">
-              <span>guidline&requirments.doc</span>
-              <a href="#" className="remove-btn">
-                <i className="bi bi-x"></i>
-              </a>
-            </div>
+          /> */}
+          {/* from for adding benefits of company */}
+          <div className="bg-white card-box border-20 mt-40">
+            <h4 className="dash-title-three">Benefits && Offerings</h4>
+            {[...benefits].map((val, index) => (
+              <div key={val} className="dash-input-wrapper mb-20">
+                <label htmlFor="">Benefit {index + 1}</label>
+                <input type="text" readOnly value={val} />
+              </div>
+            ))}
+            {isAddingBenefits && (
+              <div className="dash-input-wrapper mb-20">
+                <label htmlFor="benefitsInput">
+                  Benefit {benefits.length + 1}
+                </label>
+                <input
+                  type="text"
+                  name="benefitsInput"
+                  onChange={(e) => setBenefitsInput(e.target.value)}
+                  onBlur={addToBenefits}
+                  value={benefitsInput}
+                  placeholder="Gym"
+                />
+              </div>
+            )}
+            {/* <div className="dash-input-wrapper mb-20">
+            <label htmlFor="">Network 2</label>
+            <input type="text" placeholder="https://twitter.com/FIFAcom" />
           </div> */}
-          {/* <div className="dash-btn-one d-inline-block position-relative me-3">
-            <Upload setSelected={setFileAttachment} text="Upload File" />
+            <button
+              onClick={() => setAddingBenefits(true)}
+              className="dash-btn-one"
+            >
+              <i className="bi bi-plus"></i>{" "}
+              {benefits.length == 0 ? "Add Benefit" : "Add More Benefit"}
+            </button>
           </div>
-          <small>Upload file .pdf, .doc, .docx</small> */}
+          {/* employ experience end */}
+
           <h4 className="dash-title-three pt-50 lg-pt-30">Add Description</h4>
           <div className="dash-input-wrapper mb-30 ">
             <label htmlFor="">Job Description*</label>
             <button
               disabled={loading}
               type={"button"}
-              onClick={draftWithAi}
+              onClick={draftDescription}
               className="dash-btn-ai mb-3  tran3s me-3 d-flex align-content-center gap-2  justify-content-center   "
             >
               <span>Write a description With Ai</span>
@@ -313,8 +393,10 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                 <MagicWand size={32} color="#244034" weight="light" />
               </span>
             </button>
-            {txt ? (
-              <TinyMCEEditor text={txt.choices[0].message.content} />
+            {descriptionWithAI ? (
+              <TinyMCEEditor
+                text={descriptionWithAI.choices[0].message.content}
+              />
             ) : (
               <TinyMCEEditor text={""} />
             )}
@@ -327,6 +409,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
             <button
               disabled={loading}
               type={"button"}
+              onClick={draftQuestion}
               className="dash-btn-ai mb-3  tran3s me-3 d-flex align-content-center gap-2  justify-content-center "
             >
               <span>Generate Test</span>
@@ -334,7 +417,11 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                 <MagicWand size={32} color="#244034" weight="light" />
               </span>
             </button>
-            <MultipleChoiceQuestion />
+            {questionWithAI && (
+              <MultipleChoiceQuestion
+                text={questionWithAI.choices[0].message.content}
+              />
+            )}
           </div>
         </div>
 

@@ -136,7 +136,7 @@ const JobListThree = ({
                   <div className="row">
                     {allJobPost &&
                       allJobPost.map((job) => (
-                        <div key={job.id} className="col-sm-6 mb-30">
+                        <div key={job._id} className="col-sm-6 mb-30">
                           <JobGridItem item={job} />
                         </div>
                       ))}
