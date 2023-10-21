@@ -82,7 +82,7 @@ const RegisterArea = () => {
               <div className="col-sm-6">
                 <a
                   onClick={() => dispatch(setLoggerWithLn(activeTab))}
-                  href={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/candidate/auth/linkedin`}
+                  href={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/candidate/auth/linkedin`}
                   className="social-use-btn d-flex align-items-center justify-content-center tran3s w-100 mt-10"
                 >
                   <Image
