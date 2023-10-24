@@ -2,9 +2,20 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import type { IJobPost } from "@/types/jobPost-type";
 import job_img_1 from "@/assets/images/logo/media_22.png";
+import type { ICompany } from "@/types/company";
+import Link from "next/link";
 
-const JobDetailsV1Area = ({ job, url }: { job: IJobPost; url: string }) => {
+const JobDetailsV1Area = ({
+  job,
+  url,
+  company,
+}: {
+  job: IJobPost;
+  url: string;
+  company?: ICompany;
+}) => {
   const URL = `${process.env.NEXT_PUBLIC_HOME_ENDPOINT}${url}`;
+  console.log(company);
   // console.log(job);
   // const description = job?.testQuestions?.split(`\n\n`);
 
@@ -32,10 +43,10 @@ const JobDetailsV1Area = ({ job, url }: { job: IJobPost; url: string }) => {
           <div className="col-xxl-9 col-xl-8">
             <div className="details-post-data me-xxl-5 pe-xxl-4">
               <div className="post-date">
-                {readableString} by {"MetaGeeks"}
-                {/* <a href="#" className="fw-500 text-dark">
-                  {job.company}
-                </a> */}
+                {readableString} by
+                <a href="#" className="fw-500 ms-2  text-dark">
+                  {company?.name}
+                </a>
               </div>
               <h3 className="post-title">{job.title}</h3>
               <ul className="share-buttons d-flex flex-wrap style-none">
@@ -179,25 +190,23 @@ const JobDetailsV1Area = ({ job, url }: { job: IJobPost; url: string }) => {
           <div className="col-xxl-3 col-xl-4">
             <div className="job-company-info ms-xl-5 ms-xxl-0 lg-mt-50">
               <Image
-                src={job_img_1}
+                // src={job_img_1}
+                src={company?.logo as string}
                 alt="logo"
                 className="lazy-img m-auto logo"
                 width={60}
                 height={60}
               />
               <div className="text-md text-dark text-center mt-15 mb-20 text-capitalize">
-                {/* {job.company} */}
+                {company?.name}
               </div>
-              <a href="#" className="website-btn tran3s">
-                Visit website
-              </a>
 
               <div className="border-top mt-40 pt-40">
                 <ul className="job-meta-data row style-none">
                   <li className="col-xl-7 col-md-4 col-sm-6">
                     <span>Salary</span>
                     <div>
-                      $ {job.salary.maximum}-{job.salary.minimum} PA
+                      $ {job.salary.minimum}-{job.salary.maximum} PA
                     </div>
                   </li>
                   <li className="col-xl-5 col-md-4 col-sm-6">
@@ -239,6 +248,60 @@ const JobDetailsV1Area = ({ job, url }: { job: IJobPost; url: string }) => {
                 <a href="#" className="btn-one w-100 mt-25">
                   Apply Now
                 </a>
+              </div>
+            </div>
+            <div className="job-company-info ms-xl-5 ms-xxl-0 mt-30 lg-mt-50">
+              {/* <Image
+                src={job_img_1}
+                alt="logo"
+                className="lazy-img m-auto logo"
+                width={60}
+                height={60}
+              />
+             
+              <a href="#" className="website-btn tran3s">
+                Visit website
+              </a> */}
+              <Link
+                href={`company-details/${company?._id}`}
+                className="website-btn tran3s"
+              >
+                Visit Company
+              </Link>
+              <div className="text-md text-dark text-center mt-15 mb-20 text-capitalize">
+                About Company
+              </div>
+
+              <div className="border-top ">
+                <ul className="job-meta-data row style-none">
+                  <li className="col-xl-7 col-md-4 col-sm-6">
+                    <span>Team size</span>
+                    <div>{company?.teamSize} People</div>
+                  </li>
+                  <li className="col-xl-5 col-md-4 col-sm-6">
+                    <span>Category</span>
+                    <div>{company?.category}</div>
+                  </li>
+                  <li className="col-xl-7 col-md-4 col-sm-6">
+                    <span>Founded Date</span>
+                    <div>{readableString} </div>
+                  </li>
+                  <li className="col-xl-5 col-md-4 col-sm-6">
+                    <span>Experience</span>
+                    <div>{job.preferredExperience[0]}</div>
+                  </li>
+                </ul>
+                <div className="job-tags d-flex flex-wrap pt-15">
+                  {company?.benefits &&
+                    company.benefits.map((t, i) => (
+                      <a key={i} href="#">
+                        {t}
+                      </a>
+                    ))}
+                </div>
+                {/* <a href="#" className="btn-one w-100 mt-25">
+                  Apply Now
+                </a> */}
               </div>
             </div>
           </div>

@@ -3,6 +3,7 @@ import { getJobPostsSuccess, requestFail, requestStart, requestSuccess, submitJo
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { IFilterState } from "../filterJobPostSlice";
+import { getCompanyOfJobPost } from "../company/slice";
 
 
 export const getJObPosts = async (dispatch: AppDispatch, queryObject: IFilterState, page: number) => {
@@ -49,8 +50,9 @@ export const getJobPostDetails = async (dispatch: AppDispatch, id: string) => {
 
     dispatch(requestStart());
     try {
-        const { data } = await instance(`/jobPost/details?id=${id}`);
+        const { data } = await instance(`/jobPost/${id}`);
         dispatch(submitJobPostSuccess(data.job));
+        dispatch(getCompanyOfJobPost(data.company))
         return data.result;
 
     } catch (error) {
@@ -59,4 +61,18 @@ export const getJobPostDetails = async (dispatch: AppDispatch, id: string) => {
         dispatch(requestFail(e.message));
     }
 }
+export const deleteJobPost = async (dispatch: AppDispatch, id: string) => {
+
+    dispatch(requestStart());
+    try {
+        const { data } = await instance.delete(`/jobPost/${id}`);
+        dispatch(getJobPostsSuccess({ allJobPost: data.result, totalJobPost: data.totalJobPost, totalNumOfPage: data.totalNumOfPage }));
+
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message));
+    }
+}
+
 

@@ -4,38 +4,44 @@ import Link from "next/link";
 import team_img_1 from "@/assets/images/assets/img_42.png";
 import team_img_2 from "@/assets/images/assets/img_43.png";
 import team_img_3 from "@/assets/images/assets/img_44.png";
-import { ICompany } from "@/types/company-type";
+import { ICompany } from "@/types/company";
+// item.isFav;
 
 const CompanyListItem = ({ item }: { item: ICompany }) => {
   return (
-    <div
-      className={`company-list-layout ${item.isFav ? "favourite" : ""} mb-20`}
-    >
+    <div className={`company-list-layout ${false ? "favourite" : ""} mb-20`}>
       <div className="row justify-content-between align-items-center">
         <div className="col-xl-5">
           <div className="d-flex align-items-xl-center">
-            <Link href="/company-details"
+            <Link
+              href={`/company-details/${item._id}`}
               className="company-logo rounded-circle"
             >
               <Image
-                src={item.img}
+                // src={item.logo}
+                src={team_img_1}
                 alt="image"
                 className="lazy-img rounded-circle"
               />
             </Link>
             <div className="company-data">
               <h5 className="m0">
-                <Link href="/company-details" className="company-name tran3s">
+                <Link
+                  href={`/company-details/${item._id}`}
+                  className="company-name tran3s"
+                >
                   {item.name}
                 </Link>
               </h5>
-              <p>{item.location}</p>
+              <p>
+                {item.location[0].city} {item.location[0].country}
+              </p>
             </div>
           </div>
         </div>
         <div className="col-xl-4 col-md-8">
           <div className="d-flex align-items-center ps-xxl-5 lg-mt-20">
-            <div className="d-flex align-items-center">
+            {/* <div className="d-flex align-items-center">
               <Image
                 src={team_img_1}
                 alt="team_img"
@@ -55,17 +61,20 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
                 <span className="text-md fw-500 text-dark d-block">14+ </span>{" "}
                 Team Size
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="col-xl-3 col-md-4">
           <div className="btn-group d-flex align-items-center justify-content-md-end lg-mt-20">
-            <Link href="/company-details"
+            <Link
+              href="/company-details"
               className="open-job-btn text-center fw-500 tran3s me-2"
             >
-              {item.vacancy} open job
+              {/* {item.vacancy} open job */}
+              {item.benefits.length} open job
             </Link>
-            <Link href="/company-details"
+            <Link
+              href="/company-details"
               className="save-btn text-center rounded-circle tran3s"
               title="Save Job"
             >

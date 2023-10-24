@@ -3,22 +3,25 @@ import menu_data from "@/data/menu-data";
 import Link from "next/link";
 
 const Menus = () => {
+  const handleOnClick = () => {};
   return (
     <>
       {menu_data.map((menu) =>
         menu.sub_menus ? (
-          <li key={menu.id} className={`nav-item dropdown ${menu.title === 'Dashboard' ? 'dashboard-menu' : ''}`}>
-            <a
+          <div
+            key={menu.id}
+            className={`nav-item dropdown ${
+              menu.title === "Dashboard" ? "dashboard-menu" : ""
+            }`}
+          >
+            <Link
               className="nav-link dropdown-toggle"
-              href="#"
+              href={menu.link}
               role="button"
-              data-bs-toggle="dropdown"
-              data-bs-auto-close="outside"
-              aria-expanded="false"
             >
               {menu.title}
-            </a>
-            <ul className="dropdown-menu">
+            </Link>
+            {/* <ul className="dropdown-menu">
               {menu.sub_menus.map((s, i) => (
                 <li key={i}>
                   <Link href={s.link} className="dropdown-item">
@@ -26,8 +29,8 @@ const Menus = () => {
                   </Link>
                 </li>
               ))}
-            </ul>
-          </li>
+            </ul> */}
+          </div>
         ) : menu.mega_menus ? (
           <li key={menu.id} className="nav-item dropdown mega-dropdown-sm">
             <a
@@ -49,10 +52,7 @@ const Menus = () => {
                       <ul className="style-none mega-dropdown-list">
                         {m.sub_menus.map((ms, i) => (
                           <li key={i}>
-                            <Link
-                              href={ms.link}
-                              className="dropdown-item"
-                            >
+                            <Link href={ms.link} className="dropdown-item">
                               <span>{ms.title}</span>
                             </Link>
                           </li>
@@ -66,7 +66,7 @@ const Menus = () => {
           </li>
         ) : (
           <li key={menu.id} className="nav-item">
-            <Link className="nav-link" href='/contact' role="button">
+            <Link className="nav-link" href="/contact" role="button">
               {menu.title}
             </Link>
           </li>

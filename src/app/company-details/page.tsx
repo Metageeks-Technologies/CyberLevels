@@ -28,11 +28,11 @@ const CompanyDetailsPage = () => {
         {/*breadcrumb end */}
 
         {/* company details area start */}
-        <CompanyDetailsArea />
+        {/* <CompanyDetailsArea /> */}
         {/* company details area end */}
 
         {/*job Open Position */}
-        <OpenPosition/>
+        <OpenPosition />
         {/*job Open Position */}
 
         {/* job portal intro start */}

@@ -12,12 +12,13 @@ import WorkExperience from "../../candidate-details/work-experience";
 import {
   updateEduSuccess,
   updateExpSuccess,
-  requestStart,
-  requestFail,
-} from "@/redux/features/userSlice";
+  requestFailDash,
+  requestStartDash,
+} from "@/redux/features/candidate/dashboardSlice";
 import axios, { AxiosError } from "axios";
 import { ICandidate } from "@/data/candidate-data";
 import instance from "@/lib/axios";
+import { CandidateState } from "@/redux/features/candidate/slice";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,10 +26,10 @@ type IProps = {
 
 const DashboardResume = ({ setIsOpenSidebar }: IProps) => {
   const [isVideoOpen, setIsVideoOpen] = useState<boolean>(false);
-  const { user: candidate, loading } = useSelector(
-    (store: RootState) => store.persistedReducer.user
+  const { currCandidate, loading } = useSelector(
+    (store: RootState) => store.candidate.candidateDashboard
   );
-  const user = candidate;
+  const user = currCandidate;
   const dispatch = useDispatch();
   const [education, setEducation] = useState({
     degree: "",
@@ -71,7 +72,7 @@ const DashboardResume = ({ setIsOpenSidebar }: IProps) => {
     // console.log(bodyObj);
     // return;
 
-    dispatch(requestStart());
+    dispatch(requestStartDash());
     try {
       const { data } = await instance.patch(
         `/candidate/updateEdu/${user?._id}`,
@@ -81,7 +82,7 @@ const DashboardResume = ({ setIsOpenSidebar }: IProps) => {
       dispatch(updateEduSuccess(bodyObj));
     } catch (error) {
       const e = error as AxiosError;
-      dispatch(requestFail(e.message));
+      dispatch(requestFailDash(e.message));
     }
     setEducation({
       degree: "",
@@ -97,7 +98,7 @@ const DashboardResume = ({ setIsOpenSidebar }: IProps) => {
       startYear,
       endYear,
     };
-    dispatch(requestStart());
+    dispatch(requestStartDash());
     try {
       const { data } = await instance.patch(
         `/candidate/updateExp/${user?._id}`,
@@ -107,7 +108,7 @@ const DashboardResume = ({ setIsOpenSidebar }: IProps) => {
       dispatch(updateExpSuccess(bodyObj));
     } catch (error) {
       const e = error as AxiosError;
-      dispatch(requestFail(e.message));
+      dispatch(requestFailDash(e.message));
     }
     setExperience({
       title: "",
@@ -457,7 +458,7 @@ const DashboardResume = ({ setIsOpenSidebar }: IProps) => {
             </div>
           </div>
 
-          <DashboardPortfolio />
+          {/* <DashboardPortfolio /> */}
 
           <div className="button-group d-inline-flex align-items-center mt-30">
             <a href="#" className="dash-btn-two tran3s me-3">

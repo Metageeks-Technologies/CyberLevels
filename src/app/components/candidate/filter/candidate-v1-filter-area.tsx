@@ -5,6 +5,9 @@ import FilterCandidateLocation from "./filter-location";
 import FilterCandidateExperience from "./filter-experince";
 import JobPrices from "../../jobs/filter/job-prices";
 import FilterEnglishFluency from "./filter-english-fluency";
+import Keyword from "./filter-keyword";
+import JobLocationSelect from "./filter-location-select";
+import CandidateType from "./filter-candidateTpe";
 
 const CandidateV1FilterArea = () => {
   const [priceValue, setPriceValue] = useState<number[]>([0, 50000]);
@@ -22,27 +25,9 @@ const CandidateV1FilterArea = () => {
       <div className="main-title fw-500 text-dark">Filter By</div>
       <div className="light-bg border-20 ps-4 pe-4 pt-25 pb-30 mt-20">
         <div className="filter-block bottom-line pb-25">
-          <a
-            className="filter-title fw-500 text-dark"
-            data-bs-toggle="collapse"
-            href="#collapseSemploye"
-            role="button"
-            aria-expanded="false"
-          >
-            Name or Keyword
-          </a>
-          <div className="collapse show" id="collapseSemploye">
-            <div className="main-body">
-              <form action="#" className="input-box position-relative">
-                <input type="text" placeholder="Name or keyword" />
-                <button>
-                  <i className="bi bi-search"></i>
-                </button>
-              </form>
-            </div>
-          </div>
+          <Keyword />
         </div>
-        <div className="filter-block bottom-line pb-25 mt-25">
+        {/* <div className="filter-block bottom-line pb-25 mt-25">
           <a
             className="filter-title fw-500 text-dark"
             data-bs-toggle="collapse"
@@ -57,7 +42,7 @@ const CandidateV1FilterArea = () => {
               <FilterSkills />
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="filter-block bottom-line pb-25 mt-25">
           <a
@@ -71,7 +56,8 @@ const CandidateV1FilterArea = () => {
           </a>
           <div className="collapse show" id="collapseLocation">
             <div className="main-body">
-              <FilterCandidateLocation />
+              {/* <FilterCandidateLocation /> */}
+              <JobLocationSelect />
             </div>
           </div>
         </div>
@@ -84,7 +70,7 @@ const CandidateV1FilterArea = () => {
             role="button"
             aria-expanded="false"
           >
-            Expert Level
+            Experience
           </a>
           <div className="collapse" id="collapseExp">
             <div className="main-body">
@@ -93,7 +79,7 @@ const CandidateV1FilterArea = () => {
           </div>
         </div>
 
-        <div className="filter-block bottom-line pb-25 mt-25">
+        {/* <div className="filter-block bottom-line pb-25 mt-25">
           <a
             className="filter-title fw-500 text-dark collapsed"
             data-bs-toggle="collapse"
@@ -121,7 +107,7 @@ const CandidateV1FilterArea = () => {
               </ul>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="filter-block bottom-line pb-25 mt-25">
           <a
@@ -134,22 +120,11 @@ const CandidateV1FilterArea = () => {
             Candidate Type
           </a>
           <div className="collapse" id="collapseCType">
-            <div className="main-body">
-              <ul className="style-none filter-input">
-                <li>
-                  <input type="checkbox" name="Gender" />
-                  <label>Male</label>
-                </li>
-                <li>
-                  <input type="checkbox" name="Gender" />
-                  <label>Female</label>
-                </li>
-              </ul>
-            </div>
+            <CandidateType />
           </div>
         </div>
 
-        <div className="filter-block bottom-line pb-25 mt-25">
+        {/* <div className="filter-block bottom-line pb-25 mt-25">
           <a
             className="filter-title fw-500 text-dark collapsed"
             data-bs-toggle="collapse"
@@ -166,9 +141,9 @@ const CandidateV1FilterArea = () => {
               maxPrice={50000}
             />
           </div>
-        </div>
+        </div> */}
 
-        <div className="filter-block bottom-line pb-25 mt-25">
+        {/* <div className="filter-block bottom-line pb-25 mt-25">
           <a
             className="filter-title fw-500 text-dark collapsed"
             data-bs-toggle="collapse"
@@ -183,13 +158,13 @@ const CandidateV1FilterArea = () => {
               <FilterEnglishFluency />
             </div>
           </div>
-        </div>
+        </div> */}
 
         <a
           href="#"
           className="btn-ten fw-500 text-white w-100 text-center tran3s mt-30"
         >
-          Apply Filter
+          Reset Filter
         </a>
       </div>
     </div>

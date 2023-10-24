@@ -1,9 +1,9 @@
-import "./globals.scss";
-import { Metadata } from "next";
-import localFont from "next/font/local";
-import { EB_Garamond } from "next/font/google";
-import BackToTopCom from "./components/common/back-to-top-com";
 import { Providers } from "@/redux/provider";
+import { Metadata } from "next";
+import { EB_Garamond } from "next/font/google";
+import localFont from "next/font/local";
+import BackToTopCom from "./components/common/back-to-top-com";
+import "./globals.scss";
 
 const gordita = localFont({
   src: [

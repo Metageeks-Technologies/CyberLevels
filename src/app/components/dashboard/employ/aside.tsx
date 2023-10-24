@@ -104,15 +104,16 @@ type IProps = {
 };
 const EmployAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
   const pathname = usePathname();
-  const { user } = useSelector(
-    (state: RootState) => state.persistedReducer.user
+  const { currCandidate } = useSelector(
+    (state: RootState) => state.candidate.candidateDashboard
   );
+  const user = currCandidate;
   return (
     <>
       <aside className={`dash-aside-navbar ${isOpenSidebar ? "show" : ""}`}>
         <div className="position-relative">
           <div className="logo text-md-center d-md-block d-flex align-items-center justify-content-between">
-            <Link href="/dashboard/employ-dashboard">
+            <Link href="/">
               <Image src={logo} alt="logo" priority />
             </Link>
             <button

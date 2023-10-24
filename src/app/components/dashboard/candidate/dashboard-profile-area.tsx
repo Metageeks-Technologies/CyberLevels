@@ -10,10 +10,10 @@ import { ICandidate } from "@/types/user-type";
 import Loader from "@/ui/loader";
 import LocationAutoComplete from "@/ui/locationAutoComplete";
 import {
-  requestStart,
-  requestFail,
-  updateUserSuccess,
-} from "@/redux/features/userSlice";
+  requestStartDash,
+  requestFailDash,
+  updateCurrCandidateSuccess,
+} from "@/redux/features/candidate/dashboardSlice";
 import axios, { AxiosError } from "axios";
 import instance from "@/lib/axios";
 // props type
@@ -21,11 +21,11 @@ type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
-  const { user: candidate, loading } = useSelector(
-    (state: RootState) => state.persistedReducer.user
+  const { currCandidate, loading } = useSelector(
+    (state: RootState) => state.candidate.candidateDashboard
   );
   const dispatch = useDispatch();
-  const user = candidate as ICandidate;
+  const user = currCandidate as ICandidate;
 
   const [isEditable, SetIsEditable] = useState({
     firstName: false,
@@ -50,19 +50,19 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
       [name]: value,
     });
   };
-  const [location, setLocation] = useState({
-    locality: user.location.locality || "",
-    zipcode: user.location.zipcode || "",
-  });
-  const [city, setCity] = useState(user.location.city || "");
-  const [state, setState] = useState(user.location.state || "");
-  const [country, setCountry] = useState(user.location.country || "");
+  // const [location, setLocation] = useState({
+  //   locality: user.location.locality || "",
+  //   zipcode: user.location.zipcode || "",
+  // });
+  const [city, setCity] = useState(user?.location?.city || "");
+  const [state, setState] = useState(user?.location?.state || "");
+  const [country, setCountry] = useState(user?.location?.country || "");
   const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setLocation({
-      ...location,
-      [name]: value,
-    });
+    // setLocation({
+    //   ...location,
+    //   [name]: value,
+    // });
   };
   const [social, setSocial] = useState<string[]>([]);
   const [SocialInput, setSocialInput] = useState("");
@@ -86,17 +86,17 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
       location: ILocation,
     };
     console.log(bodyObj);
-    dispatch(requestStart());
+    dispatch(requestStartDash());
     try {
       const { data } = await instance.patch(
         `/candidate/update/${user._id}`,
         bodyObj
       );
       console.log(data);
-      dispatch(updateUserSuccess(data?.candidate));
+      dispatch(updateCurrCandidateSuccess(data?.candidate));
     } catch (error) {
       const e = error as AxiosError;
-      dispatch(requestFail(e.message));
+      dispatch(requestFailDash(e.message));
     }
   };
   console.log(user.socialSites);
@@ -282,7 +282,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
         <div className="bg-white card-box border-20 mt-40">
           <h4 className="dash-title-three">Address & Location</h4>
           <div className="row">
-            <div className="col-12">
+            {/* <div className="col-12">
               <div className="dash-input-wrapper mb-25">
                 <label htmlFor="">Local Address*</label>
                 <input
@@ -293,7 +293,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
                   placeholder="Cowrasta, Chandana, Gazipur Sadar"
                 />
               </div>
-            </div>
+            </div> */}
             <div className="col-lg-3">
               <div className="dash-input-wrapper mb-25">
                 <label htmlFor="city">City*</label>
@@ -308,7 +308,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
             </div>
             <div className="col-lg-3">
               <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">State*</label>
+                <label htmlFor="">Country*</label>
                 <LocationAutoComplete
                   selected={state}
                   setSelected={setState}
@@ -317,7 +317,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
                 />
               </div>
             </div>
-            <div className="col-lg-3">
+            {/* <div className="col-lg-3">
               <div className="dash-input-wrapper mb-25">
                 <label htmlFor="zipcode">Zip Code*</label>
                 <input
@@ -328,7 +328,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
                   placeholder="1708"
                 />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 

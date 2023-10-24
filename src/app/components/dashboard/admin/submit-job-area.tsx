@@ -384,14 +384,12 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
           <div className="dash-input-wrapper mb-30 ">
             <label htmlFor="">Job Description*</label>
             <button
-              disabled={gptLoading}
+              // disabled={gptLoading}
               type={"button"}
               onClick={draftDescription}
               className="dash-btn-ai mb-3  tran3s me-3 d-flex align-content-center gap-2  justify-content-center   "
             >
-              <span>
-                {!gptLoading ? "Write a description With Ai" : <Loader />}
-              </span>
+              <span>{true ? "Write a description With Ai" : <Loader />}</span>
               <span className="">
                 <MagicWand size={32} color="#244034" weight="light" />
               </span>
@@ -410,12 +408,12 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
           <div className="dash-input-wrapper mb-30 ">
             {/* <label htmlFor="">*</label> */}
             <button
-              disabled={gptLoading}
+              // disabled={gptLoading}
               type={"button"}
               onClick={draftQuestion}
               className="dash-btn-ai mb-3  tran3s me-3 d-flex align-content-center gap-2  justify-content-center "
             >
-              <span>{!gptLoading ? "Generate Test" : <Loader />}</span>
+              <span>{true ? "Generate Test" : <Loader />}</span>
               <span className="">
                 <MagicWand size={32} color="#244034" weight="light" />
               </span>

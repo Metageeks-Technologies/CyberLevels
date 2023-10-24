@@ -1,28 +1,23 @@
 "use client";
-import React, { useEffect } from "react";
-import axios, { AxiosError } from "axios";
+import { loginWithLn } from "@/redux/features/user/api";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import Loader from "@/ui/loader";
 import { useRouter } from "next/navigation";
-import type { RootState } from "@/redux/store";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  getUserFail,
-  getUserStart,
-  getUserSuccess,
-} from "@/redux/features/userSlice";
-import instance from "@/lib/axios";
+import { useEffect } from "react";
+// has to be more improved in error handling
 
 const page = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const { whoIsTryingToLoginWithLn } = useSelector(
-    (state: RootState) => state.persistedReducer.user
+  const dispatch = useAppDispatch();
+  const { whoIsTryingToLoginWithLn, loading } = useAppSelector(
+    (state) => state.persistedReducer.user
   );
 
   const urlParams = new URLSearchParams(window.location.search);
   const state = urlParams.get("state");
   if (!whoIsTryingToLoginWithLn || !state) {
     alert(
-      "there is change in browser,please complete the login posses with one browser only"
+      "there is change in browser,please complete the login process with one browser only"
     );
   }
 
@@ -49,35 +44,26 @@ const page = () => {
       if (urlParams.has("code")) {
         requestData.code = urlParams.get("code") as string;
       }
-      console.log(requestData);
+      // console.log(requestData);
+      const handleLogin = async () => {
+        const isLoginSuccessful = await loginWithLn(dispatch, requestData);
 
-      const formData = new URLSearchParams(requestData).toString();
-      const headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-      };
-
-      const callApi = async () => {
-        dispatch(getUserStart());
-        try {
-          const { data } = await instance.post(
-            "/candidate/auth/getCandidate",
-            formData,
-            { headers: headers, withCredentials: true }
-          );
-          dispatch(getUserSuccess(data.user));
-          console.log(data);
+        if (isLoginSuccessful)
           router.push(`/dashboard/${whoIsTryingToLoginWithLn}-dashboard`);
-        } catch (error) {
-          const e = error as AxiosError;
-          dispatch(getUserFail(e.message));
-          console.log(error);
-        }
+        else router.push("/");
       };
-      callApi();
+
+      handleLogin();
     }
   }, []);
 
-  return <div className="_callback"></div>;
+  return (
+    <div className="_callback overflow-hidden ">
+      <div>
+        <Loader />
+      </div>
+    </div>
+  );
 };
 
 export default page;

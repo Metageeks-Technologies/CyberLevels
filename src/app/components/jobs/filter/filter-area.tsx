@@ -43,7 +43,7 @@ const FilterArea = ({
       ></button>
       <div className="main-title fw-500 text-dark">Filter By</div>
       <div className="light-bg border-20 ps-4 pe-4 pt-25 pb-30 mt-20">
-        <div className="filter-block bottom-line pb-25">
+        {/* <div className="filter-block bottom-line pb-25">
           <a
             className="filter-title fw-500 text-dark"
             data-bs-toggle="collapse"
@@ -55,11 +55,12 @@ const FilterArea = ({
           </a>
           <div className="collapse show" id="collapseLocation">
             <div className="main-body">
-              {/* <JobLocations /> */}
+              
               <JobLocationSelect />
             </div>
           </div>
-        </div>
+        </div> */}
+
         {/* <!-- /.filter-block --> */}
         <div className="filter-block bottom-line pb-25 mt-25">
           <a

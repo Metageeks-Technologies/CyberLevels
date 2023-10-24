@@ -11,36 +11,40 @@ const Question = ({
   const [selected, setSelected] = useState("");
   // console.log(selected);
   return (
-    <div className="_questionContainer">
-      <p className="mb-1">{question[0]}</p>
-      <div className="_row">
-        <RadioGroup value={selected} onChange={setSelected}>
-          <RadioGroup.Label className="sr-only">Server size</RadioGroup.Label>
-          <div className="" style={{ marginTop: "0.5rem" }}>
-            {options.map((option: string) => (
-              <RadioGroup.Option
-                key={option}
-                value={option}
-                className={({ active, checked }) =>
-                  `${active ? "_active" : ""}
+    <>
+      {question.length > 1 && (
+        <div className="_questionContainer">
+          <p className="mb-1">{question[0]}</p>
+          <div className="_row">
+            <RadioGroup value={selected} onChange={setSelected}>
+              <RadioGroup.Label className="sr-only">
+                Server size
+              </RadioGroup.Label>
+              <div className="" style={{ marginTop: "0.5rem" }}>
+                {options.map((option: string) => (
+                  <RadioGroup.Option
+                    key={option}
+                    value={option}
+                    className={({ active, checked }) =>
+                      `${active ? "_active" : ""}
                   ${checked ? "_checked" : "bg_white"}
                   _shadow _common mb-3`
-                }
-              >
-                {({ active, checked }) => (
-                  <>
-                    <div className="_insideDiv1">
-                      <div className="_insideDiv2">
-                        <div className="text-sm">
-                          <RadioGroup.Label
-                            as="div"
-                            // className={`font-medium  ${
-                            //   checked ? "text-white" : "text-gray-900"
-                            // }`}
-                          >
-                            {option}
-                          </RadioGroup.Label>
-                          {/* <RadioGroup.Description
+                    }
+                  >
+                    {({ active, checked }) => (
+                      <>
+                        <div className="_insideDiv1">
+                          <div className="_insideDiv2">
+                            <div className="text-sm">
+                              <RadioGroup.Label
+                                as="div"
+                                // className={`font-medium  ${
+                                //   checked ? "text-white" : "text-gray-900"
+                                // }`}
+                              >
+                                {option}
+                              </RadioGroup.Label>
+                              {/* <RadioGroup.Description
                             as="span"
                             className={`inline ${
                               checked ? "text-sky-100" : "text-gray-500"
@@ -52,23 +56,25 @@ const Question = ({
                             <span aria-hidden="true">&middot;</span>{" "}
                             <span>{plan.disk}</span>
                           </RadioGroup.Description> */}
+                            </div>
+                          </div>
+                          {checked && (
+                            <div className="shrink-0 text-white">
+                              <CheckIcon className="circle" />
+                            </div>
+                          )}
                         </div>
-                      </div>
-                      {checked && (
-                        <div className="shrink-0 text-white">
-                          <CheckIcon className="circle" />
-                        </div>
-                      )}
-                    </div>
-                  </>
-                )}
-              </RadioGroup.Option>
-            ))}
+                      </>
+                    )}
+                  </RadioGroup.Option>
+                ))}
+              </div>
+            </RadioGroup>
           </div>
-        </RadioGroup>
-      </div>
-      <div>{question[question.length - 1]}</div>
-    </div>
+          {/* <div>{question[question.length - 1]}</div> */}
+        </div>
+      )}
+    </>
   );
 };
 
@@ -89,9 +95,7 @@ export default function Example({ text }: { text: string }) {
     <div>
       {questions?.map((obj, index) => {
         const question = obj.split("\n");
-        const options = question.filter(
-          (element, index) => index !== 0 && index !== question.length - 1
-        );
+        const options = question.filter((element, index) => index !== 0);
 
         return <Question question={question} options={options} />;
       })}

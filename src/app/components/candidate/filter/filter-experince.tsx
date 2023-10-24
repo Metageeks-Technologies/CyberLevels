@@ -1,38 +1,54 @@
-import React, { useState } from "react";
-import candidate_data from "@/data/candidate-data";
+import React from "react";
+import job_data from "@/data/job-data";
+import { setPreferredExperience } from "@/redux/features/candidate/filterSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 
-const FilterCandidateExperience = () => {
-  const uniqueExperiences = [
-    ...new Set(candidate_data.map((c) => c.experience)),
-  ];
-  const [experience, setExperience] = useState<string[]>([]);
-  // handle Experience
-  const handleExperience = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newExperience = e.target.value;
-    if(experience.includes(newExperience)){
-      const remaining = experience.filter(e => e !== newExperience)
-      setExperience(remaining)
-    }
-    else {
-      setExperience(prevExperience => [...prevExperience, newExperience]);
-    }
-  };
+const PreferredExperienceOption = ["Fresher", "Intermediate", "Expert"];
+export function JobExperienceItems({
+  showLength = true,
+}: {
+  showLength?: boolean;
+}) {
+  const uniqueExperiences = [...new Set(job_data.map((job) => job.experience))];
+  const { preferredExperience } = useAppSelector(
+    (state) => state.candidate.candidateFilter
+  );
+  const dispatch = useAppDispatch();
   return (
-    <ul className="style-none filter-input">
-      {uniqueExperiences.map((e, index) => (
+    <>
+      {PreferredExperienceOption.map((e, index) => (
         <li key={index}>
           <input
-            onChange={(event) => handleExperience(event)}
+            onChange={() => dispatch(setPreferredExperience(e))}
             type="checkbox"
             name={e}
             defaultValue={e}
-            checked={experience.includes(e)}
+            checked={preferredExperience.includes(e)}
           />
-          <label>{e}</label>
+          <label>
+            {e}
+            {/* {showLength && (
+              <span>
+                {job_data.filter((job) => job.experience === e).length}
+              </span>
+            )} */}
+          </label>
         </li>
       ))}
-    </ul>
+    </>
+  );
+}
+
+const JobExperience = () => {
+  return (
+    <>
+      <div className="main-body">
+        <ul className="style-none filter-input">
+          <JobExperienceItems />
+        </ul>
+      </div>
+    </>
   );
 };
 
-export default FilterCandidateExperience;
+export default JobExperience;

@@ -9,7 +9,7 @@ import {
   getUserStart,
   logoutUserFail,
   logoutUserSuccess,
-} from "@/redux/features/userSlice";
+} from "@/redux/features/user/slice";
 import Image from "next/image";
 import instance from "@/lib/axios";
 

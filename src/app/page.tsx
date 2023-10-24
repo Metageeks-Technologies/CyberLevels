@@ -1,19 +1,17 @@
 "use client";
-import { useEffect, useState } from "react";
-import Header from "@/layouts/headers/header";
-import HeroBanner from "./components/hero-banners/hero-banner";
-import CategorySection from "./components/category/category-section";
-import FeatureOne from "./components/features/feature-one";
-import HowItWorks from "./components/how-it-works/how-it-works";
-import ExpertsOne from "./components/experts/experts-one";
-import FeedbackOne from "./components/feedBacks/feedback-one";
-import FeatureTwo from "./components/features/feature-two";
-import BlogOne from "./components/blogs/blog-one";
-import FancyBanner from "./components/fancy-banner/fancy-banner";
-import JobPortalIntro from "./components/job-portal-intro/job-portal-intro";
 import FooterOne from "@/layouts/footers/footer-one";
+import Header from "@/layouts/headers/header";
 import Wrapper from "@/layouts/wrapper";
-import Pagination from "@/ui/pagination";
+import BlogOne from "./components/blogs/blog-one";
+import CategorySection from "./components/category/category-section";
+import ExpertsOne from "./components/experts/experts-one";
+import FancyBanner from "./components/fancy-banner/fancy-banner";
+import FeatureFour from "./components/features/feature-four";
+import FeatureOne from "./components/features/feature-one";
+import FeedbackTwo from "./components/feedBacks/feedback-one";
+import HeroBanner from "./components/hero-banners/hero-banner";
+import HowItWorks from "./components/how-it-works/how-it-works";
+import JobPortalIntro from "./components/job-portal-intro/job-portal-intro";
 const text = "hello world";
 const url =
   "https://www.naukri.com/job-listings-web-designer-php-laravel-internship-permanent-360-digital-idea-new-delhi-delhi-delhi-ncr-0-to-2-years-171023010795?src=drecomm_dashboard";
@@ -29,7 +27,7 @@ export default function Home() {
       {/* category section start */}
       <CategorySection />
       {/* category section end */}
-      <a
+      {/* <a
         target="_blank"
         href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
       >
@@ -40,10 +38,10 @@ export default function Home() {
         href={`https://twitter.com/intent/tweet?text=${text}&url=${url}`}
       >
         share on twitter
-      </a>
+      </a> */}
 
       {/* feature one start */}
-      <FeatureOne />
+      <FeatureFour />
       {/* feature one end */}
       {/* how works start */}
       <HowItWorks />
@@ -52,10 +50,11 @@ export default function Home() {
       <ExpertsOne />
       {/* expert one section end */}
       {/* feedback one start */}
-      <FeedbackOne />
+
+      <FeedbackTwo />
       {/* feedback one end */}
       {/* text feature two start */}
-      <FeatureTwo />
+      <FeatureOne />
       {/* text feature two end */}
       {/* blog section one start */}
       <BlogOne />

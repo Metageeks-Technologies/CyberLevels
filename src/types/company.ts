@@ -16,6 +16,7 @@ export interface ICompany {
     name: string;
     email: string;
     logo: string;
+    _id: string;
     contactNumber?: string;
     website: string;
     foundedDate: Date;

@@ -21,7 +21,9 @@ type IProps = {
 };
 const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
   const dispatch = useDispatch();
-  const { loading } = useSelector((state: RootState) => state.company);
+  const { loading } = useSelector(
+    (state: RootState) => state.company.companyList
+  );
   const [form, setForm] = useState({
     logo: "",
     name: "",

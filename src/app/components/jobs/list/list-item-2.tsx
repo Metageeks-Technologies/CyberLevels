@@ -30,7 +30,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                 href={`/job-details-v1/${item._id}`}
                 className="job-duration fw-500"
               >
-                {item.jobType}
+                {item.jobType.join(" ,")}
               </Link>
               <Link
                 href={`/job-details-v1/${item._id}`}
@@ -47,7 +47,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
           </div>
           <div className="job-salary">
             <span className="fw-500 text-dark">
-              ${item.salary.maximum}-{item.salary.maximum} LPA
+              ${item.salary.minimum}-{item.salary.maximum} PA
             </span>{" "}
             /{item.preferredExperience[0]}
           </div>

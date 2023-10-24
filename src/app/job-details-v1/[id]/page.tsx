@@ -15,11 +15,14 @@ import { useDispatch } from "react-redux";
 const JobDetailsDynamicPage = ({ params }: { params: { id: string } }) => {
   const dispatch = useAppDispatch();
   const { jobPost } = useAppSelector((state) => state.jobPost);
+  const { companyOfJobPost } = useAppSelector(
+    (state) => state.company.companyList
+  );
   const pathName = usePathname();
   useEffect(() => {
     getJobPostDetails(dispatch, params.id);
   }, [params.id]);
-
+  // console.log("for company", companyOfJobPost);
   return (
     <Wrapper>
       <div className="main-page-wrapper">
@@ -32,7 +35,14 @@ const JobDetailsDynamicPage = ({ params }: { params: { id: string } }) => {
         {/* job details breadcrumb end */}
 
         {/* job details area start */}
-        {jobPost && <JobDetailsV1Area job={jobPost} url={pathName} />}
+
+        {jobPost && companyOfJobPost && (
+          <JobDetailsV1Area
+            job={jobPost}
+            url={pathName}
+            company={companyOfJobPost}
+          />
+        )}
         {/* job details area end */}
 
         {/* related job start */}

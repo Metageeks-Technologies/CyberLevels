@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Image, { StaticImageData } from "next/image";
 import job_data from "@/data/job-data";
 import icon_1 from "@/assets/dashboard/images/icon/icon_12.svg";
@@ -10,6 +10,9 @@ import main_graph from "@/assets/dashboard/images/main-graph.png";
 import DashboardHeader from "../candidate/dashboard-header";
 import { CardItem } from "../candidate/dashboard-area";
 import NiceSelect from "@/ui/nice-select";
+import { useAppSelector, useAppDispatch } from "@/redux/hook";
+import { getJObPosts, deleteJobPost } from "@/redux/features/jobPost/api";
+import job_img_1 from "@/assets/images/logo/media_22.png";
 
 // props type
 type IProps = {
@@ -17,8 +20,18 @@ type IProps = {
 };
 
 const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
-  const job_items = [...job_data.reverse().slice(0, 6)];
+  // const job_items = [...job_data.reverse().slice(0, 6)];
   const handleJobs = (item: { value: string; label: string }) => {};
+  const dispatch = useAppDispatch();
+  const { allJobPost, page } = useAppSelector((state) => state.jobPost);
+  const filterObj = useAppSelector((state) => state.filter);
+  useEffect(() => {
+    getJObPosts(dispatch, filterObj, page);
+  }, []);
+  const handleDelete = (id: string) => {
+    deleteJobPost(dispatch, id);
+  };
+
   return (
     <div className="dashboard-body">
       <div className="position-relative">
@@ -27,14 +40,14 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
         {/* header end */}
 
         <h2 className="main-title">Dashboard</h2>
-        <div className="row">
+        {/* <div className="row">
           <CardItem img={icon_1} title="Total Visitor" value="1.7k+" />
           <CardItem img={icon_2} title="Shortlisted" value="03" />
           <CardItem img={icon_3} title="Views" value="2.1k" />
           <CardItem img={icon_4} title="Applied Job" value="07" />
-        </div>
+        </div> */}
 
-        <div className="row d-flex pt-50 lg-pt-10">
+        <div className="row d-flex pt-0 lg-pt-10">
           <div className="col-xl-7 col-lg-6 d-flex flex-column">
             <div className="user-activity-chart bg-white border-20 mt-30 h-100">
               <h4 className="dash-title-two">Job Views</h4>
@@ -72,15 +85,16 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
           <div className="col-xl-5 col-lg-6 d-flex">
             <div className="recent-job-tab bg-white border-20 mt-30 w-100">
               <h4 className="dash-title-two">Posted Job</h4>
+
               <div className="wrapper">
-                {job_items.map((j) => (
+                {allJobPost?.map((j) => (
                   <div
-                    key={j.id}
+                    key={j._id}
                     className="job-item-list d-flex align-items-center"
                   >
                     <div>
                       <Image
-                        src={j.logo}
+                        src={job_img_1}
                         alt="logo"
                         width={40}
                         height={40}
@@ -89,10 +103,10 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                     </div>
                     <div className="job-title">
                       <h6 className="mb-5">
-                        <a href="#">{j.duration}</a>
+                        <a href="#">{j.jobCategory}</a>
                       </h6>
                       <div className="meta">
-                        <span>Fulltime</span> . <span>{j.location}</span>
+                        <span>{j.jobType[0]}</span> . <span>{j.location}</span>
                       </div>
                     </div>
                     <div className="job-action">
@@ -116,9 +130,13 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                           </a>
                         </li>
                         <li>
-                          <a className="dropdown-item" href="#">
+                          <button
+                            className="dropdown-item"
+                            type="button"
+                            onClick={() => handleDelete(j._id)}
+                          >
                             Delete
-                          </a>
+                          </button>
                         </li>
                       </ul>
                     </div>

@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import LoginForm from "../../forms/login-form";
 import google from "@/assets/images/icon/google.png";
-import facebook from "@/assets/images/icon/facebook.png";
 import { useDispatch } from "react-redux";
 import { setLoggerWithLn } from "@/redux/features/userSlice";
 
@@ -13,6 +12,7 @@ const LoginModal = () => {
     setActiveTab(tab);
   };
   const dispatch = useDispatch();
+
   return (
     <div
       className="modal fade"
@@ -36,34 +36,36 @@ const LoginModal = () => {
                 <Link href="/register">Sign up</Link>
               </p>
             </div>
-            <ul className="nav nav-tabs border-0 w-100 mt-30" role="tablist">
-              <li className="nav-item" role="presentation">
-                <button
-                  className="nav-link active"
-                  data-bs-toggle="tab"
-                  data-bs-target="#fc1"
-                  role="tab"
-                  aria-selected="true"
-                  tabIndex={-1}
-                  onClick={() => handleTabChange("candidate")}
-                >
-                  Candidates
-                </button>
-              </li>
-              <li className="nav-item" role="presentation">
-                <button
-                  className="nav-link"
-                  data-bs-toggle="tab"
-                  data-bs-target="#fc2"
-                  role="tab"
-                  aria-selected="false"
-                  tabIndex={-1}
-                  onClick={() => handleTabChange("employer")}
-                >
-                  Employer
-                </button>
-              </li>
-            </ul>
+            <div className="form-wrapper m-auto ">
+              <ul className="nav nav-tabs border-0 mt-30" role="tablist">
+                <li className="nav-item" role="presentation">
+                  <button
+                    className="nav-link active"
+                    data-bs-toggle="tab"
+                    data-bs-target="#fc1"
+                    role="tab"
+                    aria-selected="true"
+                    tabIndex={-1}
+                    onClick={() => handleTabChange("candidate")}
+                  >
+                    Candidate
+                  </button>
+                </li>
+                <li className="nav-item" role="presentation">
+                  <button
+                    className="nav-link"
+                    data-bs-toggle="tab"
+                    data-bs-target="#fc2"
+                    role="tab"
+                    aria-selected="false"
+                    tabIndex={-1}
+                    onClick={() => handleTabChange("employer")}
+                  >
+                    Employer
+                  </button>
+                </li>
+              </ul>
+            </div>
             <div className="form-wrapper m-auto">
               <LoginForm />
               <div className="d-flex align-items-center mt-30 mb-10">

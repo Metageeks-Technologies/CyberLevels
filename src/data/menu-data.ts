@@ -31,6 +31,13 @@ const menu_data: IMenuData[] = [
       // {link:'/job-wishlist',title:'Job Wishlist'},
     ]
   },
+  {
+    id: 2,
+    link: '/company-v2',
+    title: 'Companies',
+    sub_menus: [
+    ]
+  },
   // {
   //   id:3,
   //   link:'/candidates-v1',

@@ -11,9 +11,10 @@ import type { RootState } from "@/redux/store";
 // portfolio item
 function PortfolioItem({ img }: { img: StaticImageData }) {
   // const pathname = usePathname();
-  const { user } = useSelector(
-    (state: RootState) => state.persistedReducer.user
+  const { currCandidate } = useSelector(
+    (state: RootState) => state.candidate.candidateDashboard
   );
+
   return (
     <div className="col-lg-3 col-6">
       <div className="candidate-portfolio-block position-relative mb-25">
@@ -21,7 +22,11 @@ function PortfolioItem({ img }: { img: StaticImageData }) {
           <Image
             width={50}
             height={50}
-            src={user?.avatar !== "none" ? (user?.avatar as string) : img}
+            src={
+              currCandidate?.avatar !== "none"
+                ? (currCandidate?.avatar as string)
+                : img
+            }
             alt="image"
             className="lazy-img w-100"
             style={{ width: "100%", height: "auto" }}

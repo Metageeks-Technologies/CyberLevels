@@ -69,7 +69,7 @@ const CompanyV3Area = ({ style_2 = false }: { style_2?: boolean }) => {
                         key={item.id}
                         className="col-xl-3 col-lg-4 col-sm-6 d-flex"
                       >
-                        <CompanyGridItem item={item} />
+                        {/* <CompanyGridItem item={item} /> */}
                       </div>
                     ))}
                   </div>
@@ -81,7 +81,8 @@ const CompanyV3Area = ({ style_2 = false }: { style_2?: boolean }) => {
                   }`}
                 >
                   {company_data.map((item) => (
-                    <CompanyListItem key={item.id} item={item} />
+                    // <CompanyListItem key={item.id} item={item} />
+                    <></>
                   ))}
                 </div>
 

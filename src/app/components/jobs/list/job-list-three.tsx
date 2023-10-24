@@ -71,7 +71,7 @@ const JobListThree = ({
             <FilterArea
               priceValue={priceValue}
               setPriceValue={setPriceValue}
-              maxPrice={10}
+              maxPrice={12}
               setFinalPrice={handleSalary}
             />
             {/* filter area end */}

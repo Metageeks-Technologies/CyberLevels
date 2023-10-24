@@ -45,15 +45,17 @@ const JobGridItem = ({
       >
         <i className="bi bi-bookmark-dash"></i>
       </a>
-      <div>
-        <Link
-          href={`/job-details-v1/${_id}`}
-          className={`job-duration fw-500 ${
-            item.jobType[0] == "part-time" ? "part-time" : ""
-          }`}
-        >
-          {item.jobType[0]}
-        </Link>
+      <div className="d-flex gap-2 mt-40 mb-40  flex-wrap ">
+        {item?.jobType.map((val, index) => (
+          <Link
+            href={`/job-details-v1/${_id}`}
+            className={`job-duration fw-500 ${
+              val == "part-time" ? "part-time" : ""
+            }`}
+          >
+            {val}
+          </Link>
+        ))}
       </div>
       <div>
         <Link href={`/job-details-v1/${_id}`} className="title fw-500 tran3s">
@@ -62,15 +64,15 @@ const JobGridItem = ({
       </div>
       <div className="job-salary">
         <span className="fw-500 text-dark">
-          ${`${salary.maximum}-${salary.minimum}`}
+          ${`${salary.minimum}-${salary.maximum}`} PA
         </span>
       </div>
       <div className="d-flex align-items-center justify-content-between mt-auto">
         <div className="job-location">
-          <Link href={`/job-details-v1/${item.location}`}>{item.location}</Link>
+          <Link href={`/job-details-v1/${_id}`}>{item.location}</Link>
         </div>
         <Link
-          href={`/job-details-v1/${item.location}`}
+          href={`/job-details-v1/${_id}`}
           className="apply-btn text-center tran3s"
         >
           APPLY
