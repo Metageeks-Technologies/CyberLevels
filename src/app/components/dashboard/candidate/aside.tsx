@@ -58,13 +58,13 @@ const nav_data: {
     link: "/dashboard/candidate-dashboard/resume",
     title: "Resume",
   },
-  // {
-  //   id: 4,
-  //   icon: nav_4,
-  //   icon_active: nav_4_active,
-  //   link: "/dashboard/candidate-dashboard/messages",
-  //   title: "Messages",
-  // },
+  {
+    id: 4,
+    icon: nav_4,
+    icon_active: nav_4_active,
+    link: "/dashboard/candidate-dashboard/membership",
+    title: "Membership",
+  },
   {
     id: 5,
     icon: nav_5,

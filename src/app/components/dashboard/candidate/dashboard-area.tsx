@@ -35,11 +35,11 @@ export function CardItem({
     </div>
   );
 }
-// props type 
+// props type
 type IProps = {
-  setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>
-}
-const DashboardArea = ({setIsOpenSidebar}:IProps) => {
+  setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
+};
+const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
   const job_items = [...job_data.reverse().slice(0, 5)];
 
   return (
@@ -54,7 +54,7 @@ const DashboardArea = ({setIsOpenSidebar}:IProps) => {
           <CardItem img={icon_1} title="Total Visitor" value="1.7k+" />
           <CardItem img={icon_2} title="Shortlisted" value="03" />
           <CardItem img={icon_3} title="Views" value="2.1k" />
-          <CardItem img={icon_4} title="Applied Job" value="07" />
+          <CardItem img={icon_4} title="Credit left" value="05" />
         </div>
 
         <div className="row d-flex pt-50 lg-pt-10">

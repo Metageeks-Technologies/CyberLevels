@@ -73,7 +73,8 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
               </a>
               {isAuthenticated ? (
                 <Link
-                  href={`/job-details-v1/${item._id}`}
+                  // href={`/job-details-v1/${item._id}`}
+                  href={"/dashboard/candidate-dashboard/membership"}
                   className="apply-btn text-center tran3s"
                 >
                   APPLY
