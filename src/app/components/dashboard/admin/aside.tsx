@@ -116,7 +116,10 @@ const AdminAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
             </button>
           </div>
           <div className="user-data">
-            <div className="user-avatar online position-relative rounded-circle">
+            <div
+              style={{ background: "white" }}
+              className="user-avatar online position-relative rounded-circle"
+            >
               <Image
                 src={avatar}
                 alt="avatar"

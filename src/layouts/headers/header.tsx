@@ -4,12 +4,22 @@ import Link from "next/link";
 import Image from "next/image";
 import Menus from "./component/menus";
 import logo from "@/assets/images/logo/CL_Logo.png";
+import userLogo from "@/assets/images/logo/user-icon.png";
 import CategoryDropdown from "./component/category-dropdown";
 import LoginModal from "@/app/components/common/popup/login-modal";
 import useSticky from "@/hooks/use-sticky";
+import { useAppSelector, useAppDispatch } from "@/redux/hook";
+import { logoutAdmin } from "@/redux/features/user/api";
 
 const Header = () => {
   const { sticky } = useSticky();
+  const { isAuthenticated, userRole, avatar, name } = useAppSelector(
+    (state) => state.persistedReducer.user
+  );
+  const dispatch = useAppDispatch();
+  const handleLogout = async () => {
+    await logoutAdmin(dispatch);
+  };
   return (
     <>
       <header
@@ -27,26 +37,57 @@ const Header = () => {
               </div>
               <div className="right-widget ms-auto order-lg-3">
                 <ul className="d-flex align-items-center style-none">
-                  <li className="d-none d-md-block">
-                    <Link href="/register" className="job-post-btn tran3s">
-                      Post Job
-                    </Link>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="login-btn-one"
-                      data-bs-toggle="modal"
-                      data-bs-target="#loginModal"
+                  {isAuthenticated && (
+                    <li className="d-none d-md-block">
+                      <Link
+                        href={`dashboard/${userRole}-dashboard`}
+                        className="job-post-btn tran3s"
+                      >
+                        Dashboard
+                      </Link>
+                    </li>
+                  )}
+                  {isAuthenticated ? (
+                    <li>
+                      <button onClick={handleLogout} className="login-btn-one">
+                        Logout
+                      </button>
+                    </li>
+                  ) : (
+                    <li>
+                      <a
+                        href="#"
+                        className="login-btn-one"
+                        data-bs-toggle="modal"
+                        data-bs-target="#loginModal"
+                      >
+                        Login
+                      </a>
+                    </li>
+                  )}
+                  {isAuthenticated && (
+                    <li
+                      style={{ width: "50px", height: "50px" }}
+                      className="rounded user-avatar rounded-circle"
                     >
-                      Login
-                    </a>
-                  </li>
-                  <li className="d-none d-md-block ms-4">
-                    <Link href="/candidates-v1" className="btn-one">
-                      Hire Top Talents
-                    </Link>
-                  </li>
+                      <Image
+                        src={avatar && avatar !== "none" ? avatar : userLogo}
+                        alt="avatar"
+                        width={50}
+                        height={50}
+                        className="lazy-img "
+                        style={{ height: "auto" }}
+                      />
+                      <span>{name}</span>
+                    </li>
+                  )}
+                  {userRole !== "candidate" && (
+                    <li className="d-none d-md-block ms-4">
+                      <Link href="/candidates-v1" className="btn-one">
+                        Hire Top Talents
+                      </Link>
+                    </li>
+                  )}
                 </ul>
               </div>
               <nav className="navbar navbar-expand-lg p0 ms-lg-5 ms-3 order-lg-2">

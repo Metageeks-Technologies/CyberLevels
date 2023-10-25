@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import menu_data from "@/data/menu-data";
+import { employ_menu_data } from "@/data/menu-data";
 import Link from "next/link";
+import { useAppSelector } from "@/redux/hook";
+import { IMenuData } from "@/types/menu-data-type";
 
 const Menus = () => {
   const handleOnClick = () => {};
+  const { userRole } = useAppSelector((state) => state.persistedReducer.user);
+  let menuData: IMenuData[] | null = null;
+  if (userRole === "employer") menuData = employ_menu_data;
+  else menuData = menu_data;
+
   return (
     <>
-      {menu_data.map((menu) =>
+      {menuData?.map((menu) =>
         menu.sub_menus ? (
           <div
             key={menu.id}

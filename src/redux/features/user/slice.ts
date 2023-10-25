@@ -4,7 +4,9 @@ import { ICandidate, IEmployer } from '@/types/user-type'
 
 interface User {
     user: string,
-    userRole: string
+    userRole: string,
+    avatar: string,
+    name: string,
 }
 
 export interface userState {
@@ -14,6 +16,8 @@ export interface userState {
     error: string | null,
     userRole: string,
     whoIsTryingToLoginWithLn: string,
+    avatar: string,
+    name: string
 }
 const initialState: userState = {
     currUser: null,
@@ -21,7 +25,9 @@ const initialState: userState = {
     isAuthenticated: false,
     error: null,
     userRole: "",
-    whoIsTryingToLoginWithLn: ""
+    avatar: "none",
+    whoIsTryingToLoginWithLn: "",
+    name: ""
 }
 
 export const userSlice = createSlice({

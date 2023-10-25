@@ -1,62 +1,189 @@
 "use client";
-import React from "react";
-import Image from "next/image";
-import DashboardHeader from "../candidate/dashboard-header";
-import StateSelect from "../candidate/state-select";
-import CitySelect from "../candidate/city-select";
-import CountrySelect from "../candidate/country-select";
-import EmployExperience from "./employ-experience";
-import icon from "@/assets/dashboard/images/icon/icon_16.svg";
-import NiceSelect from "@/ui/nice-select";
-import AutocompleteCity from "@/ui/autoCompleteCity";
+import { addJobPost } from "@/redux/features/jobPost/api";
+import { RootState } from "@/redux/store";
 import AutocompletePosition from "@/ui/autoCompletePosistion";
+import AutocompleteSkill from "@/ui/autoCompleteSkill";
+import NiceSelect from "@/ui/nice-select";
+import { MagicWand } from "@phosphor-icons/react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import DashboardHeader from "../candidate/dashboard-header";
+import { useAppDispatch } from "@/redux/hook";
+import Loader from "@/ui/loader";
+import LocationAutoComplete from "@/ui/locationAutoComplete";
+import MultipleChoiceQuestion from "@/ui/question";
+import TinyMCEEditor from "@/ui/textEditor";
+import { askToGpt } from "@/redux/features/jobPost/api";
 
-// props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
-  const handleCategory = (item: { value: string; label: string }) => {};
-  const handleJobType = (item: { value: string; label: string }) => {};
-  const handleSalary = (item: { value: string; label: string }) => {};
+  const dispatch = useAppDispatch();
+  const { loading, gptLoading } = useSelector(
+    (state: RootState) => state.jobPost
+  );
+
+  const [title, setTitle] = useState("");
+  const [jobCategory, setJobCategory] = useState("");
+  const [jobType, setJobType] = useState<string[]>([]);
+  const [workMode, setWorkMode] = useState("");
+  const [experience, setExperience] = useState<string[]>([]);
+  const [language, setLanguage] = useState("");
+
+  const [location, setLocation] = useState<string[]>([]);
+  const [salary, setSalary] = useState({
+    minimum: "",
+    maximum: "",
+    isDisclosed: true,
+  });
+  // console.log(jobType);
+
+  const [primarySkills, setPrimarySkills] = useState<string[]>([]);
+  const [secondarySkills, setSecondarySkills] = useState<string[]>([]);
+  const [benefits, setBenefits] = useState<string[]>([]);
+  const [benefitsInput, setBenefitsInput] = useState("");
+  const [isAddingBenefits, setAddingBenefits] = useState(false);
+  const [descriptionWithAI, setDescriptionWithAI] = useState<any>("");
+  const [questionWithAI, setQuestionWithAI] = useState<any>("");
+  console.log(questionWithAI);
+
+  const handleSalary = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setSalary({
+      ...salary,
+      [name]: value,
+    });
+  };
+  const addToBenefits = () => {
+    setBenefits((prev) => [...prev, benefitsInput]);
+    setAddingBenefits(false);
+    setBenefitsInput("");
+  };
+  const handleJobType = (item: { value: string; label: string }) => {
+    setJobType((prev) => [...prev, item.value]);
+    console.log(item.value);
+    // setJobType("");
+  };
+  const handleWorkMode = (item: { value: string; label: string }) => {
+    setWorkMode(item.value);
+    console.log(item.value);
+    // setJobType("");
+  };
+  const handleExperience = (item: { value: string; label: string }) => {
+    setExperience((prev) => [...prev, item.value]);
+    // console.log(selected, item.value);
+  };
+  const handleLanguage = (item: { value: string; label: string }) => {
+    setLanguage(item.value);
+  };
+
+  const bodyObj = {
+    title: title,
+    location: location,
+    jobType: jobType,
+    jobCategory: jobCategory,
+    primarySkills,
+    secondarySkills,
+    salary: salary,
+    preferredExperience: experience,
+    workMode: workMode,
+    testQuestions: questionWithAI
+      ? questionWithAI.choices[0].message.content
+      : "",
+    description: descriptionWithAI
+      ? descriptionWithAI.choices[0].message.content
+      : "",
+    benefits: benefits,
+  };
+
+  const handleSubmit = async () => {
+    console.log(bodyObj);
+    // return;
+    await addJobPost(dispatch, bodyObj);
+    // setTitle("");
+    // setJobCategory("");
+    // setJobType([]);
+    // setLocation([]);
+    // setExperience([]);
+    // setSalary({
+    //   minimum: "",
+    //   maximum: "",
+    //   isDisclosed: true,
+    // });
+    // setPrimarySkills([]);
+    // setSecondarySkills([]);
+    // setDescriptionWithAI("");
+    // setQuestionWithAI("");
+  };
+
+  const draftDescription = async () => {
+    const query = `give me job description for job post ${
+      bodyObj.title
+    }  in job category of ${bodyObj.jobCategory} with ${bodyObj.jobType.join(
+      ", "
+    )} job type,primary skills  are  ${bodyObj.primarySkills.join(
+      ", "
+    )}and secondary skills are ${bodyObj.secondarySkills.join(
+      ", "
+    )}, with work mode ${
+      bodyObj.workMode
+    } and experience of ${bodyObj.preferredExperience.join(
+      ", "
+    )} at location of ${bodyObj.location.join(
+      ", "
+    )}, make it an intreating paragraph of 50 to 75 words with necessary bullet points`;
+
+    try {
+      const data = await askToGpt(dispatch, query);
+      setDescriptionWithAI(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const draftQuestion = async () => {
+    const query = `generate 4 easy to medium  question with answer in multiple choice of exact four option on the topic ${bodyObj.primarySkills.join(
+      ","
+    )}. do not give any extra information or text just question and corresponding answer`;
+
+    try {
+      const data = await askToGpt(dispatch, query);
+      setQuestionWithAI(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className="dashboard-body">
+    <div className="dashboard-body job-details">
       <div className="position-relative">
         {/* header start */}
         <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
         {/* header end */}
 
         <h2 className="main-title">Post a New Job</h2>
-
         <div className="bg-white card-box border-20">
           <h4 className="dash-title-three">Job Details</h4>
           <div className="dash-input-wrapper mb-30">
             <label htmlFor="">Job Title*</label>
             {/* <input type="text" placeholder="Ex: Product Designer" /> */}
-            {/* <AutocompletePosition /> */}
+            <AutocompletePosition
+              selected={title}
+              setSelected={setTitle}
+              endPoint="jobTitle"
+            />
           </div>
-          <div className="dash-input-wrapper mb-30">
-            <label htmlFor="">Job Description*</label>
-            <textarea
-              className="size-lg"
-              placeholder="Write about the job in details..."
-            ></textarea>
-          </div>
+
           <div className="row align-items-end">
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
                 <label htmlFor="">Job Category</label>
-                <NiceSelect
-                  options={[
-                    { value: "Designer", label: "Designer" },
-                    { value: "It & Development", label: "It & Development" },
-                    { value: "Web & Mobile Dev", label: "Web & Mobile Dev" },
-                    { value: "Writing", label: "Writing" },
-                  ]}
-                  defaultCurrent={0}
-                  onChange={(item) => handleCategory(item)}
-                  name="Job Category"
+                <AutocompletePosition
+                  selected={jobCategory}
+                  setSelected={setJobCategory}
+                  endPoint="jobCategory"
                 />
               </div>
             </div>
@@ -74,30 +201,67 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   onChange={(item) => handleJobType(item)}
                   name="Job Type"
                 />
+                <div className="skill-input-data d-flex align-items-center flex-wrap">
+                  {jobType.map((value) => (
+                    <button key={value}>{value}</button>
+                  ))}
+                </div>
               </div>
             </div>
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
-                <label htmlFor="">Salary*</label>
+                <label htmlFor="">Work Mode</label>
                 <NiceSelect
                   options={[
-                    { value: "Monthly", label: "Monthly" },
-                    { value: "Weekly", label: "Weekly" },
+                    { value: "Hybrid", label: "Hybrid" },
+                    { value: "Remote", label: "Remote" },
+                    { value: "On-Site", label: "On-Site" },
+                    { value: "Flexible", label: "Flexible" },
                   ]}
                   defaultCurrent={0}
-                  onChange={(item) => handleSalary(item)}
-                  name="Salary"
+                  onChange={(item) => handleWorkMode(item)}
+                  name="work mode"
+                />
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="dash-input-wrapper mb-30">
+                <label htmlFor="">Preferred Language</label>
+                <NiceSelect
+                  options={[
+                    { value: "English", label: "English" },
+                    { value: "Spanish", label: "Spanish" },
+                    { value: "French", label: "French" },
+                    { value: "Others", label: "Others" },
+                  ]}
+                  defaultCurrent={0}
+                  onChange={(item) => handleLanguage(item)}
+                  name="Job Type"
+                />
+              </div>
+            </div>
+
+            <div className="col-md-3">
+              <div className="dash-input-wrapper mb-30">
+                <label htmlFor="salary">Salary*</label>
+                <input
+                  type="text"
+                  name="minimum"
+                  value={salary.minimum}
+                  onChange={handleSalary}
+                  placeholder="Min (LPA)"
                 />
               </div>
             </div>
             <div className="col-md-3">
               <div className="dash-input-wrapper mb-30">
-                <input type="text" placeholder="Min" />
-              </div>
-            </div>
-            <div className="col-md-3">
-              <div className="dash-input-wrapper mb-30">
-                <input type="text" placeholder="Max" />
+                <input
+                  type="text"
+                  name="maximum"
+                  value={salary.maximum}
+                  onChange={handleSalary}
+                  placeholder="Max (LPA)"
+                />
               </div>
             </div>
           </div>
@@ -105,108 +269,172 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
           <h4 className="dash-title-three pt-50 lg-pt-30">
             Skills & Experience
           </h4>
+          {/* primary skills */}
           <div className="dash-input-wrapper mb-30">
-            <label htmlFor="">Skills*</label>
-            <input type="text" placeholder="Add Skills" />
+            <label htmlFor="">Primary Skills*</label>
+            <AutocompleteSkill
+              skills={primarySkills}
+              setSkills={setPrimarySkills}
+            />
+            {/* <input type="text" placeholder="Add Skills" /> */}
             <div className="skill-input-data d-flex align-items-center flex-wrap">
-              <button>Design</button>
-              <button>UI</button>
-              <button>Digital</button>
-              <button>Graphics</button>
-              <button>Developer</button>
-              <button>Product</button>
-              <button>Microsoft</button>
-              <button>Brand</button>
-              <button>Photoshop</button>
-              <button>Business</button>
-              <button>IT & Technology</button>
-              <button>Marketing</button>
-              <button>Article</button>
-              <button>Engineer</button>
-              <button>HTML5</button>
-              <button>Figma</button>
-              <button>Automobile</button>
-              <button>Account</button>
+              {primarySkills.map((value) => (
+                <button key={value}>{value}</button>
+              ))}
+            </div>
+          </div>
+          {/* secondary skills */}
+          <div className="dash-input-wrapper mb-30">
+            <label htmlFor="">Secondary Skills*</label>
+            <AutocompleteSkill
+              skills={secondarySkills}
+              setSkills={setSecondarySkills}
+            />
+            {/* <input type="text" placeholder="Add Skills" /> */}
+            <div className="skill-input-data d-flex align-items-center flex-wrap">
+              {secondarySkills.map((value) => (
+                <button key={value}>{value}</button>
+              ))}
             </div>
           </div>
 
           {/* employ experience start */}
-          <EmployExperience />
-          {/* employ experience end */}
-          <h4 className="dash-title-three pt-50 lg-pt-30">File Attachment</h4>
-          <div className="dash-input-wrapper mb-20">
-            <label htmlFor="">File Attachment*</label>
-            <div className="attached-file d-flex align-items-center justify-content-between mb-15">
-              <span>guidline&requirments.doc</span>
-              <a href="#" className="remove-btn">
-                <i className="bi bi-x"></i>
-              </a>
-            </div>
-          </div>
-          <div className="dash-btn-one d-inline-block position-relative me-3">
-            <i className="bi bi-plus"></i>
-            Upload File
-            <input type="file" id="uploadCV" name="uploadCV" placeholder="" />
-          </div>
-          <small>Upload file .pdf, .doc, .docx</small>
-          <h4 className="dash-title-three pt-50 lg-pt-30">
-            Address & Location
-          </h4>
-          <div className="row">
-            <div className="col-12">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Address*</label>
-                <input
-                  type="text"
-                  placeholder="Cowrasta, Chandana, Gazipur Sadar"
+          <div className="row align-items-end">
+            <div className="col-md-6">
+              <div className="dash-input-wrapper mb-30">
+                <label htmlFor="">Experience*</label>
+                <NiceSelect
+                  options={[
+                    { value: "Intermediate", label: "Intermediate" },
+                    { value: "No-Experience", label: "No-Experience" },
+                    { value: "Expert", label: "Expert" },
+                  ]}
+                  defaultCurrent={0}
+                  onChange={(item) => handleExperience(item)}
+                  name="Experience"
                 />
-              </div>
-            </div>
-            <div className="col-lg-4">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Country*</label>
-                <CountrySelect />
-              </div>
-            </div>
-            <div className="col-lg-4">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">City*</label>
-                {/* <CitySelect /> */}
-                <AutocompleteCity />
-              </div>
-            </div>
-            <div className="col-lg-4">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">State*</label>
-                <StateSelect />
-              </div>
-            </div>
-            <div className="col-12">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Map Location*</label>
-                <div className="position-relative">
-                  <input type="text" placeholder="XC23+6XC, Moiran, N105" />
-                  <button className="location-pin tran3s">
-                    <Image src={icon} alt="icon" className="lazy-img m-auto" />
-                  </button>
-                </div>
-                <div className="map-frame mt-30">
-                  <div className="gmap_canvas h-100 w-100">
-                    <iframe
-                      className="gmap_iframe h-100 w-100"
-                      src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=bass hill plaza medical centre&amp;t=&amp;z=12&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-                    ></iframe>
-                  </div>
+                <div className="skill-input-data d-flex align-items-center flex-wrap">
+                  {experience.map((value) => (
+                    <button key={value}>{value}</button>
+                  ))}
                 </div>
               </div>
             </div>
+            <div className="col-md-6">
+              <div className="dash-input-wrapper mb-30">
+                <label htmlFor="">Location*</label>
+                <LocationAutoComplete
+                  setSelected={setLocation}
+                  type="cities"
+                  label="location"
+                  isMultiple={true}
+                />
+                <div
+                  style={{ marginTop: "10px" }}
+                  className="skill-input-data d-flex align-items-center flex-wrap "
+                >
+                  {location.map((value) => (
+                    <button key={value}>{value}</button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* <div className="bg-white card-box border-20 mt-40">
+            
+          </div> */}
+          <h4 className="dash-title-three">Benefits && Offerings</h4>
+          {[...benefits].map((val, index) => (
+            <div key={val} className="dash-input-wrapper mb-20">
+              <label htmlFor="">Benefit {index + 1}</label>
+              <input type="text" readOnly value={val} />
+            </div>
+          ))}
+          {isAddingBenefits && (
+            <div className="dash-input-wrapper mb-20">
+              <label htmlFor="benefitsInput">
+                Benefit {benefits.length + 1}
+              </label>
+              <input
+                type="text"
+                name="benefitsInput"
+                onChange={(e) => setBenefitsInput(e.target.value)}
+                onBlur={addToBenefits}
+                value={benefitsInput}
+                placeholder="Gym"
+              />
+            </div>
+          )}
+          <button
+            onClick={() => setAddingBenefits(true)}
+            className="dash-btn-one"
+          >
+            <i className="bi bi-plus"></i>{" "}
+            {benefits.length == 0 ? "Add Benefit" : "Add More Benefit"}
+          </button>
+          {/* <EmployExperience
+            selected={expLocation}
+            setSelected={setExpLocation}
+          /> */}
+          {/* from for adding benefits of company */}
+
+          {/* employ experience end */}
+
+          <h4 className="dash-title-three pt-50 lg-pt-30">Add Description</h4>
+          <div className="dash-input-wrapper mb-30 ">
+            <label htmlFor="">Job Description*</label>
+            <button
+              // disabled={gptLoading}
+              type={"button"}
+              onClick={draftDescription}
+              className="dash-btn-ai mb-3  tran3s me-3 d-flex align-content-center gap-2  justify-content-center   "
+            >
+              <span>{true ? "Write a description With Ai" : <Loader />}</span>
+              <span className="">
+                <MagicWand size={32} color="#244034" weight="light" />
+              </span>
+            </button>
+            {descriptionWithAI ? (
+              <TinyMCEEditor
+                text={descriptionWithAI.choices[0].message.content}
+              />
+            ) : (
+              <TinyMCEEditor text={""} />
+            )}
+          </div>
+          <h4 className="dash-title-three pt-50 lg-pt-30">
+            Add Test for Candidate{" "}
+          </h4>
+          <div className="dash-input-wrapper mb-30 ">
+            {/* <label htmlFor="">*</label> */}
+            <button
+              // disabled={gptLoading}
+              type={"button"}
+              onClick={draftQuestion}
+              className="dash-btn-ai mb-3  tran3s me-3 d-flex align-content-center gap-2  justify-content-center "
+            >
+              <span>{true ? "Generate Test" : <Loader />}</span>
+              <span className="">
+                <MagicWand size={32} color="#244034" weight="light" />
+              </span>
+            </button>
+            {questionWithAI && (
+              <MultipleChoiceQuestion
+                text={questionWithAI.choices[0].message.content}
+              />
+            )}
           </div>
         </div>
 
         <div className="button-group d-inline-flex align-items-center mt-30">
-          <a href="#" className="dash-btn-two tran3s me-3">
-            Next
-          </a>
+          <button
+            disabled={loading}
+            type={"submit"}
+            onClick={handleSubmit}
+            className="dash-btn-two tran3s me-3"
+          >
+            {loading ? <Loader /> : "Save"}
+          </button>
           <a href="#" className="dash-cancel-btn tran3s">
             Cancel
           </a>

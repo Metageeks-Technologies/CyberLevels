@@ -95,10 +95,10 @@ const DashboardHeader = ({ setIsOpenSidebar }: IProps) => {
             </li>
           </ul>
         </div>
-        {pathName.split("/").includes("employ-dashboard") && (
+        {pathName.split("/").includes("employer-dashboard") && (
           <div>
             <Link
-              href="/dashboard/employ-dashboard/submit-job"
+              href="/dashboard/employer-dashboard/submit-job"
               className="job-post-btn tran3s"
             >
               Post a Job

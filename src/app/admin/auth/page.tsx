@@ -2,12 +2,12 @@ import React from "react";
 import { Metadata } from "next";
 import Header from "@/layouts/headers/header";
 import Wrapper from "@/layouts/wrapper";
-import CompanyBreadcrumb from "../components/common/common-breadcrumb";
+import CompanyBreadcrumb from "@/app/components/common/common-breadcrumb";
 import FooterOne from "@/layouts/footers/footer-one";
-import RegisterArea from "../components/register/register-area";
+import AdminRegisterArea from "@/app/components/register/register-admin";
 
 export const metadata: Metadata = {
-  title: "Register",
+  title: "Admin Auth",
 };
 
 const RegisterPage = () => {
@@ -20,13 +20,13 @@ const RegisterPage = () => {
 
         {/*breadcrumb start */}
         <CompanyBreadcrumb
-          title="Register"
-          subtitle="Create an account & Start posting or hiring talents"
+          title="Admin Authentication"
+          subtitle="Login to the Admin Account to Work as administrator."
         />
         {/*breadcrumb end */}
 
         {/* register area start */}
-        <RegisterArea />
+        <AdminRegisterArea />
         {/* register area end */}
 
         {/* footer start */}

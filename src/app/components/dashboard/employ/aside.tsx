@@ -31,6 +31,7 @@ import LogoutModal from "../../common/popup/logout-modal";
 import LogoutButton from "../candidate/LogoutButton";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
+import { useAppSelector } from "@/redux/hook";
 
 // nav data
 const nav_data: {
@@ -44,21 +45,21 @@ const nav_data: {
     id: 1,
     icon: nav_1,
     icon_active: nav_1_active,
-    link: "/dashboard/employ-dashboard",
+    link: "/dashboard/employer-dashboard",
     title: "Dashboard",
   },
   {
     id: 2,
     icon: nav_2,
     icon_active: nav_2_active,
-    link: "/dashboard/employ-dashboard/profile",
+    link: "/dashboard/employer-dashboard/profile",
     title: "My Profile",
   },
   {
     id: 3,
     icon: nav_3,
     icon_active: nav_3_active,
-    link: "/dashboard/employ-dashboard/jobs",
+    link: "/dashboard/employer-dashboard/jobs",
     title: "My Jobs",
   },
   // {
@@ -72,14 +73,14 @@ const nav_data: {
     id: 5,
     icon: nav_5,
     icon_active: nav_5_active,
-    link: "/dashboard/employ-dashboard/submit-job",
+    link: "/dashboard/employer-dashboard/submit-job",
     title: "Submit Job",
   },
   {
     id: 6,
     icon: nav_6,
     icon_active: nav_6_active,
-    link: "/dashboard/employ-dashboard/saved-candidate",
+    link: "/dashboard/employer-dashboard/saved-candidate",
     title: "Saved Candidate",
   },
   // {
@@ -93,7 +94,7 @@ const nav_data: {
     id: 8,
     icon: nav_7,
     icon_active: nav_7_active,
-    link: "/dashboard/employ-dashboard/setting",
+    link: "/dashboard/employer-dashboard/setting",
     title: "Account Settings",
   },
 ];
@@ -104,10 +105,8 @@ type IProps = {
 };
 const EmployAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
   const pathname = usePathname();
-  const { currCandidate } = useSelector(
-    (state: RootState) => state.candidate.candidateDashboard
-  );
-  const user = currCandidate;
+  const { currEmployer } = useAppSelector((state: RootState) => state.employer);
+  const user = currEmployer;
   return (
     <>
       <aside className={`dash-aside-navbar ${isOpenSidebar ? "show" : ""}`}>

@@ -1,18 +1,104 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import avatar from "@/assets/dashboard/images/avatar_04.jpg";
-import icon from "@/assets/dashboard/images/icon/icon_16.svg";
-import CountrySelect from "../candidate/country-select";
-import CitySelect from "../candidate/city-select";
-import StateSelect from "../candidate/state-select";
+import avatar from "@/assets/dashboard/images/avatar_02.jpg";
 import DashboardHeader from "../candidate/dashboard-header";
-
+import icon_3 from "@/assets/images/icon/icon_10.svg";
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState } from "@/redux/store";
+import { ICandidate, IEmployer } from "@/types/user-type";
+import Loader from "@/ui/loader";
+import LocationAutoComplete from "@/ui/locationAutoComplete";
+import {
+  requestStartDash,
+  requestFailDash,
+  updateCurrCandidateSuccess,
+} from "@/redux/features/candidate/dashboardSlice";
+import axios, { AxiosError } from "axios";
+import instance from "@/lib/axios";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
+const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
+  const { currEmployer, loading } = useSelector(
+    (state: RootState) => state.employer
+  );
+  const dispatch = useDispatch();
+  const user = currEmployer as IEmployer;
+
+  const [isEditable, SetIsEditable] = useState({
+    firstName: false,
+    lastName: false,
+    bio: false,
+    address: false,
+    phoneNumber: false,
+  });
+  const [form, setForm] = useState({
+    firstName: user.firstName || "",
+    lastName: user.lastName || "",
+    bio: user.bio || "",
+    phoneNumber: user.phoneNumber || "",
+  });
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
+  // const [location, setLocation] = useState({
+  //   locality: user.location.locality || "",
+  //   zipcode: user.location.zipcode || "",
+  // });
+  const [city, setCity] = useState(user?.location?.city || "");
+  // const [state, setState] = useState(user?.location?.state || "");
+  const [country, setCountry] = useState(user?.location?.country || "");
+  const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    // setLocation({
+    //   ...location,
+    //   [name]: value,
+    // });
+  };
+  const [social, setSocial] = useState<string[]>([]);
+  const [SocialInput, setSocialInput] = useState("");
+  const [isAddingSocialLink, setSocialLink] = useState(false);
+  const addToSocial = () => {
+    setSocial((prev) => [...prev, SocialInput]);
+    setSocialLink(false);
+    setSocialInput("");
+  };
+  console.log(social);
+  const handleSubmit = async () => {
+    const ILocation = {
+      ...location,
+      city: city,
+      country: country,
+    };
+    const bodyObj = {
+      ...form,
+      socialSites: social,
+      location: ILocation,
+    };
+    console.log(bodyObj);
+    dispatch(requestStartDash());
+    try {
+      const { data } = await instance.patch(
+        `/candidate/update/${user._id}`,
+        bodyObj
+      );
+      console.log(data);
+      dispatch(updateCurrCandidateSuccess(data?.candidate));
+    } catch (error) {
+      const e = error as AxiosError;
+      dispatch(requestFailDash(e.message));
+    }
+  };
+  console.log(user?.socialSites);
   return (
     <div className="dashboard-body">
       <div className="position-relative">
@@ -20,13 +106,19 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
         <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
         {/* header end */}
 
-        <h2 className="main-title">Profile</h2>
+        <h2 className="main-title">My Profile</h2>
 
         <div className="bg-white card-box border-20">
           <div className="user-avatar-setting d-flex align-items-center mb-30">
-            <Image src={avatar} alt="avatar" className="lazy-img user-img" />
-            <div className="upload-btn position-relative tran3s ms-4 me-3">
-              new photo
+            <Image
+              width={50}
+              height={50}
+              src={user?.avatar !== "none" ? (user?.avatar as string) : avatar}
+              alt="avatar"
+              className="lazy-img user-img"
+            />
+            {/* <div className="upload-btn position-relative tran3s ms-4 me-3">
+              Upload new photo
               <input
                 type="file"
                 id="uploadImg"
@@ -34,218 +126,220 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
                 placeholder=""
               />
             </div>
-            <button className="delete-btn tran3s">Delete</button>
+            <button className="delete-btn tran3s">Delete</button> */}
           </div>
           <div className="dash-input-wrapper mb-30">
-            <label htmlFor="">Employer Name*</label>
-            <input type="text" placeholder="John Doe" />
+            <label htmlFor="firstName">First Name</label>
+            {isEditable.firstName ? (
+              <input
+                type="text"
+                name="firstName"
+                onChange={handleInputChange}
+                value={form.firstName}
+                placeholder="James"
+              />
+            ) : (
+              <div className="d-flex align-items-center position-relative">
+                <input type="text" value={user.firstName} readOnly />
+                <Image
+                  onClick={() =>
+                    SetIsEditable({ ...isEditable, firstName: true })
+                  }
+                  src={icon_3}
+                  height={24}
+                  width={24}
+                  alt="icon"
+                  className="lazy-img position-absolute end-0 cursor-pointer"
+                />
+              </div>
+            )}
           </div>
-          <div className="row">
-            <div className="col-md-6">
-              <div className="dash-input-wrapper mb-30">
-                <label htmlFor="">Email*</label>
-                <input type="email" placeholder="companyinc@gmail.com" />
+          <div className="dash-input-wrapper mb-30">
+            <label htmlFor="lastName">Last Name</label>
+            {isEditable.lastName ? (
+              <input
+                type="text"
+                name="lastName"
+                onChange={handleInputChange}
+                value={form.lastName}
+                placeholder="brown"
+              />
+            ) : (
+              <div className="d-flex align-items-center position-relative">
+                <input type="text" value={user.lastName} readOnly />
+                <Image
+                  onClick={() =>
+                    SetIsEditable({ ...isEditable, lastName: true })
+                  }
+                  src={icon_3}
+                  height={24}
+                  width={24}
+                  alt="icon"
+                  className="lazy-img position-absolute end-0 cursor-pointer"
+                />
               </div>
+            )}
+          </div>
+          <div className="dash-input-wrapper mb-30">
+            <label htmlFor="">Email</label>
+            <div className="d-flex align-items-center position-relative">
+              <input type="text" value={user.email} readOnly />
             </div>
-            <div className="col-md-6">
-              <div className="dash-input-wrapper mb-30">
-                <label htmlFor="">Website*</label>
-                <input type="text" placeholder="http://somename.come" />
+          </div>
+          <div className="dash-input-wrapper mb-30">
+            <label htmlFor="">Phone Number</label>
+            {isEditable.phoneNumber ? (
+              <input
+                type="text"
+                name="phoneNumber"
+                onChange={handleInputChange}
+                value={form.phoneNumber}
+                placeholder="+880 01723801729"
+              />
+            ) : (
+              <div className="d-flex align-items-center position-relative">
+                <input type="text" value={user.phoneNumber} readOnly />
+                <Image
+                  onClick={() =>
+                    SetIsEditable({ ...isEditable, phoneNumber: true })
+                  }
+                  src={icon_3}
+                  height={24}
+                  width={24}
+                  alt="icon"
+                  className="lazy-img position-absolute end-0 cursor-pointer"
+                />
               </div>
-            </div>
-            <div className="col-md-6">
-              <div className="dash-input-wrapper mb-30">
-                <label htmlFor="">Founded Date*</label>
-                <input type="date" />
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="dash-input-wrapper mb-30">
-                <label htmlFor="">Company Size*</label>
-                <input type="text" placeholder="700" />
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="dash-input-wrapper mb-30">
-                <label htmlFor="">Phone Number*</label>
-                <input type="tel" placeholder="+880 01723801729" />
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="dash-input-wrapper mb-30">
-                <label htmlFor="">Category*</label>
-                <input type="text" placeholder="Account, Finance, Marketing" />
-              </div>
-            </div>
+            )}
+            {/* <input type="text" placeholder="Brower" /> */}
           </div>
           <div className="dash-input-wrapper">
-            <label htmlFor="">About Company*</label>
-            <textarea
-              className="size-lg"
-              placeholder="Write something interesting about you...."
-            ></textarea>
-            <div className="alert-text">
-              Brief description for your company. URLs are hyperlinked.
-            </div>
+            <label htmlFor="bio">Bio</label>
+            {isEditable.bio ? (
+              <textarea
+                className="size-lg"
+                placeholder="Write something interesting about you...."
+                value={form.bio}
+                name="bio"
+                onChange={handleInputChange}
+              ></textarea>
+            ) : (
+              <div className="d-flex  position-relative">
+                <textarea
+                  value={user.bio}
+                  readOnly
+                  className="size-lg"
+                  placeholder="Write something interesting about you...."
+                ></textarea>
+                <Image
+                  onClick={() => SetIsEditable({ ...isEditable, bio: true })}
+                  src={icon_3}
+                  height={24}
+                  width={24}
+                  alt="icon"
+                  className="lazy-img position-absolute end-0 cursor-pointer"
+                />
+              </div>
+            )}
+            {/* <div className="alert-text">
+              Brief description for your profile. URLs are hyperlinked.
+            </div> */}
           </div>
         </div>
 
         <div className="bg-white card-box border-20 mt-40">
           <h4 className="dash-title-three">Social Media</h4>
-          <div className="dash-input-wrapper mb-20">
-            <label htmlFor="">Network 1</label>
-            <input type="text" placeholder="https://www.facebook.com/" />
-          </div>
-          <div className="dash-input-wrapper mb-20">
-            <label htmlFor="">Network 2</label>
-            <input type="text" placeholder="https://twitter.com/FIFAcom" />
-          </div>
-          <a href="#" className="dash-btn-one">
+          {[...social].map((val, index) => (
+            <div key={val} className="dash-input-wrapper mb-20">
+              <label htmlFor="">Network {index + 1}</label>
+              <input type="text" readOnly value={val} />
+            </div>
+          ))}
+
+          {isAddingSocialLink && (
+            <div className="dash-input-wrapper mb-20">
+              <label htmlFor="SocialInput">
+                Network {user?.socialSites.length + social.length + 1}
+              </label>
+              <input
+                name="SocialInput"
+                value={SocialInput}
+                onChange={(e) => setSocialInput(e.target.value)}
+                onBlur={addToSocial}
+                type="text"
+                placeholder="#"
+              />
+            </div>
+          )}
+
+          <button onClick={() => setSocialLink(true)} className="dash-btn-one">
             <i className="bi bi-plus"></i> Add more link
-          </a>
+          </button>
         </div>
 
+        {/* from for location  */}
         <div className="bg-white card-box border-20 mt-40">
           <h4 className="dash-title-three">Address & Location</h4>
           <div className="row">
-            <div className="col-12">
+            {/* <div className="col-12">
               <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Address*</label>
+                <label htmlFor="">Local Address*</label>
                 <input
+                  name="locality"
+                  value={location.locality}
                   type="text"
+                  onChange={handleLocationChange}
                   placeholder="Cowrasta, Chandana, Gazipur Sadar"
                 />
               </div>
-            </div>
+            </div> */}
             <div className="col-lg-3">
+              <div className="dash-input-wrapper mb-25">
+                <label htmlFor="city">City*</label>
+                <LocationAutoComplete
+                  selected={city}
+                  setSelected={setCity}
+                  setCountry={setCountry}
+                  type="cities"
+                  label="city"
+                />
+              </div>
+            </div>
+            {/* <div className="col-lg-3">
               <div className="dash-input-wrapper mb-25">
                 <label htmlFor="">Country*</label>
-                <CountrySelect />
+                <LocationAutoComplete
+                  selected={state}
+                  setSelected={setState}
+                  type="regions"
+                  label="state"
+                />
               </div>
-            </div>
-            <div className="col-lg-3">
+            </div> */}
+            {/* <div className="col-lg-3">
               <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">City*</label>
-                <CitySelect />
+                <label htmlFor="zipcode">Zip Code*</label>
+                <input
+                  name="zipcode"
+                  value={location.zipcode}
+                  onChange={handleLocationChange}
+                  type="text"
+                  placeholder="1708"
+                />
               </div>
-            </div>
-            <div className="col-lg-3">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Zip Code*</label>
-                <input type="number" placeholder="1708" />
-              </div>
-            </div>
-            <div className="col-lg-3">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">State*</label>
-                <StateSelect />
-              </div>
-            </div>
-            <div className="col-12">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Map Location*</label>
-                <div className="position-relative">
-                  <input type="text" placeholder="XC23+6XC, Moiran, N105" />
-                  <button className="location-pin tran3s">
-                    <Image src={icon} alt="icon" className="lazy-img m-auto" />
-                  </button>
-                </div>
-                <div className="map-frame mt-30">
-                  <div className="gmap_canvas h-100 w-100">
-                    <iframe
-                      className="gmap_iframe h-100 w-100"
-                      src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=bass hill plaza medical centre&amp;t=&amp;z=12&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-                    ></iframe>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </div> */}
           </div>
-        </div>
-
-        <div className="bg-white card-box border-20 mt-40">
-          <h4 className="dash-title-three">Members</h4>
-          <div className="dash-input-wrapper">
-            <label htmlFor="">Add & Remove Member</label>
-          </div>
-          <div className="accordion dash-accordion-one" id="accordionOne">
-            <div className="accordion-item">
-              <div className="accordion-header" id="headingOne">
-                <button
-                  className="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapseOne"
-                  aria-expanded="false"
-                  aria-controls="collapseOne"
-                >
-                  Add Member 1
-                </button>
-              </div>
-              <div
-                id="collapseOne"
-                className="accordion-collapse collapse"
-                aria-labelledby="headingOne"
-                data-bs-parent="#accordionOne"
-              >
-                <div className="accordion-body">
-                  <div className="row">
-                    <div className="col-lg-2">
-                      <div className="dash-input-wrapper mb-30 md-mb-10">
-                        <label htmlFor="">Name*</label>
-                      </div>
-                    </div>
-                    <div className="col-lg-10">
-                      <div className="dash-input-wrapper mb-30">
-                        <input
-                          type="text"
-                          placeholder="Product Designer (Google)"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-lg-2">
-                      <div className="dash-input-wrapper mb-30 md-mb-10">
-                        <label htmlFor="">Designation*</label>
-                      </div>
-                    </div>
-                    <div className="col-lg-10">
-                      <div className="dash-input-wrapper mb-30">
-                        <input type="text" placeholder="Account Manager" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-lg-2">
-                      <div className="dash-input-wrapper mb-30 md-mb-10">
-                        <label htmlFor="">Email*</label>
-                      </div>
-                    </div>
-                    <div className="col-lg-10">
-                      <div className="dash-input-wrapper mb-30">
-                        <input type="email" placeholder="newmmwber@gmail.com" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-end mb-20">
-                    <a href="#" className="dash-btn-one">
-                      Remove
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <a href="#" className="dash-btn-one">
-            <i className="bi bi-plus"></i> Add Another Member
-          </a>
         </div>
 
         <div className="button-group d-inline-flex align-items-center mt-30">
-          <a href="#" className="dash-btn-two tran3s me-3">
-            Save
-          </a>
+          <button
+            type="submit"
+            disabled={loading}
+            onClick={handleSubmit}
+            className="dash-btn-two tran3s me-3"
+          >
+            {loading ? <Loader /> : <span>Save</span>}
+          </button>
           <a href="#" className="dash-cancel-btn tran3s">
             Cancel
           </a>
@@ -255,4 +349,4 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
   );
 };
 
-export default EmployProfileArea;
+export default DashboardProfileArea;

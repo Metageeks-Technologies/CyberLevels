@@ -5,42 +5,35 @@ import * as Yup from "yup";
 import { Resolver, useForm } from "react-hook-form";
 import ErrorMsg from "../common/error-msg";
 import icon from "@/assets/images/icon/icon_60.svg";
-import axios from "axios";
-import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-
-import type { RootState } from "@/redux/store";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  getUserFail,
-  getUserStart,
-  getUserSuccess,
-} from "@/redux/features/userSlice";
-import instance from "@/lib/axios";
+import { adminLogin } from "@/redux/features/user/api";
+import { useAppSelector } from "@/redux/hook";
+import Loader from "@/ui/loader";
 
 // form data type
 type IFormData = {
-  name: string;
+  //   name: string;
   email: string;
   password: string;
 };
 
 // schema
 const schema = Yup.object().shape({
-  name: Yup.string().required().label("Name"),
+  //   name: Yup.string().required().label("Name"),
   email: Yup.string().required().email().label("Email"),
   password: Yup.string().required().min(6).label("Password"),
 });
 // resolver
 const resolver: Resolver<IFormData> = async (values) => {
   return {
-    values: values.name ? values : {},
-    errors: !values.name
+    values: values.password ? values : {},
+    errors: !values.password
       ? {
-          name: {
-            type: "required",
-            message: "Name is required.",
-          },
+          //   name: {
+          //     type: "required",
+          //     message: "Name is required.",
+          //   },
           email: {
             type: "required",
             message: "Email is required.",
@@ -56,6 +49,7 @@ const resolver: Resolver<IFormData> = async (values) => {
 
 const RegisterForm = ({ role }: { role: string }) => {
   const dispatch = useDispatch();
+  const { loading } = useAppSelector((state) => state.persistedReducer.user);
   const router = useRouter();
   const [showPass, setShowPass] = useState<boolean>(false);
   // react hook form
@@ -67,31 +61,16 @@ const RegisterForm = ({ role }: { role: string }) => {
   } = useForm<IFormData>({ resolver });
   // on submit
   const onSubmit = async (formData: IFormData) => {
-    if (formData) {
-      // alert("Register successfully!");
-      console.log({ ...formData, role });
+    const isAdminLoggedIn = await adminLogin(dispatch, formData);
+    if (isAdminLoggedIn) {
+      router.push("/dashboard/admin-dashboard");
     }
-    dispatch(getUserStart());
-    try {
-      const { data } = await instance.post(`/${role}/auth/signup`, formData, {
-        withCredentials: true,
-      });
-
-      dispatch(getUserSuccess(data.user));
-      console.log(data);
-      router.push(`/dashboard/${role}-dashboard`);
-    } catch (error) {
-      const e = error as AxiosError;
-      dispatch(getUserFail(e.message));
-      console.log(error);
-    }
-
-    // reset();
+    reset();
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="row">
-        <div className="col-12">
+        {/* <div className="col-12">
           <div className="input-group-meta position-relative mb-25">
             <label>Name*</label>
             <input
@@ -104,7 +83,7 @@ const RegisterForm = ({ role }: { role: string }) => {
               <ErrorMsg msg={errors.name?.message!} />
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="col-12">
           <div className="input-group-meta position-relative mb-25">
             <label>Email*</label>
@@ -142,7 +121,7 @@ const RegisterForm = ({ role }: { role: string }) => {
             </div>
           </div>
         </div>
-        <div className="col-12">
+        {/* <div className="col-12">
           <div className="agreement-checkbox d-flex justify-content-between align-items-center">
             <div>
               <input type="checkbox" name="remember" />
@@ -153,13 +132,13 @@ const RegisterForm = ({ role }: { role: string }) => {
               </label>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="col-12">
           <button
             type="submit"
             className="btn-eleven fw-500 tran3s d-block mt-20"
           >
-            Register
+            {loading ? <Loader /> : "Login"}
           </button>
         </div>
       </div>

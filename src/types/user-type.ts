@@ -58,16 +58,30 @@ export interface IEmployer {
     phoneNumber: string,
     companyName: string,
     password?: string;
-    location: string,
+    location: ILocation,
     resume: string,
     industry: string,
+    socialSites: string[];
     description: string,
     jobs: string,
     role: string,
+    bio: string,
     signInProvider?: "linkedIn" | "jwt"
     createdAt: string,
     updatedAt: string,
     _id: string,
     __v: number
 
+}
+
+export interface IAdmin {
+    name: string;
+    email: string;
+    password: string,
+    avatar: string,
+    role: string;
+    createdAt: string,
+    updatedAt: string,
+    _id: string,
+    __v: number
 }

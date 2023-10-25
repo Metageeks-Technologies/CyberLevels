@@ -22,6 +22,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "robohash.org",
       },
+      {
+        protocol: "https",
+        hostname: "media.istockphoto.com",
+      },
     ],
   },
 };

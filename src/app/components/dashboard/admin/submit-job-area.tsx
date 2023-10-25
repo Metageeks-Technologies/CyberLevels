@@ -433,7 +433,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
             onClick={handleSubmit}
             className="dash-btn-two tran3s me-3"
           >
-            {loading ? <Loader /> : "Next"}
+            {loading ? <Loader /> : "Save"}
           </button>
           <a href="#" className="dash-cancel-btn tran3s">
             Cancel
