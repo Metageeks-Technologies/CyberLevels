@@ -1,3 +1,5 @@
+import { ICompany } from "./company";
+import { IEmployer } from "./user-type";
 
 export interface IJobPost {
     title: string;
@@ -15,7 +17,9 @@ export interface IJobPost {
         isDisclosed: boolean;
     };
     preferredExperience: string[];
-    companyId: string;
+    companyId: string | ICompany;
+    employerId: string | IEmployer;
+    status: "active" | "expired",
     testQuestions: string;
     __v: number,
     _id: string,

@@ -7,7 +7,7 @@ const CandidateBio = ({ candidate }: { candidate: ICandidate }) => {
       <li>
         <span>Location: </span>
         <div>
-          {candidate.location.city}, {candidate.location.country}{" "}
+          {candidate?.location?.city}, {candidate?.location?.country}{" "}
         </div>
       </li>
       <li>
@@ -22,7 +22,9 @@ const CandidateBio = ({ candidate }: { candidate: ICandidate }) => {
       </li>
       <li>
         <span>Qualification: </span>
-        <div>{candidate.education[0].degree}</div>
+        {candidate.education.length > 0 && (
+          <div>{candidate.education[0].degree}</div>
+        )}
       </li>
       <li>
         <span>Gender: </span>

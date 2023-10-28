@@ -1,30 +1,31 @@
 import React from "react";
 import ActionDropdown from "../candidate/action-dropdown";
-import Link from "next/link";
 
-const EmployJobItem = ({
+const CandidateJobItem = ({
   title,
   info,
   date,
   application,
   status,
   updatedAt,
-  id,
 }: {
   title: string;
   info: string;
   date: string;
   application: string;
-  status: string | number;
-  updatedAt?: string;
-  id?: string;
+  status: string;
+  updatedAt: string;
 }) => {
   return (
-    <tr className={`${status}`}>
+    <tr
+      className={`${status === "Received" && "pending"} ${
+        status === "Under Review" && "active"
+      } ${status === "Not Selected" && "expired"} ${
+        status === "Shortlisted" && "active"
+      }`}
+    >
       <td>
-        <div className="job-name fw-500">
-          <Link href={`/dashboard/employer-dashboard/jobs/${id}`}>{title}</Link>
-        </div>
+        <div className="job-name fw-500">{title}</div>
         <div className="info1">{info}</div>
       </td>
       <td>{date}</td>
@@ -32,8 +33,8 @@ const EmployJobItem = ({
       <td>
         <div className="job-status text-capitalize">{status}</div>
       </td>
-      {updatedAt && <td className="float-end">{updatedAt}</td>}
-      <td>
+      <td className="float-end">{updatedAt}</td>
+      {/* <td>
         <div className="action-dots float-end">
           <button
             className="action-btn dropdown-toggle"
@@ -43,12 +44,13 @@ const EmployJobItem = ({
           >
             <span></span>
           </button>
-
+          
           <ActionDropdown />
+          
         </div>
-      </td>
+      </td> */}
     </tr>
   );
 };
 
-export default EmployJobItem;
+export default CandidateJobItem;

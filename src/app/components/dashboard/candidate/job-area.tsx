@@ -1,15 +1,18 @@
 import React from "react";
 import DashboardHeader from "../candidate/dashboard-header";
-import EmployJobItem from "./job-item";
-import EmployShortSelect from "./short-select";
+import CandidateJobItem from "./job-item";
+import EmployShortSelect from "../employ/short-select";
+import { IJobApp } from "@/types/job-app-type";
 import { IJobPost } from "@/types/jobPost-type";
+import Pagination from "@/ui/pagination";
 
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
-  jobPosts: IJobPost[];
+  jobApps: IJobApp[];
 };
-const EmployJobArea = ({ setIsOpenSidebar, jobPosts }: IProps) => {
+const EmployJobArea = ({ setIsOpenSidebar, jobApps }: IProps) => {
+  console.log(jobApps);
   return (
     <div className="dashboard-body">
       <div className="position-relative">
@@ -19,8 +22,8 @@ const EmployJobArea = ({ setIsOpenSidebar, jobPosts }: IProps) => {
 
         <div className="d-sm-flex align-items-center justify-content-between mb-40 lg-mb-30">
           <h2 className="main-title m0">My Jobs</h2>
-          {/* <div className="d-flex ms-auto xs-mt-30">
-            <div
+          <div className="d-flex ms-auto xs-mt-30">
+            {/* <div
               className="nav nav-tabs tab-filter-btn me-4"
               id="nav-tab"
               role="tablist"
@@ -45,12 +48,12 @@ const EmployJobArea = ({ setIsOpenSidebar, jobPosts }: IProps) => {
               >
                 New
               </button>
-            </div>
-            <div className="short-filter d-flex align-items-center ms-auto">
+            </div> */}
+            {/* <div className="short-filter d-flex align-items-center ms-auto">
               <div className="text-dark fw-500 me-2">Short by:</div>
               <EmployShortSelect />
-            </div>
-          </div> */}
+            </div> */}
+          </div>
         </div>
 
         <div className="bg-white card-box border-20">
@@ -62,26 +65,31 @@ const EmployJobArea = ({ setIsOpenSidebar, jobPosts }: IProps) => {
                     <tr>
                       <th scope="col">Title</th>
                       <th scope="col">Job Created</th>
-                      <th scope="col">Applicants</th>
+                      <th scope="col">Salary</th>
                       <th scope="col">Status</th>
-                      <th scope="col">Action</th>
+                      <th scope="col">Updated At</th>
                     </tr>
                   </thead>
                   <tbody className="border-0">
-                    {jobPosts?.map((job) => {
-                      let createdAt: string | Date = new Date(job.createdAt);
-                      createdAt = createdAt.toLocaleDateString();
+                    {jobApps?.map((app) => {
+                      let ceratedAt: Date | string = new Date(app.createdAt);
+                      ceratedAt = ceratedAt.toLocaleDateString();
 
-                      return (
-                        <EmployJobItem
-                          title={job.title}
-                          info={`${job.preferredExperience} . ${job.jobType[0]}`}
-                          application="130"
-                          date={createdAt}
-                          status={job.status}
-                          id={job._id}
-                        />
-                      );
+                      let updatedAt: Date | string = new Date(app.updatedAt);
+                      updatedAt = updatedAt.toLocaleDateString();
+
+                      if (typeof app.jobPost !== "string") {
+                        return (
+                          <CandidateJobItem
+                            title={app.jobPost.title}
+                            info={`${app.jobPost.jobType[0]} . ${app.jobPost.location}`}
+                            application={`$ ${app.jobPost.salary.minimum} - ${app.jobPost.salary.maximum} K /month`}
+                            date={ceratedAt}
+                            status={app.status}
+                            updatedAt={updatedAt}
+                          />
+                        );
+                      }
                     })}
                   </tbody>
                 </table>
@@ -93,10 +101,10 @@ const EmployJobArea = ({ setIsOpenSidebar, jobPosts }: IProps) => {
                   <thead>
                     <tr>
                       <th scope="col">Title</th>
-                      <th scope="col">Job Created</th>
-                      <th scope="col">Applicants</th>
+                      <th scope="col">Job Applied</th>
+                      <th scope="col">Salary</th>
                       <th scope="col">Status</th>
-                      <th scope="col">Action</th>
+                      <th scope="col">Updated At</th>
                     </tr>
                   </thead>
                   <tbody className="border-0">
@@ -137,31 +145,6 @@ const EmployJobArea = ({ setIsOpenSidebar, jobPosts }: IProps) => {
             </div> */}
           </div>
         </div>
-
-        {/* <div className="dash-pagination d-flex justify-content-end mt-30">
-          <ul className="style-none d-flex align-items-center">
-            <li>
-              <a href="#" className="active">
-                1
-              </a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">3</a>
-            </li>
-            <li>..</li>
-            <li>
-              <a href="#">7</a>
-            </li>
-            <li>
-              <a href="#">
-                <i className="bi bi-chevron-right"></i>
-              </a>
-            </li>
-          </ul>
-        </div> */}
       </div>
     </div>
   );

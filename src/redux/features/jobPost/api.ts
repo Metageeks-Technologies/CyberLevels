@@ -1,5 +1,5 @@
 import instance from "@/lib/axios";
-import { getJobPostsSuccess, requestFail, requestStart, requestSuccess, submitJobPostSuccess } from "./slice"
+import { getJobPostsSuccess, requestFail, requestStart, requestSuccess, submitJobPostSuccess, getJobPostsForEmployerSuccess } from "./slice"
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { IFilterState } from "../filterJobPostSlice";
@@ -26,6 +26,19 @@ export const addJobPost = async (dispatch: AppDispatch, bodyObj: any) => {
     try {
         const { data } = await instance.post("/jobPost/add", bodyObj);
         dispatch(submitJobPostSuccess(data.job));
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message));
+    }
+}
+
+export const getJobPostsForEmployer = async (dispatch: AppDispatch, id: string) => {
+
+    dispatch(requestStart());
+    try {
+        const { data } = await instance(`jobPost/employer/${id}`);
+        dispatch(getJobPostsForEmployerSuccess(data.jobPosts));
     } catch (error) {
         console.log(error);
         const e = error as AxiosError;

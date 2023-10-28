@@ -11,6 +11,7 @@ export interface jobPstState {
     totalNumOfPage: number,
     totalJobPost: number,
     gptLoading: boolean,
+    jobPostsForEmployer: IJobPost[]
 
 }
 type IForGetAllJobPost = {
@@ -27,7 +28,8 @@ const initialState: jobPstState = {
     allJobPost: [],
     page: 1,
     totalNumOfPage: 1,
-    totalJobPost: 0
+    totalJobPost: 0,
+    jobPostsForEmployer: []
 }
 
 export const jobPostSlice = createSlice({
@@ -57,6 +59,11 @@ export const jobPostSlice = createSlice({
             state.totalNumOfPage = action.payload.totalNumOfPage;
             state.totalJobPost = action.payload.totalJobPost
         },
+        getJobPostsForEmployerSuccess: (state, action: PayloadAction<IJobPost[]>) => {
+            state.loading = false
+            state.jobPostsForEmployer = action.payload;
+
+        },
         setPage: (state, action: PayloadAction<number>) => {
             state.page = action.payload;
         }
@@ -70,7 +77,8 @@ export const {
     requestFail,
     requestStart,
     submitJobPostSuccess,
-    setPage
+    setPage,
+    getJobPostsForEmployerSuccess,
 } = jobPostSlice.actions
 
 export default jobPostSlice.reducer;

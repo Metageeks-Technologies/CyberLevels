@@ -337,11 +337,11 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
             type="submit"
             disabled={loading}
             onClick={handleSubmit}
-            className="dash-btn-two tran3s me-3"
+            className="btn-one tran3s me-3"
           >
             {loading ? <Loader /> : <span>Save</span>}
           </button>
-          <a href="#" className="dash-cancel-btn tran3s">
+          <a href="#" className="btn-two tran3s">
             Cancel
           </a>
         </div>

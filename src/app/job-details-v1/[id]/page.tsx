@@ -11,16 +11,21 @@ import { useAppSelector, useAppDispatch } from "@/redux/hook";
 import { usePathname } from "next/navigation";
 import { getJobPostDetails } from "@/redux/features/jobPost/api";
 import { useDispatch } from "react-redux";
+import { getAllJobAppByCandidate } from "@/redux/features/jobApp/api";
 
 const JobDetailsDynamicPage = ({ params }: { params: { id: string } }) => {
   const dispatch = useAppDispatch();
   const { jobPost } = useAppSelector((state) => state.jobPost);
+  const { currUser } = useAppSelector((state) => state.persistedReducer.user);
+
   const { companyOfJobPost } = useAppSelector(
     (state) => state.company.companyList
   );
   const pathName = usePathname();
   useEffect(() => {
     getJobPostDetails(dispatch, params.id);
+    console.log("from the job details", currUser);
+    if (currUser) getAllJobAppByCandidate(dispatch, currUser);
   }, [params.id]);
   // console.log("for company", companyOfJobPost);
   return (

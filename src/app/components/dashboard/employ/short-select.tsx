@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import NiceSelect from "@/ui/nice-select";
 
@@ -8,9 +8,10 @@ const EmployShortSelect = () => {
   return (
     <NiceSelect
       options={[
-        { value: "Active", label: "Active" },
-        { value: "Pending", label: "Pending" },
-        { value: "Expired", label: "Expired" },
+        { value: "Received", label: "Received" },
+        { value: "Under Review", label: "Under Review" },
+        { value: "Shortlisted", label: "Shortlisted" },
+        { value: "Not Selected", label: "Not Selected" },
       ]}
       defaultCurrent={0}
       onChange={(item) => handleShort(item)}

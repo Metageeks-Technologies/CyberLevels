@@ -9,6 +9,8 @@ import candidateSlice from './features/candidate/slice';
 import candidateFilterSlice from './features/candidate/filterSlice'
 import candidateDashboardSlice from "@/redux/features/candidate/dashboardSlice"
 import employerSlice from "./features/employer/dashboardSlice"
+import jobApplicationSlice from "./features/jobApp/slice"
+
 
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
@@ -44,6 +46,7 @@ export const store = configureStore({
     jobPost: jobPostSlice,
     filter: filterSlice,
     wishlist: wishlistSlice,
+    jobApplication: jobApplicationSlice
 
 
   },

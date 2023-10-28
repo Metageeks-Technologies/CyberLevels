@@ -1,15 +1,16 @@
 import React from "react";
 import DashboardHeader from "../candidate/dashboard-header";
-import EmployJobItem from "./job-item";
+import EmployJobItem from "./job-itmes-for-detals";
 import EmployShortSelect from "./short-select";
-import { IJobPost } from "@/types/jobPost-type";
+import { IJobApp } from "@/types/job-app-type";
+import { getDate } from "@/utils/helper";
 
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
-  jobPosts: IJobPost[];
+  jobApp: IJobApp[];
 };
-const EmployJobArea = ({ setIsOpenSidebar, jobPosts }: IProps) => {
+const EmployJobArea = ({ setIsOpenSidebar, jobApp }: IProps) => {
   return (
     <div className="dashboard-body">
       <div className="position-relative">
@@ -18,7 +19,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobPosts }: IProps) => {
         {/* header end */}
 
         <div className="d-sm-flex align-items-center justify-content-between mb-40 lg-mb-30">
-          <h2 className="main-title m0">My Jobs</h2>
+          <h2 className="main-title m0">Job details </h2>
           {/* <div className="d-flex ms-auto xs-mt-30">
             <div
               className="nav nav-tabs tab-filter-btn me-4"
@@ -60,28 +61,30 @@ const EmployJobArea = ({ setIsOpenSidebar, jobPosts }: IProps) => {
                 <table className="table job-alert-table">
                   <thead>
                     <tr>
-                      <th scope="col">Title</th>
-                      <th scope="col">Job Created</th>
-                      <th scope="col">Applicants</th>
-                      <th scope="col">Status</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Applied At</th>
+                      <th scope="col">Test Score</th>
+                      <th scope="col">Expertise</th>
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody className="border-0">
-                    {jobPosts?.map((job) => {
-                      let createdAt: string | Date = new Date(job.createdAt);
-                      createdAt = createdAt.toLocaleDateString();
+                    {jobApp?.map((app) => {
+                      const createdAt = getDate(app.createdAt);
 
-                      return (
-                        <EmployJobItem
-                          title={job.title}
-                          info={`${job.preferredExperience} . ${job.jobType[0]}`}
-                          application="130"
-                          date={createdAt}
-                          status={job.status}
-                          id={job._id}
-                        />
-                      );
+                      if (typeof app.candidate !== "string") {
+                        return (
+                          <EmployJobItem
+                            title={`${app.candidate.firstName} ${app.candidate.lastName}`}
+                            info={`${app.candidate.location?.city || "Delhi"}`}
+                            tesScore={String(app.candidate.testScore) || "89%"}
+                            date={createdAt}
+                            status={app.candidate.experienceInShort || "expert"}
+                            id={app.candidate._id}
+                            appId={app._id}
+                          />
+                        );
+                      }
                     })}
                   </tbody>
                 </table>

@@ -1,38 +1,39 @@
 import React from "react";
-import ActionDropdown from "../candidate/action-dropdown";
+import ActionDropdown from "./actionDropDownForDetails";
 import Link from "next/link";
 
 const EmployJobItem = ({
   title,
   info,
   date,
-  application,
+  tesScore,
   status,
-  updatedAt,
   id,
+  appId,
 }: {
   title: string;
   info: string;
   date: string;
-  application: string;
-  status: string | number;
-  updatedAt?: string;
-  id?: string;
+  tesScore: String;
+  status: string;
+  id: string;
+  appId: string;
 }) => {
   return (
     <tr className={`${status}`}>
       <td>
         <div className="job-name fw-500">
-          <Link href={`/dashboard/employer-dashboard/jobs/${id}`}>{title}</Link>
+          <Link href={`/candidate-profile-v1/${id}`} target="_blank">
+            {title}
+          </Link>
         </div>
         <div className="info1">{info}</div>
       </td>
       <td>{date}</td>
-      <td>{application}</td>
+      <td>{tesScore}</td>
       <td>
         <div className="job-status text-capitalize">{status}</div>
       </td>
-      {updatedAt && <td className="float-end">{updatedAt}</td>}
       <td>
         <div className="action-dots float-end">
           <button
@@ -44,7 +45,7 @@ const EmployJobItem = ({
             <span></span>
           </button>
 
-          <ActionDropdown />
+          <ActionDropdown id={appId} />
         </div>
       </td>
     </tr>

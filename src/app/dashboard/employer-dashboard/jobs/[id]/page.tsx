@@ -2,19 +2,20 @@
 import React, { useState, useEffect } from "react";
 import Wrapper from "@/layouts/wrapper";
 import EmployAside from "@/app/components/dashboard/employ/aside";
-import EmployJobArea from "@/app/components/dashboard/employ/job-area";
-import { getJobPostsForEmployer } from "@/redux/features/jobPost/api";
+import EmployJobDetailsArea from "@/app/components/dashboard/employ/job-details-area";
+import { getallJobAppByJobPostWithCandidate } from "@/redux/features/jobApp/api";
 import { useAppSelector } from "@/redux/hook";
 import { useDispatch } from "react-redux";
 
-const EmployDashboardJobsPage = () => {
+const EmployDashboardJobsPage = ({ params }: { params: { id: string } }) => {
   const [isOpenSidebar, setIsOpenSidebar] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const { currUser } = useAppSelector((state) => state.persistedReducer.user);
-  const { jobPostsForEmployer } = useAppSelector((state) => state.jobPost);
+  const { allJobAppByJobPostWithCandidate, loading } = useAppSelector(
+    (state) => state.jobApplication
+  );
 
   useEffect(() => {
-    if (currUser) getJobPostsForEmployer(dispatch, currUser);
+    getallJobAppByJobPostWithCandidate(dispatch, params.id);
   }, []);
   return (
     <Wrapper>
@@ -26,15 +27,16 @@ const EmployDashboardJobsPage = () => {
         />
         {/* aside end  */}
 
-        {/* job area start */}
-        {jobPostsForEmployer && (
-          <EmployJobArea
+        {/* job Details area start */}
+        {allJobAppByJobPostWithCandidate && (
+          <EmployJobDetailsArea
             setIsOpenSidebar={setIsOpenSidebar}
-            jobPosts={jobPostsForEmployer}
+            jobApp={allJobAppByJobPostWithCandidate}
           />
         )}
 
-        {/* job area end */}
+        {/* <div>hello</div> */}
+        {/* job Details area end */}
       </div>
     </Wrapper>
   );

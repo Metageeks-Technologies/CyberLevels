@@ -38,9 +38,11 @@ export interface ICandidate {
     education: IEducation[],
     socialSites: string[];
     location: ILocation,
+    testScore: number,
     bio: string,
     createdAt: string,
     updatedAt: string,
+    experienceInShort: string,
     role: string,
     _id: string,
     __v: number

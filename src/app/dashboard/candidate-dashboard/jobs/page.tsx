@@ -1,39 +1,41 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Wrapper from "@/layouts/wrapper";
-import EmployAside from "@/app/components/dashboard/employ/aside";
-import EmployJobArea from "@/app/components/dashboard/employ/job-area";
-import { getJobPostsForEmployer } from "@/redux/features/jobPost/api";
-import { useAppSelector } from "@/redux/hook";
-import { useDispatch } from "react-redux";
+import CandidateAside from "@/app/components/dashboard/candidate/aside";
+import CandidateJobArea from "@/app/components/dashboard/candidate/job-area";
+import { useAppSelector, useAppDispatch } from "@/redux/hook";
+import { getallJobAppByCandidateWithJobPost } from "@/redux/features/jobApp/api";
 
 const EmployDashboardJobsPage = () => {
   const [isOpenSidebar, setIsOpenSidebar] = useState<boolean>(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const { allJobAppByCandidateWithJobPost } = useAppSelector(
+    (state) => state.jobApplication
+  );
+
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
-  const { jobPostsForEmployer } = useAppSelector((state) => state.jobPost);
 
   useEffect(() => {
-    if (currUser) getJobPostsForEmployer(dispatch, currUser);
+    if (currUser) getallJobAppByCandidateWithJobPost(dispatch, currUser);
   }, []);
+
   return (
     <Wrapper>
       <div className="main-page-wrapper">
         {/* aside start */}
-        <EmployAside
+        <CandidateAside
           isOpenSidebar={isOpenSidebar}
           setIsOpenSidebar={setIsOpenSidebar}
         />
         {/* aside end  */}
 
         {/* job area start */}
-        {jobPostsForEmployer && (
-          <EmployJobArea
+        {allJobAppByCandidateWithJobPost && (
+          <CandidateJobArea
             setIsOpenSidebar={setIsOpenSidebar}
-            jobPosts={jobPostsForEmployer}
+            jobApps={allJobAppByCandidateWithJobPost}
           />
         )}
-
         {/* job area end */}
       </div>
     </Wrapper>

@@ -50,7 +50,8 @@ export const candidateDashboardSlice = createSlice({
             if (state.currCandidate)
                 state.currCandidate.experience = [...state.currCandidate.experience, action.payload]
             state.loading = false;
-        }
+        },
+
     },
 });
 

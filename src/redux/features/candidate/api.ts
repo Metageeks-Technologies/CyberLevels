@@ -45,3 +45,15 @@ export const getCurrCandidate = async (dispatch: AppDispatch, id: string) => {
         dispatch(requestFailDash(e.message))
     }
 }
+export const updateCurrCandidate = async (dispatch: AppDispatch, id: string, bodyObj: any) => {
+
+    dispatch(requestStartDash());
+    try {
+        const { data } = await instance.patch(`/candidate/update/${id}`, bodyObj)
+
+        dispatch(updateCurrCandidateSuccess(data.candidate))
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFailDash(e.message))
+    }
+}

@@ -45,6 +45,13 @@ const nav_data: {
     title: "Dashboard",
   },
   {
+    id: 7,
+    icon: nav_3,
+    icon_active: nav_3_active,
+    link: "/dashboard/candidate-dashboard/jobs",
+    title: "My Applications",
+  },
+  {
     id: 2,
     icon: nav_2,
     icon_active: nav_2_active,
@@ -79,13 +86,13 @@ const nav_data: {
     link: "/dashboard/candidate-dashboard/saved-job",
     title: "Saved Job",
   },
-  {
-    id: 7,
-    icon: nav_7,
-    icon_active: nav_7_active,
-    link: "/dashboard/candidate-dashboard/setting",
-    title: "Account Settings",
-  },
+  // {
+  //   id: 7,
+  //   icon: nav_7,
+  //   icon_active: nav_7_active,
+  //   link: "/dashboard/candidate-dashboard/setting",
+  //   title: "Account Settings",
+  // },
 ];
 // props type
 type IProps = {
