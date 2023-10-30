@@ -11,7 +11,7 @@ export interface CandidateState {
     totalNumOfPage: number,
     totalCandidate: number,
 }
-type IForGetAllJobPost = {
+type IForGetAllCandidate = {
     candidates: ICandidate[]
     totalNumOfPage: number,
     totalCandidate: number,
@@ -38,7 +38,7 @@ export const candidateSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
-        getCandidatesSuccess: (state, action: PayloadAction<IForGetAllJobPost>) => {
+        getCandidatesSuccess: (state, action: PayloadAction<IForGetAllCandidate>) => {
             state.loading = false
             state.candidates = action.payload.candidates;
             state.totalNumOfPage = action.payload.totalNumOfPage;

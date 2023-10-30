@@ -1,26 +1,36 @@
 "use client";
-import React from "react";
+import LoginModal from "@/app/components/common/popup/login-modal";
+import job_img_1 from "@/assets/images/logo/media_22.png";
+import { removeSavedJob, saveJob } from "@/redux/features/candidate/api";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { IJobPost } from "@/types/jobPost-type";
 import Image from "next/image";
 import Link from "next/link";
-import { IJobType } from "@/types/job-data-type";
-import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { add_to_wishlist } from "@/redux/features/wishlist";
-import { IJobPost } from "@/types/jobPost-type";
-import job_img_1 from "@/assets/images/logo/media_22.png";
-import LoginModal from "@/app/components/common/popup/login-modal";
 
 const ListItemTwo = ({ item }: { item: IJobPost }) => {
-  const { wishlist } = useAppSelector((state) => state.wishlist);
-  const { isAuthenticated } = useAppSelector(
+  const { savedJobsPage, loading } = useAppSelector(
+    (state) => state.candidate.candidateDashboard
+  );
+  const { isAuthenticated, currUser } = useAppSelector(
     (state) => state.persistedReducer.user
   );
 
-  const isActive = wishlist.some((p) => p.location === item._id);
   const dispatch = useAppDispatch();
-  console.log(item);
-  // handle add wishlist
-  const handleAddWishlist = (item: IJobType) => {
-    dispatch(add_to_wishlist(item));
+  const isActive = item?.isSaved || false;
+  const handleSaveJob = (jobPostId: string) => {
+    if (!isActive) {
+      saveJob(dispatch, {
+        jobPostId,
+        candidateId: currUser,
+        page: savedJobsPage,
+      });
+    } else {
+      removeSavedJob(dispatch, {
+        jobPostId,
+        candidateId: currUser,
+        page: savedJobsPage,
+      });
+    }
   };
 
   const handleSubscribePopup = () => {};
@@ -62,15 +72,17 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
           </div>
           <div className="col-md-3 col-sm-6">
             <div className="btn-group d-flex align-items-center justify-content-sm-end xs-mt-20">
-              <a
-                // onClick={() => handleAddWishlist(item)}
+              <button
+                type="button"
+                disabled={loading}
+                onClick={() => handleSaveJob(item._id)}
                 className={`save-btn text-center rounded-circle tran3s me-3 cursor-pointer ${
                   isActive ? "active" : ""
                 }`}
                 title={`${isActive ? "Remove Job" : "Save Job"}`}
               >
                 <i className="bi bi-bookmark-dash"></i>
-              </a>
+              </button>
               {isAuthenticated ? (
                 <Link
                   href={`/job-details-v1/${item._id}`}
@@ -87,7 +99,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                   className="apply-btn text-center tran3s"
                   onClick={handleSubscribePopup}
                 >
-                  APPLY
+                  View
                 </button>
               )}
             </div>

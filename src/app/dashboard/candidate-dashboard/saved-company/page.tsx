@@ -2,20 +2,20 @@
 import React, { useState, useEffect } from "react";
 import Wrapper from "@/layouts/wrapper";
 import CandidateAside from "@/app/components/dashboard/candidate/aside";
-import SavedJobArea from "@/app/components/dashboard/candidate/saved-job-area";
+import SavedCompanyArea from "@/app/components/dashboard/candidate/saved-company-area";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { getSavedJobs } from "@/redux/features/candidate/api";
+import { getSavedCompanies } from "@/redux/features/candidate/api";
 const CandidateDashboardSavedJobPage = () => {
   const [isOpenSidebar, setIsOpenSidebar] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
-  const { savedJobsPage, savedJobs } = useAppSelector(
+  const { savedCompanyPage, savedCompanies } = useAppSelector(
     (s) => s.candidate.candidateDashboard
   );
 
   useEffect(() => {
-    if (currUser) getSavedJobs(dispatch, currUser, savedJobsPage);
-  }, [savedJobsPage]);
+    if (currUser) getSavedCompanies(dispatch, currUser, savedCompanyPage);
+  }, [savedCompanyPage]);
 
   return (
     <Wrapper>
@@ -28,10 +28,10 @@ const CandidateDashboardSavedJobPage = () => {
         {/* aside end  */}
 
         {/* saved job area start */}
-        {savedJobs && (
-          <SavedJobArea
+        {savedCompanies && (
+          <SavedCompanyArea
             setIsOpenSidebar={setIsOpenSidebar}
-            savedJobs={savedJobs}
+            savedCompanies={savedCompanies}
           />
         )}
         {/* saved job area end */}

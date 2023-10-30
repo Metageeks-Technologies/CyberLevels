@@ -6,12 +6,12 @@ import { IFilterState } from "../filterJobPostSlice";
 import { getCompanyOfJobPost } from "../company/slice";
 
 
-export const getJObPosts = async (dispatch: AppDispatch, queryObject: IFilterState, page: number) => {
+export const getJObPosts = async (dispatch: AppDispatch, queryObject: IFilterState, page: number, candidateId: string) => {
     const { location, jobCategory, jobType, salary, workMode, preferredExperience } = queryObject;
 
     dispatch(requestStart());
     try {
-        const { data } = await instance(`/jobPost/get?location=${location.join(",")}&jobType=${jobType.join(",")}&jobCategory=${jobCategory.join(",")}&workMode=${workMode.join(",")}&preferredExperience=${preferredExperience.join(",")}&salary=${salary}&page=${page}`)
+        const { data } = await instance(`/jobPost/get?location=${location.join(",")}&jobType=${jobType.join(",")}&jobCategory=${jobCategory.join(",")}&workMode=${workMode.join(",")}&preferredExperience=${preferredExperience.join(",")}&salary=${salary}&page=${page}&candidateId=${candidateId}`)
         // console.log(data.result)
         dispatch(getJobPostsSuccess({ allJobPost: data.result, totalJobPost: data.totalJobPost, totalNumOfPage: data.totalNumOfPage }))
     } catch (error) {

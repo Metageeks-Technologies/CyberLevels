@@ -1,12 +1,11 @@
 "use client";
-import React from "react";
+import job_img_1 from "@/assets/images/logo/media_22.png";
+import { removeSavedJob, saveJob } from "@/redux/features/candidate/api";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import type { IJobPost } from "@/types/jobPost-type";
 import Image from "next/image";
 import Link from "next/link";
-import { IJobType } from "@/types/job-data-type";
-import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { add_to_wishlist } from "@/redux/features/wishlist";
-import type { IJobPost } from "@/types/jobPost-type";
-import job_img_1 from "@/assets/images/logo/media_22.png";
+import LoginModal from "../../common/popup/login-modal";
 
 const JobGridItem = ({
   item,
@@ -15,70 +14,111 @@ const JobGridItem = ({
   item: IJobPost;
   style_2?: boolean;
 }) => {
-  const { _id, title, salary } = item || {};
-  const { wishlist } = useAppSelector((state) => state.wishlist);
-  // const isActive = wishlist.some((p) => p.id == _id);
+  const { savedJobsPage, loading } = useAppSelector(
+    (state) => state.candidate.candidateDashboard
+  );
+  const { isAuthenticated, currUser } = useAppSelector(
+    (state) => state.persistedReducer.user
+  );
+
   const dispatch = useAppDispatch();
-  // handle add wishlist
-  const handleAddWishlist = (item: IJobType) => {
-    dispatch(add_to_wishlist(item));
+  const isActive = item?.isSaved || false;
+  const handleSaveJob = (jobPostId: string) => {
+    if (!isActive) {
+      saveJob(dispatch, {
+        jobPostId,
+        candidateId: currUser,
+        page: savedJobsPage,
+      });
+    } else {
+      removeSavedJob(dispatch, {
+        jobPostId,
+        candidateId: currUser,
+        page: savedJobsPage,
+      });
+    }
   };
-  const isActive = true;
+  const handleSubscribePopup = () => {};
   return (
-    <div
-      className={`job-list-two ${style_2 ? "style-two" : ""} position-relative`}
-    >
-      <Link href={`/job-details-v1/${_id}`} className="logo">
-        <Image
-          src={job_img_1}
-          alt="logo"
-          style={{ height: "auto", width: "auto" }}
-          className="lazy-img m-auto"
-        />
-      </Link>
-      <a
-        // onClick={() => handleAddWishlist(item)}
-        className={`save-btn text-center rounded-circle tran3s cursor-pointer ${
-          isActive ? "active" : ""
-        }`}
-        title={`${isActive ? "Remove Job" : "Save Job"}`}
+    <>
+      <div
+        className={`job-list-two ${
+          style_2 ? "style-two" : ""
+        } position-relative`}
       >
-        <i className="bi bi-bookmark-dash"></i>
-      </a>
-      <div className="d-flex gap-2 mt-40 mb-40  flex-wrap ">
-        {item?.jobType.map((val, index) => (
-          <Link
-            href={`/job-details-v1/${_id}`}
-            className={`job-duration fw-500 ${
-              val == "part-time" ? "part-time" : ""
-            }`}
-          >
-            {val}
-          </Link>
-        ))}
-      </div>
-      <div>
-        <Link href={`/job-details-v1/${_id}`} className="title fw-500 tran3s">
-          {item.title}
+        <Link href={`/job-details-v1/${item._id}`} className="logo">
+          <Image
+            src={job_img_1}
+            alt="logo"
+            style={{ height: "auto", width: "auto" }}
+            className="lazy-img m-auto"
+          />
         </Link>
-      </div>
-      <div className="job-salary">
-        <span className="fw-500 text-dark">
-          ${`${salary.minimum}-${salary.maximum}`} PA
-        </span>
-      </div>
-      <div className="d-flex align-items-center justify-content-between mt-auto">
-        <div className="job-location">
-          <Link href={`/job-details-v1/${_id}`}>{item.location}</Link>
-        </div>
-        <Link
-          href={`/job-details-v1/${_id}`}
-          className="apply-btn text-center tran3s"
+        <button
+          type="button"
+          disabled={loading}
+          onClick={() => handleSaveJob(item._id)}
+          className={`save-btn text-center rounded-circle tran3s cursor-pointer ${
+            isActive ? "active" : ""
+          }`}
+          title={`${isActive ? "Remove Job" : "Save Job"}`}
         >
-          APPLY
-        </Link>
+          <i className="bi bi-bookmark-dash"></i>
+        </button>
+        <div className="d-flex gap-2 mt-40 mb-40  flex-wrap ">
+          {item?.jobType.map((val, index) => (
+            <Link
+              href={`/job-details-v1/${item._id}`}
+              className={`job-duration fw-500 ${
+                val == "part-time" ? "part-time" : ""
+              }`}
+            >
+              {val}
+            </Link>
+          ))}
+        </div>
+        <div>
+          <Link
+            href={`/job-details-v1/${item._id}`}
+            className="title fw-500 tran3s"
+          >
+            {item.title}
+          </Link>
+        </div>
+        <div className="job-salary">
+          <span className="fw-500 text-dark">
+            ${`${item.salary.minimum}-${item.salary.maximum}`} PA
+          </span>
+        </div>
+        <div className="d-flex align-items-center justify-content-between mt-auto">
+          <div className="job-location">
+            <Link href={`/job-details-v1/${item._id}`}>{item.location}</Link>
+          </div>
+          {isAuthenticated ? (
+            <Link
+              href={`/job-details-v1/${item._id}`}
+              // href={"/dashboard/candidate-dashboard/membership"}
+              className="apply-btn text-center tran3s"
+            >
+              View
+            </Link>
+          ) : (
+            <button
+              data-bs-toggle="modal"
+              data-bs-target="#loginModal"
+              type="button"
+              className="apply-btn text-center tran3s"
+              onClick={handleSubscribePopup}
+            >
+              View
+            </button>
+          )}
+        </div>
       </div>
-    </div>
+      {/* login modal start */}
+      <LoginModal />
+      {/* login modal end */}
+    </>
   );
 };
 

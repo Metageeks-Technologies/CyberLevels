@@ -1,12 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { IEmployer } from '@/types/user-type'
+import { ICandidate, IEmployer } from '@/types/user-type'
 
 // Define a type for the slice state
 export interface ICandidateDashboard {
     loading: boolean,
     error: null | string,
     currEmployer: IEmployer | null;
+    savedCandidates: ICandidate[];
+    page: number,
+    totalNumOfPage: number,
+    totalCandidate: number,
 }
 
 // Define the initial state using that type
@@ -14,7 +18,17 @@ const initialState: ICandidateDashboard = {
     loading: false,
     currEmployer: null,
     error: null,
+    page: 1,
+    totalNumOfPage: 1,
+    totalCandidate: 0,
+    savedCandidates: []
 };
+
+type IForGetSavedCandidate = {
+    savedCandidates: ICandidate[]
+    totalNumOfPage: number,
+    totalCandidate: number,
+}
 
 export const candidateDashboardSlice = createSlice({
     name: "employerDashboard",
@@ -35,6 +49,12 @@ export const candidateDashboardSlice = createSlice({
         },
         updateCurrEmployerSuccess: (state, action: PayloadAction<IEmployer>) => {
             state.currEmployer = action.payload;
+            state.loading = false;
+        },
+        getSavedCompaniesSuccess: (state, action: PayloadAction<IForGetSavedCandidate>) => {
+            state.savedCandidates = action.payload.savedCandidates;
+            state.totalNumOfPage = action.payload.totalNumOfPage;
+            state.totalCandidate = action.payload.totalCandidate;
             state.loading = false;
         },
     },

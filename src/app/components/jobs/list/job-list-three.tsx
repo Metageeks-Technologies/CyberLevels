@@ -28,6 +28,7 @@ const JobListThree = ({
   } = filterState;
   const { allJobPost, totalJobPost, totalNumOfPage, loading, page } =
     useAppSelector((state) => state.jobPost);
+  const { currUser } = useAppSelector((s) => s.persistedReducer.user);
   const dispatch = useAppDispatch();
 
   const [jobTypeTemp, setJobTypeTemp] = useState(grid_style ? "grid" : "list");
@@ -38,7 +39,7 @@ const JobListThree = ({
   };
 
   useEffect(() => {
-    getJObPosts(dispatch, filterState, page);
+    if (currUser) getJObPosts(dispatch, filterState, page, currUser);
   }, [
     location,
     jobCategory,
@@ -50,6 +51,7 @@ const JobListThree = ({
   ]);
 
   const handlePageClick = (event: { selected: number }) => {
+    console.log("from pagination", event.selected);
     dispatch(setPage(event.selected + 1));
   };
 
@@ -162,6 +164,7 @@ const JobListThree = ({
                       <Pagination
                         pageCount={totalNumOfPage}
                         handlePageClick={handlePageClick}
+                        currPage={page}
                       />
                     )}
                   </div>

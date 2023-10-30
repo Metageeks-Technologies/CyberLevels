@@ -25,5 +25,6 @@ export interface IJobPost {
     _id: string,
     benefits: string[],
     createdAt: string,
+    isSaved?: boolean,
 
 }

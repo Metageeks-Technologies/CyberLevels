@@ -25,6 +25,7 @@ export interface ICompany {
     location: ILocation[];
     teamSize: string;
     category: string;
+    isSaved: boolean;
     about: string;
     benefits: string[];
     jobPosts: string[];

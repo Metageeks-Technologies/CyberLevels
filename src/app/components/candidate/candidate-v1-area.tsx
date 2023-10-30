@@ -133,6 +133,7 @@ const CandidateV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
                         <Pagination
                           pageCount={totalNumOfPage}
                           handlePageClick={handlePageClick}
+                          currPage={page}
                         />
                       )}
                     </div>

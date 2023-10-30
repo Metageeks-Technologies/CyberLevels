@@ -64,6 +64,14 @@ export const jobPostSlice = createSlice({
             state.jobPostsForEmployer = action.payload;
 
         },
+        toggleIsSaved: (state, action: PayloadAction<string>) => {
+            state.allJobPost = state.allJobPost.map((job) => {
+                if (job._id === action.payload) {
+                    return { ...job, isSaved: !job.isSaved }
+                } else return job;
+            })
+
+        },
         setPage: (state, action: PayloadAction<number>) => {
             state.page = action.payload;
         }
@@ -78,6 +86,7 @@ export const {
     requestStart,
     submitJobPostSuccess,
     setPage,
+    toggleIsSaved,
     getJobPostsForEmployerSuccess,
 } = jobPostSlice.actions
 

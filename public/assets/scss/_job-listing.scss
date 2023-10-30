@@ -486,6 +486,19 @@
   .logo {
     width: 60px;
   }
+  .open-job-btn {
+    width: 120px;
+    line-height: 31px;
+    font-size: 15px;
+    color: $color-three;
+    border: 1px solid $color-three;
+    background: #eaf9e9;
+    border-radius: 30px;
+    &:hover {
+      background: $color-three;
+      color: #fff;
+    }
+  }
   .title {
     font-size: 19px;
     color: #000;

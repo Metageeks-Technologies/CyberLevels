@@ -1,31 +1,33 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import DashboardHeader from "./dashboard-header";
-import ShortSelect from "../../common/short-select";
-import job_data from "@/data/job-data";
-import ActionDropdown from "./action-dropdown";
 import job_img_1 from "@/assets/images/logo/media_22.png";
+import {
+  setSavedCompaniesPage,
+  setSavedJobsPage,
+} from "@/redux/features/candidate/dashboardSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { IJobPost } from "@/types/jobPost-type";
-import Loader from "@/ui/loader";
 import Pagination from "@/ui/pagination";
-import { setSavedJobsPage } from "@/redux/features/candidate/dashboardSlice";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import ShortSelect from "../../common/short-select";
+import ActionDropdown from "./action-dropdown-company";
+import DashboardHeader from "./dashboard-header";
+import { ICompany } from "@/types/company";
 
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
-  savedJobs: IJobPost[];
+  savedCompanies: ICompany[];
 };
 
-const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
+const SavedCompanyArea = ({ setIsOpenSidebar, savedCompanies }: IProps) => {
   const { totalSavedJob, totalNumOfSavedJobsPage, savedJobsPage } =
     useAppSelector((s) => s.candidate.candidateDashboard);
   const dispatch = useAppDispatch();
   const itemsPerPage = 4;
   const handlePageClick = (event: { selected: number }) => {
-    console.log("from pagination", event.selected);
-    dispatch(setSavedJobsPage(event.selected + 1));
+    // console.log("from pagination", event.selected);
+    dispatch(setSavedCompaniesPage(event.selected + 1));
   };
   return (
     <div className="dashboard-body">
@@ -43,9 +45,9 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
         </div>
 
         <div className="wrapper">
-          {savedJobs?.map((j) => (
+          {savedCompanies?.map((c) => (
             <div
-              key={j._id}
+              key={c._id}
               className="job-list-one style-two position-relative mb-20"
             >
               <div className="row justify-content-between align-items-center">
@@ -59,40 +61,47 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
                       />
                     </a>
                     <a href="#" className="title fw-500 tran3s">
-                      {j.title}
+                      {c.name}
                     </a>
                   </div>
                 </div>
                 <div className="col-lg-3 col-md-4 col-sm-6 ms-auto">
-                  {j?.jobType.map((val, index) => (
+                  {/* {c?.jobType.map((val, index) => (
                     <Link
-                      href={`/job-details-v1/${j._id}`}
+                      href={`/job-details-v1/${c._id}`}
                       className={`job-duration fw-500 mx-1 ${
                         val == "part-time" ? "part-time" : ""
                       }`}
                     >
                       {`${val} ${" "}`}
                     </Link>
-                  ))}
+                  ))} */}
                   <div className="job-salary">
                     <span className="fw-500 text-dark">
-                      ${j.salary.minimum}-{j.salary.maximum}
+                      {c.location[0].city}, {c.location[0].country}
                     </span>{" "}
-                    / {"monthly"} . {j.preferredExperience.join(", ")}
+                    / {c.category}
                   </div>
                 </div>
                 <div className="col-xxl-2 col-lg-3 col-md-4 col-sm-6 ms-auto xs-mt-10">
-                  <div className="job-location">
-                    <a href="#">{j.location}</a>
+                  {/* <div className="job-location">
+                    <a href="#">{c.location}</a>
                   </div>
                   <div className="job-category">
-                    {j.primarySkills.map((c, i) => (
+                    {c.primarySkills.map((c, i) => (
                       <a key={i} href="#">
                         {c}
-                        {i < j.primarySkills.length - 1 && ", "}
+                        {i < c.primarySkills.length - 1 && ", "}
                       </a>
                     ))}
-                  </div>
+                  </div> */}
+                  <Link
+                    href={`/company-details/${c._id}`}
+                    className="open-job-btn text-center fw-500 tran3s me-2"
+                  >
+                    {/* {item.vacancy} open job */}
+                    {c.benefits.length} open job
+                  </Link>
                 </div>
                 <div className="col-lg-2 col-md-4">
                   <div className="action-dots float-end">
@@ -105,7 +114,7 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
                       <span></span>
                     </button>
                     {/* action dropdown start */}
-                    <ActionDropdown id={j._id} />
+                    <ActionDropdown id={c._id} />
                     {/* action dropdown end */}
                   </div>
                 </div>
@@ -125,4 +134,4 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
   );
 };
 
-export default SavedJobArea;
+export default SavedCompanyArea;

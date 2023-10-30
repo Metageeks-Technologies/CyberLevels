@@ -8,23 +8,29 @@ import icon_2 from "@/assets/images/icon/icon_69.svg";
 type IProps = {
   pageCount: number;
   handlePageClick: (event: { selected: number }) => void;
+  currPage: number;
 };
+// const temp = (event: { selected: number }) => {
+//   console.log(event.selected);
+// };
 
-const Pagination = ({ handlePageClick, pageCount }: IProps) => {
+const Pagination = ({ handlePageClick, pageCount, currPage }: IProps) => {
   return (
     <>
       <div className="pagination-one d-flex align-items-center justify-content-center justify-content-sm-start style-none">
         <ReactPaginate
+          initialPage={currPage - 1}
           className="pagination-one d-flex align-items-center justify-content-center justify-content-sm-start style-none"
           breakLabel="..."
           activeClassName="active"
           nextLabel={
             <span className="d-flex align-items-center">
-              Last <Image src={icon} alt="icon" className="ms-2" />
+              Next <Image src={icon} alt="icon" className="ms-2" />
             </span>
           }
           onPageChange={handlePageClick}
-          pageRangeDisplayed={6}
+          // onPageChange={temp}
+          pageRangeDisplayed={4}
           pageCount={pageCount}
           previousLabel={
             <span className="d-flex align-items-center">

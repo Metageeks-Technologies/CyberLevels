@@ -12,6 +12,8 @@ import CompanyV1Filter from "./filter/company-v1-filter";
 const CompanyV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
   const dispatch = useAppDispatch();
   const filterState = useAppSelector((state) => state.company.companyFilter);
+  const { currUser } = useAppSelector((state) => state.persistedReducer.user);
+
   const { name, teamSize } = filterState;
   const { companies, totalCompanies, totalNumOfPage, loading, page } =
     useAppSelector((state) => state.company.companyList);
@@ -19,7 +21,7 @@ const CompanyV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
   const [jobType, setJobType] = useState<string>(style_2 ? "list" : "grid");
 
   useEffect(() => {
-    getCompanies(dispatch, filterState, page);
+    if (currUser) getCompanies(dispatch, filterState, page, currUser);
   }, [name, teamSize, page]);
 
   const handlePageClick = (event: { selected: number }) => {
@@ -137,6 +139,7 @@ const CompanyV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
                       <Pagination
                         pageCount={totalNumOfPage}
                         handlePageClick={handlePageClick}
+                        currPage={page}
                       />
                     )}
                   </div>

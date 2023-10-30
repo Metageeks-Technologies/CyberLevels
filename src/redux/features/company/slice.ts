@@ -56,11 +56,19 @@ export const companySlice = createSlice({
         },
         setPage: (state, action: PayloadAction<number>) => {
             state.page = action.payload;
-        }
+        },
+        toggleIsSaved: (state, action: PayloadAction<string>) => {
+            state.companies = state.companies.map((company) => {
+                if (company._id === action.payload) {
+                    return { ...company, isSaved: !company.isSaved }
+                } else return company;
+            })
+
+        },
 
     },
 })
 
-export const { requestFail, setPage, getCompanyOfJobPost, requestStart, submitCompanySuccess, getCompanySuccess } = companySlice.actions
+export const { requestFail, toggleIsSaved, setPage, getCompanyOfJobPost, requestStart, submitCompanySuccess, getCompanySuccess } = companySlice.actions
 
 export default companySlice.reducer
