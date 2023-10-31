@@ -42,6 +42,7 @@ export interface ICandidate {
     bio: string,
     createdAt: string,
     updatedAt: string,
+    isSaved?: boolean,
     experienceInShort: string,
     role: string,
     _id: string,

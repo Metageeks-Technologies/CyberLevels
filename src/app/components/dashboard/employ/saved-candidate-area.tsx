@@ -1,17 +1,18 @@
-"use client"
+"use client";
 import React from "react";
 import DashboardHeader from "../candidate/dashboard-header";
 import candidate_data from "@/data/candidate-data";
 import CandidateItem from "./candidate-item";
 import EmployShortSelect from "./short-select";
+import { ICandidate } from "@/types/user-type";
 
-// props type 
+// props type
 type IProps = {
-  setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>
-}
+  setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
+  savedCandidates: ICandidate[];
+};
 
-const SavedCandidateArea = ({setIsOpenSidebar}:IProps) => {
-  const candidate_items = candidate_data.slice(0, 4);
+const SavedCandidateArea = ({ setIsOpenSidebar, savedCandidates }: IProps) => {
   return (
     <div className="dashboard-body">
       <div className="position-relative">
@@ -21,19 +22,19 @@ const SavedCandidateArea = ({setIsOpenSidebar}:IProps) => {
 
         <div className="d-flex align-items-center justify-content-between mb-40 lg-mb-30">
           <h2 className="main-title m0">Saved Candidate</h2>
-          <div className="short-filter d-flex align-items-center">
+          {/* <div className="short-filter d-flex align-items-center">
             <div className="text-dark fw-500 me-2">Short by:</div>
-            <EmployShortSelect/>
-          </div>
+            <EmployShortSelect />
+          </div> */}
         </div>
 
         <div className="wrapper">
-          {candidate_items.map((item) => (
-            <CandidateItem key={item.id} item={item} />
+          {savedCandidates.map((item) => (
+            <CandidateItem key={item._id} item={item} />
           ))}
         </div>
 
-        <div className="dash-pagination d-flex justify-content-end mt-30">
+        {/* <div className="dash-pagination d-flex justify-content-end mt-30">
           <ul className="style-none d-flex align-items-center">
             <li>
               <a href="#" className="active">
@@ -56,7 +57,7 @@ const SavedCandidateArea = ({setIsOpenSidebar}:IProps) => {
               </a>
             </li>
           </ul>
-        </div>
+        </div> */}
       </div>
     </div>
   );

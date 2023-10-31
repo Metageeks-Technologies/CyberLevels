@@ -16,13 +16,14 @@ const CandidateV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
   const filterState = useAppSelector(
     (state) => state.candidate.candidateFilter
   );
+  const { currUser } = useAppSelector((state) => state.persistedReducer.user);
   const { location, preferredExperience, candidateType, keyword } = filterState;
   const { candidates, totalNumOfPage, page, loading, totalCandidate } =
     useAppSelector((state) => state.candidate.candidateList);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    getCandidates(dispatch, filterState, page);
+    if (currUser) getCandidates(dispatch, filterState, page, currUser);
   }, [location, candidateType, preferredExperience, keyword, page]);
   const itemsPerPage = 8;
 

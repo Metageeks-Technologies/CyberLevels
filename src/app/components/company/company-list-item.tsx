@@ -114,7 +114,7 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
                   className="apply-btn text-center tran3s"
                   onClick={handleSubscribePopup}
                 >
-                  View
+                  open job
                 </button>
               )}
 

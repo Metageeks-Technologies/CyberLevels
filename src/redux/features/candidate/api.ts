@@ -8,12 +8,12 @@ import { notifyError, notifySuccess } from "@/utils/toast";
 import { toggleIsSaved } from "@/redux/features/company/slice"
 
 
-export const getCandidates = async (dispatch: AppDispatch, queryObject: IFilterState, page: number) => {
+export const getCandidates = async (dispatch: AppDispatch, queryObject: IFilterState, page: number, employerId: string) => {
     const { location, candidateType, keyword, preferredExperience } = queryObject;
 
     dispatch(requestStart());
     try {
-        const { data } = await instance(`/candidate/get?location=${location.join(",")}&preferredExperience=${preferredExperience.join(",")}&keyword=${keyword}&candidateType=${candidateType}&page=${page}`)
+        const { data } = await instance(`/candidate/get?location=${location.join(",")}&preferredExperience=${preferredExperience.join(",")}&keyword=${keyword}&candidateType=${candidateType}&page=${page}&employerId=${employerId}`)
         dispatch(getCandidatesSuccess({ candidates: data.result, totalCandidate: data.totalCandidate, totalNumOfPage: data.totalNumOfPage }))
     } catch (error) {
         const e = error as AxiosError;

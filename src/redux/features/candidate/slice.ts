@@ -51,7 +51,15 @@ export const candidateSlice = createSlice({
 
         setPage: (state, action: PayloadAction<number>) => {
             state.page = action.payload;
-        }
+        },
+        toggleIsSaved: (state, action: PayloadAction<string>) => {
+            state.candidates = state.candidates.map((candidate) => {
+                if (candidate._id === action.payload) {
+                    return { ...candidate, isSaved: !candidate.isSaved }
+                } else return candidate;
+            })
+
+        },
 
     },
 })
@@ -61,6 +69,7 @@ export const {
     requestFail,
     requestStart,
     setPage,
+    toggleIsSaved,
     getDetailsSuccess
 } = candidateSlice.actions
 

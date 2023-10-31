@@ -62,7 +62,6 @@ export const jobPostSlice = createSlice({
         getJobPostsForEmployerSuccess: (state, action: PayloadAction<IJobPost[]>) => {
             state.loading = false
             state.jobPostsForEmployer = action.payload;
-
         },
         toggleIsSaved: (state, action: PayloadAction<string>) => {
             state.allJobPost = state.allJobPost.map((job) => {

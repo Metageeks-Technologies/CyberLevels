@@ -51,12 +51,15 @@ export const candidateDashboardSlice = createSlice({
             state.currEmployer = action.payload;
             state.loading = false;
         },
-        getSavedCompaniesSuccess: (state, action: PayloadAction<IForGetSavedCandidate>) => {
+        getSavedCandidatesSuccess: (state, action: PayloadAction<IForGetSavedCandidate>) => {
             state.savedCandidates = action.payload.savedCandidates;
             state.totalNumOfPage = action.payload.totalNumOfPage;
             state.totalCandidate = action.payload.totalCandidate;
             state.loading = false;
         },
+        setPage: (state, action: PayloadAction<number>) => {
+            state.page = action.payload;
+        }
     },
 });
 
@@ -65,6 +68,8 @@ export const {
     updateCurrEmployerSuccess,
     requestFailDash,
     requestStartDash,
+    getSavedCandidatesSuccess,
+    setPage
 } = candidateDashboardSlice.actions;
 
 export default candidateDashboardSlice.reducer;
