@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { IJobApp } from '@/types/job-app-type'
+import { IChat, IChatMessage, IJobApp } from '@/types/job-app-type'
 
 // Define a type for the slice state
 export interface IJobApplication {
@@ -10,7 +10,9 @@ export interface IJobApplication {
     allJobAppByCandidateWithJobPost: IJobApp[];
     allJobAppByJobPostWithCandidate: IJobApp[];
     allJobAppByJobPost: IJobApp[];
-    jobApp: IJobApp | null
+    jobApp: IJobApp | null;
+    chat: IChat | null;
+    currJobApp: string;
 
 }
 
@@ -23,6 +25,8 @@ const initialState: IJobApplication = {
     allJobAppByCandidateWithJobPost: [],
     allJobAppByJobPostWithCandidate: [],
     jobApp: null,
+    chat: null,
+    currJobApp: ""
 };
 
 export const jobApplicationSlice = createSlice({
@@ -62,8 +66,18 @@ export const jobApplicationSlice = createSlice({
             state.loading = false;
             state.allJobAppByCandidate.push(action.payload)
         },
+        getChatsSuccess: (state, action: PayloadAction<IChat>) => {
+            state.chat = action.payload;
+            state.loading = false;
+        },
+        addChatSuccess: (state, action: PayloadAction<IChatMessage>) => {
+            state.chat?.messages.push(action.payload);
+        },
+        setCurrJobApp: (state, action: PayloadAction<string>) => {
+            state.currJobApp = action.payload
+        },
 
-    },
+    }
 });
 
 export const {
@@ -73,6 +87,9 @@ export const {
     getAllJobAppByCandidateSuccess,
     getAllJobAppByJobPostSuccess,
     createJobAppSuccess,
+    getChatsSuccess,
+    addChatSuccess,
+    setCurrJobApp,
     allJobAppByCandidateWithJobPostSuccess,
     allJobAppByJobPostWithCandidateSuccess
 

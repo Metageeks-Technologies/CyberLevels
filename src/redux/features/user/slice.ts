@@ -17,7 +17,7 @@ export interface userState {
     userRole: string,
     whoIsTryingToLoginWithLn: string,
     avatar: string,
-    name: string
+    name: string,
 }
 const initialState: userState = {
     currUser: null,
@@ -66,6 +66,7 @@ export const userSlice = createSlice({
         setLoggerWithLn: (state, action: PayloadAction<string>) => {
             state.whoIsTryingToLoginWithLn = action.payload
         },
+
     },
 })
 

@@ -7,9 +7,9 @@ import delete_icon from "@/assets/dashboard/images/icon/icon_21.svg";
 import Link from "next/link";
 import { removeSavedJob } from "@/redux/features/candidate/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import Loader from "@/ui/loader";
+import { setCurrJobApp } from "@/redux/features/jobApp/slice";
 
-const ActionDropdown = ({ id }: { id: string }) => {
+const ActionDropdown = ({ id, jobAppId }: { id: string; jobAppId: string }) => {
   const { savedJobsPage, loading } = useAppSelector(
     (state) => state.candidate.candidateDashboard
   );
@@ -22,17 +22,28 @@ const ActionDropdown = ({ id }: { id: string }) => {
       page: savedJobsPage,
     });
   };
+  console.log(jobAppId);
   return (
     <ul className="dropdown-menu dropdown-menu-end">
       <li>
         <Link className="dropdown-item" href={`/job-details-v1/${id}`}>
-          <Image src={view} alt="icon" className="lazy-img" /> View
+          <Image src={view} alt="icon" className="lazy-img" /> Ask feedback
         </Link>
       </li>
       <li>
-        <a className="dropdown-item" href="#">
-          <Image src={share} alt="icon" className="lazy-img" /> Share
-        </a>
+        {/* <a className="dropdown-item" href="#">
+          <Image src={share} alt="icon" className="lazy-img" /> Chat
+        </a> */}
+        <button
+          onClick={() => dispatch(setCurrJobApp(jobAppId))}
+          data-bs-toggle="modal"
+          data-bs-target="#chatModal"
+          type="button"
+          className="dropdown-item"
+        >
+          <Image src={share} alt="icon" className="lazy-img" />
+          Chat
+        </button>
       </li>
       {/* <li>
         <a className="dropdown-item" href="#">

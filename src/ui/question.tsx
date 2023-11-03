@@ -84,7 +84,7 @@ export default function Example({ text }: { text: string }) {
   // const text =
   //   "1) What is JavaScript?\na) A programming language \nb) A markup language\nc) A styling language\nd) None of the above.\nAnswer: a) A programming language \n\n2) What is React?\na) A programming language\nb) A JavaScript library\nc) A database\nd) None of the above\nAnswer: b) A JavaScript library\n\n3) What does frontend development refer to?\na) Development of server-side code \nb) Development of user interface (UI) \nc) Development of network protocols\nd) None of the above \nAnswer: b) Development of user interface (UI) \n\n4) What are the basic data types in JavaScript?\na) Strings, numbers, booleans, null, undefined \nb) Arrays, objects, functions, dates \nc) HTML, CSS, JavaScript \nd) None of the above \nAnswer: a) Strings, numbers, booleans, null, undefined";
 
-  const questions = text.split("\\n\\n");
+  const questions = text.split("\n\n");
   // questions.map((obj, index) => {
   //   const question = obj.split("\n");
   //   // console.log(question);
@@ -94,7 +94,7 @@ export default function Example({ text }: { text: string }) {
   return (
     <div>
       {questions?.map((obj, index) => {
-        const question = obj.split("\\n");
+        const question = obj.split("\n");
         const options = question.filter((element, index) => index !== 0);
 
         return <Question question={question} options={options} />;

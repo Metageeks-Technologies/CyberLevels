@@ -22,6 +22,14 @@ interface ILocation {
     maplocation: string;
 }
 
+export interface INotification {
+    sender: string,
+    message: string,
+    redirectUrl: string,
+    timestamp: Date,
+    isRead: boolean,
+    _id: string,
+}
 
 export interface ICandidate {
     email: string;
@@ -39,6 +47,7 @@ export interface ICandidate {
     socialSites: string[];
     location: ILocation,
     testScore: number,
+    notifications: INotification[],
     bio: string,
     createdAt: string,
     updatedAt: string,

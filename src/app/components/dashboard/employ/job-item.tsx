@@ -1,5 +1,5 @@
 import React from "react";
-import ActionDropdown from "../candidate/action-dropdown";
+// import ActionDropdown from "./action-dropdown";
 import Link from "next/link";
 
 const EmployJobItem = ({
@@ -44,7 +44,7 @@ const EmployJobItem = ({
             <span></span>
           </button>
 
-          <ActionDropdown />
+          {/* {id && <ActionDropdown id={id}  />} */}
         </div>
       </td>
     </tr>

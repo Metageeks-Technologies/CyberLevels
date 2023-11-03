@@ -12,18 +12,19 @@ import FeedbackTwo from "./components/feedBacks/feedback-one";
 import HeroBanner from "./components/hero-banners/hero-banner";
 import HowItWorks from "./components/how-it-works/how-it-works";
 import JobPortalIntro from "./components/job-portal-intro/job-portal-intro";
-const text = "hello world";
-const url =
-  "https://www.naukri.com/job-listings-web-designer-php-laravel-internship-permanent-360-digital-idea-new-delhi-delhi-delhi-ncr-0-to-2-years-171023010795?src=drecomm_dashboard";
 export default function Home() {
+  console.log("from the dashboard");
+
   return (
     <Wrapper>
       {/* header start */}
       <Header />
+
       {/* header end */}
       {/* hero banner start */}
       <HeroBanner />
       {/* hero banner end */}
+
       {/* category section start */}
       <CategorySection />
       {/* category section end */}

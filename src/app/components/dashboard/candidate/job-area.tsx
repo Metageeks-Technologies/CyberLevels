@@ -5,6 +5,7 @@ import EmployShortSelect from "../employ/short-select";
 import { IJobApp } from "@/types/job-app-type";
 import { IJobPost } from "@/types/jobPost-type";
 import Pagination from "@/ui/pagination";
+import ChatModal from "../../common/popup/chatModal";
 
 // props type
 type IProps = {
@@ -14,16 +15,17 @@ type IProps = {
 const EmployJobArea = ({ setIsOpenSidebar, jobApps }: IProps) => {
   console.log(jobApps);
   return (
-    <div className="dashboard-body">
-      <div className="position-relative">
-        {/* header start */}
-        <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
-        {/* header end */}
+    <>
+      <div className="dashboard-body">
+        <div className="position-relative">
+          {/* header start */}
+          <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
+          {/* header end */}
 
-        <div className="d-sm-flex align-items-center justify-content-between mb-40 lg-mb-30">
-          <h2 className="main-title m0">My Jobs</h2>
-          <div className="d-flex ms-auto xs-mt-30">
-            {/* <div
+          <div className="d-sm-flex align-items-center justify-content-between mb-40 lg-mb-30">
+            <h2 className="main-title m0">My Jobs</h2>
+            <div className="d-flex ms-auto xs-mt-30">
+              {/* <div
               className="nav nav-tabs tab-filter-btn me-4"
               id="nav-tab"
               role="tablist"
@@ -49,53 +51,60 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApps }: IProps) => {
                 New
               </button>
             </div> */}
-            {/* <div className="short-filter d-flex align-items-center ms-auto">
+              {/* <div className="short-filter d-flex align-items-center ms-auto">
               <div className="text-dark fw-500 me-2">Short by:</div>
               <EmployShortSelect />
             </div> */}
-          </div>
-        </div>
-
-        <div className="bg-white card-box border-20">
-          <div className="tab-content" id="nav-tabContent">
-            <div className="tab-pane fade show active" id="a1" role="tabpanel">
-              <div className="table-responsive">
-                <table className="table job-alert-table">
-                  <thead>
-                    <tr>
-                      <th scope="col">Title</th>
-                      <th scope="col">Job Created</th>
-                      <th scope="col">Salary</th>
-                      <th scope="col">Status</th>
-                      <th scope="col">Updated At</th>
-                    </tr>
-                  </thead>
-                  <tbody className="border-0">
-                    {jobApps?.map((app) => {
-                      let ceratedAt: Date | string = new Date(app.createdAt);
-                      ceratedAt = ceratedAt.toLocaleDateString();
-
-                      let updatedAt: Date | string = new Date(app.updatedAt);
-                      updatedAt = updatedAt.toLocaleDateString();
-
-                      if (typeof app.jobPost !== "string") {
-                        return (
-                          <CandidateJobItem
-                            title={app.jobPost.title}
-                            info={`${app.jobPost.jobType[0]} . ${app.jobPost.location}`}
-                            application={`$ ${app.jobPost.salary.minimum} - ${app.jobPost.salary.maximum} K /month`}
-                            date={ceratedAt}
-                            status={app.status}
-                            updatedAt={updatedAt}
-                          />
-                        );
-                      }
-                    })}
-                  </tbody>
-                </table>
-              </div>
             </div>
-            {/* <div className="tab-pane fade" id="a2" role="tabpanel">
+          </div>
+
+          <div className="bg-white card-box border-20">
+            <div className="tab-content" id="nav-tabContent">
+              <div
+                className="tab-pane fade show active"
+                id="a1"
+                role="tabpanel"
+              >
+                <div className="table-responsive">
+                  <table className="table job-alert-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Job Created</th>
+                        <th scope="col">Salary</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Updated At</th>
+                        <th scope="col">Options</th>
+                      </tr>
+                    </thead>
+                    <tbody className="border-0">
+                      {jobApps?.map((app) => {
+                        let ceratedAt: Date | string = new Date(app.createdAt);
+                        ceratedAt = ceratedAt.toLocaleDateString();
+
+                        let updatedAt: Date | string = new Date(app.updatedAt);
+                        updatedAt = updatedAt.toLocaleDateString();
+
+                        if (typeof app.jobPost !== "string") {
+                          return (
+                            <CandidateJobItem
+                              jobId={app.jobPost._id}
+                              jobAppId={app._id}
+                              title={app.jobPost.title}
+                              info={`${app.jobPost.jobType[0]} . ${app.jobPost.location}`}
+                              application={`$ ${app.jobPost.salary.minimum} - ${app.jobPost.salary.maximum} K /month`}
+                              date={ceratedAt}
+                              status={app.status}
+                              updatedAt={updatedAt}
+                            />
+                          );
+                        }
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              {/* <div className="tab-pane fade" id="a2" role="tabpanel">
               <div className="table-responsive">
                 <table className="table job-alert-table">
                   <thead>
@@ -143,10 +152,12 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApps }: IProps) => {
                 </table>
               </div>
             </div> */}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <ChatModal />
+    </>
   );
 };
 

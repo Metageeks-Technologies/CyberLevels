@@ -45,7 +45,7 @@ const EmployJobItem = ({
             <span></span>
           </button>
 
-          <ActionDropdown id={appId} />
+          <ActionDropdown id={appId} candidateId={id} />
         </div>
       </td>
     </tr>

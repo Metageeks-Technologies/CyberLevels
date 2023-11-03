@@ -295,9 +295,16 @@
           display: none;
         }
         .badge-pill {
+          color: white;
+          font-weight: 700;
+          font-style: normal;
           position: absolute;
-          width: 7px;
-          height: 7px;
+          display: flex;
+          justify-content: center;
+          // align-items: center;
+          font-size: 10px;
+          width: 16px;
+          height: 16px;
           border-radius: 50%;
           background: #ff2730;
           top: 4px;
@@ -305,7 +312,8 @@
         }
       }
       .dropdown-menu {
-        max-width: 325px;
+        // max-width: 325px;
+        width: 450px;
         border: none;
         border-radius: 15px;
         box-shadow: 0px 50px 100px rgba(0, 0, 0, 0.12);

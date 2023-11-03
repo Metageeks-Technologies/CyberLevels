@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { ICandidate } from '@/types/user-type'
+import type { ICandidate, INotification } from '@/types/user-type'
 import type { IJobPost } from "@/types/jobPost-type";
 import { ICompany } from "@/types/company";
 
@@ -17,6 +17,7 @@ export interface ICandidateDashboard {
     totalNumOfSavedCompaniesPage: number,
     totalSavedCompany: number,
     savedCompanies: ICompany[],
+    toggle: boolean,
 }
 
 // Define the initial state using that type
@@ -32,6 +33,7 @@ const initialState: ICandidateDashboard = {
     totalNumOfSavedCompaniesPage: 1,
     totalSavedCompany: 0,
     savedCompanies: [],
+    toggle: false,
 };
 
 type IForGetSavedJobs = {
@@ -100,6 +102,23 @@ export const candidateDashboardSlice = createSlice({
         setSavedCompaniesPage: (state, action: PayloadAction<number>) => {
             state.savedCompanyPage = action.payload;
         },
+        updateNotificationSuccess: (state, action: PayloadAction<ICandidate>) => {
+            state.currCandidate = action.payload;
+            state.loading = false
+        },
+        setToggle: (state) => {
+            state.toggle = !state.toggle;
+        },
+        addNotification: (state, action: PayloadAction<INotification>) => {
+            if (state.currCandidate) {
+                const newNotification = action.payload;
+                const updatedCandidate = {
+                    ...state.currCandidate, // Create a shallow copy of currCandidate
+                    notifications: [...state.currCandidate.notifications, newNotification], // Add the new notification
+                };
+                state.currCandidate = updatedCandidate;
+            }
+        },
 
 
     },
@@ -116,7 +135,10 @@ export const {
     getSavedJobsSuccess,
     setSavedJobsPage,
     getSavedCompaniesSuccess,
-    setSavedCompaniesPage
+    setSavedCompaniesPage,
+    updateNotificationSuccess,
+    addNotification,
+    setToggle
 } = candidateDashboardSlice.actions;
 
 export default candidateDashboardSlice.reducer;

@@ -7,7 +7,9 @@ import {
     createJobAppSuccess,
     allJobAppByCandidateWithJobPostSuccess,
     allJobAppByJobPostWithCandidateSuccess,
-    requestSuccess
+    requestSuccess,
+    getChatsSuccess,
+    addChatSuccess
 } from "./slice";
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
@@ -85,16 +87,56 @@ export const createJobApp = async (dispatch: AppDispatch, bodyObj: any) => {
         dispatch(requestFail(e.message))
     }
 }
-export const updateJobAppStatus = async (dispatch: AppDispatch, value: string, id: string) => {
+export const updateJobAppStatus = async (dispatch: AppDispatch, bodyObj: any, socket: any) => {
 
+    // alert(bodyObj);
+
+    const { candidateId, employerId } = bodyObj;
     dispatch(requestStart());
     try {
-        await instance.patch(`/jobApp/updateStatus`, { status: value, id: id });
+        const { data } = await instance.patch(`/jobApp/updateStatus`, bodyObj);
 
         dispatch(requestSuccess())
         notifySuccess("status updated successfully")
+        socket?.emit("sendNotification", {
+            senderId: employerId,
+            receiverId: candidateId,
+            data: data.notification
+        });
     } catch (error) {
         const e = error as AxiosError;
         dispatch(requestFail(e.message))
     }
 }
+
+export const getMessages = async (dispatch: AppDispatch, id: string) => {
+
+    dispatch(requestStart());
+    try {
+        const { data } = await instance.get(`/chat/get/${id}`);
+        dispatch(getChatsSuccess(data.chat))
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message))
+    }
+}
+export const addMessages = async (dispatch: AppDispatch, bodyObj: any, participants: [string, string], socket: any) => {
+
+    dispatch(requestStart());
+    const { userId } = bodyObj;
+    const receiverId = participants.find(val => val !== userId);
+    try {
+        const { data } = await instance.post(`/chat/add`, bodyObj);
+        dispatch(addChatSuccess(data.chat));
+        socket?.emit("sendMessage", {
+            senderId: userId,
+            receiverId,
+            data: data.chat
+        });
+
+        console.log(userId, receiverId)
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message))
+    }
+} 

@@ -1,11 +1,13 @@
 import instance from "@/lib/axios";
 import { getCandidatesSuccess, requestFail, requestStart, getDetailsSuccess } from "./slice"
-import { getCurrCandidateSuccess, requestFailDash, requestStartDash, removeSavedJobSuccess, updateExpSuccess, updateCurrCandidateSuccess, getSavedJobsSuccess, getSavedCompaniesSuccess } from "./dashboardSlice";
+import { getCurrCandidateSuccess, requestFailDash, requestStartDash, removeSavedJobSuccess, updateExpSuccess, updateCurrCandidateSuccess, getSavedJobsSuccess, getSavedCompaniesSuccess, updateNotificationSuccess } from "./dashboardSlice";
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { IFilterState } from "../candidate/filterSlice";
 import { notifyError, notifySuccess } from "@/utils/toast";
-import { toggleIsSaved } from "@/redux/features/company/slice"
+import { toggleIsSaved as toggleJobIsSaved } from "@/redux/features/jobPost/slice"
+import { toggleIsSaved as toggleCompanyIsSaved } from "@/redux/features/company/slice"
+
 
 
 export const getCandidates = async (dispatch: AppDispatch, queryObject: IFilterState, page: number, employerId: string) => {
@@ -78,7 +80,7 @@ export const saveJob = async (dispatch: AppDispatch, bodyObj: any) => {
     try {
         const { data } = await instance.post(`/candidate/savedJob`, bodyObj);
         dispatch(getSavedJobsSuccess({ savedJobs: data.savedJobs, totalNumOfSavedJobsPage: data.totalNumOfPage, totalSavedJob: data.totalSavedJob }))
-        dispatch(toggleIsSaved(bodyObj.jobPostId))
+        dispatch(toggleJobIsSaved(bodyObj.jobPostId))
         notifySuccess("Job Saved Successfully")
     } catch (error) {
         const e = error as AxiosError;
@@ -94,7 +96,7 @@ export const removeSavedJob = async (dispatch: AppDispatch, bodyObj: any) => {
     try {
         const { data } = await instance.delete(`/candidate/savedJob?jobPostId=${jobPostId}&candidateId=${candidateId}&page=${page}`);
         dispatch(getSavedJobsSuccess({ savedJobs: data.savedJobs, totalNumOfSavedJobsPage: data.totalNumOfPage, totalSavedJob: data.totalSavedJob }))
-        dispatch(toggleIsSaved(bodyObj.jobPostId))
+        dispatch(toggleJobIsSaved(bodyObj.jobPostId))
         dispatch(removeSavedJobSuccess);
         notifySuccess("Job remove form saved Jobs");
     } catch (error) {
@@ -122,7 +124,7 @@ export const saveCompany = async (dispatch: AppDispatch, bodyObj: any) => {
     try {
         const { data } = await instance.post(`/candidate/savedCompany`, bodyObj);
         dispatch(getSavedCompaniesSuccess({ savedCompanies: data.savedCompanies, totalNumOfSavedCompaniesPage: data.totalNumOfPage, totalSavedCompany: data.totalSavedCompany }))
-        dispatch(toggleIsSaved(bodyObj.companyId))
+        dispatch(toggleCompanyIsSaved(bodyObj.companyId))
         notifySuccess("Company Saved Successfully")
     } catch (error) {
         const e = error as AxiosError;
@@ -138,12 +140,26 @@ export const removeSavedCompany = async (dispatch: AppDispatch, bodyObj: any) =>
     try {
         const { data } = await instance.delete(`/candidate/savedCompany?companyId=${companyId}&candidateId=${candidateId}&page=${page}`);
         dispatch(getSavedCompaniesSuccess({ savedCompanies: data.savedCompanies, totalNumOfSavedCompaniesPage: data.totalNumOfPage, totalSavedCompany: data.totalSavedCompany }))
-        dispatch(toggleIsSaved(companyId))
+        dispatch(toggleCompanyIsSaved(companyId))
         // dispatch(removeSavedJobSuccess);
         notifySuccess("Job remove form saved Jobs");
     } catch (error) {
         const e = error as AxiosError;
         dispatch(requestFailDash(e.message))
         notifyError(e.message)
+    }
+}
+
+export const updateNotification = async (dispatch: AppDispatch, bodyObj: any) => {
+
+    dispatch(requestStartDash());
+    try {
+        const { data } = await instance.patch(`/candidate/updateNoti/${bodyObj.id}`, { candidateId: bodyObj.candidateId });
+        dispatch(updateNotificationSuccess(data.candidate));
+        // notifySuccess("Job remove form saved Jobs");
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFailDash(e.message))
+        // notifyError(e.message)
     }
 }

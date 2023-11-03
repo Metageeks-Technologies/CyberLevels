@@ -8,24 +8,42 @@ import notify_icon_2 from "@/assets/dashboard/images/icon/icon_37.svg";
 import notify_icon_3 from "@/assets/dashboard/images/icon/icon_38.svg";
 import search from "@/assets/dashboard/images/icon/icon_10.svg";
 import { usePathname } from "next/navigation";
+import { useAppSelector, useAppDispatch } from "@/redux/hook";
+import { format } from "timeago.js";
+import { updateNotification } from "@/redux/features/candidate/api";
 // notification item
 function NotificationItem({
   icon,
   main,
   time,
   isUnread,
+  redirectUrl,
+  id,
 }: {
   icon: StaticImageData;
   main: string;
-  time: string;
+  time: Date;
   isUnread: boolean;
+  redirectUrl?: string;
+  id: string;
 }) {
+  const dispatch = useAppDispatch();
+  const handleClick = (id: string) => {
+    if (currUser) updateNotification(dispatch, { id, candidateId: currUser });
+  };
+  const { currUser } = useAppSelector((s) => s.persistedReducer.user);
   return (
-    <li className={`d-flex align-items-center ${isUnread ? "unread" : ""}`}>
+    <li className={`d-flex align-items-center ${!isUnread ? "unread" : ""}`}>
       <Image src={icon} alt="icon" className="lazy-img icon" />
       <div className="flex-fill ps-2">
-        <h6>You have {main} new mails</h6>
-        <span className="time">{time} hours ago</span>
+        {/* <h6>You have {main} new mails</h6> */}
+        <h6>
+          <Link onClick={() => handleClick(id)} href={redirectUrl || "#"}>
+            {main}
+          </Link>
+        </h6>
+
+        <span className="time">{format(time)}</span>
       </div>
     </li>
   );
@@ -42,6 +60,13 @@ const DashboardHeader = ({ setIsOpenSidebar }: IProps) => {
     }
   };
   const pathName = usePathname();
+  const { currCandidate } = useAppSelector(
+    (state) => state.candidate.candidateDashboard
+  );
+  const unreadNotification = currCandidate?.notifications.filter(
+    (n) => n.isRead === false
+  );
+  // console.log("from notification", currCandidate);
   return (
     <header className="dashboard-header">
       <div className="d-flex align-items-center justify-content-end">
@@ -67,30 +92,27 @@ const DashboardHeader = ({ setIsOpenSidebar }: IProps) => {
             aria-expanded="false"
           >
             <Image src={notifi} alt="Notification" className="lazy-img" />
-            <div className="badge-pill"></div>
+            {unreadNotification && unreadNotification.length > 0 && (
+              <div className="badge-pill">{unreadNotification.length}</div>
+            )}
           </button>
           <ul className="dropdown-menu" aria-labelledby="notification-dropdown">
             <li>
               <h4>Notification</h4>
               <ul className="style-none notify-list">
-                <NotificationItem
-                  icon={notify_icon_1}
-                  main="3"
-                  time="3"
-                  isUnread={true}
-                />
-                <NotificationItem
-                  icon={notify_icon_2}
-                  main="5"
-                  time="6"
-                  isUnread={false}
-                />
-                <NotificationItem
-                  icon={notify_icon_3}
-                  main="7"
-                  time="9"
-                  isUnread={true}
-                />
+                {currCandidate?.notifications?.map((n, index) => {
+                  return (
+                    <NotificationItem
+                      key={n._id}
+                      icon={notify_icon_2}
+                      main={n.message}
+                      time={n.timestamp}
+                      isUnread={n.isRead}
+                      redirectUrl={n.redirectUrl}
+                      id={n._id}
+                    />
+                  );
+                })}
               </ul>
             </li>
           </ul>

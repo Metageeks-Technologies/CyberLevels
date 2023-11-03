@@ -10,3 +10,17 @@ export interface IJobApp {
     createdAt: string,
     updatedAt: string,
 }
+
+export interface IChatMessage {
+    role: 'candidate' | 'employer';
+    userId: string;
+    text: string;
+    timestamp: Date;
+    _id?: string;
+}
+export interface IChat {
+    _id: string
+    jobApp: string;
+    participants: [string, string];
+    messages: IChatMessage[];
+}
