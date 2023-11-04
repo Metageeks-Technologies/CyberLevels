@@ -26,7 +26,7 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
   const { allJobPost, page } = useAppSelector((state) => state.jobPost);
   const filterObj = useAppSelector((state) => state.filter);
   useEffect(() => {
-    getJObPosts(dispatch, filterObj, page);
+    getJObPosts(dispatch, filterObj, page, "");
   }, []);
   const handleDelete = (id: string) => {
     deleteJobPost(dispatch, id);

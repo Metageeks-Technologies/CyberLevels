@@ -13,7 +13,7 @@ const CandidateItem = ({ item }: { item: ICandidate }) => {
               src={item.img}
               alt="image"
               className="lazy-img rounded-circle"
-              style={{height:'auto'}}
+              style={{ height: "auto" }}
             />
           </a>
         </div>
@@ -38,7 +38,9 @@ const CandidateItem = ({ item }: { item: ICandidate }) => {
             <div className="col-xl-3 col-md-4 col-sm-6">
               <div className="candidate-info">
                 <span>Salary</span>
-                <div>{item.salary}/{item.salary_duration}</div>
+                <div>
+                  {item.salary}/{item.salary_duration}
+                </div>
               </div>
             </div>
             <div className="col-xl-3 col-md-4 col-sm-6">
@@ -64,7 +66,7 @@ const CandidateItem = ({ item }: { item: ICandidate }) => {
                   >
                     <span></span>
                   </button>
-                  <ActionDropdown />
+                  <ActionDropdown id="" jobAppId="" />
                 </div>
               </div>
             </div>

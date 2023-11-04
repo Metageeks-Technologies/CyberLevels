@@ -5,6 +5,7 @@ export interface IJobApp {
     candidate: string | ICandidate,
     jobPost: string | IJobPost,
     status: string,
+    isFeedbackAsked: boolean,
     __v: number,
     _id: string,
     createdAt: string,
@@ -23,4 +24,15 @@ export interface IChat {
     jobApp: string;
     participants: [string, string];
     messages: IChatMessage[];
+}
+export interface IFeedback {
+    jobApp: string;
+    candidateQuestion: {
+        candidateId: string,
+        question: string,
+    };
+    employerResponse?: {
+        employerId: string,
+        response: String
+    }
 }

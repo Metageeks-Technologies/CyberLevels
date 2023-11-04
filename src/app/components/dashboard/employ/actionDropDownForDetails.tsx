@@ -9,9 +9,11 @@ import { setCurrJobApp } from "@/redux/features/jobApp/slice";
 const ActionDropdown = ({
   id,
   candidateId,
+  isFeedbackAsked,
 }: {
   id: string;
   candidateId: string;
+  isFeedbackAsked: boolean;
 }) => {
   const dispatch = useAppDispatch();
   const { currUser } = useAppSelector((s) => s.persistedReducer.user);
@@ -47,6 +49,19 @@ const ActionDropdown = ({
           Chat
         </button>
       </li>
+      {isFeedbackAsked && (
+        <li>
+          <button
+            onClick={() => dispatch(setCurrJobApp(id))}
+            data-bs-toggle="modal"
+            data-bs-target="#feedbackModal"
+            type="button"
+            className="dropdown-item"
+          >
+            Drop feedback
+          </button>
+        </li>
+      )}
       <li>
         <button
           disabled={loading}

@@ -2,14 +2,34 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { useEffect } from "react";
 import { getMessages } from "@/redux/features/jobApp/api";
 import Messenger from "../../dashboard/candidate/chat/messanger";
+import { notifyError, notifyInfo } from "@/utils/toast";
+import { initiateChat } from "@/redux/features/jobApp/api";
 const ChatModal = () => {
   const { currUser, userRole } = useAppSelector((s) => s.persistedReducer.user);
-  const { currJobApp } = useAppSelector((s) => s.jobApplication);
+  const { currJobApp, allJobAppByJobPostWithCandidate } = useAppSelector(
+    (s) => s.jobApplication
+  );
+  const { chat } = useAppSelector((s) => s.jobApplication);
   const dispatch = useAppDispatch();
+
+  const jobApp = allJobAppByJobPostWithCandidate.find(
+    (app) => app._id === currJobApp
+  );
 
   useEffect(() => {
     if (currJobApp) getMessages(dispatch, currJobApp);
   }, [currJobApp]);
+  const handleClick = () => {
+    if (userRole === "candidate") {
+      notifyInfo("chat can be only initiated by employer");
+    } else if (userRole === "employer") {
+      initiateChat(dispatch, {
+        appId: currJobApp,
+        employerId: currUser,
+        candidateId: jobApp?.candidate,
+      });
+    }
+  };
 
   return (
     <div className="modal fade" id="chatModal" tabIndex={-1} aria-hidden="true">
@@ -25,11 +45,17 @@ const ChatModal = () => {
             <div className="text-center">
               {/* <h3 className="mb-30">Chat With Employer</h3> */}
             </div>
-            <button>Start Conversation</button>
+            {!chat && (
+              <button type="button" onClick={handleClick}>
+                Start Conversation
+              </button>
+            )}
             {/* chat */}
-            <div className="form-wrapper m-auto container-fluid ">
-              <Messenger />
-            </div>
+            {chat && (
+              <div className="form-wrapper m-auto container-fluid ">
+                <Messenger />
+              </div>
+            )}
             {/* input  */}
             {/* <div className="buttonSvg pl-16 w-[50vw] flex">
               <input

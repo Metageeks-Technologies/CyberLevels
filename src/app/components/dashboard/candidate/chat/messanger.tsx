@@ -25,6 +25,7 @@ export default function Messenger() {
       timestamp: isoString,
     };
     if (chat) addMessages(dispatch, chatBody, chat.participants, socket);
+    setText("");
   };
   const scrollRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -71,12 +72,15 @@ export default function Messenger() {
                 </div>
                 <div className="chatBoxBottom">
                   <textarea
-                    className="chatMessageInput"
+                    className="text-area"
                     placeholder="write something..."
                     onChange={(e) => setText(e.target.value)}
                     value={text}
                   ></textarea>
-                  <button className="chatSubmitButton" onClick={handleSubmit}>
+                  <button
+                    className="chatSubmitButton ms-2"
+                    onClick={handleSubmit}
+                  >
                     Send
                   </button>
                 </div>

@@ -184,6 +184,7 @@ const JobListV2Area = ({
                     </p>
                     {filterItems.length > itemsPerPage && (
                       <Pagination
+                        currPage={1}
                         pageCount={pageCount}
                         handlePageClick={handlePageClick}
                       />

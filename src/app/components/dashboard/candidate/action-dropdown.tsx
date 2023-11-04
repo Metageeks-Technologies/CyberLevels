@@ -26,9 +26,18 @@ const ActionDropdown = ({ id, jobAppId }: { id: string; jobAppId: string }) => {
   return (
     <ul className="dropdown-menu dropdown-menu-end">
       <li>
-        <Link className="dropdown-item" href={`/job-details-v1/${id}`}>
+        {/* <Link className="dropdown-item" href={`/job-details-v1/${id}`}>
           <Image src={view} alt="icon" className="lazy-img" /> Ask feedback
-        </Link>
+        </Link> */}
+        <button
+          onClick={() => dispatch(setCurrJobApp(jobAppId))}
+          data-bs-toggle="modal"
+          data-bs-target="#feedbackModal"
+          type="button"
+          className="dropdown-item"
+        >
+          <Image src={view} alt="icon" className="lazy-img" /> Ask feedback
+        </button>
       </li>
       <li>
         {/* <a className="dropdown-item" href="#">

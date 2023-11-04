@@ -63,6 +63,7 @@ const DashboardHeader = ({ setIsOpenSidebar }: IProps) => {
   const { currCandidate } = useAppSelector(
     (state) => state.candidate.candidateDashboard
   );
+  // const t=currCandidate?.notifications[0].timestamp
   const unreadNotification = currCandidate?.notifications.filter(
     (n) => n.isRead === false
   );
@@ -100,7 +101,7 @@ const DashboardHeader = ({ setIsOpenSidebar }: IProps) => {
             <li>
               <h4>Notification</h4>
               <ul className="style-none notify-list">
-                {currCandidate?.notifications?.map((n, index) => {
+                {unreadNotification?.map((n, index) => {
                   return (
                     <NotificationItem
                       key={n._id}

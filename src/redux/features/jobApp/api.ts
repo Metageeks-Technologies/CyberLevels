@@ -9,11 +9,14 @@ import {
     allJobAppByJobPostWithCandidateSuccess,
     requestSuccess,
     getChatsSuccess,
-    addChatSuccess
+    addChatSuccess,
+    getFeedbackSuccess,
+    askFeedbackSuccess,
+    responseFeedbackSuccess
 } from "./slice";
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
-import { notifySuccess } from "@/utils/toast";
+import { notifyError, notifySuccess } from "@/utils/toast";
 
 // dashboard
 export const getAllJobAppByCandidate = async (dispatch: AppDispatch, id: string) => {
@@ -109,6 +112,18 @@ export const updateJobAppStatus = async (dispatch: AppDispatch, bodyObj: any, so
     }
 }
 
+export const initiateChat = async (dispatch: AppDispatch, bodyObj: any) => {
+
+    dispatch(requestStart());
+    try {
+        const { data } = await instance.post(`/chat/create`, bodyObj);
+        dispatch(getChatsSuccess(data.chat))
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message))
+    }
+}
+
 export const getMessages = async (dispatch: AppDispatch, id: string) => {
 
     dispatch(requestStart());
@@ -139,4 +154,48 @@ export const addMessages = async (dispatch: AppDispatch, bodyObj: any, participa
         const e = error as AxiosError;
         dispatch(requestFail(e.message))
     }
-} 
+}
+export const getFeedback = async (dispatch: AppDispatch, id: string) => {
+
+    dispatch(requestStart());
+    try {
+        const { data } = await instance.get(`/jobApp/feedback/${id}`);
+        dispatch(getFeedbackSuccess(data.feedback));
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message))
+    }
+}
+
+export const askFeedback = async (dispatch: AppDispatch, bodyObj: any) => {
+
+    dispatch(requestStart());
+    try {
+        const { data } = await instance.post(`/jobApp/feedback/ask`, bodyObj);
+        dispatch(askFeedbackSuccess(data.feedback));
+        notifySuccess("You have asked for feedback successfully");
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message))
+        notifyError(e.message);
+    }
+}
+export const responseFeedback = async (dispatch: AppDispatch, bodyObj: any, socket: any) => {
+
+    dispatch(requestStart());
+    const { receiverId, employerId } = bodyObj;
+
+    try {
+        const { data } = await instance.patch(`/jobApp/feedback/response`, bodyObj);
+        dispatch(responseFeedbackSuccess(data.feedback));
+        notifySuccess("You have successfully responded to feedback ");
+        socket?.emit("sendNotification", {
+            senderId: employerId,
+            receiverId,
+            data: data.notification
+        });
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message))
+    }
+}

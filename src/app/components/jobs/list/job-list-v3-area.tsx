@@ -146,6 +146,7 @@ const JobListV3Area = ({ itemsPerPage }: { itemsPerPage: number }) => {
                     </p>
                     {filterItems.length > itemsPerPage && (
                       <Pagination
+                        currPage={1}
                         pageCount={pageCount}
                         handlePageClick={handlePageClick}
                       />

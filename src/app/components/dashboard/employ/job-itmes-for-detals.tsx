@@ -10,6 +10,7 @@ const EmployJobItem = ({
   status,
   id,
   appId,
+  isFeedbackAsked,
 }: {
   title: string;
   info: string;
@@ -18,6 +19,7 @@ const EmployJobItem = ({
   status: string;
   id: string;
   appId: string;
+  isFeedbackAsked: boolean;
 }) => {
   return (
     <tr className={`${status}`}>
@@ -45,7 +47,11 @@ const EmployJobItem = ({
             <span></span>
           </button>
 
-          <ActionDropdown id={appId} candidateId={id} />
+          <ActionDropdown
+            isFeedbackAsked={isFeedbackAsked}
+            id={appId}
+            candidateId={id}
+          />
         </div>
       </td>
     </tr>

@@ -6,6 +6,7 @@ import { IJobApp } from "@/types/job-app-type";
 import { IJobPost } from "@/types/jobPost-type";
 import Pagination from "@/ui/pagination";
 import ChatModal from "../../common/popup/chatModal";
+import FeedbackModal from "../../common/popup/feedback";
 
 // props type
 type IProps = {
@@ -157,6 +158,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApps }: IProps) => {
         </div>
       </div>
       <ChatModal />
+      <FeedbackModal />
     </>
   );
 };

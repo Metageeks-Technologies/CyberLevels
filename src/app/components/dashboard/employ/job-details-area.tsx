@@ -5,6 +5,7 @@ import EmployShortSelect from "./short-select";
 import { IJobApp } from "@/types/job-app-type";
 import { getDate } from "@/utils/helper";
 import ChatModal from "../../common/popup/chatModal";
+import FeedbackModal from "../../common/popup/feedback";
 
 // props type
 type IProps = {
@@ -94,6 +95,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp }: IProps) => {
                               }
                               id={app.candidate._id}
                               appId={app._id}
+                              isFeedbackAsked={app.isFeedbackAsked}
                             />
                           );
                         }
@@ -107,6 +109,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp }: IProps) => {
         </div>
       </div>
       <ChatModal />
+      <FeedbackModal />
     </>
   );
 };

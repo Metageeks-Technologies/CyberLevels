@@ -13,15 +13,16 @@ const CandidateDashboardPage = () => {
 
   const { socket } = useAppSelector((s) => s.global);
 
-  const { currCandidate } = useAppSelector(
+  const { currCandidate, toggle } = useAppSelector(
     (state) => state.candidate.candidateDashboard
   );
 
   useEffect(() => {
     socket?.on("getNotification", (data: any) => {
       dispatch(addNotification(data.notification));
+      console.log("hello");
     });
-  }, [socket]);
+  }, [socket, toggle]);
 
   return <Wrapper>{currCandidate && <CandidateDashboardMain />}</Wrapper>;
 };
