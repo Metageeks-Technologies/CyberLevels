@@ -32,6 +32,7 @@ const EmployDashboardJobsPage = ({ params }: { params: { id: string } }) => {
           <EmployJobDetailsArea
             setIsOpenSidebar={setIsOpenSidebar}
             jobApp={allJobAppByJobPostWithCandidate}
+            jobPostId={params.id}
           />
         )}
 

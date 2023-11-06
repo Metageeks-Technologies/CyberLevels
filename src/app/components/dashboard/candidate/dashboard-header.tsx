@@ -1,16 +1,14 @@
 "use client";
-import React from "react";
-import Link from "next/link";
-import Image, { StaticImageData } from "next/image";
-import notifi from "@/assets/dashboard/images/icon/icon_11.svg";
-import notify_icon_1 from "@/assets/dashboard/images/icon/icon_36.svg";
-import notify_icon_2 from "@/assets/dashboard/images/icon/icon_37.svg";
-import notify_icon_3 from "@/assets/dashboard/images/icon/icon_38.svg";
 import search from "@/assets/dashboard/images/icon/icon_10.svg";
-import { usePathname } from "next/navigation";
-import { useAppSelector, useAppDispatch } from "@/redux/hook";
-import { format } from "timeago.js";
+import notifi from "@/assets/dashboard/images/icon/icon_11.svg";
+import notify_icon_2 from "@/assets/dashboard/images/icon/icon_37.svg";
 import { updateNotification } from "@/redux/features/candidate/api";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import Image, { StaticImageData } from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React from "react";
+import { format } from "timeago.js";
 // notification item
 function NotificationItem({
   icon,
@@ -28,6 +26,7 @@ function NotificationItem({
   id: string;
 }) {
   const dispatch = useAppDispatch();
+
   const handleClick = (id: string) => {
     if (currUser) updateNotification(dispatch, { id, candidateId: currUser });
   };
@@ -67,7 +66,14 @@ const DashboardHeader = ({ setIsOpenSidebar }: IProps) => {
   const unreadNotification = currCandidate?.notifications.filter(
     (n) => n.isRead === false
   );
+  // unreadNotification?.forEach((notification) => {
+  //   notification.timestamp = new Date(notification.timestamp);
+  // });
+
+  // Sort the notifications by timestamp in descending order (latest first)
+  // unreadNotification?.sort((a, b) => b.timestamp - a.timestamp);
   // console.log("from notification", currCandidate);
+
   return (
     <header className="dashboard-header">
       <div className="d-flex align-items-center justify-content-end">

@@ -1,7 +1,7 @@
 import React from "react";
-import ActionDropdown from "../candidate/action-dropdown";
+import ActionDropdown from "./action-dropdown-jobApp";
 import { getDate } from "@/utils/helper";
-import ChatModal from "../../common/popup/chatModal";
+
 const CandidateJobItem = ({
   title,
   info,
@@ -19,7 +19,7 @@ const CandidateJobItem = ({
   status: string;
   updatedAt: string;
   jobAppId: string;
-  jobId: string;
+  jobId?: string;
 }) => {
   return (
     <>
@@ -51,7 +51,7 @@ const CandidateJobItem = ({
               <span></span>
             </button>
 
-            <ActionDropdown id={jobId} jobAppId={jobAppId} />
+            <ActionDropdown jobAppId={jobAppId} />
           </div>
         </td>
       </tr>

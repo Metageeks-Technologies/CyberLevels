@@ -72,6 +72,10 @@ export const jobApplicationSlice = createSlice({
             state.chat = action.payload;
             state.loading = false;
         },
+        getChatsFail: (state, action: PayloadAction<null>) => {
+            state.chat = action.payload;
+            state.loading = false;
+        },
         addChatSuccess: (state, action: PayloadAction<IChatMessage>) => {
             state.chat?.messages.push(action.payload);
         },
@@ -109,7 +113,8 @@ export const {
     getFeedbackSuccess,
     askFeedbackSuccess,
     allJobAppByCandidateWithJobPostSuccess,
-    allJobAppByJobPostWithCandidateSuccess
+    allJobAppByJobPostWithCandidateSuccess,
+    getChatsFail
 
 } = jobApplicationSlice.actions;
 

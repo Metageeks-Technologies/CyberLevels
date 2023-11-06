@@ -1,5 +1,5 @@
 import React from "react";
-import ActionDropdown from "../candidate/action-dropdown";
+import ActionDropdown from "../candidate/action-dropdown-sabJobs";
 import { ICandidate } from "@/data/candidate-data";
 import Image from "next/image";
 

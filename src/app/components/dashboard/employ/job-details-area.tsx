@@ -6,13 +6,18 @@ import { IJobApp } from "@/types/job-app-type";
 import { getDate } from "@/utils/helper";
 import ChatModal from "../../common/popup/chatModal";
 import FeedbackModal from "../../common/popup/feedback";
+import Link from "next/link";
+import { useAppSelector } from "@/redux/hook";
 
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
   jobApp: IJobApp[];
+  jobPostId: string;
 };
-const EmployJobArea = ({ setIsOpenSidebar, jobApp }: IProps) => {
+const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
+  const { jobPostsForEmployer } = useAppSelector((state) => state.jobPost);
+  const currJobPost = jobPostsForEmployer.find((job) => job._id === jobPostId);
   return (
     <>
       <div className="dashboard-body">
@@ -22,7 +27,16 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp }: IProps) => {
           {/* header end */}
 
           <div className="d-sm-flex align-items-center justify-content-between mb-40 lg-mb-30">
-            <h2 className="main-title m0">Job details </h2>
+            <h2 className="main-title m0">
+              <Link
+                style={{ color: "#31795A" }}
+                className=""
+                href={`/dashboard/employer-dashboard/jobs`}
+              >
+                My Jobs
+              </Link>
+              /{currJobPost?.title}
+            </h2>
             {/* <div className="d-flex ms-auto xs-mt-30">
             <div
               className="nav nav-tabs tab-filter-btn me-4"

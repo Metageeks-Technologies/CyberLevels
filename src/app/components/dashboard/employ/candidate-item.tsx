@@ -1,5 +1,5 @@
 import React from "react";
-import ActionDropdown from "../candidate/action-dropdown";
+import ActionDropdown from "../candidate/action-dropdown-sabJobs";
 import Image from "next/image";
 import { ICandidate } from "@/types/user-type";
 import job_img_1 from "@/assets/images/logo/media_22.png";

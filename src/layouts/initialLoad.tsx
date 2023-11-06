@@ -5,6 +5,7 @@ import { setSocket } from "@/redux/features/globalSlice";
 import { getCurrCandidate } from "@/redux/features/candidate/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { getCurrEmployer } from "@/redux/features/employer/api";
+import { addNotification } from "@/redux/features/candidate/dashboardSlice";
 const initialLoad = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
   const { currUser, userRole, isAuthenticated } = useAppSelector(
@@ -26,6 +27,14 @@ const initialLoad = ({ children }: { children: React.ReactNode }) => {
       dispatch(setSocket(socket));
     }
   }, []);
+
+  // listed to real time notification
+
+  useEffect(() => {
+    socket?.on("getNotification", (data: any) => {
+      dispatch(addNotification(data.notification));
+    });
+  }, [socket]);
 
   useEffect(() => {
     socket?.emit("newUser", currUser);

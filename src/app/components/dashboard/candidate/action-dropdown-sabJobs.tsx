@@ -26,37 +26,13 @@ const ActionDropdown = ({ id, jobAppId }: { id: string; jobAppId: string }) => {
   return (
     <ul className="dropdown-menu dropdown-menu-end">
       <li>
-        {/* <Link className="dropdown-item" href={`/job-details-v1/${id}`}>
-          <Image src={view} alt="icon" className="lazy-img" /> Ask feedback
-        </Link> */}
-        <button
-          onClick={() => dispatch(setCurrJobApp(jobAppId))}
-          data-bs-toggle="modal"
-          data-bs-target="#feedbackModal"
-          type="button"
-          className="dropdown-item"
-        >
-          <Image src={view} alt="icon" className="lazy-img" /> Ask feedback
-        </button>
-      </li>
-      <li>
-        {/* <a className="dropdown-item" href="#">
-          <Image src={share} alt="icon" className="lazy-img" /> Chat
-        </a> */}
-        <button
-          onClick={() => dispatch(setCurrJobApp(jobAppId))}
-          data-bs-toggle="modal"
-          data-bs-target="#chatModal"
-          type="button"
-          className="dropdown-item"
-        >
-          <Image src={share} alt="icon" className="lazy-img" />
-          Chat
-        </button>
+        <Link className="dropdown-item" href={`/job-details-v1/${id}`}>
+          <Image src={view} alt="icon" className="lazy-img" /> View
+        </Link>
       </li>
       {/* <li>
         <a className="dropdown-item" href="#">
-          <Image src={edit} alt="icon" className="lazy-img" /> Edit
+          <Image src={share} alt="icon" className="lazy-img" /> Chat
         </a>
       </li> */}
       <li>

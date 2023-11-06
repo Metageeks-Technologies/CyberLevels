@@ -12,7 +12,8 @@ import {
     addChatSuccess,
     getFeedbackSuccess,
     askFeedbackSuccess,
-    responseFeedbackSuccess
+    responseFeedbackSuccess,
+    getChatsFail
 } from "./slice";
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
@@ -131,8 +132,14 @@ export const getMessages = async (dispatch: AppDispatch, id: string) => {
         const { data } = await instance.get(`/chat/get/${id}`);
         dispatch(getChatsSuccess(data.chat))
     } catch (error) {
+
         const e = error as AxiosError;
-        dispatch(requestFail(e.message))
+        console.log("from the error of chat", e);
+        if (e.response && e.response.status === 404) {
+
+            dispatch(getChatsFail(null))
+        }
+        else dispatch(requestFail(e.message))
     }
 }
 export const addMessages = async (dispatch: AppDispatch, bodyObj: any, participants: [string, string], socket: any) => {
@@ -183,7 +190,7 @@ export const askFeedback = async (dispatch: AppDispatch, bodyObj: any) => {
 export const responseFeedback = async (dispatch: AppDispatch, bodyObj: any, socket: any) => {
 
     dispatch(requestStart());
-    const { receiverId, employerId } = bodyObj;
+    const { candidateId, employerId } = bodyObj;
 
     try {
         const { data } = await instance.patch(`/jobApp/feedback/response`, bodyObj);
@@ -191,7 +198,7 @@ export const responseFeedback = async (dispatch: AppDispatch, bodyObj: any, sock
         notifySuccess("You have successfully responded to feedback ");
         socket?.emit("sendNotification", {
             senderId: employerId,
-            receiverId,
+            receiverId: candidateId,
             data: data.notification
         });
     } catch (error) {
