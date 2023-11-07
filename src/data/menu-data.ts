@@ -208,5 +208,26 @@ export const employ_menu_data: IMenuData[] = [
   //   ]
   // }
 ]
+export const employ_deep_data: IMenuData[] = [
+  {
+    id: 1,
+    link: 'dashboard/employer-dashboard/jobs',
+    title: 'My Jobs',
+    sub_menus: [
+
+    ]
+  },
+
+  {
+    id: 2,
+    link: 'dashboard/employer-dashboard/jobs/chats',
+    title: 'Chats',
+    sub_menus: [
+    ]
+  },
+
+
+]
+
 
 export default menu_data;

@@ -3,6 +3,7 @@ import DashboardHeader from "../candidate/dashboard-header";
 import EmployJobItem from "./job-item";
 import EmployShortSelect from "./short-select";
 import { IJobPost } from "@/types/jobPost-type";
+import DeepMenus from "@/layouts/headers/component/deep-dash-nav";
 
 // props type
 type IProps = {
@@ -18,7 +19,8 @@ const EmployJobArea = ({ setIsOpenSidebar, jobPosts }: IProps) => {
         {/* header end */}
 
         <div className="d-sm-flex align-items-center justify-content-between mb-40 lg-mb-30">
-          <h2 className="main-title m0">My Jobs</h2>
+          {/* <h2 className="main-title m0">My Jobs</h2> */}
+          <DeepMenus />
           {/* <div className="d-flex ms-auto xs-mt-30">
             <div
               className="nav nav-tabs tab-filter-btn me-4"

@@ -18,7 +18,7 @@ const Menus = () => {
         menu.sub_menus ? (
           <div
             key={menu.id}
-            className={`nav-item dropdown ${
+            className={`nav-item  ${
               menu.title === "Dashboard" ? "dashboard-menu" : ""
             }`}
           >

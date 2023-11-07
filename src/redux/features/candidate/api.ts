@@ -1,12 +1,13 @@
 import instance from "@/lib/axios";
 import { getCandidatesSuccess, requestFail, requestStart, getDetailsSuccess } from "./slice"
-import { getCurrCandidateSuccess, requestFailDash, requestStartDash, removeSavedJobSuccess, updateExpSuccess, updateCurrCandidateSuccess, getSavedJobsSuccess, getSavedCompaniesSuccess, updateNotificationSuccess } from "./dashboardSlice";
+import { getCurrCandidateSuccess, requestFailDash, requestStartDash, removeSavedJobSuccess, updateExpSuccess, updateCurrCandidateSuccess, getSavedJobsSuccess, getSavedCompaniesSuccess, updateNotificationSuccess, addResume } from "./dashboardSlice";
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { IFilterState } from "../candidate/filterSlice";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import { toggleIsSaved as toggleJobIsSaved } from "@/redux/features/jobPost/slice"
 import { toggleIsSaved as toggleCompanyIsSaved } from "@/redux/features/company/slice"
+import { setUploadProgress } from "../globalSlice";
 
 
 
@@ -161,5 +162,36 @@ export const updateNotification = async (dispatch: AppDispatch, bodyObj: any) =>
         const e = error as AxiosError;
         dispatch(requestFailDash(e.message))
         // notifyError(e.message)
+    }
+}
+
+export const uploadResume = async (dispatch: AppDispatch, file: File, metaData: any) => {
+
+    dispatch(requestStartDash());
+    const { name, candidateId } = metaData;
+
+    try {
+        const { data } = await instance.post(`/candidate/upload`, metaData);
+        if (data) {
+            const uploadRes = await instance.put(data.url, file, {
+                headers: {
+                    "Content-Type": file.type,
+                },
+                onUploadProgress: (data) => {
+                    if (data.total)
+                        dispatch(setUploadProgress(Math.round((data.loaded / data.total) * 100)));
+                },
+            })
+            if (uploadRes) {
+                const { data } = await instance.patch(`/candidate/upload`, { name, candidateId, s3Key: `resume/${candidateId}__${name}` });
+                dispatch(addResume(data.resume));
+
+            }
+            notifySuccess("Your resume uploaded successfully");
+        }
+
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFailDash(e.message))
     }
 }

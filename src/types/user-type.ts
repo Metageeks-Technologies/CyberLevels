@@ -30,6 +30,11 @@ export interface INotification {
     isRead: boolean,
     _id: string,
 }
+export interface IResume {
+    _id: string,
+    name: string,
+    s3Key: string,
+}
 
 export interface ICandidate {
     email: string;
@@ -39,7 +44,7 @@ export interface ICandidate {
     avatar: string;
     phoneNumber: string,
     password?: string;
-    resume: string[],
+    resumes: IResume[],
     signInProvider?: "linkedIn" | "jwt"
     skills: string[],
     experience: IExperience[],

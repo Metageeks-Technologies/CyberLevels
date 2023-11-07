@@ -31,7 +31,7 @@ export default function Messenger() {
   useEffect(() => {
     if (scrollRef.current)
       scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chat]);
+  }, [chat?.messages]);
 
   useEffect(() => {
     socket?.on("getMessage", (data: any) => {
@@ -58,9 +58,9 @@ export default function Messenger() {
           <div className="chatBoxWrapper container-fluid">
             {true ? (
               <>
-                <div className="chatBoxTop" ref={scrollRef}>
+                <div className="chatBoxTop">
                   {chat?.messages.map((m) => (
-                    <div>
+                    <div ref={scrollRef}>
                       <Message
                         message={m.text}
                         time={m.timestamp}

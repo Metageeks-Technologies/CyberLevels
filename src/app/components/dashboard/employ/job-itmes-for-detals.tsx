@@ -1,6 +1,8 @@
 import React from "react";
 import ActionDropdown from "./actionDropDownForDetails";
 import Link from "next/link";
+import { IResume } from "@/types/user-type";
+import ResumeDownloadButton from "@/ui/downloadBtn";
 
 const EmployJobItem = ({
   title,
@@ -11,6 +13,7 @@ const EmployJobItem = ({
   id,
   appId,
   isFeedbackAsked,
+  resumes,
 }: {
   title: string;
   info: string;
@@ -20,6 +23,7 @@ const EmployJobItem = ({
   id: string;
   appId: string;
   isFeedbackAsked: boolean;
+  resumes: IResume[];
 }) => {
   return (
     <tr className={`${status}`}>
@@ -35,6 +39,12 @@ const EmployJobItem = ({
       <td>{tesScore}</td>
       <td>
         <div className="job-status text-capitalize">{status}</div>
+      </td>
+      <td>
+        <ResumeDownloadButton
+          fileName={resumes[0].name}
+          s3Key={resumes[0].s3Key}
+        />
       </td>
       <td>
         <div className="action-dots float-end">

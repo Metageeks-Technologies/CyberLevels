@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { ICandidate, INotification } from '@/types/user-type'
+import type { ICandidate, INotification, IResume } from '@/types/user-type'
 import type { IJobPost } from "@/types/jobPost-type";
 import { ICompany } from "@/types/company";
 
@@ -109,6 +109,9 @@ export const candidateDashboardSlice = createSlice({
         setToggle: (state) => {
             state.toggle = !state.toggle;
         },
+        addResume: (state, action: PayloadAction<IResume>) => {
+            state.currCandidate?.resumes.push(action.payload);
+        },
         addNotification: (state, action: PayloadAction<INotification>) => {
             if (state.currCandidate) {
                 const newNotification = action.payload;
@@ -138,7 +141,8 @@ export const {
     setSavedCompaniesPage,
     updateNotificationSuccess,
     addNotification,
-    setToggle
+    setToggle,
+    addResume
 } = candidateDashboardSlice.actions;
 
 export default candidateDashboardSlice.reducer;

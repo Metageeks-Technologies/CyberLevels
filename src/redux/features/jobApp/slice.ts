@@ -12,6 +12,7 @@ export interface IJobApplication {
     allJobAppByJobPost: IJobApp[];
     jobApp: IJobApp | null;
     chat: IChat | null;
+    chatsByEmp: IChat[];
     currJobApp: string;
     feedback: IFeedback | null,
 
@@ -28,7 +29,8 @@ const initialState: IJobApplication = {
     jobApp: null,
     chat: null,
     currJobApp: "",
-    feedback: null
+    feedback: null,
+    chatsByEmp: [],
 };
 
 export const jobApplicationSlice = createSlice({
@@ -79,6 +81,10 @@ export const jobApplicationSlice = createSlice({
         addChatSuccess: (state, action: PayloadAction<IChatMessage>) => {
             state.chat?.messages.push(action.payload);
         },
+        getChatsByEmployerSuccess: (state, action: PayloadAction<IChat[]>) => {
+            state.chatsByEmp = action.payload;
+            state.loading = false;
+        },
         setCurrJobApp: (state, action: PayloadAction<string>) => {
             state.currJobApp = action.payload
         },
@@ -86,6 +92,7 @@ export const jobApplicationSlice = createSlice({
             state.feedback = action.payload;
             state.loading = false;
         },
+
         askFeedbackSuccess: (state, action: PayloadAction<IFeedback>) => {
             state.feedback = action.payload;
             state.loading = false;
@@ -114,7 +121,8 @@ export const {
     askFeedbackSuccess,
     allJobAppByCandidateWithJobPostSuccess,
     allJobAppByJobPostWithCandidateSuccess,
-    getChatsFail
+    getChatsFail,
+    getChatsByEmployerSuccess
 
 } = jobApplicationSlice.actions;
 

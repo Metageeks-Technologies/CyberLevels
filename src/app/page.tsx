@@ -12,6 +12,7 @@ import FeedbackTwo from "./components/feedBacks/feedback-one";
 import HeroBanner from "./components/hero-banners/hero-banner";
 import HowItWorks from "./components/how-it-works/how-it-works";
 import JobPortalIntro from "./components/job-portal-intro/job-portal-intro";
+import DownloadButton from "../ui/downloadBtn";
 export default function Home() {
   console.log("from the dashboard");
 
@@ -28,6 +29,7 @@ export default function Home() {
       {/* category section start */}
       <CategorySection />
       {/* category section end */}
+
       {/* <a
         target="_blank"
         href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}

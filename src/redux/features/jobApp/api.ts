@@ -13,7 +13,8 @@ import {
     getFeedbackSuccess,
     askFeedbackSuccess,
     responseFeedbackSuccess,
-    getChatsFail
+    getChatsFail,
+    getChatsByEmployerSuccess
 } from "./slice";
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
@@ -157,6 +158,18 @@ export const addMessages = async (dispatch: AppDispatch, bodyObj: any, participa
         });
 
         console.log(userId, receiverId)
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message))
+    }
+}
+export const getChatsByEmployer = async (dispatch: AppDispatch, id: string) => {
+
+    dispatch(requestStart());
+
+    try {
+        const { data } = await instance.get(`/chat/getAll/${id}`);
+        dispatch(getChatsByEmployerSuccess(data.chats));
     } catch (error) {
         const e = error as AxiosError;
         dispatch(requestFail(e.message))

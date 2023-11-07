@@ -196,3 +196,17 @@
   color: white;
   margin-top: 10px;
 }
+
+// deep navigation
+.deep-nav {
+  font-size: 1.5rem;
+  font-weight: 500;
+  justify-content: space-between;
+
+  .active {
+    border-bottom: 2px solid #00bf58;
+  }
+  .nav-item {
+    margin-left: 25px;
+  }
+}
