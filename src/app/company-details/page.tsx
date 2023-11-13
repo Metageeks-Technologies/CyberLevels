@@ -32,7 +32,7 @@ const CompanyDetailsPage = () => {
         {/* company details area end */}
 
         {/*job Open Position */}
-        <OpenPosition />
+        {/* <OpenPosition  /> */}
         {/*job Open Position */}
 
         {/* job portal intro start */}

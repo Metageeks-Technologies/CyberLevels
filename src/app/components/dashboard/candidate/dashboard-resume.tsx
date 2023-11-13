@@ -1,24 +1,28 @@
 "use client";
-import React, { useState } from "react";
-import video_bg from "@/assets/dashboard/images/video_post.jpg";
-import DashboardHeader from "./dashboard-header";
-import DashboardPortfolio from "./dashboard-portfolio";
-import SelectYear from "./select-year";
-import VideoPopup from "../../common/video-popup";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/redux/store";
-import Education from "../../candidate-details/Education";
-import WorkExperience from "../../candidate-details/work-experience";
+import instance from "@/lib/axios";
 import {
-  updateEduSuccess,
-  updateExpSuccess,
   requestFailDash,
   requestStartDash,
+  updateEduSuccess,
+  updateExpSuccess,
 } from "@/redux/features/candidate/dashboardSlice";
-import axios, { AxiosError } from "axios";
-import { ICandidate } from "@/data/candidate-data";
-import instance from "@/lib/axios";
-import { CandidateState } from "@/redux/features/candidate/slice";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { RootState } from "@/redux/store";
+
+import { AxiosError } from "axios";
+import React, { useState } from "react";
+import Education from "./resume/Education";
+import WorkExperience from "../../candidate-details/work-experience";
+import DashboardHeader from "./dashboard-header";
+import SelectYear from "./select-year";
+import DropZone from "@/layouts/dropZone";
+import { deleteResume, uploadResume } from "@/redux/features/candidate/api";
+import { setFile, setUploadProgress } from "@/redux/features/globalSlice";
+import SelectMonth from "./select-month";
+import icon_3 from "@/assets/images/icon/icon_10.svg";
+import Image from "next/image";
+import UploadResume from "./resume/uploadResume";
+import Skills from "./resume/Skills";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,11 +30,11 @@ type IProps = {
 
 const DashboardResume = ({ setIsOpenSidebar }: IProps) => {
   const [isVideoOpen, setIsVideoOpen] = useState<boolean>(false);
-  const { currCandidate, loading } = useSelector(
+  const { currCandidate, loading } = useAppSelector(
     (store: RootState) => store.candidate.candidateDashboard
   );
   const user = currCandidate;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [education, setEducation] = useState({
     degree: "",
     institute: "",
@@ -62,7 +66,10 @@ const DashboardResume = ({ setIsOpenSidebar }: IProps) => {
     });
   };
   const [startYear, setStartYear] = useState("");
+  const [startMonth, setStartMonth] = useState("");
   const [endYear, setEndYear] = useState("");
+  const [endMonth, setEndMonth] = useState("");
+
   const handleAddEducation = async () => {
     const bodyObj = {
       ...education,
@@ -127,212 +134,41 @@ const DashboardResume = ({ setIsOpenSidebar }: IProps) => {
           <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
           {/* header end */}
 
-          <h2 className="main-title">My Resume</h2>
-
-          <div className="bg-white card-box border-20">
-            <h4 className="dash-title-three">Resume Attachment</h4>
-            <div className="dash-input-wrapper mb-20">
-              <label htmlFor="">CV Attachment*</label>
-
-              <div className="attached-file d-flex align-items-center justify-content-between mb-15">
-                <span>MyCvResume.PDF</span>
-                <a href="#" className="remove-btn">
-                  <i className="bi bi-x"></i>
-                </a>
-              </div>
-              <div className="attached-file d-flex align-items-center justify-content-between">
-                <span>CandidateCV02.PDF</span>
-                <a href="#" className="remove-btn">
-                  <i className="bi bi-x"></i>
-                </a>
-              </div>
-            </div>
-
-            <div className="dash-btn-one d-inline-block position-relative me-3">
-              <i className="bi bi-plus"></i>
-              Upload CV
-              <input type="file" id="uploadCV" name="uploadCV" placeholder="" />
-            </div>
-            <small>Upload file .pdf, .doc, .docx</small>
-          </div>
-
-          {/* <div className="bg-white card-box border-20 mt-40">
-            <h4 className="dash-title-three">Intro</h4>
-          <div className="dash-input-wrapper mb-35 md-mb-20">
-            <label htmlFor="">Overview*</label>
-            <textarea className="size-lg" placeholder="Write something interesting about you...."></textarea>
-            <div className="alert-text">Brief description for your resume. URLs are hyperlinked.</div>
-          </div>
-
-          <div className="row">
-              <div className="col-sm-6 d-flex">
-                <div
-                  className="intro-video-post position-relative mt-20"
-                  style={{ backgroundImage: `url(${video_bg.src})` }}
-                >
-                  <a
-                    className="fancybox rounded-circle video-icon tran3s text-center"
-                    onClick={() => setIsVideoOpen(true)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <i className="bi bi-play"></i>
-                  </a>
-                  <a href="#" className="close">
-                    <i className="bi bi-x"></i>
-                  </a>
-                </div>
-              </div>
-              <div className="col-sm-6 d-flex">
-                <div className="intro-video-post position-relative empty mt-20">
-                  <span>+ Add Intro Video</span>
-                  <input
-                    type="file"
-                    id="uploadVdo"
-                    name="uploadVdo"
-                    placeholder=""
-                  />
-                </div>
-              </div>
-            </div>
-          </div> */}
+          <UploadResume />
 
           <div className="bg-white card-box border-20 mt-40">
-            <h4 className="dash-title-three">Education && Experience</h4>
-            {/* education */}
-            <div className="mt-50 mb-75 lg-mb-50 ">
-              <div className="inner-card border-style mb-25 lg-mb-20">
-                <h3 className="title">Education</h3>
-                <Education education={user?.education} />
-              </div>
-              <div className="accordion dash-accordion-one" id="accordionOne">
-                <div className="accordion-item">
-                  <div className="accordion-header" id="headingOne">
-                    <button
-                      className="accordion-button collapsed"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseOne"
-                      aria-expanded="false"
-                      aria-controls="collapseOne"
-                    >
-                      Add Education
-                    </button>
-                  </div>
-                  <div
-                    id="collapseOne"
-                    className="accordion-collapse collapse"
-                    aria-labelledby="headingOne"
-                    data-bs-parent="#accordionOne"
-                  >
-                    <div className="accordion-body">
-                      <div className="row">
-                        <div className="col-lg-2">
-                          <div className="dash-input-wrapper mb-30 md-mb-10">
-                            <label htmlFor="degree">Degree*</label>
-                          </div>
-                        </div>
-                        <div className="col-lg-10">
-                          <div className="dash-input-wrapper mb-30">
-                            <input
-                              name="degree"
-                              value={education.degree}
-                              onChange={handleEducationChange}
-                              type="text"
-                              placeholder="Bachelor's"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-lg-2">
-                          <div className="dash-input-wrapper mb-30 md-mb-10">
-                            <label htmlFor="institute">Institute*</label>
-                          </div>
-                        </div>
-                        <div className="col-lg-10">
-                          <div className="dash-input-wrapper mb-30">
-                            <input
-                              name="institute"
-                              value={education.institute}
-                              onChange={handleEducationChange}
-                              type="text"
-                              placeholder="Oxford"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-lg-2">
-                          <div className="dash-input-wrapper mb-30 md-mb-10">
-                            <label htmlFor="">Year*</label>
-                          </div>
-                        </div>
-                        <div className="col-lg-10">
-                          <div className="row">
-                            <div className="col-sm-6">
-                              <SelectYear
-                                setYear={setStartYear}
-                                firstInput="Start"
-                              />
-                            </div>
-                            <div className="col-sm-6">
-                              <SelectYear
-                                setYear={setEndYear}
-                                firstInput="End"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-lg-2">
-                          <div className="dash-input-wrapper mb-15 md-mb-7">
-                            <label htmlFor="description">Description*</label>
-                          </div>
-                        </div>
-                        <div className="col-lg-10">
-                          <div className="dash-input-wrapper mb-30">
-                            <textarea
-                              value={education.description}
-                              name="description"
-                              onChange={handleEducationChange}
-                              className="size-lg"
-                              placeholder="Morbi ornare ipsum sed sem condimentum, et pulvinar tortor luctus. Suspendisse condimentum lorem ut elementum aliquam et pulvinar tortor luctus."
-                            ></textarea>
-                          </div>
-                        </div>
-                      </div>
-                      <button
-                        onClick={handleAddEducation}
-                        className="dash-btn-two tran3s me-3 mb-15"
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {
+              <>
+                <h4 className="dash-title-three">Education && Experience</h4>
+                {/* education */}
+                <Education />
+              </>
+            }
             {/* experience */}
             <div>
-              <div className="inner-card border-style mb-25 lg-mb-20">
-                <h3 className="title">Work Experience</h3>
-                {/* WorkExperience */}
-                <WorkExperience experience={user?.experience} />
-                {/* WorkExperience */}
-              </div>
+              {user?.experience.length !== 0 && (
+                <div className="inner-card border-style mb-25 lg-mb-20">
+                  <h3 className="title">Work Experience</h3>
+                  {/* WorkExperience */}
+                  <WorkExperience experience={user?.experience} />
+                  {/* WorkExperience */}
+                </div>
+              )}
               <div className="accordion dash-accordion-one" id="accordionTwo">
                 <div className="accordion-item">
                   <div className="accordion-header" id="headingOneA">
                     <button
-                      className="accordion-button collapsed"
+                      className="accordion-button  collapsed"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#collapseOneA"
                       aria-expanded="false"
                       aria-controls="collapseOneA"
                     >
-                      Add Experience
+                      Add Experience{" "}
+                      <span className="fw-bold fs-5 mt-1  ">
+                        <i className="bi bi-plus"></i>
+                      </span>
                     </button>
                   </div>
                   <div
@@ -381,24 +217,39 @@ const DashboardResume = ({ setIsOpenSidebar }: IProps) => {
                       <div className="row">
                         <div className="col-lg-2">
                           <div className="dash-input-wrapper mb-30 md-mb-10">
-                            <label htmlFor="">Year*</label>
+                            <label htmlFor="">Duration*</label>
                           </div>
                         </div>
                         <div className="col-lg-10">
                           <div className="row">
-                            <div className="col-sm-6">
+                            <div className="col-sm-3">
                               <SelectYear
                                 setYear={setStartYear}
-                                firstInput="Start"
+                                firstInput="Start Year"
                               />
                             </div>
-                            <div className="col-sm-6">
+                            <div className="col-sm-3">
+                              <SelectMonth
+                                setMonth={setStartMonth}
+                                firstInput="Start Month"
+                              />
+                            </div>
+                            <div className="col-sm-3">
                               <SelectYear
-                                setYear={setEndYear}
-                                firstInput="End"
+                                setYear={setStartYear}
+                                firstInput="End4 Year"
+                              />
+                            </div>
+                            <div className="col-sm-3">
+                              <SelectMonth
+                                setMonth={setEndMonth}
+                                firstInput="End Month"
                               />
                             </div>
                           </div>
+                        </div>
+                        <div className="col-lg-10">
+                          <div className="row"></div>
                         </div>
                       </div>
                       <div className="row">
@@ -436,38 +287,19 @@ const DashboardResume = ({ setIsOpenSidebar }: IProps) => {
           </div>
 
           <div className="bg-white card-box border-20 mt-40">
-            <h4 className="dash-title-three">Skills</h4>
-            <div className="dash-input-wrapper mb-40">
-              {/* <label htmlFor="">Add Skills*</label> */}
-
-              <div className="skills-wrapper">
-                <ul className="style-none d-flex flex-wrap align-items-center">
-                  {user?.skills.map((val, index) => (
-                    <li key={index} className="is_tag">
-                      <button>
-                        {val} <i className="bi bi-x"></i>
-                      </button>
-                    </li>
-                  ))}
-
-                  <li className="more_tag">
-                    <button>+</button>
-                  </li>
-                </ul>
-              </div>
-            </div>
+            {user && <Skills skills={user.skills} />}
           </div>
 
           {/* <DashboardPortfolio /> */}
 
-          <div className="button-group d-inline-flex align-items-center mt-30">
+          {/* <div className="button-group d-inline-flex align-items-center mt-30">
             <a href="#" className="dash-btn-two tran3s me-3">
               Save
             </a>
             <a href="#" className="dash-cancel-btn tran3s">
               Cancel
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
 

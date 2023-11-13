@@ -16,6 +16,12 @@ import {
 } from "@/redux/features/candidate/dashboardSlice";
 import axios, { AxiosError } from "axios";
 import instance from "@/lib/axios";
+import DropZone from "@/layouts/dropZone";
+import { useAppSelector } from "@/redux/hook";
+import { notifyError } from "@/utils/toast";
+import { setFile, setUploadProgress } from "@/redux/features/globalSlice";
+import { first } from "lodash";
+import { updateAvatar } from "@/redux/features/candidate/api";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -99,7 +105,36 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
       dispatch(requestFailDash(e.message));
     }
   };
-  console.log(user.socialSites);
+
+  const { file, uploadProgress } = useAppSelector((s) => s.global);
+
+  const handleProfilePhoto = async () => {
+    if (!user) {
+      notifyError("please Login to upload your resume.");
+      notifyError;
+      return;
+    }
+
+    const supportedFormat = ["image/jpeg", "image/png"];
+    if (!file || !supportedFormat.includes(file?.type) || file.size > 1048576) {
+      notifyError("Please upload Profile Photo in supported format.");
+      dispatch(setFile(null));
+      return;
+    }
+
+    const nameArr = file.name.split(".");
+    const extension = nameArr[nameArr.length - 1];
+    const metaData = {
+      extension: extension,
+      type: file.type,
+      userId: user._id,
+      folder: user.role,
+    };
+    await updateAvatar(dispatch, file, metaData);
+
+    dispatch(setFile(null));
+    dispatch(setUploadProgress(0));
+  };
   return (
     <div className="dashboard-body">
       <div className="position-relative">
@@ -114,20 +149,43 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
             <Image
               width={50}
               height={50}
-              src={user?.avatar !== "none" ? (user?.avatar as string) : avatar}
+              src={
+                user?.avatar !== "none" || false
+                  ? (user?.avatar as string)
+                  : avatar
+              }
               alt="avatar"
               className="lazy-img user-img"
             />
-            {/* <div className="upload-btn position-relative tran3s ms-4 me-3">
-              Upload new photo
-              <input
-                type="file"
-                id="uploadImg"
-                name="uploadImg"
-                placeholder=""
-              />
-            </div>
-            <button className="delete-btn tran3s">Delete</button> */}
+            {!file && (
+              <div className=" upload-btn position-relative tran3s ms-4 me-3">
+                <DropZone
+                  text={
+                    user.avatar
+                      ? "Update profile photo"
+                      : "Upload profile photo"
+                  }
+                />
+              </div>
+            )}
+            {file && (
+              <>
+                <div className="d-flex flex-column justify-content-center   ">
+                  <button
+                    onClick={handleProfilePhoto}
+                    className="upload-btn position-relative tran3s ms-4 me-3"
+                  >
+                    {"Save"}
+                  </button>
+                  <div className="ms-4 mt-1 ">
+                    <small>
+                      Upload square image in .png, .jpeg, max 1mb sized
+                    </small>
+                  </div>
+                </div>
+                <p className="dash-title-three">{file?.name}</p>
+              </>
+            )}
           </div>
           <div className="dash-input-wrapper mb-30">
             <label htmlFor="firstName">First Name</label>
@@ -166,7 +224,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
                 placeholder="brown"
               />
             ) : (
-              <div className="d-flex align-items-center position-relative">
+              <div className="d-flex  align-items-center position-relative">
                 <input type="text" value={user.lastName} readOnly />
                 <Image
                   onClick={() =>

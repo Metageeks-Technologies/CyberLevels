@@ -26,7 +26,7 @@ const initialLoad = ({ children }: { children: React.ReactNode }) => {
       const socket = io(socketUrl);
       dispatch(setSocket(socket));
     }
-  }, []);
+  }, [currUser]);
 
   // listed to real time notification
 

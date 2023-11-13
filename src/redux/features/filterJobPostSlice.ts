@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { string } from "yup";
 
 // Define a type for the slice state
 export interface IFilterState {
@@ -9,6 +10,8 @@ export interface IFilterState {
   workMode: string[];
   salary: number;
   preferredExperience: string[];
+  status: string
+
 }
 
 // Define the initial state using that type
@@ -18,7 +21,8 @@ const initialState: IFilterState = {
   jobCategory: [],
   workMode: [],
   salary: -1,
-  preferredExperience: []
+  preferredExperience: [],
+  status: "active"
 };
 
 export const filterSlice = createSlice({
@@ -66,6 +70,10 @@ export const filterSlice = createSlice({
         state.salary = action.payload
       }
     },
+    setStatus: (state, action: PayloadAction<string>) => {
+      state.status = action.payload
+    },
+
 
     resetFilter: (state) => {
       state.location = [],
@@ -85,7 +93,8 @@ export const {
   setPreferredExperience,
   setSalary,
   setWorkMode,
-  resetFilter
+  resetFilter,
+  setStatus
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

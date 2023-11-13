@@ -5,7 +5,15 @@ import { useAppDispatch } from "@/redux/hook";
 import Image from "next/image";
 import icon from "@/assets/images/icon/icon_11.svg";
 
-const DropZone = () => {
+const DropZone = ({
+  showIcon,
+  style,
+  text,
+}: {
+  text: string;
+  showIcon?: boolean;
+  style?: string;
+}) => {
   const dispatch = useAppDispatch();
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles[0]) {
@@ -21,9 +29,9 @@ const DropZone = () => {
     <div>
       <div {...getRootProps()}>
         <input {...getInputProps()} />
-        <div className=" d-flex ">
-          <Image src={icon} alt="icon" className="lazy-img" />
-          <span className="fw-500 ms-2 text-dark">Upload your CV</span>
+        <div className=" d-flex align-items-center">
+          {showIcon && <Image src={icon} alt="icon" className="lazy-img" />}
+          <span className={`fw-500 ms-2 ${style}`}>{text}</span>
         </div>
       </div>
     </div>

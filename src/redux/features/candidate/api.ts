@@ -1,6 +1,6 @@
 import instance from "@/lib/axios";
 import { getCandidatesSuccess, requestFail, requestStart, getDetailsSuccess } from "./slice"
-import { getCurrCandidateSuccess, requestFailDash, requestStartDash, removeSavedJobSuccess, updateExpSuccess, updateCurrCandidateSuccess, getSavedJobsSuccess, getSavedCompaniesSuccess, updateNotificationSuccess, addResume } from "./dashboardSlice";
+import { getCurrCandidateSuccess, requestFailDash, requestStartDash, removeSavedJobSuccess, updateExpSuccess, updateCurrCandidateSuccess, getSavedJobsSuccess, getSavedCompaniesSuccess, updateNotificationSuccess, addResume, getRecommendedJobsSuccess, deleteResumeSuccess, updateAvatarSuccess, updateEduSuccess } from "./dashboardSlice";
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { IFilterState } from "../candidate/filterSlice";
@@ -57,12 +57,27 @@ export const updateCurrCandidate = async (dispatch: AppDispatch, id: string, bod
         const { data } = await instance.patch(`/candidate/update/${id}`, bodyObj)
 
         dispatch(updateCurrCandidateSuccess(data.candidate))
+        return true;
+    } catch (error) {
+
+        const e = error as AxiosError;
+        dispatch(requestFailDash(e.message))
+        return false;
+    }
+}
+export const addEducation = async (dispatch: AppDispatch, id: string, bodyObj: any) => {
+
+    dispatch(requestStartDash());
+    try {
+        const { data } = await instance.patch(`/candidate/updateEdu/${id}`, bodyObj);
+        dispatch(updateEduSuccess(bodyObj));
+        notifySuccess("Education added successfully")
     } catch (error) {
         const e = error as AxiosError;
         dispatch(requestFailDash(e.message))
+        notifyError("Something went wrong try again")
     }
 }
-
 export const getSavedJobs = async (dispatch: AppDispatch, id: string, page: number) => {
 
     dispatch(requestStartDash());
@@ -189,6 +204,65 @@ export const uploadResume = async (dispatch: AppDispatch, file: File, metaData: 
             }
             notifySuccess("Your resume uploaded successfully");
         }
+
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFailDash(e.message))
+    }
+}
+
+export const deleteResume = async (dispatch: AppDispatch, metaData: any) => {
+
+    dispatch(requestStartDash());
+    const { s3Key, candidateId, resumeId } = metaData;
+
+    try {
+        const { data } = await instance.delete(`/candidate/delete?candidateId=${candidateId}&s3Key=${s3Key}&resumeId=${resumeId}`);
+        dispatch(deleteResumeSuccess(data.resumeId));
+        notifySuccess("Resume deleted successfully");
+
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFailDash(e.message))
+    }
+}
+export const updateAvatar = async (dispatch: AppDispatch, file: File, metaData: any) => {
+
+    dispatch(requestStartDash());
+    const { extension, userId } = metaData;
+
+
+    try {
+        const { data } = await instance.post(`/candidate/uploadProfile`, metaData);
+        if (data) {
+            const uploadRes = await instance.put(data.url, file, {
+                headers: {
+                    "Content-Type": file.type,
+                },
+                onUploadProgress: (data) => {
+                    if (data.total)
+                        dispatch(setUploadProgress(Math.round((data.loaded / data.total) * 100)));
+                },
+            })
+            if (uploadRes) {
+                const { data } = await instance.patch(`/candidate/uploadProfile`, { userId, s3Key: `profile/candidate/${userId}.${extension}` });
+                dispatch(updateAvatarSuccess(data.avatar));
+
+            }
+            notifySuccess("Profile updated successfully");
+        }
+
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFailDash(e.message))
+    }
+}
+export const getRecommendedJobs = async (dispatch: AppDispatch, candidateId: string) => {
+
+    dispatch(requestStartDash());
+    try {
+        const { data } = await instance.get(`/candidate/recommended?candidateId=${candidateId}`);
+        dispatch(getRecommendedJobsSuccess(data.jobs));
 
     } catch (error) {
         const e = error as AxiosError;

@@ -67,3 +67,21 @@ export const getSavedCandidate = async (dispatch: AppDispatch, bodyObj: any) => 
 
     }
 }
+
+export const addNotificationToCandidate = async (dispatch: AppDispatch, bodyObj: any, socket: any) => {
+
+    const { candidateId, employerId } = bodyObj;
+    dispatch(requestStartDash());
+    try {
+        const { data } = await instance.patch(`/employer/candidateNotification`, bodyObj);
+        notifySuccess("Requested successfully")
+        socket?.emit("sendNotification", {
+            senderId: employerId,
+            receiverId: candidateId,
+            data: data.notification
+        });
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFailDash(e.message))
+    }
+} 

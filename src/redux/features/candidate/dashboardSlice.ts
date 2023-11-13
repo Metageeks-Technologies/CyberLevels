@@ -18,6 +18,14 @@ export interface ICandidateDashboard {
     totalSavedCompany: number,
     savedCompanies: ICompany[],
     toggle: boolean,
+    recommendedJobs: [
+        {
+            job: IJobPost,
+            score: number,
+        }
+    ] | null,
+    currDashEducation: string,
+    currDashExperience: string,
 }
 
 // Define the initial state using that type
@@ -34,6 +42,10 @@ const initialState: ICandidateDashboard = {
     totalSavedCompany: 0,
     savedCompanies: [],
     toggle: false,
+    recommendedJobs: null,
+    currDashEducation: "",
+    currDashExperience: "",
+
 };
 
 type IForGetSavedJobs = {
@@ -109,8 +121,22 @@ export const candidateDashboardSlice = createSlice({
         setToggle: (state) => {
             state.toggle = !state.toggle;
         },
+        setCurrDashExperience: (state, action: PayloadAction<string>) => {
+            state.currDashExperience = action.payload;
+        },
+        setCurrDashEducation: (state, action: PayloadAction<string>) => {
+            state.currDashEducation = action.payload;
+        },
         addResume: (state, action: PayloadAction<IResume>) => {
             state.currCandidate?.resumes.push(action.payload);
+        },
+        updateAvatarSuccess: (state, action: PayloadAction<string>) => {
+            if (state.currCandidate) state.currCandidate.avatar = action.payload
+        },
+        deleteResumeSuccess: (state, action: PayloadAction<string>) => {
+            if (state.currCandidate) {
+                state.currCandidate.resumes = state.currCandidate.resumes.filter(resume => resume._id !== action.payload);
+            }
         },
         addNotification: (state, action: PayloadAction<INotification>) => {
             if (state.currCandidate) {
@@ -122,6 +148,14 @@ export const candidateDashboardSlice = createSlice({
                 state.currCandidate = updatedCandidate;
             }
         },
+        getRecommendedJobsSuccess: (state, action: PayloadAction<[
+            {
+                job: IJobPost,
+                score: number,
+            }
+        ]>) => {
+            state.recommendedJobs = action.payload
+        },
 
 
     },
@@ -130,6 +164,7 @@ export const candidateDashboardSlice = createSlice({
 export const {
     getCurrCandidateSuccess,
     updateEduSuccess,
+    updateAvatarSuccess,
     updateExpSuccess,
     updateCurrCandidateSuccess,
     requestFailDash,
@@ -142,7 +177,10 @@ export const {
     updateNotificationSuccess,
     addNotification,
     setToggle,
-    addResume
+    addResume,
+    deleteResumeSuccess,
+    getRecommendedJobsSuccess,
+    setCurrDashEducation, setCurrDashExperience
 } = candidateDashboardSlice.actions;
 
 export default candidateDashboardSlice.reducer;

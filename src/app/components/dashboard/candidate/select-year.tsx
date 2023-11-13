@@ -5,9 +5,10 @@ import React from "react";
 interface Props {
   firstInput: string;
   setYear: React.Dispatch<React.SetStateAction<string>>;
+  default?: { value: string; label: string };
 }
 
-const SelectYear = ({ setYear, firstInput }: Props) => {
+const SelectYear = ({ setYear, firstInput, default: defaultOption }: Props) => {
   const handleYear = (item: { value: string; label: string }) => {
     setYear(item.value);
   };
@@ -19,12 +20,19 @@ const SelectYear = ({ setYear, firstInput }: Props) => {
   }));
   options.unshift({ value: firstInput, label: firstInput });
 
+  let def = 0;
+  if (defaultOption) {
+    // console.log(defaultOption);
+    def = options.findIndex((option) => option.value === defaultOption.value);
+    // console.log(def);
+  }
+
   return (
     <div className="dash-input-wrapper mb-30">
       <NiceSelect
         isScroll={true}
         options={options}
-        defaultCurrent={0}
+        defaultCurrent={def}
         onChange={(item) => handleYear(item)}
         name="Year"
       />

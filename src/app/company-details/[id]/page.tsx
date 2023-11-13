@@ -31,7 +31,7 @@ const CompanyDetailsPage = ({ params }: { params: { id: string } }) => {
         {/* company details area end */}
 
         {/*job Open Position */}
-        <OpenPosition />
+        <OpenPosition companyId={params.id} />
         {/*job Open Position */}
 
         {/* job portal intro start */}

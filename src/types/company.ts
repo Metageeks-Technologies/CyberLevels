@@ -30,4 +30,5 @@ export interface ICompany {
     benefits: string[];
     jobPosts: string[];
     socialSites: string[];
+    jobOpenings: number;
 }

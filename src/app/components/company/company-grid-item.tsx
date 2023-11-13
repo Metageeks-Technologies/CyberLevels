@@ -54,7 +54,7 @@ const CompanyGridItem = ({ item }: { item: ICompany }) => {
         </Link>
       </h5>
       <p className="text-center mb-auto">
-        {item.location[0].city}, {item.location[0].country}
+        {item.location?.[0]?.city}, {item.location?.[0]?.country}
       </p>
       <div className="bottom-line d-flex">
         {/* <Link href="/company-details">{item.benefits.length} Vacancy</Link> */}
@@ -64,7 +64,7 @@ const CompanyGridItem = ({ item }: { item: ICompany }) => {
             className="open-job-btn text-center fw-500 tran3s me-2"
           >
             {/* {item.vacancy} open job */}
-            {item.benefits.length} open job
+            {item.jobOpenings} open job
           </Link>
         ) : (
           <button

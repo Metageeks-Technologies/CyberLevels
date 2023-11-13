@@ -8,6 +8,7 @@ export interface jobPstState {
     error: string | null,
     loading: boolean,
     page: number,
+    pageForCompany: number,
     totalNumOfPage: number,
     totalJobPost: number,
     gptLoading: boolean,
@@ -29,6 +30,7 @@ const initialState: jobPstState = {
     page: 1,
     totalNumOfPage: 1,
     totalJobPost: 0,
+    pageForCompany: 1,
     jobPostsForEmployer: []
 }
 
@@ -73,6 +75,9 @@ export const jobPostSlice = createSlice({
         },
         setPage: (state, action: PayloadAction<number>) => {
             state.page = action.payload;
+        },
+        setPageForCompany: (state, action: PayloadAction<number>) => {
+            state.pageForCompany = action.payload;
         }
 
     },
@@ -86,6 +91,7 @@ export const {
     submitJobPostSuccess,
     setPage,
     toggleIsSaved,
+    setPageForCompany,
     getJobPostsForEmployerSuccess,
 } = jobPostSlice.actions
 

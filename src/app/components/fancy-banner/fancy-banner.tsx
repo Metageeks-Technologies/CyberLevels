@@ -63,7 +63,11 @@ const FancyBanner = () => {
                       className="upload-btn position-relative d-flex align-items-center justify-content-center"
                     >
                       {/* <input type="file" id="uploadCV" name="uploadCV" /> */}
-                      <DropZone />
+                      <DropZone
+                        showIcon={true}
+                        style={"text-dark"}
+                        text={"Upload Your CV"}
+                      />
                     </form>
                     {file && file.type === "application/pdf" && (
                       <>

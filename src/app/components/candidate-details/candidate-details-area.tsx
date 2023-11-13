@@ -10,6 +10,8 @@ import EmailSendForm from "../forms/email-send-form";
 import Education from "./Education";
 import { useAppSelector, useAppDispatch } from "@/redux/hook";
 import { getCandidateDetails } from "@/redux/features/candidate/api";
+import RequestModal from "./popup/request";
+import ResumeDownloadButton from "@/ui/downloadBtn";
 
 const CandidateDetailsArea = ({ id }: { id: string }) => {
   const dispatch = useAppDispatch();
@@ -23,14 +25,15 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
   return (
     <>
       {candidate && (
-        <section className="candidates-profile pt-100 lg-pt-70 pb-150 lg-pb-80">
-          <div className="container">
-            <div className="row">
-              <div className="col-xxl-9 col-lg-8">
-                <div className="candidates-profile-details me-xxl-5 pe-xxl-4">
-                  <div className="inner-card border-style mb-65 lg-mb-40">
-                    <h3 className="title">Overview</h3>
-                    {/* <p>
+        <>
+          <section className="candidates-profile pt-100 lg-pt-70 pb-150 lg-pb-80">
+            <div className="container">
+              <div className="row">
+                <div className="col-xxl-9 col-lg-8">
+                  <div className="candidates-profile-details me-xxl-5 pe-xxl-4">
+                    <div className="inner-card border-style mb-65 lg-mb-40">
+                      <h3 className="title">Overview</h3>
+                      {/* <p>
                     Hello my name is Ariana Gande Connor and I’m a Financial
                     Supervisor from Netherlands, Rotterdam. In pharetra orci
                     dignissim, blandit mi semper, ultricies diam. Suspendisse
@@ -40,78 +43,95 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
                     ornare ipsum sed sem condimentum, et pulvinar tortor luctus.
                     Suspendisse condimentum lorem ut elementum aliquam.{" "}
                   </p> */}
-                    <br />
-                    <p>{candidate.bio}</p>
-                  </div>
+                      <br />
+                      <p>{candidate.bio}</p>
+                    </div>
 
-                  <div className="inner-card border-style mb-75 lg-mb-50">
-                    <h3 className="title">Education</h3>
-                    <Education education={candidate.education} />
-                  </div>
-                  <div className="inner-card border-style mb-75 lg-mb-50">
-                    <h3 className="title">Skills</h3>
-                    {/* skill area */}
-                    <Skills skills={candidate.skills} />
-                    {/* skill area */}
-                  </div>
-                  {candidate.experience.length > 0 && (
-                    <div className="inner-card border-style mb-60 lg-mb-50">
-                      <h3 className="title">Work Experience</h3>
-                      {/* WorkExperience */}
-                      <WorkExperience experience={candidate.experience} />
-                      {/* WorkExperience */}
+                    <div className="inner-card border-style mb-75 lg-mb-50">
+                      <h3 className="title">Education</h3>
+                      <Education education={candidate.education} />
                     </div>
-                  )}
-                  {/* Candidate Profile Slider */}
-                  {/* <h3 className="title">Portfolio</h3>
-                <CandidateProfileSlider /> */}
-                  {/* Candidate Profile Slider */}
-                </div>
-              </div>
-              <div className="col-xxl-3 col-lg-4">
-                <div className="cadidate-profile-sidebar ms-xl-5 ms-xxl-0 md-mt-60">
-                  <div className="cadidate-bio bg-wrapper bg-color mb-60 md-mb-40">
-                    <div className="pt-25">
-                      <div className="cadidate-avatar m-auto">
-                        <Image
-                          src={avatar}
-                          alt="avatar"
-                          className="lazy-img rounded-circle w-100"
-                        />
+                    <div className="inner-card border-style mb-75 lg-mb-50">
+                      <h3 className="title">Skills</h3>
+                      {/* skill area */}
+                      <Skills skills={candidate.skills} />
+                      {/* skill area */}
+                    </div>
+                    {candidate.experience.length > 0 && (
+                      <div className="inner-card border-style mb-60 lg-mb-50">
+                        <h3 className="title">Work Experience</h3>
+                        {/* WorkExperience */}
+                        <WorkExperience experience={candidate.experience} />
+                        {/* WorkExperience */}
                       </div>
-                    </div>
-                    <h3 className="cadidate-name text-center">
-                      {candidate.firstName} {candidate.lastName}{" "}
-                    </h3>
-                    <div className="text-center pb-25">
-                      {/* <a href="#" className="invite-btn fw-500">
+                    )}
+                    {/* Candidate Profile Slider */}
+                    {/* <h3 className="title">Portfolio</h3>
+                <CandidateProfileSlider /> */}
+                    {/* Candidate Profile Slider */}
+                  </div>
+                </div>
+                <div className="col-xxl-3 col-lg-4">
+                  <div className="cadidate-profile-sidebar ms-xl-5 ms-xxl-0 md-mt-60">
+                    <div className="cadidate-bio bg-wrapper bg-color mb-60 md-mb-40">
+                      <div className="pt-25">
+                        <div className="cadidate-avatar m-auto">
+                          <Image
+                            src={avatar}
+                            alt="avatar"
+                            className="lazy-img rounded-circle w-100"
+                          />
+                        </div>
+                      </div>
+                      <h3 className="cadidate-name text-center">
+                        {candidate.firstName} {candidate.lastName}{" "}
+                      </h3>
+                      <div className="text-center pb-25">
+                        {/* <a href="#" className="invite-btn fw-500">
                       Invite
                     </a> */}
+                      </div>
+                      {/* CandidateBio */}
+                      <CandidateBio candidate={candidate} />
+                      {/* CandidateBio */}
+                      {/* <a
+                      href="#"
+                      className="btn-ten fw-500 text-white w-100 text-center tran3s mt-15"
+                    >
+                      Download CV
+                    </a> */}
+                      {candidate.resumes.length > 1 && (
+                        <ResumeDownloadButton
+                          text={"Download CV"}
+                          style="btn-ten fw-500 text-white w-100 text-center tran3s mt-15"
+                          fileName={candidate.resumes[0]?.name}
+                          s3Key={candidate.resumes[0].s3Key}
+                        />
+                      )}
+                      <button
+                        className="btn-ten fw-500 text-white w-100 text-center tran3s mt-15"
+                        data-bs-toggle="modal"
+                        data-bs-target="#requestModal"
+                      >
+                        {false ? "Applied" : "Send request"}
+                      </button>
                     </div>
-                    {/* CandidateBio */}
-                    <CandidateBio candidate={candidate} />
-                    {/* CandidateBio */}
-                    {/* <a
-                    href="#"
-                    className="btn-ten fw-500 text-white w-100 text-center tran3s mt-15"
-                  >
-                    Download CV
-                  </a> */}
-                  </div>
 
-                  <h4 className="sidebar-title">Email James Brower.</h4>
-                  <div className="email-form bg-wrapper bg-color">
-                    <p>
-                      Your email address & profile will be shown to the
-                      recipient.
-                    </p>
-                    <EmailSendForm />
+                    <h4 className="sidebar-title">Email James Brower.</h4>
+                    <div className="email-form bg-wrapper bg-color">
+                      <p>
+                        Your email address & profile will be shown to the
+                        recipient.
+                      </p>
+                      <EmailSendForm />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+          <RequestModal candidateId={candidate._id} />
+        </>
       )}
     </>
   );

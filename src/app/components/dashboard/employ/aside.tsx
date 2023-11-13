@@ -48,13 +48,7 @@ const nav_data: {
     link: "/dashboard/employer-dashboard",
     title: "Dashboard",
   },
-  {
-    id: 2,
-    icon: nav_2,
-    icon_active: nav_2_active,
-    link: "/dashboard/employer-dashboard/profile",
-    title: "My Profile",
-  },
+
   {
     id: 3,
     icon: nav_3,
@@ -83,19 +77,12 @@ const nav_data: {
     link: "/dashboard/employer-dashboard/saved-candidate",
     title: "Saved Candidate",
   },
-  // {
-  //   id: 7,
-  //   icon: nav_9,
-  //   icon_active: nav_9_active,
-  //   link: "/dashboard/employ-dashboard/membership",
-  //   title: "Membership",
-  // },
   {
-    id: 8,
-    icon: nav_7,
-    icon_active: nav_7_active,
-    link: "/dashboard/employer-dashboard/setting",
-    title: "Account Settings",
+    id: 7,
+    icon: nav_9,
+    icon_active: nav_9_active,
+    link: "/dashboard/employ-dashboard/membership",
+    title: "Membership",
   },
 ];
 // props type
@@ -161,19 +148,9 @@ const EmployAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    className="dropdown-item d-flex align-items-center"
-                    href="/dashboard/employ-dashboard/profile"
-                  >
-                    <Image
-                      src={profile_icon_2}
-                      alt="icon"
-                      className="lazy-img"
-                    />
-                    <span className="ms-2 ps-1">Account Settings</span>
-                  </Link>
+                  <LogoutButton />
                 </li>
-                <li>
+                {/* <li>
                   <a
                     className="dropdown-item d-flex align-items-center"
                     href="#"
@@ -185,7 +162,7 @@ const EmployAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
                     />
                     <span className="ms-2 ps-1">Notification</span>
                   </a>
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>
@@ -224,15 +201,15 @@ const EmployAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
               </li>
             </ul>
           </nav>
-          <div className="profile-complete-status">
+          {/* <div className="profile-complete-status">
             <div className="progress-value fw-500">87%</div>
             <div className="progress-line position-relative">
               <div className="inner-line" style={{ width: "80%" }}></div>
             </div>
             <p>Profile Complete</p>
-          </div>
+          </div> */}
 
-          <LogoutButton />
+          {/* <LogoutButton /> */}
         </div>
       </aside>
       {/* LogoutModal star */}

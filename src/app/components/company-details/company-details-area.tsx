@@ -159,15 +159,14 @@ const CompanyDetailsArea = ({ id }: { id: string }) => {
                     </div>
                   </div>
 
-                  {/* <h3>Benefits</h3>
-                <div>
-                  <ul className="list-type-two style-none mb-15">
-                    {company?.benefits?.map((val, index) => {
-                      return <li key={index}>{val}</li>;
-                    })}
-                    
-                  </ul>
-                </div> */}
+                  <h3>Benefits</h3>
+                  <div>
+                    <ul className="list-type-two style-none mb-15">
+                      {company?.benefits?.map((val, index) => {
+                        return <li key={index}>{val}</li>;
+                      })}
+                    </ul>
+                  </div>
 
                   <div className="position-relative">
                     <h3>Company Reviews</h3>

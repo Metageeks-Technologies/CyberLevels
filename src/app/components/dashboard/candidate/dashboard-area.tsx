@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Image, { StaticImageData } from "next/image";
 import job_data from "@/data/job-data";
 import icon_1 from "@/assets/dashboard/images/icon/icon_12.svg";
@@ -8,6 +8,11 @@ import icon_3 from "@/assets/dashboard/images/icon/icon_14.svg";
 import icon_4 from "@/assets/dashboard/images/icon/icon_15.svg";
 import main_graph from "@/assets/dashboard/images/main-graph.png";
 import DashboardHeader from "./dashboard-header";
+import { useAppSelector, useAppDispatch } from "@/redux/hook";
+import { getallJobAppByCandidateWithJobPost } from "@/redux/features/jobApp/api";
+import job_img_1 from "@/assets/images/logo/media_22.png";
+import { type } from "os";
+import Link from "next/link";
 
 // card item
 export function CardItem({
@@ -41,6 +46,14 @@ type IProps = {
 };
 const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
   const job_items = [...job_data.reverse().slice(0, 5)];
+  const { allJobAppByCandidateWithJobPost: jobApps } = useAppSelector(
+    (state) => state.jobApplication
+  );
+  const { currUser } = useAppSelector((state) => state.persistedReducer.user);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (currUser) getallJobAppByCandidateWithJobPost(dispatch, currUser);
+  }, []);
 
   return (
     <div className="dashboard-body">
@@ -74,57 +87,67 @@ const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
             <div className="recent-job-tab bg-white border-20 mt-30 w-100">
               <h4 className="dash-title-two">Recent Applied Job</h4>
               <div className="wrapper">
-                {job_items.map((j) => (
-                  <div
-                    key={j.id}
-                    className="job-item-list d-flex align-items-center"
-                  >
-                    <div>
-                      <Image
-                        src={j.logo}
-                        alt="logo"
-                        width={40}
-                        height={40}
-                        className="lazy-img logo"
-                      />
-                    </div>
-                    <div className="job-title">
-                      <h6 className="mb-5">
-                        <a href="#">{j.duration}</a>
-                      </h6>
-                      <div className="meta">
-                        <span>Fulltime</span> . <span>{j.location}</span>
-                      </div>
-                    </div>
-                    <div className="job-action">
-                      <button
-                        className="action-btn dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
+                {jobApps.slice(0, 5).map((app) => {
+                  if (typeof app.jobPost !== "string") {
+                    return (
+                      <div
+                        key={app._id}
+                        className="job-item-list d-flex align-items-center"
                       >
-                        <span></span>
-                      </button>
-                      <ul className="dropdown-menu">
-                        <li>
-                          <a className="dropdown-item" href="#">
-                            View Job
-                          </a>
-                        </li>
-                        <li>
-                          <a className="dropdown-item" href="#">
-                            Archive
-                          </a>
-                        </li>
-                        <li>
-                          <a className="dropdown-item" href="#">
-                            Delete
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                ))}
+                        <div>
+                          <Image
+                            src={job_img_1}
+                            alt="logo"
+                            width={40}
+                            height={40}
+                            className="lazy-img logo"
+                          />
+                        </div>
+                        <div className="job-title">
+                          <h6 className="mb-5">
+                            <Link href={`/job-details-v1/${app.jobPost._id}`}>
+                              {app.jobPost.title}
+                            </Link>
+                          </h6>
+                          <div className="meta">
+                            <span>{app.jobPost.jobType[0]}</span> .{" "}
+                            <span>{app.jobPost.location[0]}</span>
+                          </div>
+                        </div>
+                        <div className="job-action">
+                          <button
+                            className="action-btn dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            <span></span>
+                          </button>
+                          <ul className="dropdown-menu">
+                            <li>
+                              <Link
+                                className="dropdown-item"
+                                href={`/job-details-v1/${app.jobPost._id}`}
+                              >
+                                View Job
+                              </Link>
+                            </li>
+                            {/* <li>
+                            <a className="dropdown-item" href="#">
+                              Archive
+                            </a>
+                          </li>
+                          <li>
+                            <a className="dropdown-item" href="#">
+                              Delete
+                            </a>
+                          </li> */}
+                          </ul>
+                        </div>
+                      </div>
+                    );
+                  }
+                })}
               </div>
             </div>
           </div>

@@ -100,7 +100,7 @@ const SavedCompanyArea = ({ setIsOpenSidebar, savedCompanies }: IProps) => {
                     className="open-job-btn text-center fw-500 tran3s me-2"
                   >
                     {/* {item.vacancy} open job */}
-                    {c.benefits.length} open job
+                    {c.jobOpenings} open job
                   </Link>
                 </div>
                 <div className="col-lg-2 col-md-4">

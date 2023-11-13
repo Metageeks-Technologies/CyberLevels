@@ -5,6 +5,7 @@ export interface IEducation {
     startYear: string;
     endYear: string;
     description: string;
+    _id: string
 }
 export interface IExperience {
     title: string;
@@ -12,6 +13,7 @@ export interface IExperience {
     startYear: string;
     endYear: string;
     description: string;
+    _id: string
 }
 interface ILocation {
     locality: string;
@@ -20,6 +22,7 @@ interface ILocation {
     country: string;
     zipcode: string;
     maplocation: string;
+    _id: string;
 }
 
 export interface INotification {

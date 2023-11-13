@@ -4,9 +4,13 @@ import React from "react";
 const ResumeDownloadButton = ({
   fileName,
   s3Key,
+  text,
+  style,
 }: {
   fileName: string;
   s3Key: string;
+  text?: string;
+  style?: string;
 }) => {
   const handleDownloadClick = async () => {
     const { data } = await instance.post("/candidate/download", { s3Key });
@@ -25,7 +29,9 @@ const ResumeDownloadButton = ({
 
   return (
     <div>
-      <button onClick={handleDownloadClick}>Download</button>
+      <button className={`${style ? style : ""}`} onClick={handleDownloadClick}>
+        {text ? text : "Download"}{" "}
+      </button>
     </div>
   );
 };
