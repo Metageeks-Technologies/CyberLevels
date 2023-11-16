@@ -1,9 +1,10 @@
 import instance from "@/lib/axios";
-import { getEmployerSuccess, getSavedCandidatesSuccess, requestFailDash, requestStartDash, updateCurrEmployerSuccess } from "./dashboardSlice";
+import { getEmployerSuccess, getSavedCandidatesSuccess, requestFailDash, requestStartDash, updateAvatarSuccess, updateCurrEmployerSuccess } from "./dashboardSlice";
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import { toggleIsSaved } from "@/redux/features/candidate/slice"
+import { setUploadProgress } from "../globalSlice";
 // dashboard
 export const getCurrEmployer = async (dispatch: AppDispatch, id: string) => {
 
@@ -12,6 +13,53 @@ export const getCurrEmployer = async (dispatch: AppDispatch, id: string) => {
         const { data } = await instance(`/employer/auth/${id}`)
 
         dispatch(getEmployerSuccess(data.employer))
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFailDash(e.message))
+    }
+}
+
+export const updateCurrEmployer = async (dispatch: AppDispatch, id: string, bodyObj: any) => {
+
+    dispatch(requestStartDash());
+    try {
+        const { data } = await instance.patch(`/employer/update/${id}`, bodyObj)
+        dispatch(updateCurrEmployerSuccess(data.employer))
+        return true;
+    } catch (error) {
+
+        const e = error as AxiosError;
+        dispatch(requestFailDash(e.message))
+        return false;
+    }
+}
+
+export const updateAvatar = async (dispatch: AppDispatch, file: File, metaData: any) => {
+
+    dispatch(requestStartDash());
+    const { extension, userId } = metaData;
+
+
+    try {
+        const { data } = await instance.post(`/employer/uploadProfile`, metaData);
+        if (data) {
+            const uploadRes = await instance.put(data.url, file, {
+                headers: {
+                    "Content-Type": file.type,
+                },
+                onUploadProgress: (data) => {
+                    if (data.total)
+                        dispatch(setUploadProgress(Math.round((data.loaded / data.total) * 100)));
+                },
+            })
+            if (uploadRes) {
+                const { data } = await instance.patch(`/employer/uploadProfile`, { userId, s3Key: `profile/employer/${userId}.${extension}` });
+                dispatch(updateAvatarSuccess(data.avatar));
+
+            }
+            notifySuccess("Profile updated successfully");
+        }
+
     } catch (error) {
         const e = error as AxiosError;
         dispatch(requestFailDash(e.message))

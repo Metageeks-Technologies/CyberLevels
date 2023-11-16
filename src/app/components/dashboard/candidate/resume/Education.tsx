@@ -9,7 +9,7 @@ import SelectMonth from "../select-month";
 import EditEducation from "@/app/components/candidate-details/popup/EditEducation";
 
 const Education = () => {
-  const { currCandidate, loading } = useAppSelector(
+  const { currCandidate, loading, currDashEducation } = useAppSelector(
     (store) => store.candidate.candidateDashboard
   );
   const dispatch = useAppDispatch();
@@ -194,7 +194,7 @@ const Education = () => {
           </div>
         </div>
       </div>
-      <EditEducation />
+      {<EditEducation />}
     </>
   );
 };

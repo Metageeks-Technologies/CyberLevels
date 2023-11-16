@@ -216,3 +216,17 @@
     background-color: #eff6f3;
   }
 }
+.request-btn-active {
+  background-color: #eff6f3;
+}
+.job-letter-btn-ai {
+  font-weight: 500;
+  color: #fff;
+  min-width: 125px;
+  text-align: center;
+  padding: 0 15px;
+  line-height: 45px;
+  border-radius: 25px;
+  background: $color-two;
+  color: $color-one;
+}

@@ -1,12 +1,6 @@
-import { useState } from "react";
+import { notifyInfo } from "@/utils/toast";
 import { RadioGroup } from "@headlessui/react";
-import { notifyError, notifyInfo } from "@/utils/toast";
-import { updateCurrCandidate } from "@/redux/features/candidate/api";
-import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { useDispatch } from "react-redux";
-import { getTrackBackground } from "react-range";
-import { createJobApp } from "@/redux/features/jobApp/api";
-import Loader from "./loader";
+import { useState } from "react";
 
 const Question = ({
   question,
@@ -42,7 +36,6 @@ const Question = ({
     setSelected(value);
   };
 
-  const loading = false;
   return (
     <>
       {question.length > 1 && (
@@ -100,18 +93,20 @@ const Question = ({
 
 export default function Example({
   text,
-  jobId,
+  setStep,
+  setForm,
 }: {
   text: string;
-  jobId: string;
+  setStep: React.Dispatch<React.SetStateAction<number>>;
+  setForm: React.Dispatch<
+    React.SetStateAction<{
+      testScore: number;
+      appliedWithResume: string;
+      jobLetter: string;
+    }>
+  >;
 }) {
   const questions = text.split("\\n\\n");
-  const dispatch = useDispatch();
-  const { currUser } = useAppSelector((s) => s.persistedReducer.user);
-  const { loading: saveLoading } = useAppSelector(
-    (s) => s.candidate.candidateDashboard
-  );
-  const { loading: jobAppLoading } = useAppSelector((s) => s.jobApplication);
 
   const [userAnswer, setUserAnswer] = useState<string[]>(
     new Array(questions.length).fill("")
@@ -122,7 +117,7 @@ export default function Example({
   const [isSaved, setSaved] = useState(false);
   const [isAnsweredAll, setAnsweredAll] = useState(true);
 
-  const handleClick = async () => {
+  const handleSave = async () => {
     let score = 0;
     for (let index = 0; index < userAnswer.length; index++) {
       const val = userAnswer[index];
@@ -139,25 +134,12 @@ export default function Example({
     // console.log(score);
     if (isAnsweredAll) {
       const netScore = (score / userAnswer.length) * 100;
-      console.log(netScore);
-      console.log("called");
-      if (currUser) {
-        try {
-          await updateCurrCandidate(dispatch, currUser, {
-            testScore: netScore,
-          });
-          setSaved(true);
-        } catch (error) {
-          notifyError(
-            "Something went wrong while saving the Test Score , Try Again"
-          );
-        }
-      }
+      setForm((form) => ({
+        ...form,
+        testScore: netScore,
+      }));
+      setSaved(true);
     }
-  };
-
-  const handleApply = async () => {
-    await createJobApp(dispatch, { candidate: currUser, jobPost: jobId });
   };
 
   return (
@@ -182,27 +164,18 @@ export default function Example({
       <button>apply now</button> */}
       <div className="button-group d-inline-flex align-items-center mt-30">
         <button
-          type="submit"
-          disabled={saveLoading || isSaved}
-          onClick={handleClick}
+          type="button"
+          onClick={handleSave}
           className="btn-one tran3s me-3"
         >
-          {saveLoading ? (
-            <Loader />
-          ) : isSaved ? (
-            <span>Saved</span>
-          ) : (
-            <span>Save</span>
-          )}
+          {isSaved ? <span>Saved</span> : <span>Save</span>}
         </button>
         {isSaved && (
           <button
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            onClick={handleApply}
-            className="btn-one tran3s"
+            onClick={() => setStep((p) => p + 1)}
+            className="btn-two tran3s"
           >
-            Apply
+            Next
           </button>
         )}
       </div>

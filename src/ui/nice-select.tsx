@@ -26,6 +26,7 @@ const NiceSelect = ({
   onChange,
   name,
 }: IPropType) => {
+  // console.log(defaultCurrent, "from defalt current");
   const [open, setOpen] = useState(false);
   const [current, setCurrent] = useState(options[defaultCurrent]);
   const onClose = useCallback(() => {

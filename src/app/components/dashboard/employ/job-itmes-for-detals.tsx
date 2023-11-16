@@ -3,6 +3,7 @@ import ActionDropdown from "./actionDropDownForDetails";
 import Link from "next/link";
 import { IResume } from "@/types/user-type";
 import ResumeDownloadButton from "@/ui/downloadBtn";
+import { FileArrowDown } from "@phosphor-icons/react";
 
 const EmployJobItem = ({
   title,
@@ -14,6 +15,7 @@ const EmployJobItem = ({
   appId,
   isFeedbackAsked,
   resumes,
+  resumeId,
 }: {
   title: string;
   info: string;
@@ -24,7 +26,9 @@ const EmployJobItem = ({
   appId: string;
   isFeedbackAsked: boolean;
   resumes: IResume[];
+  resumeId: string;
 }) => {
+  const appliedResume = resumes.find((resume) => resume._id === resumeId);
   return (
     <tr className={`${status}`}>
       <td>
@@ -41,10 +45,13 @@ const EmployJobItem = ({
         <div className="job-status text-capitalize">{status}</div>
       </td>
       <td>
-        <ResumeDownloadButton
-          fileName={resumes[0].name}
-          s3Key={resumes[0].s3Key}
-        />
+        <div className=" d-flex ">
+          <ResumeDownloadButton
+            fileName={appliedResume?.name || resumes[0].name}
+            s3Key={appliedResume?.s3Key || resumes[0].s3Key}
+          />
+          <FileArrowDown size={24} color="black" />
+        </div>
       </td>
       <td>
         <div className="action-dots float-end">

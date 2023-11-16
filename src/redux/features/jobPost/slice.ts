@@ -38,18 +38,26 @@ export const jobPostSlice = createSlice({
     name: 'jobPost',
     initialState,
     reducers: {
+        askGptStart: (state) => {
+            state.gptLoading = true;
+        },
+        askGptEnd: (state) => {
+            state.gptLoading = false;
+        },
+        askGptSuccess: (state) => {
+            state.gptLoading = false;
+        },
         requestStart: (state) => {
             state.loading = true;
-            state.gptLoading = true;
+
         },
         requestFail: (state, action: PayloadAction<string>) => {
             state.loading = false;
             state.error = action.payload;
-            state.gptLoading = false;
+
         },
         requestSuccess: (state) => {
             state.loading = false;
-            state.gptLoading = false
         },
         submitJobPostSuccess: (state, action: PayloadAction<IJobPost>) => {
             state.loading = false;
@@ -84,6 +92,9 @@ export const jobPostSlice = createSlice({
 })
 
 export const {
+    askGptEnd,
+    askGptStart,
+    askGptSuccess,
     requestSuccess,
     getJobPostsSuccess,
     requestFail,

@@ -27,7 +27,7 @@ const Skills = ({ skills }: { skills: string[] }) => {
                 data-bs-toggle="modal"
                 data-bs-target="#skillModal"
                 type="button"
-                className="d-flex justify-content-center align-items-center "
+                className="d-flex mt-2 justify-content-center align-items-center "
               >
                 <Image src={icon_3} height={24} width={24} alt="icon" />
               </button>

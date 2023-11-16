@@ -1,9 +1,9 @@
-import google from "@/assets/images/icon/google.png";
-import { setLoggerWithLn } from "@/redux/features/userSlice";
-import Image from "next/image";
-import Link from "next/link";
-import LoginForm from "../../forms/login-form";
 import MultipleChoiceQuestion from "@/ui/question-details";
+import { useState } from "react";
+import { createJobApp } from "@/redux/features/jobApp/api";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import SelectResume from "../../candidate-details/select-resume";
+import JobLetter from "../../candidate-details/job-letter";
 
 const QuestionModal = ({
   question,
@@ -12,6 +12,18 @@ const QuestionModal = ({
   question: string;
   jobId: string;
 }) => {
+  const { currCandidate } = useAppSelector(
+    (s) => s.candidate.candidateDashboard
+  );
+
+  const dispatch = useAppDispatch;
+  const [step, setStep] = useState(1);
+  const [from, setForm] = useState({
+    testScore: 0,
+    appliedWithResume: "",
+    jobLetter: "",
+  });
+
   return (
     <div
       className="modal fade"
@@ -28,82 +40,38 @@ const QuestionModal = ({
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
-            <div className="text-center">
-              <h3 className="mb-30">
-                Please Answer these Questions to Move further.
-              </h3>
-            </div>
-            {/* <div className="form-wrapper m-auto ">
-              <ul className="nav nav-tabs border-0 mt-30" role="tablist">
-                <li className="nav-item" role="presentation">
-                  <button
-                    className="nav-link active"
-                    data-bs-toggle="tab"
-                    data-bs-target="#fc1"
-                    role="tab"
-                    aria-selected="true"
-                    tabIndex={-1}
-                    onClick={() => handleTabChange("candidate")}
-                  >
-                    Candidate
-                  </button>
-                </li>
-                <li className="nav-item" role="presentation">
-                  <button
-                    className="nav-link"
-                    data-bs-toggle="tab"
-                    data-bs-target="#fc2"
-                    role="tab"
-                    aria-selected="false"
-                    tabIndex={-1}
-                    onClick={() => handleTabChange("employer")}
-                  >
-                    Employer
-                  </button>
-                </li>
-              </ul>
-            </div> */}
             <div className="form-wrapper m-auto">
-              <MultipleChoiceQuestion text={question} jobId={jobId} />
-              {/* <div className="d-flex align-items-center mt-30 mb-10">
-                <div className="line"></div>
-                <span className="pe-3 ps-3">OR</span>
-                <div className="line"></div>
+              <div className="text-center">
+                <h2 className=" mb-3 ">Step-{step}</h2>
               </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <a
-                    href="#"
-                    className="social-use-btn d-flex align-items-center justify-content-center tran3s w-100 mt-10"
-                  >
-                    <Image src={google} alt="google-img" />
-                    <span className="ps-2">Login with Google</span>
-                  </a>
+              {step === 1 && (
+                <div className="_question">
+                  <div className=" text-center mt-3 ">
+                    <p className="mb-30 fw-medium">
+                      Please Answer these Questions to Move further.
+                    </p>
+                  </div>
+                  <MultipleChoiceQuestion
+                    setStep={setStep}
+                    setForm={setForm}
+                    text={question}
+                  />
                 </div>
-                <div className="col-md-6">
-                  <a
-                    onClick={() => dispatch(setLoggerWithLn(activeTab))}
-                    href={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/candidate/auth/linkedin`}
-                    className="social-use-btn d-flex align-items-center justify-content-center tran3s w-100 mt-10"
-                  >
-                    <Image
-                      height={30}
-                      width={30}
-                      src={
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/LinkedIn_icon_circle.svg/800px-LinkedIn_icon_circle.svg.png"
-                      }
-                      alt="linkedIn-img"
-                    />
-                    <span className="ps-2">Signup with LinkedIn</span>
-                  </a>
+              )}
+              {step === 2 && currCandidate && (
+                <div className="_resume mt-5 mt-3 ">
+                  <SelectResume
+                    resumes={currCandidate.resumes}
+                    setForm={setForm}
+                    setStep={setStep}
+                  />
                 </div>
-              </div>
-              <p className="text-center mt-10">
-                Do not have an account?{" "}
-                <Link href="/register" className="fw-500">
-                  Sign up
-                </Link>
-              </p> */}
+              )}
+              {step === 3 && (
+                <div className="_jobLetter">
+                  <JobLetter setForm={setForm} form={from} />
+                </div>
+              )}
             </div>
           </div>
         </div>

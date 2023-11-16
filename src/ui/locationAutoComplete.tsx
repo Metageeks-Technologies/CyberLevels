@@ -22,7 +22,7 @@ function AddressForm({
   label,
   isMultiple,
 }: MyComponentProps) {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(selected || "");
   // const [selected, setSelected] = useState("");
   const handleQueryChange = (value: string) => {
     setQuery(value);
@@ -31,7 +31,7 @@ function AddressForm({
   const handleSelect = async (address: any) => {
     try {
       const results = await geocodeByAddress(address);
-      console.log(results);
+      // console.log(results);
       if (results.length > 0) {
         const arr = results[0].formatted_address.split(",");
         if (isMultiple) {
@@ -65,7 +65,7 @@ function AddressForm({
             <input
               name={`${label}`}
               {...getInputProps({
-                placeholder: "Search city ...",
+                placeholder: `Select ${label} ...`,
                 className: "location-search-input",
               })}
             />

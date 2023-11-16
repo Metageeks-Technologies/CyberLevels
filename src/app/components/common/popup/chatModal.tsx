@@ -19,6 +19,7 @@ const ChatModal = () => {
   useEffect(() => {
     if (currJobApp) getMessages(dispatch, currJobApp);
   }, [currJobApp]);
+
   const handleClick = () => {
     if (userRole === "candidate") {
       notifyInfo("chat can be only initiated by employer");

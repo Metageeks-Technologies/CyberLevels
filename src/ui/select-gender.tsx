@@ -7,7 +7,7 @@ interface Props {
   default?: { value: string; label: string };
 }
 
-const SelectMonth = ({
+const SelectGender = ({
   default: defaultOption,
   setMonth,
   firstInput,
@@ -17,18 +17,9 @@ const SelectMonth = ({
   };
 
   const options = [
-    { value: "Jan", label: "Jan" },
-    { value: "Feb", label: "Feb" },
-    { value: "Mar", label: "Mar" },
-    { value: "Apr", label: "Apr" },
-    { value: "May", label: "May" },
-    { value: "Jun", label: "Jun" },
-    { value: "Jul", label: "Jul" },
-    { value: "Aug", label: "Aug" },
-    { value: "Sep", label: "Sep" },
-    { value: "Oct", label: "Oct" },
-    { value: "Nov", label: "Nov" },
-    { value: "Dec", label: "Dec" },
+    { value: "male", label: "Male" },
+    { value: "female", label: "Female" },
+    { value: "others", label: "Others" },
   ];
 
   options.unshift({ value: firstInput, label: firstInput });
@@ -56,4 +47,4 @@ const SelectMonth = ({
   );
 };
 
-export default SelectMonth;
+export default SelectGender;

@@ -1,9 +1,11 @@
 import instance from "@/lib/axios";
-import { getJobPostsSuccess, requestFail, requestStart, requestSuccess, submitJobPostSuccess, getJobPostsForEmployerSuccess } from "./slice"
+import { getJobPostsSuccess, requestFail, requestStart, requestSuccess, submitJobPostSuccess, getJobPostsForEmployerSuccess, askGptStart, askGptSuccess, askGptEnd } from "./slice"
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { IFilterState } from "../filterJobPostSlice";
-import { getCompanyOfJobPost } from "../company/slice";
+import { notifyError } from "@/utils/toast";
+
+
 
 
 export const getJObPosts = async (dispatch: AppDispatch, queryObject: IFilterState, page: number, candidateId: string) => {
@@ -61,26 +63,25 @@ export const getJobPostsForEmployer = async (dispatch: AppDispatch, id: string) 
 }
 export const askToGpt = async (dispatch: AppDispatch, query: string) => {
 
-    dispatch(requestStart());
+    dispatch(askGptStart());
     try {
         const { data } = await instance(`/jobPost/askGpt?query=${query}`);
-        dispatch(requestSuccess());
+        dispatch(askGptSuccess());
         return data.result;
 
     } catch (error) {
         console.log(error);
         const e = error as AxiosError;
-        dispatch(requestFail(e.message));
+        notifyError("Something went wrong, try later")
+        dispatch(askGptEnd());
     }
 }
 export const getJobPostDetails = async (dispatch: AppDispatch, id: string) => {
-
+    // getJobDetailsWithCompany
     dispatch(requestStart());
     try {
         const { data } = await instance(`/jobPost/${id}`);
         dispatch(submitJobPostSuccess(data.job));
-        dispatch(getCompanyOfJobPost(data.company))
-        return data.result;
 
     } catch (error) {
         console.log(error);

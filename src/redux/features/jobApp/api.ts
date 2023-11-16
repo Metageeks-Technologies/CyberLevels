@@ -86,7 +86,7 @@ export const createJobApp = async (dispatch: AppDispatch, bodyObj: any) => {
         const { data } = await instance.post(`/jobApp/create`, bodyObj);
 
         dispatch(createJobAppSuccess(data.jobApp))
-        notifySuccess("succesfully submitted the job")
+        notifySuccess("you have successfully applied for the job");
     } catch (error) {
         const e = error as AxiosError;
         dispatch(requestFail(e.message))

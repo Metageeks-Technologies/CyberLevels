@@ -81,7 +81,7 @@ const nav_data: {
     id: 7,
     icon: nav_9,
     icon_active: nav_9_active,
-    link: "/dashboard/employ-dashboard/membership",
+    link: "/dashboard/employer-dashboard/membership",
     title: "Membership",
   },
 ];
@@ -137,7 +137,7 @@ const EmployAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
                 <li>
                   <Link
                     className="dropdown-item d-flex align-items-center"
-                    href="/dashboard/employ-dashboard/profile"
+                    href="/dashboard/employer-dashboard/profile"
                   >
                     <Image
                       src={profile_icon_1}

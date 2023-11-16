@@ -18,10 +18,15 @@ const TextEditor = ({ text }: { text: string }) => {
     dynamicContent += "</ul></div>";
   });
   //   auto type
+  const handleEditorChange = (content: string, editor: any) => {
+    console.log("Content has changed:", content);
+    // You can save the content to your state or perform other actions here
+  };
 
   return (
     <div>
       <Editor
+        onEditorChange={handleEditorChange}
         apiKey="5ck4fbg67tr2aopfaf7zp04pl5d1z2xfvv15qu0uunww5ss5"
         initialValue={dynamicContent}
       />

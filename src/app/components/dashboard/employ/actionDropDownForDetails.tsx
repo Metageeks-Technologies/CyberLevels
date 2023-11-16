@@ -49,6 +49,16 @@ const ActionDropdown = ({
           Chat
         </button>
       </li>
+      <li>
+        <button
+          data-bs-toggle="modal"
+          data-bs-target="#jobLetterModal"
+          type="button"
+          className="active dropdown-item"
+        >
+          View Job Letter
+        </button>
+      </li>
       {isFeedbackAsked && (
         <li>
           <button

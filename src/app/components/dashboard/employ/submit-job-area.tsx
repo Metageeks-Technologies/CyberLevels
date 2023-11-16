@@ -47,7 +47,6 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const [isAddingBenefits, setAddingBenefits] = useState(false);
   const [descriptionWithAI, setDescriptionWithAI] = useState<any>("");
   const [questionWithAI, setQuestionWithAI] = useState<any>("");
-  console.log(questionWithAI);
 
   const handleSalary = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

@@ -1,112 +1,30 @@
 "use client";
-import React, { useState } from "react";
-import Image from "next/image";
-import avatar from "@/assets/dashboard/images/avatar_02.jpg";
-import DashboardHeader from "./dashboard-header";
 import icon_3 from "@/assets/images/icon/icon_10.svg";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "@/redux/store";
-import { ICandidate } from "@/types/user-type";
-import Loader from "@/ui/loader";
-import LocationAutoComplete from "@/ui/locationAutoComplete";
-import {
-  requestStartDash,
-  requestFailDash,
-  updateCurrCandidateSuccess,
-} from "@/redux/features/candidate/dashboardSlice";
-import axios, { AxiosError } from "axios";
-import instance from "@/lib/axios";
 import DropZone from "@/layouts/dropZone";
-import { useAppSelector } from "@/redux/hook";
-import { notifyError } from "@/utils/toast";
-import { setFile, setUploadProgress } from "@/redux/features/globalSlice";
-import { first } from "lodash";
 import { updateAvatar } from "@/redux/features/candidate/api";
+import { setFile, setUploadProgress } from "@/redux/features/globalSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { ICandidate } from "@/types/user-type";
+import { notifyError } from "@/utils/toast";
+import Image from "next/image";
+import avatar from "@/assets/dashboard/images/avatar_04.jpg";
+import React, { useState } from "react";
+import DashboardHeader from "./dashboard-header";
+import Location from "./profile/Location";
+import Social from "./profile/OnTheWeb";
+import Profile from "./profile/Profile";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
-  const { currCandidate, loading } = useSelector(
-    (state: RootState) => state.candidate.candidateDashboard
+  const { currCandidate, loading } = useAppSelector(
+    (state) => state.candidate.candidateDashboard
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const user = currCandidate as ICandidate;
 
-  const [isEditable, SetIsEditable] = useState({
-    firstName: false,
-    lastName: false,
-    bio: false,
-    address: false,
-    phoneNumber: false,
-  });
-  const [form, setForm] = useState({
-    firstName: user.firstName || "",
-    lastName: user.lastName || "",
-    bio: user.bio || "",
-    phoneNumber: user.phoneNumber || "",
-  });
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setForm({
-      ...form,
-      [name]: value,
-    });
-  };
-  // const [location, setLocation] = useState({
-  //   locality: user.location.locality || "",
-  //   zipcode: user.location.zipcode || "",
-  // });
-  const [city, setCity] = useState(user?.location?.city || "");
-  const [state, setState] = useState(user?.location?.state || "");
-  const [country, setCountry] = useState(user?.location?.country || "");
-  const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    // setLocation({
-    //   ...location,
-    //   [name]: value,
-    // });
-  };
-  const [social, setSocial] = useState<string[]>([]);
-  const [SocialInput, setSocialInput] = useState("");
-  const [isAddingSocialLink, setSocialLink] = useState(false);
-  const addToSocial = () => {
-    setSocial((prev) => [...prev, SocialInput]);
-    setSocialLink(false);
-    setSocialInput("");
-  };
-  console.log(social);
-  const handleSubmit = async () => {
-    const ILocation = {
-      ...location,
-      city: city,
-      state: state,
-      country: country,
-    };
-    const bodyObj = {
-      ...form,
-      socialSites: social,
-      location: ILocation,
-    };
-    console.log(bodyObj);
-    dispatch(requestStartDash());
-    try {
-      const { data } = await instance.patch(
-        `/candidate/update/${user._id}`,
-        bodyObj
-      );
-      console.log(data);
-      dispatch(updateCurrCandidateSuccess(data?.candidate));
-    } catch (error) {
-      const e = error as AxiosError;
-      dispatch(requestFailDash(e.message));
-    }
-  };
-
-  const { file, uploadProgress } = useAppSelector((s) => s.global);
+  const { file } = useAppSelector((s) => s.global);
 
   const handleProfilePhoto = async () => {
     if (!user) {
@@ -135,6 +53,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
     dispatch(setFile(null));
     dispatch(setUploadProgress(0));
   };
+
   return (
     <div className="dashboard-body">
       <div className="position-relative">
@@ -142,180 +61,102 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
         <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
         {/* header end */}
 
+        {/* Profile start */}
         <h2 className="main-title">My Profile</h2>
-
-        <div className="bg-white card-box border-20">
-          <div className="user-avatar-setting d-flex align-items-center mb-30">
-            <Image
-              width={50}
-              height={50}
-              src={
-                user?.avatar !== "none" || false
-                  ? (user?.avatar as string)
-                  : avatar
-              }
-              alt="avatar"
-              className="lazy-img user-img"
-            />
-            {!file && (
-              <div className=" upload-btn position-relative tran3s ms-4 me-3">
-                <DropZone
-                  text={
-                    user.avatar
-                      ? "Update profile photo"
-                      : "Upload profile photo"
-                  }
-                />
-              </div>
-            )}
-            {file && (
-              <>
-                <div className="d-flex flex-column justify-content-center   ">
-                  <button
-                    onClick={handleProfilePhoto}
-                    className="upload-btn position-relative tran3s ms-4 me-3"
-                  >
-                    {"Save"}
-                  </button>
-                  <div className="ms-4 mt-1 ">
-                    <small>
-                      Upload square image in .png, .jpeg, max 1mb sized
-                    </small>
-                  </div>
+        <div className="bg-white card-box border-20 ">
+          <div className="d-flex justify-content-between ">
+            <div className="user-avatar-setting d-flex align-items-center mb-30">
+              <img
+                width={50}
+                height={50}
+                src={user.avatar}
+                // src={
+                //   user?.avatar !== "none" || false
+                //     ? (user?.avatar as string)
+                //     : avatar
+                // }
+                alt="avatar"
+                className="lazy-img user-img"
+              />
+              {!file && (
+                <div className=" upload-btn position-relative tran3s ms-4 me-3">
+                  <DropZone
+                    text={
+                      user.avatar
+                        ? "Update profile photo"
+                        : "Upload profile photo"
+                    }
+                  />
                 </div>
-                <p className="dash-title-three">{file?.name}</p>
-              </>
-            )}
-          </div>
-          <div className="dash-input-wrapper mb-30">
-            <label htmlFor="firstName">First Name</label>
-            {isEditable.firstName ? (
-              <input
-                type="text"
-                name="firstName"
-                onChange={handleInputChange}
-                value={form.firstName}
-                placeholder="James"
-              />
-            ) : (
-              <div className="d-flex align-items-center position-relative">
-                <input type="text" value={user.firstName} readOnly />
+              )}
+              {file && (
+                <>
+                  <div className="d-flex flex-column justify-content-center   ">
+                    <button
+                      onClick={handleProfilePhoto}
+                      className="upload-btn position-relative tran3s ms-4 me-3"
+                    >
+                      {"Save"}
+                    </button>
+                    <div className="ms-4 mt-1 ">
+                      <small>
+                        Upload square image in .png, .jpeg, max 1mb sized
+                      </small>
+                    </div>
+                  </div>
+                  <p className="dash-title-three">{file?.name}</p>
+                </>
+              )}
+            </div>
+            <div>
+              <button
+                data-bs-toggle="modal"
+                data-bs-target="#profileModal"
+                type="button"
+                className="apply-btn text-center tran3s"
+              >
                 <Image
-                  onClick={() =>
-                    SetIsEditable({ ...isEditable, firstName: true })
-                  }
-                  src={icon_3}
                   height={24}
                   width={24}
-                  alt="icon"
-                  className="lazy-img position-absolute end-0 cursor-pointer"
-                />
-              </div>
-            )}
-          </div>
-          <div className="dash-input-wrapper mb-30">
-            <label htmlFor="lastName">Last Name</label>
-            {isEditable.lastName ? (
-              <input
-                type="text"
-                name="lastName"
-                onChange={handleInputChange}
-                value={form.lastName}
-                placeholder="brown"
-              />
-            ) : (
-              <div className="d-flex  align-items-center position-relative">
-                <input type="text" value={user.lastName} readOnly />
-                <Image
-                  onClick={() =>
-                    SetIsEditable({ ...isEditable, lastName: true })
-                  }
                   src={icon_3}
-                  height={24}
-                  width={24}
-                  alt="icon"
-                  className="lazy-img position-absolute end-0 cursor-pointer"
+                  title="Edit Profile"
+                  alt="edit"
                 />
-              </div>
-            )}
-          </div>
-          <div className="dash-input-wrapper mb-30">
-            <label htmlFor="">Email</label>
-            <div className="d-flex align-items-center position-relative">
-              <input type="text" value={user.email} readOnly />
+              </button>
             </div>
           </div>
-          <div className="dash-input-wrapper mb-30">
-            <label htmlFor="">Phone Number</label>
-            {isEditable.phoneNumber ? (
-              <input
-                type="text"
-                name="phoneNumber"
-                onChange={handleInputChange}
-                value={form.phoneNumber}
-                placeholder="+880 01723801729"
-              />
-            ) : (
-              <div className="d-flex align-items-center position-relative">
-                <input type="text" value={user.phoneNumber} readOnly />
-                <Image
-                  onClick={() =>
-                    SetIsEditable({ ...isEditable, phoneNumber: true })
-                  }
-                  src={icon_3}
-                  height={24}
-                  width={24}
-                  alt="icon"
-                  className="lazy-img position-absolute end-0 cursor-pointer"
-                />
-              </div>
-            )}
-            {/* <input type="text" placeholder="Brower" /> */}
-          </div>
-          <div className="dash-input-wrapper">
-            <label htmlFor="bio">Bio</label>
-            {isEditable.bio ? (
-              <textarea
-                className="size-lg"
-                placeholder="Write something interesting about you...."
-                value={form.bio}
-                name="bio"
-                onChange={handleInputChange}
-              ></textarea>
-            ) : (
-              <div className="d-flex  position-relative">
-                <textarea
-                  value={user.bio}
-                  readOnly
-                  className="size-lg"
-                  placeholder="Write something interesting about you...."
-                ></textarea>
-                <Image
-                  onClick={() => SetIsEditable({ ...isEditable, bio: true })}
-                  src={icon_3}
-                  height={24}
-                  width={24}
-                  alt="icon"
-                  className="lazy-img position-absolute end-0 cursor-pointer"
-                />
-              </div>
-            )}
-            {/* <div className="alert-text">
-              Brief description for your profile. URLs are hyperlinked.
-            </div> */}
-          </div>
+          <Profile />
         </div>
+        {/* Profile end */}
 
+        {/* Skills start */}
         <div className="bg-white card-box border-20 mt-40">
-          <h4 className="dash-title-three">Social Media</h4>
-          {[...user?.socialSites, ...social].map((val, index) => (
+          <div className=" d-flex justify-content-between ">
+            <h4 className="dash-title-three">On the web</h4>
+            <button
+              data-bs-toggle="modal"
+              data-bs-target="#socialModal"
+              type="button"
+              className="apply-btn text-center tran3s"
+            >
+              <Image
+                height={24}
+                width={24}
+                src={icon_3}
+                title="Edit Social"
+                alt="Edit Social"
+              />
+            </button>
+          </div>
+          <Social />
+          {/* {[...user?.socialSites, ...social].map((val, index) => (
             <div key={val} className="dash-input-wrapper mb-20">
               <label htmlFor="">Network {index + 1}</label>
               <input type="text" readOnly value={val} />
             </div>
-          ))}
+          ))} */}
 
-          {isAddingSocialLink && (
+          {/* {isAddingSocialLink && (
             <div className="dash-input-wrapper mb-20">
               <label htmlFor="SocialInput">
                 Network {user?.socialSites.length + social.length + 1}
@@ -329,80 +170,17 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
                 placeholder="#"
               />
             </div>
-          )}
+          )} */}
 
-          <button onClick={() => setSocialLink(true)} className="dash-btn-one">
+          {/* <button onClick={() => setSocialLink(true)} className="dash-btn-one">
             <i className="bi bi-plus"></i> Add more link
-          </button>
+          </button> */}
         </div>
+        {/* Skills end */}
 
-        {/* from for location  */}
-        <div className="bg-white card-box border-20 mt-40">
-          <h4 className="dash-title-three">Address & Location</h4>
-          <div className="row">
-            {/* <div className="col-12">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Local Address*</label>
-                <input
-                  name="locality"
-                  value={location.locality}
-                  type="text"
-                  onChange={handleLocationChange}
-                  placeholder="Cowrasta, Chandana, Gazipur Sadar"
-                />
-              </div>
-            </div> */}
-            <div className="col-lg-3">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="city">City*</label>
-                <LocationAutoComplete
-                  selected={city}
-                  setSelected={setCity}
-                  setCountry={setCountry}
-                  type="cities"
-                  label="city"
-                />
-              </div>
-            </div>
-            <div className="col-lg-3">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="">Country*</label>
-                <LocationAutoComplete
-                  selected={state}
-                  setSelected={setState}
-                  type="regions"
-                  label="state"
-                />
-              </div>
-            </div>
-            {/* <div className="col-lg-3">
-              <div className="dash-input-wrapper mb-25">
-                <label htmlFor="zipcode">Zip Code*</label>
-                <input
-                  name="zipcode"
-                  value={location.zipcode}
-                  onChange={handleLocationChange}
-                  type="text"
-                  placeholder="1708"
-                />
-              </div>
-            </div> */}
-          </div>
-        </div>
-
-        <div className="button-group d-inline-flex align-items-center mt-30">
-          <button
-            type="submit"
-            disabled={loading}
-            onClick={handleSubmit}
-            className="btn-one tran3s me-3"
-          >
-            {loading ? <Loader /> : <span>Save</span>}
-          </button>
-          <a href="#" className="btn-two tran3s">
-            Cancel
-          </a>
-        </div>
+        {/*location start */}
+        <Location />
+        {/*location end */}
       </div>
     </div>
   );

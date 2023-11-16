@@ -1,33 +1,29 @@
 "use client";
-import React, { useEffect } from "react";
-import Wrapper from "@/layouts/wrapper";
-import Header from "@/layouts/headers/header";
 import JobDetailsV1Area from "@/app/components/job-details/job-details-v1-area";
 import JobPortalIntro from "@/app/components/job-portal-intro/job-portal-intro";
 import JobDetailsBreadcrumb from "@/app/components/jobs/breadcrumb/job-details-breadcrumb";
 import RelatedJobs from "@/app/components/jobs/related-jobs";
 import FooterOne from "@/layouts/footers/footer-one";
-import { useAppSelector, useAppDispatch } from "@/redux/hook";
-import { usePathname } from "next/navigation";
-import { getJobPostDetails } from "@/redux/features/jobPost/api";
-import { useDispatch } from "react-redux";
+import Header from "@/layouts/headers/header";
+import Wrapper from "@/layouts/wrapper";
 import { getAllJobAppByCandidate } from "@/redux/features/jobApp/api";
+import { getJobPostDetails } from "@/redux/features/jobPost/api";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 const JobDetailsDynamicPage = ({ params }: { params: { id: string } }) => {
   const dispatch = useAppDispatch();
   const { jobPost } = useAppSelector((state) => state.jobPost);
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
 
-  const { companyOfJobPost } = useAppSelector(
-    (state) => state.company.companyList
-  );
   const pathName = usePathname();
   useEffect(() => {
     getJobPostDetails(dispatch, params.id);
     console.log("from the job details", currUser);
     if (currUser) getAllJobAppByCandidate(dispatch, currUser);
   }, [params.id]);
-  // console.log("for company", companyOfJobPost);
+
   return (
     <Wrapper>
       <div className="main-page-wrapper">
@@ -41,11 +37,11 @@ const JobDetailsDynamicPage = ({ params }: { params: { id: string } }) => {
 
         {/* job details area start */}
 
-        {jobPost && companyOfJobPost && (
+        {jobPost && typeof jobPost.companyId !== "string" && (
           <JobDetailsV1Area
             job={jobPost}
             url={pathName}
-            company={companyOfJobPost}
+            company={jobPost.companyId}
           />
         )}
         {/* job details area end */}

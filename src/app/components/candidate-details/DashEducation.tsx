@@ -12,6 +12,11 @@ interface Props {
 const Education = ({ education }: Props) => {
   const dispatch = useAppDispatch();
   const [id, setId] = useState("");
+  const [style, setStyle] = useState("none");
+  const handleClick = (id: string) => {
+    dispatch(setCurrDashEducation(id));
+    setStyle("block");
+  };
   return (
     <>
       <div className="time-line-data position-relative pt-15">
@@ -24,7 +29,7 @@ const Education = ({ education }: Props) => {
                   data-bs-target="#EducationModal"
                   type="button"
                   className="apply-btn text-center tran3s"
-                  onClick={() => dispatch(setCurrDashEducation(obj._id))}
+                  onClick={() => handleClick(obj._id)}
                 >
                   <Image
                     src={icon_3}

@@ -16,12 +16,8 @@ export interface IExperience {
     _id: string
 }
 interface ILocation {
-    locality: string;
     city: string;
-    state: string;
     country: string;
-    zipcode: string;
-    maplocation: string;
     _id: string;
 }
 
@@ -39,6 +35,19 @@ export interface IResume {
     s3Key: string,
 }
 
+export interface ISocial {
+    linkedIn: string,
+    twitter: string,
+    github: string,
+    website: string,
+}
+export interface FSocial {
+    linkedIn: string,
+    twitter: string,
+    facebook: string,
+    website: string,
+}
+
 export interface ICandidate {
     email: string;
     isEmailVerified: boolean;
@@ -52,7 +61,14 @@ export interface ICandidate {
     skills: string[],
     experience: IExperience[],
     education: IEducation[],
-    socialSites: string[];
+    socialSites: ISocial;
+    expectedSalary: {
+        currency: string,
+        salary: number,
+        period: string
+    },
+    profileCompleted: number,
+    gender: "male" | "female" | "others";
     location: ILocation,
     testScore: number,
     notifications: INotification[],
@@ -76,17 +92,23 @@ export interface IEmployer {
     lastName: string;
     avatar: string;
     phoneNumber: string,
-    companyName: string,
+    company: {
+        name: string,
+        companyId: string,
+    },
     password?: string;
     location: ILocation,
     resume: string,
     industry: string,
-    socialSites: string[];
+    socialSites: FSocial;
     description: string,
-    jobs: string,
+    gender: "male" | "female" | "others";
+    freeCount: string;
+    jobs: string[],
     role: string,
     bio: string,
     signInProvider?: "linkedIn" | "jwt"
+    savedCandidates: string[],
     createdAt: string,
     updatedAt: string,
     _id: string,

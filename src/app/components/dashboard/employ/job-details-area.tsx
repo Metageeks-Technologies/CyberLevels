@@ -8,6 +8,7 @@ import ChatModal from "../../common/popup/chatModal";
 import FeedbackModal from "../../common/popup/feedback";
 import Link from "next/link";
 import { useAppSelector } from "@/redux/hook";
+import JobLetterModal from "../../common/popup/jobLetterModer";
 
 // props type
 type IProps = {
@@ -96,23 +97,32 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
 
                         if (typeof app.candidate !== "string") {
                           return (
-                            <EmployJobItem
-                              title={`${app.candidate.firstName} ${app.candidate.lastName}`}
-                              info={`${
-                                app.candidate.location?.city || "Delhi"
-                              }`}
-                              tesScore={
-                                String(app.candidate.testScore) || "89%"
-                              }
-                              date={createdAt}
-                              status={
-                                app.candidate.experienceInShort || "expert"
-                              }
-                              id={app.candidate._id}
-                              appId={app._id}
-                              isFeedbackAsked={app.isFeedbackAsked}
-                              resumes={app.candidate.resumes}
-                            />
+                            <>
+                              <EmployJobItem
+                                title={`${app.candidate.firstName} ${app.candidate.lastName}`}
+                                info={`${
+                                  app.candidate.location?.city || "Delhi"
+                                }`}
+                                tesScore={String(app.testScore) || "89%"}
+                                date={createdAt}
+                                status={
+                                  app.candidate.experienceInShort || "expert"
+                                }
+                                id={app.candidate._id}
+                                appId={app._id}
+                                isFeedbackAsked={app.isFeedbackAsked}
+                                resumes={app.candidate.resumes}
+                                resumeId={app.appliedWithResume}
+                              />
+                              <JobLetterModal
+                                candidateName={
+                                  app.candidate.firstName +
+                                  " " +
+                                  app.candidate.lastName
+                                }
+                                text={app.jobLetter}
+                              />
+                            </>
                           );
                         }
                       })}

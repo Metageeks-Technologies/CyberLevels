@@ -51,6 +51,9 @@ export const candidateDashboardSlice = createSlice({
             state.currEmployer = action.payload;
             state.loading = false;
         },
+        updateAvatarSuccess: (state, action: PayloadAction<string>) => {
+            if (state.currEmployer) state.currEmployer.avatar = action.payload
+        },
         getSavedCandidatesSuccess: (state, action: PayloadAction<IForGetSavedCandidate>) => {
             state.savedCandidates = action.payload.savedCandidates;
             state.totalNumOfPage = action.payload.totalNumOfPage;
@@ -69,7 +72,8 @@ export const {
     requestFailDash,
     requestStartDash,
     getSavedCandidatesSuccess,
-    setPage
+    setPage,
+    updateAvatarSuccess
 } = candidateDashboardSlice.actions;
 
 export default candidateDashboardSlice.reducer;

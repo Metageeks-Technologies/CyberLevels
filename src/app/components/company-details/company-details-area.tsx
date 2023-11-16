@@ -1,21 +1,16 @@
 "use client";
-import React, { useEffect } from "react";
 import logo from "@/assets/images/logo/media_37.png";
-import { ICompany } from "@/types/company";
+import { getCompanyDetails } from "@/redux/features/company/api";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect } from "react";
 import Funding from "./Funding";
 import CompanyReviews from "./company-reviews";
-import { useAppSelector, useAppDispatch } from "@/redux/hook";
-import { getCompanyDetails } from "@/redux/features/company/api";
 
 const CompanyDetailsArea = ({ id }: { id: string }) => {
   const dispatch = useAppDispatch();
-  const { companyOfJobPost } = useAppSelector(
-    (state) => state.company.companyList
-  );
+  const { company } = useAppSelector((state) => state.company.companyList);
 
-  const company = companyOfJobPost;
   useEffect(() => {
     getCompanyDetails(dispatch, id);
   }, [id]);

@@ -35,7 +35,6 @@ export const getCandidateDetails = async (dispatch: AppDispatch, id: string) => 
         dispatch(requestFail(e.message))
     }
 }
-
 // dashboard
 export const getCurrCandidate = async (dispatch: AppDispatch, id: string) => {
 

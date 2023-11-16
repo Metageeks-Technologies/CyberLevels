@@ -6,7 +6,6 @@ export interface jobPstState {
     company: ICompany | null;
     error: string | null,
     loading: boolean,
-    companyOfJobPost: ICompany | null,
     companies: ICompany[]
     page: number,
     totalNumOfPage: number,
@@ -16,7 +15,6 @@ const initialState: jobPstState = {
     company: null,
     loading: false,
     error: null,
-    companyOfJobPost: null,
     companies: [],
     page: 1,
     totalCompanies: 0,
@@ -36,19 +34,16 @@ export const companySlice = createSlice({
         requestStart: (state) => {
             state.loading = true;
         },
-        submitCompanySuccess: (state, action: PayloadAction<ICompany>) => {
+        getCompanySuccess: (state, action: PayloadAction<ICompany>) => {
             state.loading = false;
             state.company = action.payload;
         },
-        getCompanyOfJobPost: (state, action: PayloadAction<ICompany>) => {
-            state.loading = false;
-            state.companyOfJobPost = action.payload;
-        },
+
         requestFail: (state, action: PayloadAction<string>) => {
             state.loading = false;
             state.error = action.payload;
         },
-        getCompanySuccess: (state, action: PayloadAction<IForGetAllJobPost>) => {
+        getCompaniesSuccess: (state, action: PayloadAction<IForGetAllJobPost>) => {
             state.loading = false
             state.companies = action.payload.companies;
             state.totalNumOfPage = action.payload.totalNumOfPage;
@@ -69,6 +64,6 @@ export const companySlice = createSlice({
     },
 })
 
-export const { requestFail, toggleIsSaved, setPage, getCompanyOfJobPost, requestStart, submitCompanySuccess, getCompanySuccess } = companySlice.actions
+export const { requestFail, toggleIsSaved, setPage, requestStart, getCompaniesSuccess, getCompanySuccess } = companySlice.actions
 
 export default companySlice.reducer
