@@ -155,6 +155,82 @@ hr {
   }
 }
 // Scroll Top
+.chat-bot-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  justify-content: end;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 1000;
+
+  .chat-bot-container {
+    width: 35%;
+    height: 100vh;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    position: relative;
+    overflow-y: scroll;
+  }
+  .upload {
+    background-color: #eff6f3;
+    width: fit-content;
+    border-radius: 12px;
+  }
+  .typing-section {
+    position: absolute; /* or "absolute" depending on your layout needs */
+    bottom: 0;
+    padding: 10px;
+    width: 80%;
+    // background-color: #f4f4f4;
+    // border-top: 1px solid #ccc;
+
+    align-items: center;
+    overflow-x: hidden;
+  }
+}
+
+.chat-with-gpt {
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  position: fixed;
+  bottom: 100px;
+  right: 5px;
+  z-index: 99;
+  text-align: center;
+  color: #fff;
+  font-size: 25px;
+  cursor: pointer;
+  border-radius: 50%;
+  background: $color-three;
+  transition: all 0.3s ease-in-out;
+  &:after {
+    position: absolute;
+    z-index: -1;
+    content: "";
+    top: 100%;
+    left: 5%;
+    height: 10px;
+    width: 90%;
+    opacity: 1;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(0, 0, 0, 0.25) 0%,
+      rgba(0, 0, 0, 0) 80%
+    );
+  }
+}
+
 .scroll-top {
   width: 35px;
   height: 35px;

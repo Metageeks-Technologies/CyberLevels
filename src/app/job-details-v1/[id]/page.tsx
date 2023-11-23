@@ -7,20 +7,24 @@ import FooterOne from "@/layouts/footers/footer-one";
 import Header from "@/layouts/headers/header";
 import Wrapper from "@/layouts/wrapper";
 import { getAllJobAppByCandidate } from "@/redux/features/jobApp/api";
-import { getJobPostDetails } from "@/redux/features/jobPost/api";
+import {
+  getJobPostDetails,
+  getRelatedJobs,
+} from "@/redux/features/jobPost/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 const JobDetailsDynamicPage = ({ params }: { params: { id: string } }) => {
   const dispatch = useAppDispatch();
-  const { jobPost } = useAppSelector((state) => state.jobPost);
+  const { jobPost, relatedJobs } = useAppSelector((state) => state.jobPost);
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
 
   const pathName = usePathname();
   useEffect(() => {
-    getJobPostDetails(dispatch, params.id);
-    console.log("from the job details", currUser);
+    if (currUser) getJobPostDetails(dispatch, params.id);
+    getRelatedJobs(dispatch, params.id);
+
     if (currUser) getAllJobAppByCandidate(dispatch, currUser);
   }, [params.id]);
 
@@ -47,7 +51,7 @@ const JobDetailsDynamicPage = ({ params }: { params: { id: string } }) => {
         {/* job details area end */}
 
         {/* related job start */}
-        {jobPost && <RelatedJobs category={[jobPost.jobCategory]} />}
+        {relatedJobs && <RelatedJobs jobs={relatedJobs} />}
         {/* related job end */}
 
         {/* job portal intro start */}

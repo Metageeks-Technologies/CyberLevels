@@ -2,6 +2,18 @@ import { time } from "console";
 import "./message.css";
 import { format } from "timeago.js";
 
+const StyledResponse = ({ text }: { text: string }) => {
+  const textArr = text.split("\n");
+
+  return (
+    <div>
+      {textArr.map((val) => (
+        <p key={val}>{val}</p>
+      ))}
+    </div>
+  );
+};
+
 export default function Message({
   message,
   own,
@@ -37,7 +49,9 @@ export default function Message({
             />
           </div>
           <div className=" d-flex flex-column align-items-start   ">
-            <p className="messageText">{message}</p>
+            <p className="messageText">
+              <StyledResponse text={message} />
+            </p>
             <div className="messageBottom"> {format(time)}</div>
           </div>
         </div>

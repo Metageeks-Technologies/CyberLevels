@@ -29,7 +29,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
   const handleProfilePhoto = async () => {
     if (!user) {
       notifyError("please Login to upload your resume.");
-      notifyError;
+
       return;
     }
 

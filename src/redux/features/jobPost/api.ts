@@ -1,9 +1,10 @@
 import instance from "@/lib/axios";
-import { getJobPostsSuccess, requestFail, requestStart, requestSuccess, submitJobPostSuccess, getJobPostsForEmployerSuccess, askGptStart, askGptSuccess, askGptEnd } from "./slice"
+import { getJobPostsSuccess, requestFail, requestStart, requestSuccess, submitJobPostSuccess, getJobPostsForEmployerSuccess, askGptStart, askGptSuccess, askGptEnd, getRelatedJobsSuccess, setFileNamePc } from "./slice"
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { IFilterState } from "../filterJobPostSlice";
 import { notifyError } from "@/utils/toast";
+import { setUploadProgress } from "../globalSlice";
 
 
 
@@ -80,7 +81,9 @@ export const getJobPostDetails = async (dispatch: AppDispatch, id: string) => {
     // getJobDetailsWithCompany
     dispatch(requestStart());
     try {
-        const { data } = await instance(`/jobPost/${id}`);
+        const { data } = await instance(`/jobPost/${id}`,
+            //  { withCredentials: true }
+        );
         dispatch(submitJobPostSuccess(data.job));
 
     } catch (error) {
@@ -89,6 +92,21 @@ export const getJobPostDetails = async (dispatch: AppDispatch, id: string) => {
         dispatch(requestFail(e.message));
     }
 }
+
+export const getRelatedJobs = async (dispatch: AppDispatch, id: string) => {
+    // getJobDetailsWithCompany
+    dispatch(requestStart());
+    try {
+        const { data } = await instance(`/jobPost/related?jobId=${id}`,
+        );
+        dispatch(getRelatedJobsSuccess(data.jobs));
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message));
+    }
+}
+
 export const deleteJobPost = async (dispatch: AppDispatch, id: string) => {
 
     dispatch(requestStart());
@@ -100,6 +118,44 @@ export const deleteJobPost = async (dispatch: AppDispatch, id: string) => {
         console.log(error);
         const e = error as AxiosError;
         dispatch(requestFail(e.message));
+    }
+}
+export const uploadResumeToServer = async (dispatch: AppDispatch, file: File, metadata: any) => {
+
+    dispatch(askGptStart());
+    const formData = new FormData();
+    formData.append('pdfFile', file)
+    formData.append('metadata', JSON.stringify(metadata));
+    try {
+        const { data } = await instance.post('/jobPost/uploadToPc', formData, {
+            headers: {
+                "Content-Type": 'multipart/form-data',
+                'Accept': 'application/json',
+            },
+            onUploadProgress: (data) => {
+                if (data.total) dispatch(setUploadProgress(Math.round(((data.loaded / data.total) * 100))))
+            }
+        })
+        dispatch(setFileNamePc(data.fileName));
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        dispatch(askGptEnd());
+    }
+}
+
+export const queryToGpt = async (dispatch: AppDispatch, candidateId: string, query: string) => {
+
+    dispatch(askGptStart());
+    try {
+        const { data } = await instance(`/jobPost/queryToPc?candidateId=${candidateId}&query=${query}`);
+        console.log(data);
+        dispatch(askGptSuccess());
+        return data.response;
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        dispatch(askGptEnd());
     }
 }
 

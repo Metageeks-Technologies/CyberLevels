@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import type { IJobPost } from "@/types/jobPost-type";
 import job_img_1 from "@/assets/images/logo/media_22.png";
@@ -10,6 +10,8 @@ import Loader from "@/ui/loader";
 import { string } from "yup";
 import { stringify } from "querystring";
 import QuestionModal from "../common/popup/testQuestion";
+import ChatWithGpt from "../common/chat-with-gpt";
+import GptSidebar from "../common/chat-gpt-sidebar";
 
 const JobDetailsV1Area = ({
   job,
@@ -23,6 +25,7 @@ const JobDetailsV1Area = ({
   const URL = `${process.env.NEXT_PUBLIC_HOME_ENDPOINT}${url}`;
   console.log(company);
 
+  const [sidebar, setSidebar] = useState(false);
   const date = new Date(job.createdAt);
   const readableString = date.toLocaleDateString();
 
@@ -46,6 +49,7 @@ const JobDetailsV1Area = ({
   isApplied = checkIsApplied();
   const temp = job.testQuestions.split("\\n\\n");
   console.log(temp);
+  const test = 58;
 
   return (
     <>
@@ -61,28 +65,29 @@ const JobDetailsV1Area = ({
                   </a>
                 </div>
                 <h3 className="post-title">{job.title}</h3>
-                <ul className="share-buttons d-flex flex-wrap style-none">
-                  <li>
-                    <a
-                      target="_blank"
-                      href={`https://twitter.com/intent/tweet?text=${""}&url=${URL}`}
-                      className="d-flex align-items-center justify-content-center"
-                    >
-                      <i className="bi bi-linkedin"></i>
-                      <span>Twitter</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      target="_blank"
-                      href={`https://www.linkedin.com/sharing/share-offsite/?url=${URL}`}
-                      className="d-flex align-items-center justify-content-center"
-                    >
-                      <i className="bi bi-twitter"></i>
-                      <span>LinkedIn</span>
-                    </a>
-                  </li>
-                  {/* <li>
+                <div className=" d-flex justify-items-center w-100 justify-content-between align-items-center   ">
+                  <ul className="share-buttons d-flex flex-wrap style-none">
+                    <li>
+                      <a
+                        target="_blank"
+                        href={`https://twitter.com/intent/tweet?text=${""}&url=${URL}`}
+                        className="d-flex align-items-center justify-content-center"
+                      >
+                        <i className="bi bi-linkedin"></i>
+                        <span>Twitter</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        target="_blank"
+                        href={`https://www.linkedin.com/sharing/share-offsite/?url=${URL}`}
+                        className="d-flex align-items-center justify-content-center"
+                      >
+                        <i className="bi bi-twitter"></i>
+                        <span>LinkedIn</span>
+                      </a>
+                    </li>
+                    {/* <li>
                   <a
                     href="#"
                     className="d-flex align-items-center justify-content-center"
@@ -91,7 +96,27 @@ const JobDetailsV1Area = ({
                     <span>Copy</span>
                   </a>
                 </li> */}
-                </ul>
+                  </ul>
+                  {job.matchScore && (
+                    <div>
+                      <span
+                        className={` ${
+                          job.matchScore >= 80
+                            ? "text-success"
+                            : job.matchScore >= 60
+                            ? "text-primary"
+                            : "text-warning"
+                        } fw-bold `}
+                      >
+                        {job.matchScore} %
+                      </span>{" "}
+                      <span className=" fw-medium ">
+                        {" "}
+                        match with your profile.
+                      </span>
+                    </div>
+                  )}
+                </div>
 
                 {/* {description?.map((text, index) => {
                 const paragraph = text.split("\n");
@@ -338,6 +363,10 @@ const JobDetailsV1Area = ({
           </div>
         </div>
       </section>
+      <div onClick={() => setSidebar(true)}>
+        <ChatWithGpt />
+      </div>
+      {sidebar && <GptSidebar setSidebar={setSidebar} />}
       <QuestionModal question={job.testQuestions} jobId={job._id} />
     </>
   );

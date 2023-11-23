@@ -56,13 +56,13 @@ const nav_data: {
     link: "/dashboard/employer-dashboard/jobs",
     title: "My Jobs",
   },
-  // {
-  //   id: 4,
-  //   icon: nav_4,
-  //   icon_active: nav_4_active,
-  //   link: "/dashboard/employ-dashboard/messages",
-  //   title: "Messages",
-  // },
+  {
+    id: 4,
+    icon: nav_2,
+    icon_active: nav_2_active,
+    link: "/dashboard/employer-dashboard/company",
+    title: "Create Company",
+  },
   {
     id: 5,
     icon: nav_5,

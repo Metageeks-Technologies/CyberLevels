@@ -23,9 +23,10 @@ const LogoutButton = () => {
   const handleClick = async () => {
     dispatch(getUserStart());
     try {
-      const { data } = await instance("/candidate/logout", {
-        withCredentials: true,
-      });
+      const { data } = await instance(
+        "/candidate/logout"
+        // { withCredentials: true}
+      );
       console.log(data);
       dispatch(logoutUserSuccess(null));
       router.push("/");

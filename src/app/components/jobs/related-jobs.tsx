@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import job_data from "@/data/job-data";
 import Slider from "react-slick";
 import JobGridItem from "./grid/job-grid-item";
+import { IJobPost } from "@/types/jobPost-type";
 
 // slider setting
 const slider_setting = {
@@ -28,10 +29,8 @@ const slider_setting = {
     },
   ],
 };
-const RelatedJobs = ({ category }: { category: string[] }) => {
-  const job_items = job_data.filter((job) => {
-    return category.some((c) => job.category.includes(c));
-  });
+
+const RelatedJobs = ({ jobs }: { jobs: IJobPost[] }) => {
   const sliderRef = useRef<Slider | null>(null);
 
   const sliderPrev = () => {
@@ -54,9 +53,9 @@ const RelatedJobs = ({ category }: { category: string[] }) => {
             ref={sliderRef}
             className="related-job-slider"
           >
-            {job_items.map((j) => (
-              <div key={j.id} className="item">
-                {/* <JobGridItem item={j} /> */}
+            {jobs.map((j) => (
+              <div key={j._id} className="item">
+                <JobGridItem item={j} />
               </div>
             ))}
           </Slider>

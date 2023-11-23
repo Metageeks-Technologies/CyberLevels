@@ -4,6 +4,7 @@ import { getMessages } from "@/redux/features/jobApp/api";
 import Messenger from "../../dashboard/candidate/chat/messanger";
 import { notifyError, notifyInfo } from "@/utils/toast";
 import { initiateChat } from "@/redux/features/jobApp/api";
+
 const ChatModal = () => {
   const { currUser, userRole } = useAppSelector((s) => s.persistedReducer.user);
   const { currJobApp, allJobAppByJobPostWithCandidate } = useAppSelector(

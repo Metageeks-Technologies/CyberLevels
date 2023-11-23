@@ -12,8 +12,9 @@ export interface jobPstState {
     totalNumOfPage: number,
     totalJobPost: number,
     gptLoading: boolean,
-    jobPostsForEmployer: IJobPost[]
-
+    jobPostsForEmployer: IJobPost[];
+    relatedJobs: IJobPost[];
+    fileNamePc: string;
 }
 type IForGetAllJobPost = {
     allJobPost: IJobPost[]
@@ -31,7 +32,9 @@ const initialState: jobPstState = {
     totalNumOfPage: 1,
     totalJobPost: 0,
     pageForCompany: 1,
-    jobPostsForEmployer: []
+    jobPostsForEmployer: [],
+    relatedJobs: [],
+    fileNamePc: ""
 }
 
 export const jobPostSlice = createSlice({
@@ -86,7 +89,15 @@ export const jobPostSlice = createSlice({
         },
         setPageForCompany: (state, action: PayloadAction<number>) => {
             state.pageForCompany = action.payload;
-        }
+        },
+        getRelatedJobsSuccess: (state, action: PayloadAction<IJobPost[]>) => {
+            state.loading = false
+            state.relatedJobs = action.payload;
+        },
+        setFileNamePc: (state, action: PayloadAction<string>) => {
+            state.fileNamePc = action.payload;
+            state.gptLoading = false;
+        },
 
     },
 })
@@ -104,6 +115,8 @@ export const {
     toggleIsSaved,
     setPageForCompany,
     getJobPostsForEmployerSuccess,
+    getRelatedJobsSuccess,
+    setFileNamePc
 } = jobPostSlice.actions
 
 export default jobPostSlice.reducer;

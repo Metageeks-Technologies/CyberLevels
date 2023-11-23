@@ -73,9 +73,11 @@ const RegisterForm = ({ role }: { role: string }) => {
     }
     dispatch(getUserStart());
     try {
-      const { data } = await instance.post(`/${role}/auth/signup`, formData, {
-        withCredentials: true,
-      });
+      const { data } = await instance.post(
+        `/${role}/auth/signup`,
+        formData
+        //  { withCredentials: true}
+      );
 
       dispatch(getUserSuccess(data.user));
       console.log(data);

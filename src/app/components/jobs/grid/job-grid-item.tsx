@@ -66,7 +66,7 @@ const JobGridItem = ({
           <i className="bi bi-bookmark-dash"></i>
         </button>
         <div className="d-flex gap-2 mt-40 mb-40  flex-wrap ">
-          {item?.jobType.map((val, index) => (
+          {item?.jobType?.map((val, index) => (
             <Link
               href={`/job-details-v1/${item._id}`}
               className={`job-duration fw-500 ${

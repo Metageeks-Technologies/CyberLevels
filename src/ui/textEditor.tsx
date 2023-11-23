@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
 const TextEditor = ({ text }: { text: string }) => {
-  // console.log("form the", text);
   let dynamicContent = "<div>";
   const sections = text.split("\n\n");
   sections.map((section, index) => {
@@ -17,10 +16,11 @@ const TextEditor = ({ text }: { text: string }) => {
     });
     dynamicContent += "</ul></div>";
   });
-  //   auto type
+  const [editorContent, setEditorContent] = useState(dynamicContent);
+
   const handleEditorChange = (content: string, editor: any) => {
-    console.log("Content has changed:", content);
-    // You can save the content to your state or perform other actions here
+    setEditorContent(content);
+    console.log(content);
   };
 
   return (
@@ -28,8 +28,27 @@ const TextEditor = ({ text }: { text: string }) => {
       <Editor
         onEditorChange={handleEditorChange}
         apiKey="5ck4fbg67tr2aopfaf7zp04pl5d1z2xfvv15qu0uunww5ss5"
-        initialValue={dynamicContent}
+        initialValue={dynamicContent} // Use the initial value prop to set the initial content
       />
+      <div
+        style={{
+          marginTop: "20px",
+          border: "1px solid #ccc",
+          padding: "10px",
+          borderRadius: "5px",
+        }}
+      >
+        <h2>Preview:</h2>
+        <div
+          style={{
+            backgroundColor: "#f4f4f4",
+            padding: "10px",
+            borderRadius: "5px",
+            minHeight: "100px",
+          }}
+          dangerouslySetInnerHTML={{ __html: editorContent }}
+        />
+      </div>
     </div>
   );
 };

@@ -48,13 +48,14 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                   href={`/job-details-v1/${item._id}`}
                   className="job-duration fw-500"
                 >
-                  {item.jobType.join(" ,")}
+                  {item.jobType?.join(" ,")}
                 </Link>
                 <Link
                   href={`/job-details-v1/${item._id}`}
                   className="title fw-500 tran3s"
                 >
-                  {item.title.slice(0, 22)} {item.title.length > 20 ? ".." : ""}
+                  {item.title?.slice(0, 22)}{" "}
+                  {item.title?.length > 20 ? ".." : ""}
                 </Link>
               </div>
             </div>
@@ -67,7 +68,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
               <span className="fw-500 text-dark">
                 ${item.salary.minimum}-{item.salary.maximum} PA
               </span>{" "}
-              /{item.preferredExperience[0]}
+              /{item?.preferredExperience?.[0]}
             </div>
           </div>
           <div className="col-md-3 col-sm-6">

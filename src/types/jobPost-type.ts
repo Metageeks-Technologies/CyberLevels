@@ -26,5 +26,6 @@ export interface IJobPost {
     benefits: string[],
     createdAt: string,
     isSaved?: boolean,
+    matchScore?: number;
 
 }

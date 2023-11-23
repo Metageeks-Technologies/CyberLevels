@@ -33,7 +33,7 @@ export const adminLogin = async (dispatch: AppDispatch, bodyObj: any) => {
         const { data } = await instance.post(
             "/admin/login",
             bodyObj,
-            { withCredentials: true }
+            // { withCredentials: true }
         );
         dispatch(getUserSuccess({ user: data.user._id, userRole: data.user.role, avatar: data.user.avatar, name: data.user.name }));
         // console.log(data);
@@ -51,7 +51,7 @@ export const logoutAdmin = async (dispatch: AppDispatch) => {
     try {
         const { data } = await instance.get(
             "/admin/logout",
-            { withCredentials: true }
+            // { withCredentials: true }
         );
         dispatch(logoutUserSuccess(null));
         return true;

@@ -20,6 +20,7 @@ const CompanyDetailsArea = ({ id }: { id: string }) => {
     date = new Date(company?.foundedDate);
   }
   const foundedDate = date.toLocaleDateString();
+
   return (
     <>
       {company && (
@@ -163,13 +164,10 @@ const CompanyDetailsArea = ({ id }: { id: string }) => {
                     </ul>
                   </div>
 
-                  <div className="position-relative">
+                  {/* <div className="position-relative">
                     <h3>Company Reviews</h3>
-
-                    {/* CompanyReviews */}
-                    <CompanyReviews />
-                    {/* CompanyReviews */}
-                  </div>
+                    <CompanyReviews />                  
+                  </div> */}
 
                   <div className="share-option mt-60">
                     <ul className="style-none d-flex align-items-center">
