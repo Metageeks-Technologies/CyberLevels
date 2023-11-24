@@ -4,6 +4,7 @@ import { createJobApp } from "@/redux/features/jobApp/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import SelectResume from "../../candidate-details/select-resume";
 import JobLetter from "../../candidate-details/job-letter";
+import Suggestion from "../../candidate-details/suggestion";
 
 const QuestionModal = ({
   question,
@@ -67,7 +68,15 @@ const QuestionModal = ({
                   />
                 </div>
               )}
-              {step === 3 && (
+              {step === 3 && currCandidate && (
+                <div className="_resume mt-5 mt-3 ">
+                  <Suggestion
+                    setStep={setStep}
+                    resumeId={from.appliedWithResume}
+                  />
+                </div>
+              )}
+              {step === 4 && (
                 <div className="_jobLetter">
                   <JobLetter setForm={setForm} form={from} />
                 </div>

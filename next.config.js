@@ -16,7 +16,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "cyberlevels-public-assests.s3.ap-south-1.amazonaws.com",
+        hostname: "cyberlevels-public-assests1.s3.ap-south-1.amazonaws.com",
       },
       {
         protocol: "https",

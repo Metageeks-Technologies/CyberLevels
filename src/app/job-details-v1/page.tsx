@@ -36,7 +36,7 @@ const JobDetailsV1Page = () => {
         {/* job details area end */}
 
         {/* related job start */}
-        <RelatedJobs category={[job.jobCategory]} />
+        {/* <RelatedJobs category={[job.jobCategory]} /> */}
         {/* related job end */}
 
         {/* job portal intro start */}

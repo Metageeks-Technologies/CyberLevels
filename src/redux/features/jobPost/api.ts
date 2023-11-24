@@ -159,4 +159,19 @@ export const queryToGpt = async (dispatch: AppDispatch, candidateId: string, que
     }
 }
 
+export const getSuggestion = async (dispatch: AppDispatch, candidateId: string, question: string, s3Key: string) => {
+
+    dispatch(askGptStart());
+    try {
+        const { data } = await instance(`/jobPost/suggestion?candidateId=${candidateId}&question=${question}&s3Key=${s3Key}`);
+        console.log(data);
+        dispatch(askGptSuccess());
+        return data.response;
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        dispatch(askGptEnd());
+    }
+}
+
 

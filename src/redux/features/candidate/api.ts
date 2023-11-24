@@ -1,7 +1,7 @@
 import instance from "@/lib/axios";
 import { getCandidatesSuccess, requestFail, requestStart, getDetailsSuccess } from "./slice"
 import { getCurrCandidateSuccess, requestFailDash, requestStartDash, removeSavedJobSuccess, updateExpSuccess, updateCurrCandidateSuccess, getSavedJobsSuccess, getSavedCompaniesSuccess, updateNotificationSuccess, addResume, getRecommendedJobsSuccess, deleteResumeSuccess, updateAvatarSuccess, updateEduSuccess } from "./dashboardSlice";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { IFilterState } from "../candidate/filterSlice";
 import { notifyError, notifySuccess } from "@/utils/toast";
@@ -186,8 +186,10 @@ export const uploadResume = async (dispatch: AppDispatch, file: File, metaData: 
 
     try {
         const { data } = await instance.post(`/candidate/upload`, metaData);
+
         if (data) {
-            const uploadRes = await instance.put(data.url, file, {
+            console.log(data);
+            const uploadRes = await axios.put(data.url, file, {
                 headers: {
                     "Content-Type": file.type,
                 },
@@ -206,6 +208,7 @@ export const uploadResume = async (dispatch: AppDispatch, file: File, metaData: 
 
     } catch (error) {
         const e = error as AxiosError;
+        console.log(e);
         dispatch(requestFailDash(e.message))
     }
 }
@@ -234,7 +237,7 @@ export const updateAvatar = async (dispatch: AppDispatch, file: File, metaData: 
     try {
         const { data } = await instance.post(`/candidate/uploadProfile`, metaData);
         if (data) {
-            const uploadRes = await instance.put(data.url, file, {
+            const uploadRes = await axios.put(data.url, file, {
                 headers: {
                     "Content-Type": file.type,
                 },
