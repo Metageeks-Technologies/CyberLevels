@@ -1,6 +1,6 @@
 import instance from "@/lib/axios";
 import { getEmployerSuccess, getSavedCandidatesSuccess, requestFailDash, requestStartDash, updateAvatarSuccess, updateCurrEmployerSuccess } from "./dashboardSlice";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import { toggleIsSaved } from "@/redux/features/candidate/slice"
@@ -43,7 +43,7 @@ export const updateAvatar = async (dispatch: AppDispatch, file: File, metaData: 
     try {
         const { data } = await instance.post(`/employer/uploadProfile`, metaData);
         if (data) {
-            const uploadRes = await instance.put(data.url, file, {
+            const uploadRes = await axios.put(data.url, file, {
                 headers: {
                     "Content-Type": file.type,
                 },

@@ -32,7 +32,10 @@ export const getCandidateDetails = async (dispatch: AppDispatch, id: string) => 
         dispatch(getDetailsSuccess(data.candidate))
     } catch (error) {
         const e = error as AxiosError;
-        dispatch(requestFail(e.message))
+        const response = e.response as any;
+        const msg = response.data.message;
+        dispatch(requestFail(e.message));
+        notifyError(msg);
     }
 }
 // dashboard

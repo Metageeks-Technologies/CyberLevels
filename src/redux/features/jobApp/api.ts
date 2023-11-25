@@ -89,7 +89,10 @@ export const createJobApp = async (dispatch: AppDispatch, bodyObj: any) => {
         notifySuccess("you have successfully applied for the job");
     } catch (error) {
         const e = error as AxiosError;
-        dispatch(requestFail(e.message))
+        const response = e.response as any;
+        const msg = response.data.message as string;
+        dispatch(requestFail(msg));
+        notifyError(msg);
     }
 }
 export const updateJobAppStatus = async (dispatch: AppDispatch, bodyObj: any, socket: any) => {
@@ -196,8 +199,12 @@ export const askFeedback = async (dispatch: AppDispatch, bodyObj: any) => {
         notifySuccess("You have asked for feedback successfully");
     } catch (error) {
         const e = error as AxiosError;
-        dispatch(requestFail(e.message))
-        notifyError(e.message);
+        const response = e.response as any;
+        const msg = response.data.message as string;
+
+        dispatch(requestFail(msg));
+        // console.log(e);
+        notifyError(msg);
     }
 }
 export const responseFeedback = async (dispatch: AppDispatch, bodyObj: any, socket: any) => {

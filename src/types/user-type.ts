@@ -47,6 +47,11 @@ export interface FSocial {
     facebook: string,
     website: string,
 }
+export interface ISubscription {
+    plan: 'starter' | 'gold' | 'diamond';
+    jobApplicationLimit: number;
+    feedbackLimit: number;
+}
 
 export interface ICandidate {
     email: string;
@@ -73,10 +78,12 @@ export interface ICandidate {
     testScore: number,
     notifications: INotification[],
     bio: string,
+    profileViews: number;
     createdAt: string,
     updatedAt: string,
     isSaved?: boolean,
     experienceInShort: string,
+    subscription: ISubscription
     role: string,
     _id: string,
     __v: number
