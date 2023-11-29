@@ -21,3 +21,27 @@ export const cybersecuritySkills = [
     { label: 'Security Risk Management', skill: 'Risk Management' },
 ];
 
+export const benefits = [
+    { value: "health_insurance", label: "Health Insurance" },
+    { value: "retirement_plan", label: "Retirement Plan" },
+    { value: "paid_time_off", label: "Paid Time Off" },
+    { value: "flexible_work_arrangements", label: "Flexible Work Arrangements" },
+    { value: "professional_development", label: "Professional Development" },
+    { value: "career_advancement", label: "Career Advancement Opportunities" },
+    { value: "bonuses_incentives", label: "Bonuses and Incentives" },
+    { value: "wellness_programs", label: "Wellness Programs" },
+    { value: "family_friendly_benefits", label: "Family-Friendly Benefits" },
+    { value: "life_disability_insurance", label: "Life and Disability Insurance" },
+    { value: "employee_discounts", label: "Employee Discounts" },
+    { value: "remote_work_equipment", label: "Remote Work Equipment" },
+    { value: "community_involvement", label: "Community Involvement" },
+    { value: "transportation_benefits", label: "Transportation Benefits" },
+    { value: "recognition_rewards", label: "Recognition and Rewards" },
+    { value: "well_designed_workspace", label: "Well-Designed Workspace" },
+    { value: "health_wellness_initiatives", label: "Health and Wellness Initiatives" },
+    { value: "financial_wellness_programs", label: "Financial Wellness Programs" },
+    { value: "continued_learning_opportunities", label: "Continued Learning Opportunities" },
+    { value: "technology_allowances", label: "Technology Allowances" }
+]
+
+

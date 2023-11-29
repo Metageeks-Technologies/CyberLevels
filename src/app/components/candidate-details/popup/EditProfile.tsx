@@ -3,7 +3,6 @@ import "react-phone-number-input/style.css";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { Value } from "sass";
 import { notifyError, notifyInfo, notifySuccess } from "@/utils/toast";
 import { updateCurrCandidate } from "@/redux/features/candidate/api";
 
@@ -107,7 +106,6 @@ const EditProfile = () => {
                       placeholder="+880 01723801729"
                     /> */}
                     <PhoneInput
-                      d
                       placeholder="Enter phone number"
                       value={value}
                       onChange={(value: any) => setValue(value)}

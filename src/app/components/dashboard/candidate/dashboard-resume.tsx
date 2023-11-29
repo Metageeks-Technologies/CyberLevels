@@ -8,7 +8,6 @@ import {
 } from "@/redux/features/candidate/dashboardSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { RootState } from "@/redux/store";
-
 import { AxiosError } from "axios";
 import React, { useState } from "react";
 import Education from "./resume/Education";

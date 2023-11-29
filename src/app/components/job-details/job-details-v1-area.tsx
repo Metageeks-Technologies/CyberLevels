@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import type { IJobPost } from "@/types/jobPost-type";
-import job_img_1 from "@/assets/images/logo/media_22.png";
-import type { ICompany } from "@/types/company";
-import Link from "next/link";
-import { createJobApp } from "@/redux/features/jobApp/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import Loader from "@/ui/loader";
-import { string } from "yup";
-import { stringify } from "querystring";
+import type { ICompany } from "@/types/company";
+import type { IJobPost } from "@/types/jobPost-type";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
 import QuestionModal from "../common/popup/testQuestion";
-import ChatWithGpt from "../common/chat-with-gpt";
+async function getData() {
+  const response = await fetch("/data.json");
+  return response.json();
+}
+
+import Skills from "../candidate-details/skills";
 import GptSidebar from "../common/chat-gpt-sidebar";
+import ChatWithGpt from "../common/chat-with-gpt";
 
 const JobDetailsV1Area = ({
   job,
@@ -200,11 +201,41 @@ const JobDetailsV1Area = ({
                     </li>
                   </ul>
                 </div>
-
                 <div className="post-block border-style mt-40 lg-mt-30">
                   <div className="d-flex align-items-center">
                     <div className="block-numb text-center fw-500 text-white rounded-circle me-2">
                       3
+                    </div>
+                    <h4 className="block-title">Primary Skill:</h4>
+                  </div>
+                  <div className="candidates-profile-details">
+                    <div className="inner-card p-0">
+                      {/* skill area */}
+                      <Skills skills={job.primarySkills} />
+                      {/* skill area */}
+                    </div>
+                  </div>
+                </div>
+                <div className="post-block border-style mt-40 lg-mt-30">
+                  <div className="d-flex align-items-center">
+                    <div className="block-numb text-center fw-500 text-white rounded-circle me-2">
+                      4
+                    </div>
+                    <h4 className="block-title">Secondary Skill:</h4>
+                  </div>
+                  <div className="candidates-profile-details">
+                    <div className="inner-card p-0">
+                      {/* skill area */}
+                      <Skills skills={job.secondarySkills} />
+                      {/* skill area */}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="post-block border-style mt-40 lg-mt-30">
+                  <div className="d-flex align-items-center">
+                    <div className="block-numb text-center fw-500 text-white rounded-circle me-2">
+                      5
                     </div>
                     <h4 className="block-title">Benefits:</h4>
                   </div>

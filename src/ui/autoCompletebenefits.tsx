@@ -1,45 +1,40 @@
 import React, { useState, useEffect, Fragment } from "react";
-import axios from "axios";
 import { Combobox, Transition } from "@headlessui/react";
-import instance from "@/lib/axios";
-
+import { benefits as benefitsArray } from "@/data/skills";
 interface Props {
-  selected: string;
-  setSelected: React.Dispatch<React.SetStateAction<string>>;
-  endPoint: string;
+  benefits: string[];
+  setBenefits: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-function AutocompletePosition({ selected, setSelected, endPoint }: Props) {
+function AutocompleteBenefits({ benefits, setBenefits }: Props) {
+  const [selected, setSelected] = useState("");
   const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState<any>([]);
 
   useEffect(() => {
-    // console.log(query.length);
+    const input = query.toLocaleLowerCase();
+    const _suggestions = benefitsArray.filter((obj) =>
+      obj.label.toLowerCase().includes(input)
+    );
 
-    const callApi = async () => {
-      try {
-        if (query.length >= 3) {
-          const { data } = await instance.get(
-            `${endPoint}/search?query=${query}`
-          );
-          console.log(data);
-          setSuggestions(data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    callApi();
+    setSuggestions(_suggestions);
   }, [query]);
+
+  const handleSelect = (value: string) => {
+    setSelected(value);
+    setBenefits((prev) => [...prev, value]);
+    setQuery("");
+  };
+
   return (
     <div className="nice-select" style={{ border: "none", padding: "0" }}>
-      <Combobox value={selected} onChange={setSelected}>
+      <Combobox value={selected} onChange={handleSelect}>
         <div className="">
           <div className="">
             <Combobox.Input
               className=""
-              placeholder="type title"
-              displayValue={() => selected}
+              placeholder="Add benefits"
+              displayValue={() => ""}
               onChange={(event) => setQuery(event.target.value)}
             />
           </div>
@@ -56,11 +51,11 @@ function AutocompletePosition({ selected, setSelected, endPoint }: Props) {
               ) : (
                 suggestions.map((person: any) => (
                   <Combobox.Option
-                    key={person._id}
+                    key={person.value}
                     className={({ active }) =>
                       `option ${active && "selected focus"}`
                     }
-                    value={person.name}
+                    value={person.label}
                   >
                     {({ selected, active }) => (
                       <>
@@ -69,7 +64,7 @@ function AutocompletePosition({ selected, setSelected, endPoint }: Props) {
                             selected ? "font-normal" : "font-normal"
                           }`}
                         >
-                          {person.name}
+                          {person.label}
                         </span>
                         {selected ? (
                           <span
@@ -94,4 +89,4 @@ function AutocompletePosition({ selected, setSelected, endPoint }: Props) {
   );
 }
 
-export default AutocompletePosition;
+export default AutocompleteBenefits;

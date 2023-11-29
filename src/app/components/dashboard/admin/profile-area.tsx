@@ -5,7 +5,7 @@ import avatar from "@/assets/dashboard/images/avatar_04.jpg";
 import DashboardHeader from "../candidate/dashboard-header";
 import TeamSizeSelect from "./team-size-select";
 import LocationAutoComplete from "@/ui/locationAutoComplete";
-import PhoneInput from "@/ui/phoneInput";
+import DropZone from "@/layouts/dropZone";
 import AutocompletePosition from "@/ui/autoCompletePosistion";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -14,6 +14,12 @@ import Loader from "@/ui/loader";
 import SelectYear from "../candidate/select-year";
 import { IFunding } from "@/types/company";
 import SelectRound from "./selectRound";
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import { useAppSelector } from "@/redux/hook";
+import "react-phone-number-input/style.css";
+import AutocompleteBenefits from "@/ui/autoCompletebenefits";
+import Finance from "./show-finance";
+import { notifyInfo } from "@/utils/toast";
 
 // props type
 type IProps = {
@@ -28,11 +34,10 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
     logo: "",
     name: "",
     email: "",
-    contactNumber: "",
-    website: "",
     foundedDate: "",
     founderName: "",
     about: "",
+    category: "",
   });
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -44,23 +49,9 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
     });
   };
 
-  const [socialSites, setSocialSites] = useState<string[]>([]);
-  const [socialSitesInput, setSocialSitesInput] = useState("");
-  const [isAddingSocialLink, setSocialLink] = useState(false);
-  const addToSocial = () => {
-    setSocialSites((prev) => [...prev, socialSitesInput]);
-    setSocialLink(false);
-    setSocialSitesInput("");
-  };
+  const { currEmployer } = useAppSelector((s) => s.employer);
 
   const [benefits, setBenefits] = useState<string[]>([]);
-  const [benefitsInput, setBenefitsInput] = useState("");
-  const [isAddingBenefits, setAddingBenefits] = useState(false);
-  const addToBenefits = () => {
-    setBenefits((prev) => [...prev, benefitsInput]);
-    setAddingBenefits(false);
-    setBenefitsInput("");
-  };
   const [funding, setFunding] = useState<IFunding[]>([]);
   const [fundingInput, setFundingInput] = useState({
     amount: "",
@@ -94,8 +85,6 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
 
   const [location, setLocation] = useState({
     locality: "",
-    zipcode: "",
-    maplocation: "",
   });
   const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -105,63 +94,84 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
     });
   };
   const [city, setCity] = useState("");
-  const [state, setState] = useState("");
   const [country, setCountry] = useState("");
   const [teamSize, setTeamSize] = useState("");
-  const [category, setCategory] = useState("");
+  // const [category, setCategory] = useState("");
+
+  const [value, setValue] = useState("");
+  const { file } = useAppSelector((s) => s.global);
+  const handleCompanyLogo = () => {};
+  const handleRemove = (skill: string) => {
+    setBenefits((prev) => prev.filter((val) => val !== skill));
+  };
+  const [socialSites, setSocialSites] = useState({
+    linkedIn: "",
+    twitter: "",
+    facebook: "",
+    website: "",
+  });
+
+  const handleSocialSiteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setSocialSites({
+      ...socialSites,
+      [name]: value,
+    });
+  };
 
   const handleSubmit = async () => {
+    if (!file) {
+      notifyInfo("please upload logo");
+      return;
+    }
+    if (!currEmployer) {
+      notifyInfo("please login to create a company");
+      return;
+    }
     const ILocation = {
       ...location,
       city: city,
-      state: state,
       country: country,
     };
+
     const bodyObj = {
       ...form,
+      contactNumber: value,
       location: [ILocation],
       teamSize,
-      category,
       socialSites,
+      createdBy: currEmployer._id,
       benefits,
       funding,
     };
     console.log(bodyObj);
-
     // return;
 
-    addCompany(dispatch, bodyObj);
+    addCompany(dispatch, bodyObj, file);
 
-    setForm({
-      logo: "",
-      name: "",
-      email: "",
-      contactNumber: "",
-      website: "",
-      founderName: "",
-      foundedDate: "",
-      about: "",
-    });
-    setCity("");
-    setCategory("");
-    setCountry("");
-    setState("");
-    setTeamSize("");
-    setLocation({
-      locality: "",
-      zipcode: "",
-      maplocation: "",
-    });
-    setSocialSites([]);
-    setBenefits([]);
-    setFunding([]);
+    // setForm({
+    //   logo: "",
+    //   name: "",
+    //   email: "",
+    //   founderName: "",
+    //   foundedDate: "",
+    //   about: "",
+    //   category: "",
+    // });
+    // setCity("");
+    // setCountry("");
+    // setTeamSize("");
+    // setLocation({
+    //   locality: "",
+    // });
+    // // setSocialSites([]);
+    // setBenefits([]);
+    // setFunding([]);
   };
-  // const handleLocationSubmit = () => {
-  //   console.log(location, { city: city, state: state, country: country });
-  // };
+
   return (
     <div className="dashboard-body">
-      <div className="position-relative">
+      <div className="position-relative candidates-profile-details">
         {/* header start */}
 
         <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
@@ -172,17 +182,41 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
         <div className="bg-white card-box border-20">
           <div className="user-avatar-setting d-flex align-items-center mb-30">
             {/* company logo url */}
-            <Image src={avatar} alt="avatar" className="lazy-img user-img" />
-            <div className="dash-input-wrapper ml-6 mb-30">
-              <label htmlFor="logo">Logo*</label>
-              <input
-                name="logo"
-                value={form.logo}
-                type="text"
-                onChange={handleInputChange}
-                placeholder="https://www.example.com/logo.png"
-              />
-            </div>
+            <Image
+              width={50}
+              height={50}
+              src={avatar}
+              // src={
+              //   user?.avatar !== "none" || false
+              //     ? (user?.avatar as string)
+              //     : avatar
+              // }
+              alt="avatar"
+              className="lazy-img user-img"
+            />
+            {!file && (
+              <div className=" upload-btn position-relative tran3s ms-4 px-2  mx-3">
+                <DropZone text={"Upload logo"} />
+              </div>
+            )}
+            {file && (
+              <div className=" d-flex flex-column ms-4 ">
+                <div className="d-flex justify-content-center   ">
+                  {/* <button
+                    onClick={handleCompanyLogo}
+                    className="upload-btn position-relative tran3s ms-4 me-3"
+                  >
+                    {"Save"}
+                  </button> */}
+                  <div className=" mt-1 ">
+                    <small>
+                      Upload square image in .png, .jpeg, max 1mb sized
+                    </small>
+                  </div>
+                </div>
+                <p className="dash-title-three">{file?.name}</p>
+              </div>
+            )}
           </div>
           <div className="dash-input-wrapper mb-30">
             <label htmlFor="name">Company Name*</label>
@@ -207,18 +241,7 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
                 />
               </div>
             </div>
-            <div className="col-md-6">
-              <div className="dash-input-wrapper mb-30">
-                <label htmlFor="website">Website*</label>
-                <input
-                  type="text"
-                  name="website"
-                  value={form.website}
-                  onChange={handleInputChange}
-                  placeholder="http://somename.come"
-                />
-              </div>
-            </div>
+
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
                 <label htmlFor="foundedDate">Founded Date*</label>
@@ -251,33 +274,30 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
             </div>
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
-                <label htmlFor="contactNumber">Phone Number*</label>
-                <input
-                  name="contactNumber"
-                  onChange={handleInputChange}
-                  value={form.contactNumber}
-                  type="text"
-                  placeholder="+880 01723801729"
+                <label htmlFor="">Phone Number*</label>
+                <PhoneInput
+                  placeholder="Enter contact number"
+                  value={value}
+                  onChange={(value: any) => setValue(value)}
                 />
-                {/* <PhoneInput /> */}
               </div>
             </div>
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
                 <label htmlFor="category">Category*</label>
-                {/* <input
+                <input
                   name="category"
                   value={form.category}
                   onChange={handleInputChange}
                   type="text"
                   placeholder="Account, Finance, Marketing"
-                /> */}
+                />
 
-                <AutocompletePosition
+                {/* <AutocompletePosition
                   selected={category}
                   setSelected={setCategory}
                   endPoint="companyCategory"
-                />
+                /> */}
               </div>
             </div>
           </div>
@@ -305,38 +325,69 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
         {/* from for social links */}
         <div className="bg-white card-box border-20 mt-40">
           <h4 className="dash-title-three">Social Media</h4>
-          {[...socialSites].map((val, index) => (
-            <div key={val} className="dash-input-wrapper mb-20">
-              <label htmlFor="">Network {index + 1}</label>
-              <input type="text" readOnly value={val} />
+          <div className="d-flex flex-wrap gap-3 justify-content-between     ">
+            <div className="dash-input-wrapper mb-30 col-5">
+              <label htmlFor="lastName">Website*</label>
+              <div className="d-flex  align-items-center position-relative">
+                <input
+                  name="website"
+                  type="text"
+                  placeholder="https://www.website.com"
+                  value={socialSites?.website}
+                  onChange={handleSocialSiteChange}
+                />
+              </div>
             </div>
-          ))}
-          {isAddingSocialLink && (
-            <div className="dash-input-wrapper mb-20">
-              <label htmlFor="socialSitesInput">
-                Network {socialSites.length + 1}
-              </label>
-              <input
-                type="text"
-                name="socialSitesInput"
-                onChange={(e) => setSocialSitesInput(e.target.value)}
-                value={socialSitesInput}
-                onBlur={addToSocial}
-                placeholder="https://twitter.com/FIFAcom"
-              />
+            <div className="dash-input-wrapper mb-30 col-5">
+              <label htmlFor="firstName">Linked In</label>
+              <div className="d-flex align-items-center position-relative">
+                <input
+                  type="text"
+                  name="linkedIn"
+                  placeholder="https://www.LinkedIn.com"
+                  value={socialSites.linkedIn}
+                  onChange={handleSocialSiteChange}
+                />
+              </div>
             </div>
-          )}
-          {/* <div className="dash-input-wrapper mb-20">
-            <label htmlFor="">Network 2</label>
-            <input type="text" placeholder="https://twitter.com/FIFAcom" />
-          </div> */}
-          <button onClick={() => setSocialLink(true)} className="dash-btn-one">
-            <i className="bi bi-plus"></i> Add link
-          </button>
+            <div className="dash-input-wrapper mb-30 col-5">
+              <label htmlFor="lastName">Twitter</label>
+              <div className="d-flex  align-items-center position-relative">
+                <input
+                  name="twitter"
+                  type="text"
+                  placeholder="https://www.twitter.com"
+                  value={socialSites?.twitter}
+                  onChange={handleSocialSiteChange}
+                />
+              </div>
+            </div>
+
+            <div className="dash-input-wrapper mb-30 col-5">
+              <label htmlFor="lastName">Facebook</label>
+              <div className="d-flex  align-items-center position-relative">
+                <input
+                  name="facebook"
+                  type="text"
+                  placeholder="https://www.facebook.com"
+                  value={socialSites?.facebook}
+                  onChange={handleSocialSiteChange}
+                />
+              </div>
+            </div>
+          </div>
         </div>
         {/* form for finance */}
         <div className="bg-white card-box border-20 mt-40">
           <h4 className="dash-title-three">Funding && Finance</h4>
+
+          {funding.length !== 0 && (
+            <div className="inner-card border-style mb-25 lg-mb-20">
+              <h3 className="title">Funding</h3>
+              <Finance funding={funding} />
+            </div>
+          )}
+
           <div className="accordion dash-accordion-one" id="accordionOne">
             <div className="accordion-item">
               <div className="accordion-header" id="headingOne">
@@ -429,10 +480,15 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
                     </div>
                   </div>
                   <button
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne"
+                    aria-expanded="false"
+                    aria-controls="collapseOne"
                     onClick={handleAddFunding}
                     className="dash-btn-two tran3s me-3 mb-15"
                   >
-                    Add
+                    Save
                   </button>
                 </div>
               </div>
@@ -441,39 +497,32 @@ const EmployProfileArea = ({ setIsOpenSidebar }: IProps) => {
         </div>
         {/* from for adding benefits of company */}
         <div className="bg-white card-box border-20 mt-40">
-          <h4 className="dash-title-three">Benefits && Offerings</h4>
-          {[...benefits].map((val, index) => (
-            <div key={val} className="dash-input-wrapper mb-20">
-              <label htmlFor="">Benefit {index + 1}</label>
-              <input type="text" readOnly value={val} />
-            </div>
-          ))}
-          {isAddingBenefits && (
-            <div className="dash-input-wrapper mb-20">
-              <label htmlFor="benefitsInput">
-                Benefit {benefits.length + 1}
-              </label>
-              <input
-                type="text"
-                name="benefitsInput"
-                onChange={(e) => setBenefitsInput(e.target.value)}
-                onBlur={addToBenefits}
-                value={benefitsInput}
-                placeholder="Gym"
+          <h4 className="dash-title-three ">Benefits && Offerings</h4>
+          <div className="dash-input-wrapper">
+            {benefits.length > 0 && (
+              <div className="skills-wrapper mb-3 ">
+                <ul className="style-none .skill-input-data d-flex flex-wrap align-items-center">
+                  {benefits.map((val, index) => (
+                    <li key={index} className="is_tag">
+                      <button>
+                        {val}
+                        <i
+                          onClick={() => handleRemove(val)}
+                          className="bi bi-x"
+                        ></i>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            <div className="col-6">
+              <AutocompleteBenefits
+                benefits={benefits}
+                setBenefits={setBenefits}
               />
             </div>
-          )}
-          {/* <div className="dash-input-wrapper mb-20">
-            <label htmlFor="">Network 2</label>
-            <input type="text" placeholder="https://twitter.com/FIFAcom" />
-          </div> */}
-          <button
-            onClick={() => setAddingBenefits(true)}
-            className="dash-btn-one"
-          >
-            <i className="bi bi-plus"></i>{" "}
-            {benefits.length == 0 ? "Add Benefit" : "Add More Benefit"}
-          </button>
+          </div>
         </div>
 
         {/* form for location */}

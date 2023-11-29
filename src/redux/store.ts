@@ -11,7 +11,7 @@ import candidateDashboardSlice from "@/redux/features/candidate/dashboardSlice"
 import employerSlice from "./features/employer/dashboardSlice"
 import jobApplicationSlice from "./features/jobApp/slice"
 import globalSlice from './features/globalSlice';
-
+import companyDashboardSlice from './features/company/dashboardSlice';
 
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
@@ -28,6 +28,7 @@ const candidate = combineReducers({
 const company = combineReducers({
   companyList: companySlice,
   companyFilter: companyFilterSlice,
+  companyDashboard: companyDashboardSlice
 })
 
 const persistConfig = {
