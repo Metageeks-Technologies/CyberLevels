@@ -8,7 +8,7 @@ export interface IJobPost {
     jobType: string[];
     benefits: string[];
     jobCategory: string;
-    workMode: string;
+    workMode: string[];
     preferredLanguage: string;
     primarySkills: string[];
     secondarySkills: string[];
