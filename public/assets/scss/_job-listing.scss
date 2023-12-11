@@ -931,6 +931,28 @@
       text-decoration: underline;
     }
   }
+  .job-match {
+    background-color: #eff6f3;
+    border-radius: 15px;
+    padding: 20px 30px;
+    ul {
+      list-style: none;
+    }
+
+    li {
+      white-space: nowrap;
+      width: fit-content;
+      text-align: center;
+      color: #fff;
+      padding: 5px 10px;
+      font-size: small;
+      background: $color-one;
+      border-radius: 30px;
+      // &:hover {
+      //   background: $color-five;
+      // }
+    }
+  }
   .post-title {
     font-size: 36px;
     font-family: var(--gorditas-font);

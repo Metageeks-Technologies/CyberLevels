@@ -3,7 +3,7 @@ import { getJobPostsSuccess, requestFail, requestStart, requestSuccess, submitJo
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { IFilterState } from "../filterJobPostSlice";
-import { notifyError } from "@/utils/toast";
+import { notifyError, notifySuccess } from "@/utils/toast";
 import { setUploadProgress } from "../globalSlice";
 
 
@@ -43,10 +43,13 @@ export const addJobPost = async (dispatch: AppDispatch, bodyObj: any) => {
     try {
         const { data } = await instance.post("/jobPost/add", bodyObj);
         dispatch(submitJobPostSuccess(data.job));
+        notifySuccess("Job Posted Successfully")
     } catch (error) {
-        console.log(error);
         const e = error as AxiosError;
+        const response = e.response as any;
+        const msg = response.data.message;
         dispatch(requestFail(e.message));
+        notifyError(msg);
     }
 }
 
@@ -160,6 +163,8 @@ export const queryToGpt = async (dispatch: AppDispatch, candidateId: string, que
 }
 
 export const getSuggestion = async (dispatch: AppDispatch, candidateId: string, question: string, s3Key: string) => {
+
+    console.log("called");
 
     dispatch(askGptStart());
     try {

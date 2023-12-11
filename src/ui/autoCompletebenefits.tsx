@@ -1,23 +1,32 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { Combobox, Transition } from "@headlessui/react";
-import { benefits as benefitsArray } from "@/data/skills";
+import { benefits as benefitsArray, JobBenefits } from "@/data/skills";
+
 interface Props {
   benefits: string[];
   setBenefits: React.Dispatch<React.SetStateAction<string[]>>;
+  isJobBenefit?: boolean;
 }
 
-function AutocompleteBenefits({ benefits, setBenefits }: Props) {
+function AutocompleteBenefits({ benefits, setBenefits, isJobBenefit }: Props) {
   const [selected, setSelected] = useState("");
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<any>([]);
 
   useEffect(() => {
     const input = query.toLocaleLowerCase();
-    const _suggestions = benefitsArray.filter((obj) =>
-      obj.label.toLowerCase().includes(input)
-    );
+    if (isJobBenefit) {
+      const _suggestions = JobBenefits.filter((obj) =>
+        obj.label.toLowerCase().includes(input)
+      );
+      setSuggestions(_suggestions);
+    } else {
+      const _suggestions = benefitsArray.filter((obj) =>
+        obj.label.toLowerCase().includes(input)
+      );
 
-    setSuggestions(_suggestions);
+      setSuggestions(_suggestions);
+    }
   }, [query]);
 
   const handleSelect = (value: string) => {

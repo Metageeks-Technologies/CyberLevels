@@ -8,12 +8,14 @@ import { MagicWand } from "@phosphor-icons/react";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import DashboardHeader from "../candidate/dashboard-header";
-import { useAppDispatch } from "@/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import Loader from "@/ui/loader";
 import LocationAutoComplete from "@/ui/locationAutoComplete";
 import MultipleChoiceQuestion from "@/ui/question";
 import TinyMCEEditor from "@/ui/textEditor";
 import { askToGpt } from "@/redux/features/jobPost/api";
+import AutocompleteCompany from "@/ui/autoCompeteCompanyName";
+import AutocompleteBenefits from "@/ui/autoCompletebenefits";
 
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,6 +26,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const { loading, gptLoading } = useSelector(
     (state: RootState) => state.jobPost
   );
+  const { currEmployer } = useAppSelector((s) => s.employer);
 
   const [title, setTitle] = useState("");
   const [jobCategory, setJobCategory] = useState("");
@@ -31,22 +34,39 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const [workMode, setWorkMode] = useState("");
   const [experience, setExperience] = useState<string[]>([]);
   const [language, setLanguage] = useState("");
-
   const [location, setLocation] = useState<string[]>([]);
   const [salary, setSalary] = useState({
     minimum: "",
     maximum: "",
     isDisclosed: true,
+    period: "",
+    currency: "",
   });
-  // console.log(jobType);
+
+  const [company, setCompany] = useState({
+    name: "",
+    companyId: "",
+  });
+
+  const updateSalaryProperty = (
+    property: string,
+    item: { value: string; label: string }
+  ) => {
+    setSalary({
+      ...salary,
+      [property]: item.value,
+    });
+  };
 
   const [primarySkills, setPrimarySkills] = useState<string[]>([]);
   const [secondarySkills, setSecondarySkills] = useState<string[]>([]);
   const [benefits, setBenefits] = useState<string[]>([]);
-  const [benefitsInput, setBenefitsInput] = useState("");
-  const [isAddingBenefits, setAddingBenefits] = useState(false);
-  const [descriptionWithAI, setDescriptionWithAI] = useState<any>("");
+  const [descriptionWithAI, setDescriptionWithAI] = useState<string>("");
   const [questionWithAI, setQuestionWithAI] = useState<any>("");
+  const [workHours, setWorkHours] = useState("");
+  const [education, setEducation] = useState("");
+  const [joiningTime, setJoiningTime] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleSalary = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -55,11 +75,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
       [name]: value,
     });
   };
-  const addToBenefits = () => {
-    setBenefits((prev) => [...prev, benefitsInput]);
-    setAddingBenefits(false);
-    setBenefitsInput("");
-  };
+
   const handleJobType = (item: { value: string; label: string }) => {
     setJobType((prev) => [...prev, item.value]);
     console.log(item.value);
@@ -70,12 +86,18 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     console.log(item.value);
     // setJobType("");
   };
+  const handleJoining = (item: { value: string; label: string }) => {
+    setJoiningTime(item.value);
+  };
   const handleExperience = (item: { value: string; label: string }) => {
     setExperience((prev) => [...prev, item.value]);
     // console.log(selected, item.value);
   };
   const handleLanguage = (item: { value: string; label: string }) => {
     setLanguage(item.value);
+  };
+  const handleRemove = (skill: string) => {
+    setBenefits((prev) => prev.filter((val) => val !== skill));
   };
 
   const bodyObj = {
@@ -86,20 +108,22 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     primarySkills,
     secondarySkills,
     salary: salary,
+    preferredLanguage: language,
     preferredExperience: experience,
     workMode: workMode,
-    testQuestions: questionWithAI
-      ? questionWithAI.choices[0].message.content
-      : "",
-    description: descriptionWithAI
-      ? descriptionWithAI.choices[0].message.content
-      : "",
+    joiningTime: joiningTime,
+    preferredQualification: education,
+    workHours: workHours,
+    companyId: company.companyId,
+    employerId: currEmployer?._id,
+    testQuestions: questionWithAI ? questionWithAI : "",
+    description,
     benefits: benefits,
   };
 
   const handleSubmit = async () => {
     console.log(bodyObj);
-    // return;
+
     await addJobPost(dispatch, bodyObj);
     // setTitle("");
     // setJobCategory("");
@@ -110,6 +134,8 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     //   minimum: "",
     //   maximum: "",
     //   isDisclosed: true,
+    //   currency: "",
+    //   period: "",
     // });
     // setPrimarySkills([]);
     // setSecondarySkills([]);
@@ -118,25 +144,23 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   };
 
   const draftDescription = async () => {
-    const query = `give me job description for job post ${
-      bodyObj.title
-    }  in job category of ${bodyObj.jobCategory} with ${bodyObj.jobType.join(
-      ", "
-    )} job type,primary skills  are  ${bodyObj.primarySkills.join(
-      ", "
-    )}and secondary skills are ${bodyObj.secondarySkills.join(
-      ", "
-    )}, with work mode ${
-      bodyObj.workMode
-    } and experience of ${bodyObj.preferredExperience.join(
-      ", "
-    )} at location of ${bodyObj.location.join(
-      ", "
-    )}, make it an intreating paragraph of 50 to 75 words with necessary bullet points`;
-
+    const query = `Help me in writing to the point job description for a job post with given information .
+                    job title:${bodyObj.title} job type:${
+      bodyObj.jobType
+    } work mode:${bodyObj.workMode} primary skills:${bodyObj.primarySkills.join(
+      " ,"
+    )} 
+                    secondary skill:${bodyObj.secondarySkills.join(
+                      " ,"
+                    )} preferred experience:${bodyObj.preferredExperience.join(
+      " ,"
+    )} 
+                    location:${bodyObj.location.join(" ,")} 
+                    job benefits: ${bodyObj.benefits.join(" ,")}`;
+    console.log(query);
     try {
       const data = await askToGpt(dispatch, query);
-      setDescriptionWithAI(data);
+      setDescriptionWithAI(data.choices[0].message.content);
     } catch (error) {
       console.log(error);
     }
@@ -148,12 +172,13 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
 
     try {
       const data = await askToGpt(dispatch, query);
-      setQuestionWithAI(data);
+      setQuestionWithAI(data.choices[0].message.content);
       console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
+  console.log(descriptionWithAI);
 
   return (
     <div className="dashboard-body job-details">
@@ -165,17 +190,30 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
         <h2 className="main-title">Post a New Job</h2>
         <div className="bg-white card-box border-20">
           <h4 className="dash-title-three">Job Details</h4>
-          <div className="dash-input-wrapper mb-30">
-            <label htmlFor="">Job Title*</label>
-            {/* <input type="text" placeholder="Ex: Product Designer" /> */}
-            <AutocompletePosition
-              selected={title}
-              setSelected={setTitle}
-              endPoint="jobTitle"
-            />
-          </div>
 
           <div className="row align-items-end">
+            <div className="col-md-6">
+              <div className="dash-input-wrapper mb-30">
+                <label htmlFor="lastName">Company*</label>
+                <AutocompleteCompany
+                  selected={company}
+                  setSelected={setCompany}
+                  endPoint="companyName"
+                />
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="dash-input-wrapper mb-30">
+                <label htmlFor="">Job Title*</label>
+                {/* <input type="text" placeholder="Ex: Product Designer" /> */}
+                <AutocompletePosition
+                  selected={title}
+                  setSelected={setTitle}
+                  endPoint="jobTitle"
+                />
+              </div>
+            </div>
+
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
                 <label htmlFor="">Job Category</label>
@@ -239,16 +277,80 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                 />
               </div>
             </div>
+            <div className="col-md-6">
+              <div className="dash-input-wrapper mb-30">
+                <label htmlFor="">Joining Time</label>
+                <NiceSelect
+                  options={[
+                    { value: "select joining", label: "select joining" },
+                    { value: "Immediate Joining", label: "Immediate Joining" },
+                    { value: "Within 7 Days", label: "Within 7 Days" },
+                    { value: "Within 15 Days", label: "Within 15 Days" },
+                    { value: "Within 30 Days", label: "Within 30 Days" },
+                    { value: "Within 1 Month", label: "Within 1 Month" },
+                    {
+                      value: "Flexible Joining Date",
+                      label: "Flexible Joining Date",
+                    },
+                    { value: "To Be Discussed", label: "To Be Discussed" },
+                  ]}
+                  defaultCurrent={0}
+                  onChange={(item) => handleJoining(item)}
+                  name="Job Type"
+                />
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="dash-input-wrapper mb-30">
+                <label htmlFor="">Work Hour</label>
+                <input
+                  placeholder="Enter working hour"
+                  name="workingHour"
+                  value={workHours}
+                  onChange={(e) => setWorkHours(e.target.value)}
+                />
+              </div>
+            </div>
 
             <div className="col-md-3">
               <div className="dash-input-wrapper mb-30">
                 <label htmlFor="salary">Salary*</label>
+                <NiceSelect
+                  options={[
+                    { value: "select period", label: "select period" },
+                    { value: "monthly", label: "monthly" },
+                    { value: "yearly", label: "yearly" },
+                    { value: "weekly", label: "weekly" },
+                    { value: "hourly", label: "hourly" },
+                  ]}
+                  defaultCurrent={0}
+                  onChange={(item) => updateSalaryProperty("period", item)}
+                  name="period"
+                />
+              </div>
+            </div>
+            <div className="col-md-3">
+              <div className="dash-input-wrapper mb-30">
+                <NiceSelect
+                  options={[
+                    { value: "select currency", label: "select currency" },
+                    { value: "Canadian dollars", label: "Canadian dollars" },
+                    { value: "US dollars", label: "US dollars" },
+                  ]}
+                  defaultCurrent={0}
+                  onChange={(item) => updateSalaryProperty("currency", item)}
+                  name="currency"
+                />
+              </div>
+            </div>
+            <div className="col-md-3">
+              <div className="dash-input-wrapper mb-30">
                 <input
                   type="text"
                   name="minimum"
                   value={salary.minimum}
                   onChange={handleSalary}
-                  placeholder="Min (LPA)"
+                  placeholder="Min "
                 />
               </div>
             </div>
@@ -259,7 +361,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   name="maximum"
                   value={salary.maximum}
                   onChange={handleSalary}
-                  placeholder="Max (LPA)"
+                  placeholder="Max"
                 />
               </div>
             </div>
@@ -338,50 +440,51 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                 </div>
               </div>
             </div>
-          </div>
-          {/* <div className="bg-white card-box border-20 mt-40">
-            
-          </div> */}
-          <h4 className="dash-title-three">Benefits && Offerings</h4>
-          {[...benefits].map((val, index) => (
-            <div key={val} className="dash-input-wrapper mb-20">
-              <label htmlFor="">Benefit {index + 1}</label>
-              <input type="text" readOnly value={val} />
+            <div className="col-md-6">
+              <div className="dash-input-wrapper mb-30">
+                <label htmlFor="">Required qualification</label>
+                <input
+                  placeholder="Enter preferred education"
+                  name="education"
+                  value={education}
+                  onChange={(e) => setEducation(e.target.value)}
+                />
+              </div>
             </div>
-          ))}
-          {isAddingBenefits && (
-            <div className="dash-input-wrapper mb-20">
-              <label htmlFor="benefitsInput">
-                Benefit {benefits.length + 1}
-              </label>
-              <input
-                type="text"
-                name="benefitsInput"
-                onChange={(e) => setBenefitsInput(e.target.value)}
-                onBlur={addToBenefits}
-                value={benefitsInput}
-                placeholder="Gym"
+          </div>
+
+          <h4 className="dash-title-three ">Benefits && Offerings</h4>
+          <div className="dash-input-wrapper">
+            {benefits.length > 0 && (
+              <div className="skills-wrapper mb-3 ">
+                <ul className="style-none .skill-input-data d-flex flex-wrap align-items-center">
+                  {benefits.map((val, index) => (
+                    <li key={index} className="is_tag">
+                      <button>
+                        {val}
+                        <i
+                          onClick={() => handleRemove(val)}
+                          className="bi bi-x"
+                        ></i>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <div className="col-6">
+              <AutocompleteBenefits
+                benefits={benefits}
+                setBenefits={setBenefits}
+                isJobBenefit={true}
               />
             </div>
-          )}
-          <button
-            onClick={() => setAddingBenefits(true)}
-            className="dash-btn-one"
-          >
-            <i className="bi bi-plus"></i>{" "}
-            {benefits.length == 0 ? "Add Benefit" : "Add More Benefit"}
-          </button>
-          {/* <EmployExperience
-            selected={expLocation}
-            setSelected={setExpLocation}
-          /> */}
-          {/* from for adding benefits of company */}
-
-          {/* employ experience end */}
+          </div>
 
           <h4 className="dash-title-three pt-50 lg-pt-30">Add Description</h4>
           <div className="dash-input-wrapper mb-30 ">
-            <label htmlFor="">Job Description*</label>
+            {/* <label htmlFor="">Job Description*</label> */}
             <button
               // disabled={gptLoading}
               type={"button"}
@@ -393,13 +496,10 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                 <MagicWand size={32} color="#244034" weight="light" />
               </span>
             </button>
-            {descriptionWithAI ? (
-              <TinyMCEEditor
-                text={descriptionWithAI.choices[0].message.content}
-              />
-            ) : (
-              <TinyMCEEditor text={""} />
-            )}
+            <TinyMCEEditor
+              text={descriptionWithAI ? descriptionWithAI : ""}
+              setText={setDescription}
+            />
           </div>
           <h4 className="dash-title-three pt-50 lg-pt-30">
             Add Test for Candidate{" "}
@@ -417,11 +517,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                 <MagicWand size={32} color="#244034" weight="light" />
               </span>
             </button>
-            {questionWithAI && (
-              <MultipleChoiceQuestion
-                text={questionWithAI.choices[0].message.content}
-              />
-            )}
+            {questionWithAI && <MultipleChoiceQuestion text={questionWithAI} />}
           </div>
         </div>
 
@@ -434,9 +530,9 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
           >
             {loading ? <Loader /> : "Save"}
           </button>
-          <a href="#" className="dash-cancel-btn tran3s">
+          {/* <a href="#" className="dash-cancel-btn tran3s">
             Cancel
-          </a>
+          </a> */}
         </div>
       </div>
     </div>

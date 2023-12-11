@@ -38,14 +38,15 @@ const Suggestion = ({
       notifyInfo("resume not found");
       return;
     }
-
+    // console.log("30");
     const response = await getSuggestion(
       dispatch,
       currCandidate._id,
       question,
       resume.s3Key
     );
-    setSuggestionWithAi(response.response);
+    console.log(response);
+    setSuggestionWithAi(response?.response);
     setSaved(true);
   };
   const handleSave = () => {};

@@ -27,6 +27,7 @@ const JobLetter = ({
   const dispatch = useAppDispatch();
   //   const [jobLetter, setJobLetter] = useState("");
   const [isSaved, setSaved] = useState(false);
+  const [text, setText] = useState("");
   const [jobLetterWithAi, setJobLetterWithAi] = useState<any>("");
   const { jobPost, gptLoading } = useAppSelector((state) => state.jobPost);
   const { currCandidate } = useAppSelector(
@@ -34,14 +35,14 @@ const JobLetter = ({
   );
 
   const handleSave = () => {
-    if (!jobLetterWithAi) {
-      notifyInfo("please Write something in text area to before save.");
-      return;
-    }
-    setForm((form) => ({
-      ...form,
-      jobLetter: jobLetterWithAi.choices[0].message.content,
-    }));
+    // if (!jobLetterWithAi) {
+    //   notifyInfo("please Write something in text area to before save.");
+    //   return;
+    // }
+    // setForm((form) => ({
+    //   ...form,
+    //   jobLetter: jobLetterWithAi.choices[0].message.content,
+    // }));
     setSaved(true);
   };
 
@@ -92,9 +93,12 @@ const JobLetter = ({
             </span>
           </button>
           {jobLetterWithAi ? (
-            <TinyMCEEditor text={jobLetterWithAi.choices[0].message.content} />
+            <TinyMCEEditor
+              text={jobLetterWithAi.choices[0].message.content}
+              setText={setText}
+            />
           ) : (
-            <TinyMCEEditor text={""} />
+            <TinyMCEEditor text={""} setText={setText} />
           )}
           {/* <div className="container mt-4">
             <div className="form-group">

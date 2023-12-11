@@ -44,4 +44,19 @@ export const benefits = [
     { value: "technology_allowances", label: "Technology Allowances" }
 ]
 
+export const JobBenefits = [
+    { value: "health_insurance", label: "Health Insurance" },
+    { value: "dental_coverage", label: "Dental Coverage" },
+    { value: "retirement_plan", label: "Retirement Plan" },
+    { value: "paid_time_off", label: "Paid Time Off" },
+    { value: "flexible_schedule", label: "Flexible Schedule" },
+    { value: "remote_work_option", label: "Remote Work Option" },
+    { value: "performance_bonuses", label: "Performance Bonuses" },
+    { value: "relocation_assistance", label: "Relocation Assistance" },
+    { value: "company_shares", label: "Company Shares" },
+    { value: "transportation_allowance", label: "Transportation Allowance" },
+    { value: "professional_development", label: "Professional Development" },
+    { value: "childcare_support", label: "Childcare Support" }
+]
+
 
