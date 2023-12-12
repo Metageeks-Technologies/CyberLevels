@@ -16,18 +16,20 @@ import TinyMCEEditor from "@/ui/textEditor";
 import { askToGpt } from "@/redux/features/jobPost/api";
 import AutocompleteCompany from "@/ui/autoCompeteCompanyName";
 import AutocompleteBenefits from "@/ui/autoCompletebenefits";
+import { getAllLanguages } from "@/redux/features/languageProvider/api";
 
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
-interface Country {
-  languages?: string[];
-}
+// interface Country {
+//   languages?: string[];
+// }
 const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const dispatch = useAppDispatch();
   const { loading, gptLoading } = useSelector(
     (state: RootState) => state.jobPost
   );
+ 
   const { currEmployer } = useAppSelector((s) => s.employer);
 
   const [title, setTitle] = useState("");
@@ -69,33 +71,37 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const [education, setEducation] = useState("");
   const [joiningTime, setJoiningTime] = useState("");
   const [description, setDescription] = useState("");
-  const [fetchedLanguages, setFetchedLanguages] = useState<string[]>([]);
-  useEffect(() => {
-    const fetchLanguages = async () => {
-      try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-        const countries: Country[] = await response.json();
-        const uniqueLanguages = Array.from(
-          new Set(
-            countries
-              .map((country) => country.languages || [])
-              .flat()
-              .filter(Boolean)
-          )
-        );
-        setFetchedLanguages(uniqueLanguages);
-        const flattenedValues = Array.from(
-          new Set(uniqueLanguages.flatMap((lang) => Object.values(lang)))
-        );
-        setFetchedLanguages(flattenedValues);
-      } catch (error) {
-        console.error("Error fetching languages:", error);
-      }
-    };
+  // const [fetchedLanguages, setFetchedLanguages] = useState<string[]>(languages);
 
-    fetchLanguages();
+  const { languages } = useSelector(
+    (state: RootState) => state.language
+  );
+  useEffect(() => {
+    // const fetchLanguages = async () => {
+    //   try {
+    //     const response = await fetch("https://restcountries.com/v3.1/all");
+    //     const countries: Country[] = await response.json();
+    //     const uniqueLanguages = Array.from(
+    //       new Set(
+    //         countries
+    //           .map((country) => country.languages || [])
+    //           .flat()
+    //           .filter(Boolean)
+    //       )
+    //     );
+    //     const flattenedValues = Array.from(
+    //       new Set(uniqueLanguages.flatMap((lang) => Object.values(lang)))
+    //     );
+    //     setFetchedLanguages(flattenedValues);
+    //   } catch (error) {
+    //     console.error("Error fetching languages:", error);
+    //   }
+    // };
+
+    // fetchLanguages()
     // console.log("hello",fetchedLanguages)
-  }, [language]);
+    getAllLanguages(dispatch);
+  }, []);
 
   const handleSalary = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -298,16 +304,12 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
                 <label htmlFor="">Preferred Language</label>
-                <NiceSelect
-                  options={fetchedLanguages.map((language) => ({
-                    value: language,
-                    label: language,
-                  }))}
-                  defaultCurrent={0}
-                  onChange={(item) => handleLanguage(item)}
-                  name="Language"
+                <AutocompletePosition
+                  selected={language}
+                  setSelected={setLanguage}
+                  endPoint=""
+                  suggestionsProp={languages}
                   placeholder="Select Language"
-                  isScroll={true}
                 />
               </div>
             </div>
