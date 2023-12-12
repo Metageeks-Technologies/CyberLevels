@@ -25,7 +25,6 @@ export const getJObPosts = async (dispatch: AppDispatch, queryObject: IFilterSta
 }
 export const getJObPostsByCompanyId = async (dispatch: AppDispatch, queryObject: { companyId: string, status: string }, page: number, candidateId: string) => {
     const { companyId, status } = queryObject;
-
     dispatch(requestStart());
     try {
         const { data } = await instance(`/jobPost/get?page=${page}&candidateId=${candidateId}&companyId=${companyId}&status=${status}`)

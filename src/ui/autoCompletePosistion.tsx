@@ -7,11 +7,20 @@ interface Props {
   selected: string;
   setSelected: React.Dispatch<React.SetStateAction<string>>;
   endPoint: string;
+  suggestionsProp?: string[];
+  placeholder?: string;
 }
 
-function AutocompletePosition({ selected, setSelected, endPoint }: Props) {
+function AutocompletePosition({
+  selected,
+  setSelected,
+  endPoint,
+  suggestionsProp=[],
+  placeholder="type title",
+}: Props) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const [languages, setLanguages] = useState<string[]>([]);
 
   useEffect(() => {
     // console.log(query.length);
@@ -19,11 +28,18 @@ function AutocompletePosition({ selected, setSelected, endPoint }: Props) {
     const callApi = async () => {
       try {
         if (query.length >= 3) {
-          const { data } = await instance.get(
-            `${endPoint}/search?query=${query}`
-          );
-          console.log(data);
-          setSuggestions(data);
+          if (suggestionsProp.length > 0) {
+            const filteredOptions: string[] = suggestionsProp.filter((option) =>
+              option.toLowerCase().includes(query.toLowerCase())
+            );
+            setLanguages(filteredOptions);
+          } else {
+            const { data } = await instance.get(
+              `${endPoint}/search?query=${query}`
+            );
+            setSuggestions(data);
+            console.log(data);
+          }
         }
       } catch (error) {
         console.log(error);
@@ -38,7 +54,7 @@ function AutocompletePosition({ selected, setSelected, endPoint }: Props) {
           <div className="">
             <Combobox.Input
               className=""
-              placeholder="type title"
+              placeholder={placeholder}
               displayValue={() => selected}
               onChange={(event) => setQuery(event.target.value)}
             />
@@ -51,9 +67,40 @@ function AutocompletePosition({ selected, setSelected, endPoint }: Props) {
             afterLeave={() => setQuery("")}
           >
             <Combobox.Options className="_my_nice_select_options _my_nice_select_options_extended">
-              {suggestions.length === 0 && query !== "" ? (
+              {suggestions.length === 0 && query !== "" && suggestionsProp.length === 0? (
                 <div className=" px-4">Nothing found.</div>
-              ) : (
+                ) : (
+                (suggestionsProp.length > 0 && query !== "" )? languages.map((language:string,id:number)=>(
+                  <Combobox.Option
+                    key={id}
+                    className={({ active }) =>
+                      `option ${active && "selected focus"}`
+                    }
+                    value={language}
+                  >
+                    {({ selected, active }) => (
+                      <>
+                        <span
+                          className={`block truncate ${
+                            selected ? "font-normal" : "font-normal"
+                          }`}
+                        >
+                          {language}
+                        </span>
+                        {selected ? (
+                          <span
+                            // onClick={() => selected(person)}
+                            className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                              active ? "text-white" : "text-teal-600"
+                            }`}
+                          >
+                            {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  </Combobox.Option>
+                )) : 
                 suggestions.map((person: any) => (
                   <Combobox.Option
                     key={person._id}
@@ -84,8 +131,8 @@ function AutocompletePosition({ selected, setSelected, endPoint }: Props) {
                       </>
                     )}
                   </Combobox.Option>
-                ))
-              )}
+                )))
+              }
             </Combobox.Options>
           </Transition>
         </div>
