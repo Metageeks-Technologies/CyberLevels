@@ -22,9 +22,7 @@ import { getAllCurrencies } from "@/redux/features/currencyProvider/api";
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
-// interface Country {
-//   languages?: string[];
-// }
+
 const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const dispatch = useAppDispatch();
   const { loading, gptLoading } = useSelector(
@@ -82,29 +80,6 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     (state: RootState) => state.currency
   )
   useEffect(() => {
-    // const fetchLanguages = async () => {
-    //   try {
-    //     const response = await fetch("https://restcountries.com/v3.1/all");
-    //     const countries: Country[] = await response.json();
-    //     const uniqueLanguages = Array.from(
-    //       new Set(
-    //         countries
-    //           .map((country) => country.languages || [])
-    //           .flat()
-    //           .filter(Boolean)
-    //       )
-    //     );
-    //     const flattenedValues = Array.from(
-    //       new Set(uniqueLanguages.flatMap((lang) => Object.values(lang)))
-    //     );
-    //     setFetchedLanguages(flattenedValues);
-    //   } catch (error) {
-    //     console.error("Error fetching languages:", error);
-    //   }
-    // };
-
-    // fetchLanguages()
-    // console.log("hello",fetchedLanguages)
     getAllLanguages(dispatch);
     getAllCurrencies(dispatch);
   }, []);

@@ -6,9 +6,14 @@ import {
 } from "./slice";
 import { AxiosError } from "axios";
 
-interface Country {
-  currencies?: string[];
-}
+interface Currency {
+    name: string;
+    symbol: string;
+  }
+  
+  interface Country {
+    currencies?: Currency[];
+  }
 
 
 export const getAllCurrencies = async (dispatch: AppDispatch) => {
