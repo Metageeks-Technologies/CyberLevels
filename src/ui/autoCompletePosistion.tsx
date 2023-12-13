@@ -70,7 +70,7 @@ function AutocompletePosition({
               {suggestions.length === 0 && query !== "" && languages.length === 0? (
                 <div className=" px-4">Nothing found.</div>
                 ) : (
-                (languages.length > 0 && query !== "" )? languages.map((language:string,id:number)=>(
+                (languages.length > 0  )? languages.map((language:string,id:number)=>(
                   <Combobox.Option
                     key={id}
                     className={({ active }) =>
