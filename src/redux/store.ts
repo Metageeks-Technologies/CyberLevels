@@ -15,7 +15,7 @@ import companyDashboardSlice from './features/company/dashboardSlice';
 import  languageSlice  from './features/languageProvider/slice';
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
-
+import  currencySlice  from './features/currencyProvider/slice';
 const rootReducer = combineReducers({
   user: userSlice
 })
@@ -50,7 +50,8 @@ export const store = configureStore({
     wishlist: wishlistSlice,
     jobApplication: jobApplicationSlice,
     global: globalSlice,
-    language:languageSlice
+    language:languageSlice,
+    currency:currencySlice,
 
   },
 
