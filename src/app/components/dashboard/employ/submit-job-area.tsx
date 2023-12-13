@@ -17,6 +17,8 @@ import { askToGpt } from "@/redux/features/jobPost/api";
 import AutocompleteCompany from "@/ui/autoCompeteCompanyName";
 import AutocompleteBenefits from "@/ui/autoCompletebenefits";
 import { getAllLanguages } from "@/redux/features/languageProvider/api";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,7 +31,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const { loading, gptLoading } = useSelector(
     (state: RootState) => state.jobPost
   );
- 
+
   const { currEmployer } = useAppSelector((s) => s.employer);
 
   const [title, setTitle] = useState("");
@@ -71,6 +73,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const [education, setEducation] = useState("");
   const [joiningTime, setJoiningTime] = useState("");
   const [description, setDescription] = useState("");
+  const [deadlineDate, setDeadlineDate] = useState<Date | null>(null);
   // const [fetchedLanguages, setFetchedLanguages] = useState<string[]>(languages);
 
   const { languages } = useSelector(
@@ -134,6 +137,11 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const handleRemove = (skill: string) => {
     setBenefits((prev) => prev.filter((val) => val !== skill));
   };
+  //onchange handle function for deadlineDate
+  // const handleDate = (e:React.ChangeEvent<HTMLInputElement>)=>{
+  //   const deadlineDate=e.target.value;
+  //   setDeadlineDate(deadlineDate);
+  // }
 
   const bodyObj = {
     title: title,
@@ -154,6 +162,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     testQuestions: questionWithAI ? questionWithAI : "",
     description,
     benefits: benefits,
+    deadlineDate,
   };
 
   const handleSubmit = async () => {
@@ -180,16 +189,15 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
 
   const draftDescription = async () => {
     const query = `Help me in writing to the point job description for a job post with given information .
-                    job title:${bodyObj.title} job type:${
-      bodyObj.jobType
-    } work mode:${bodyObj.workMode} primary skills:${bodyObj.primarySkills.join(
-      " ,"
-    )} 
+                    job title:${bodyObj.title} job type:${bodyObj.jobType
+      } work mode:${bodyObj.workMode} primary skills:${bodyObj.primarySkills.join(
+        " ,"
+      )} 
                     secondary skill:${bodyObj.secondarySkills.join(
-                      " ,"
-                    )} preferred experience:${bodyObj.preferredExperience.join(
-      " ,"
-    )} 
+        " ,"
+      )} preferred experience:${bodyObj.preferredExperience.join(
+        " ,"
+      )} 
                     location:${bodyObj.location.join(" ,")} 
                     job benefits: ${bodyObj.benefits.join(" ,")}`;
     console.log(query);
@@ -357,6 +365,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                     { value: "monthly", label: "monthly" },
                     { value: "yearly", label: "yearly" },
                     { value: "weekly", label: "weekly" },
+                    { value: "By-weekly", label: "By-weekly" },
                     { value: "hourly", label: "hourly" },
                   ]}
                   defaultCurrent={0}
@@ -485,6 +494,19 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   value={education}
                   onChange={(e) => setEducation(e.target.value)}
                 />
+              </div>
+            </div>
+            {/*Application Deadline */}
+            <div className="col-md-6">
+              <div className="dash-input-wrapper mb-30">
+                <label htmlFor="">Application deadline</label>
+                <DatePicker className="w-full block"
+                  placeholderText="DD/MM/YYYY"
+                  name="deadlineDate"
+                  selected={deadlineDate}
+                  onChange={(date: Date | null) => setDeadlineDate(date)}
+                  dateFormat="dd/MM/yyyy"
+                />               
               </div>
             </div>
           </div>
