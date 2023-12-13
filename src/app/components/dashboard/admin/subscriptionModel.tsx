@@ -1,0 +1,208 @@
+"use client";
+import {
+  subscriptionTypeOption,
+  subscriptionForOption,
+  currencyOptions,
+} from "@/utils/selectOtions";
+import { useState, useEffect } from "react";
+import UniversalSelect from "./universel-select";
+import { getCandidateSubModel } from "@/redux/features/template/api";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { submitCandidateSub } from "@/redux/features/subscription/api";
+
+interface OfferingField {
+  type: string;
+  required?: boolean;
+}
+
+interface Offering {
+  [key: string]: OfferingField;
+}
+
+const SubscriptionModel = () => {
+  const dispatch = useAppDispatch();
+  const { candidateSubModel } = useAppSelector((s) => s.template);
+  const [subscriptionType, setSubscriptionType] = useState("");
+  const [subscriptionFor, setSubscriptionFor] = useState("");
+  const [subscriptionAmount, setSubscriptionAmount] = useState("");
+  const [subscriptionCurrency, setSubscriptionCurrency] = useState("");
+  const [subscriptionDuration, setSubscriptionDuration] = useState("");
+  const [dynamicFields, setDynamicFields] = useState<{
+    [key: string]: string;
+  }>({});
+
+  const renderDynamicFields = () => {
+    if (
+      !candidateSubModel ||
+      !candidateSubModel.properties ||
+      !candidateSubModel.properties.offering
+    ) {
+      return null;
+    }
+
+    const offeringProperties: Offering = candidateSubModel.properties.offering;
+
+    return Object.keys(offeringProperties).map((fieldName) => {
+      const field = offeringProperties[fieldName];
+      const isRequired = field.required || false;
+
+      return (
+        <div key={fieldName} className="dash-input-wrapper mb-30">
+          <label htmlFor={fieldName}>
+            {fieldName} {isRequired ? "*" : ""}
+          </label>
+
+          {field.type === "String" && (
+            <input
+              type="text"
+              value={dynamicFields[fieldName] || ""}
+              onChange={(e) => {
+                setDynamicFields((prevFields) => ({
+                  ...prevFields,
+                  [fieldName]: e.target.value,
+                }));
+              }}
+            />
+          )}
+
+          {/* Add more conditions based on other field types (e.g., Number, Date, etc.) as needed */}
+        </div>
+      );
+    });
+  };
+  const handleSave = async () => {
+    const bodyObj = {
+      subscriptionType,
+      subscriptionFor,
+      price: {
+        amount: subscriptionAmount,
+        currency: "usd",
+      },
+      duration: subscriptionDuration,
+      offering: {
+        ...dynamicFields,
+      },
+    };
+
+    console.log(bodyObj);
+
+    await submitCandidateSub(dispatch, bodyObj);
+  };
+
+  useEffect(() => {
+    if (subscriptionFor) getCandidateSubModel(dispatch, subscriptionFor);
+  }, [subscriptionFor]);
+
+  return (
+    <div
+      className="modal fade"
+      id="subscriptionModel"
+      tabIndex={-1}
+      aria-hidden="true"
+    >
+      <div className="modal-dialog modal-fullscreen modal-dialog-centered">
+        <div className="container-fluid user-data-form">
+          <div className="user-data-form modal-content">
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+            <div className="container subscription-model">
+              <div className="form-wrapper dash-input-wrapper m-auto w-100 ">
+                <div>
+                  <div className="dash-input-wrapper mb-30">
+                    <label htmlFor="bio">Subscription For*</label>
+                    <UniversalSelect
+                      options={subscriptionForOption}
+                      setSelected={setSubscriptionFor}
+                    />
+                  </div>
+                </div>
+              </div>
+              {candidateSubModel && (
+                <>
+                  <div className="form-wrapper dash-input-wrapper m-auto w-100 ">
+                    <div>
+                      <div className="dash-input-wrapper mb-30">
+                        <label htmlFor="firstName">Subscription Type*</label>
+                        <input
+                          type="text"
+                          value={subscriptionType}
+                          onChange={(e) => {
+                            setSubscriptionType(e.target.value);
+                          }}
+                        />
+                      </div>
+
+                      <div className="dash-input-wrapper row">
+                        <label htmlFor="bio">Price*</label>
+                        <div className="dash-input-wrapper col-6">
+                          <label htmlFor="bio">Amount</label>
+                          <input
+                            type="text"
+                            value={subscriptionAmount}
+                            onChange={(e) => {
+                              setSubscriptionAmount(e.target.value);
+                            }}
+                          />
+                        </div>
+                        <div className="dash-input-wrapper col-6">
+                          <label htmlFor="bio">Currency</label>
+                          <UniversalSelect
+                            options={currencyOptions}
+                            setSelected={setSubscriptionFor}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="dash-input-wrapper mb-30">
+                        <label htmlFor="bio">Duration*</label>
+                        {/* <input
+                          type="text"
+                          value={subscriptionDuration}
+                          onChange={(e) => {
+                            setSubscriptionDuration(e.target.value);
+                          }}
+                        /> */}
+                        <UniversalSelect
+                          options={subscriptionTypeOption}
+                          setSelected={setSubscriptionDuration}
+                        />
+                      </div>
+                    </div>
+                    {/* dynamic form */}
+                    {renderDynamicFields()}
+
+                    <div className="button-group d-inline-flex align-items-center mt-30">
+                      <button
+                        onClick={handleSave}
+                        className="dash-btn-two tran3s me-3"
+                        type="button"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        Save
+                      </button>
+                      <button
+                        className="dash-cancel-btn tran3s"
+                        type="button"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SubscriptionModel;

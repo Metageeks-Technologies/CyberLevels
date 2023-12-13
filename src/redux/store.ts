@@ -12,9 +12,9 @@ import employerSlice from "./features/employer/dashboardSlice"
 import jobApplicationSlice from "./features/jobApp/slice"
 import globalSlice from './features/globalSlice';
 import companyDashboardSlice from './features/company/dashboardSlice';
-
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
+import templateSlice from './features/template/slice';
 
 const rootReducer = combineReducers({
   user: userSlice
@@ -49,7 +49,8 @@ export const store = configureStore({
     filter: filterSlice,
     wishlist: wishlistSlice,
     jobApplication: jobApplicationSlice,
-    global: globalSlice
+    global: globalSlice,
+    template: templateSlice
 
   },
 
