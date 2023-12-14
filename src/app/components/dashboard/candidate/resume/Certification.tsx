@@ -60,7 +60,7 @@ const Certificates: React.FC = () => {
   const addText = () => {
     if (currentText.trim() !== ''){
     setTexts([...texts, currentText]);
-    console.log(currentText,"hello");
+    
     setCurrentText('');
     
 }
@@ -68,7 +68,7 @@ const Certificates: React.FC = () => {
 
   
   const handleSave = async () => {
-    console.log(texts,"hiiii")
+    
     if (currCandidate) {
       const isUpdated = await updateCurrCandidate(dispatch, currCandidate._id, {
         certificate: texts,
