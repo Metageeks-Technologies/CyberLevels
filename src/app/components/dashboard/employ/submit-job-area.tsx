@@ -28,7 +28,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const { loading, gptLoading } = useSelector(
     (state: RootState) => state.jobPost
   );
- 
+
   const { currEmployer } = useAppSelector((s) => s.employer);
 
   const [title, setTitle] = useState("");
@@ -73,20 +73,16 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const [description, setDescription] = useState("");
   // const [fetchedLanguages, setFetchedLanguages] = useState<string[]>(languages);
 
-  const { languages } = useSelector(
-    (state: RootState) => state.language
-  );
-  const {currencies} = useSelector(
-    (state: RootState) => state.currency
-  )
+  const { languages } = useSelector((state: RootState) => state.language);
+  const { currencies } = useSelector((state: RootState) => state.currency);
   useEffect(() => {
     getAllLanguages(dispatch);
     getAllCurrencies(dispatch);
   }, []);
   useEffect(() => {
-    const item = {value:currency,label:currency};
-    updateSalaryProperty("currency",item);
-  }, [currency])
+    const item = { value: currency, label: currency };
+    updateSalaryProperty("currency", item);
+  }, [currency]);
 
   const handleSalary = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -352,7 +348,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
             </div>
             <div className="col-md-3">
               <div className="dash-input-wrapper mb-30">
-                  {/* <NiceSelect
+                {/* <NiceSelect
                   options={[
                     { value: "select currency", label: "select currency" },
                     { value: "Canadian dollars", label: "Canadian dollars" },
@@ -362,7 +358,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   onChange={(item) => updateSalaryProperty("currency", item)}
                   name="currency"
                 /> */}
-              <AutocompletePosition
+                <AutocompletePosition
                   selected={currency}
                   setSelected={setCurrency}
                   endPoint=""
