@@ -5,7 +5,7 @@ import AutocompletePosition from "@/ui/autoCompletePosistion";
 import AutocompleteSkill from "@/ui/autoCompleteSkill";
 import NiceSelect from "@/ui/nice-select";
 import { MagicWand } from "@phosphor-icons/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import DashboardHeader from "../candidate/dashboard-header";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
@@ -16,22 +16,26 @@ import TinyMCEEditor from "@/ui/textEditor";
 import { askToGpt } from "@/redux/features/jobPost/api";
 import AutocompleteCompany from "@/ui/autoCompeteCompanyName";
 import AutocompleteBenefits from "@/ui/autoCompletebenefits";
+import { getAllLanguages } from "@/redux/features/languageProvider/api";
 
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
-
+// interface Country {
+//   languages?: string[];
+// }
 const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const dispatch = useAppDispatch();
   const { loading, gptLoading } = useSelector(
     (state: RootState) => state.jobPost
   );
+ 
   const { currEmployer } = useAppSelector((s) => s.employer);
 
   const [title, setTitle] = useState("");
   const [jobCategory, setJobCategory] = useState("");
   const [jobType, setJobType] = useState<string[]>([]);
-  const [workMode, setWorkMode] = useState("");
+  const [workMode, setWorkMode] = useState<string[]>([]);
   const [experience, setExperience] = useState<string[]>([]);
   const [language, setLanguage] = useState("");
   const [location, setLocation] = useState<string[]>([]);
@@ -67,6 +71,37 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const [education, setEducation] = useState("");
   const [joiningTime, setJoiningTime] = useState("");
   const [description, setDescription] = useState("");
+  // const [fetchedLanguages, setFetchedLanguages] = useState<string[]>(languages);
+
+  const { languages } = useSelector(
+    (state: RootState) => state.language
+  );
+  useEffect(() => {
+    // const fetchLanguages = async () => {
+    //   try {
+    //     const response = await fetch("https://restcountries.com/v3.1/all");
+    //     const countries: Country[] = await response.json();
+    //     const uniqueLanguages = Array.from(
+    //       new Set(
+    //         countries
+    //           .map((country) => country.languages || [])
+    //           .flat()
+    //           .filter(Boolean)
+    //       )
+    //     );
+    //     const flattenedValues = Array.from(
+    //       new Set(uniqueLanguages.flatMap((lang) => Object.values(lang)))
+    //     );
+    //     setFetchedLanguages(flattenedValues);
+    //   } catch (error) {
+    //     console.error("Error fetching languages:", error);
+    //   }
+    // };
+
+    // fetchLanguages()
+    // console.log("hello",fetchedLanguages)
+    getAllLanguages(dispatch);
+  }, []);
 
   const handleSalary = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -82,7 +117,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     // setJobType("");
   };
   const handleWorkMode = (item: { value: string; label: string }) => {
-    setWorkMode(item.value);
+    setWorkMode((prev) => [...prev, item.value]);
     console.log(item.value);
     // setJobType("");
   };
@@ -259,21 +294,22 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   onChange={(item) => handleWorkMode(item)}
                   name="work mode"
                 />
+                <div className="skill-input-data d-flex align-items-center flex-wrap">
+                  {workMode.map((value) => (
+                    <button key={value}>{value}</button>
+                  ))}
+                </div>
               </div>
             </div>
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
                 <label htmlFor="">Preferred Language</label>
-                <NiceSelect
-                  options={[
-                    { value: "English", label: "English" },
-                    { value: "Spanish", label: "Spanish" },
-                    { value: "French", label: "French" },
-                    { value: "Others", label: "Others" },
-                  ]}
-                  defaultCurrent={0}
-                  onChange={(item) => handleLanguage(item)}
-                  name="Job Type"
+                <AutocompletePosition
+                  selected={language}
+                  setSelected={setLanguage}
+                  endPoint=""
+                  suggestionsProp={languages}
+                  placeholder="Select Language"
                 />
               </div>
             </div>

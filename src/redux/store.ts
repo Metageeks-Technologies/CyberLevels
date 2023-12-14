@@ -12,6 +12,7 @@ import employerSlice from "./features/employer/dashboardSlice"
 import jobApplicationSlice from "./features/jobApp/slice"
 import globalSlice from './features/globalSlice';
 import companyDashboardSlice from './features/company/dashboardSlice';
+import languageSlice from './features/languageProvider/slice';
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 import templateSlice from './features/template/slice';
@@ -50,7 +51,8 @@ export const store = configureStore({
     wishlist: wishlistSlice,
     jobApplication: jobApplicationSlice,
     global: globalSlice,
-    template: templateSlice
+    template: templateSlice,
+    language: languageSlice
 
   },
 

@@ -52,7 +52,7 @@ const NiceSelect = ({
     >
       <span className="current">{current?.label || placeholder}</span>
       <ul
-        className={`list ${isScroll && "add_Scroll_to_nice_select"} `}
+        className={`list ${isScroll && "add_Scroll_to_nice_select"}`}
         role="menubar"
         onClick={(e) => e.stopPropagation()}
       >
