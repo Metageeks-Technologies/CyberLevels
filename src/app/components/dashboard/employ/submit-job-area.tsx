@@ -18,6 +18,8 @@ import AutocompleteCompany from "@/ui/autoCompeteCompanyName";
 import AutocompleteBenefits from "@/ui/autoCompletebenefits";
 import { getAllLanguages } from "@/redux/features/languageProvider/api";
 import { getAllCurrencies } from "@/redux/features/currencyProvider/api";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,7 +30,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const { loading, gptLoading } = useSelector(
     (state: RootState) => state.jobPost
   );
- 
+
   const { currEmployer } = useAppSelector((s) => s.employer);
 
   const [title, setTitle] = useState("");
@@ -71,22 +73,19 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const [education, setEducation] = useState("");
   const [joiningTime, setJoiningTime] = useState("");
   const [description, setDescription] = useState("");
+  const [deadlineDate, setDeadlineDate] = useState<Date | null>(null);
   // const [fetchedLanguages, setFetchedLanguages] = useState<string[]>(languages);
 
-  const { languages } = useSelector(
-    (state: RootState) => state.language
-  );
-  const {currencies} = useSelector(
-    (state: RootState) => state.currency
-  )
+  const { languages } = useSelector((state: RootState) => state.language);
+  const { currencies } = useSelector((state: RootState) => state.currency);
   useEffect(() => {
     getAllLanguages(dispatch);
     getAllCurrencies(dispatch);
   }, []);
   useEffect(() => {
-    const item = {value:currency,label:currency};
-    updateSalaryProperty("currency",item);
-  }, [currency])
+    const item = { value: currency, label: currency };
+    updateSalaryProperty("currency", item);
+  }, [currency]);
 
   const handleSalary = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -119,6 +118,11 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const handleRemove = (skill: string) => {
     setBenefits((prev) => prev.filter((val) => val !== skill));
   };
+  //onchange handle function for deadlineDate
+  // const handleDate = (e:React.ChangeEvent<HTMLInputElement>)=>{
+  //   const deadlineDate=e.target.value;
+  //   setDeadlineDate(deadlineDate);
+  // }
 
   const bodyObj = {
     title: title,
@@ -139,6 +143,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     testQuestions: questionWithAI ? questionWithAI : "",
     description,
     benefits: benefits,
+    deadlineDate,
   };
 
   const handleSubmit = async () => {
@@ -342,6 +347,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                     { value: "monthly", label: "monthly" },
                     { value: "yearly", label: "yearly" },
                     { value: "weekly", label: "weekly" },
+                    { value: "By-weekly", label: "By-weekly" },
                     { value: "hourly", label: "hourly" },
                   ]}
                   defaultCurrent={0}
@@ -352,7 +358,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
             </div>
             <div className="col-md-3">
               <div className="dash-input-wrapper mb-30">
-                  {/* <NiceSelect
+                {/* <NiceSelect
                   options={[
                     { value: "select currency", label: "select currency" },
                     { value: "Canadian dollars", label: "Canadian dollars" },
@@ -362,7 +368,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   onChange={(item) => updateSalaryProperty("currency", item)}
                   name="currency"
                 /> */}
-              <AutocompletePosition
+                <AutocompletePosition
                   selected={currency}
                   setSelected={setCurrency}
                   endPoint=""
@@ -476,6 +482,20 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   name="education"
                   value={education}
                   onChange={(e) => setEducation(e.target.value)}
+                />
+              </div>
+            </div>
+            {/*Application Deadline */}
+            <div className="col-md-6">
+              <div className="dash-input-wrapper mb-30">
+                <label htmlFor="">Application deadline</label>
+                <DatePicker
+                  className="w-full block"
+                  placeholderText="DD/MM/YYYY"
+                  name="deadlineDate"
+                  selected={deadlineDate}
+                  onChange={(date: Date | null) => setDeadlineDate(date)}
+                  dateFormat="dd/MM/yyyy"
                 />
               </div>
             </div>

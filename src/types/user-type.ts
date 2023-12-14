@@ -65,6 +65,7 @@ export interface ICandidate {
     signInProvider?: "linkedIn" | "jwt"
     skills: string[],
     softSkills: string[],
+    certificate: string[],
     experience: IExperience[],
     education: IEducation[],
     socialSites: ISocial;
