@@ -53,7 +53,6 @@ export const store = configureStore({
     global: globalSlice,
     template: templateSlice,
     language: languageSlice
-
   },
 
 })
