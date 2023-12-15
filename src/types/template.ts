@@ -17,7 +17,7 @@ interface OfferingField {
     required?: boolean;
 }
 
-interface Offering {
+export interface Offering {
     [key: string]: OfferingField;
 }
 export interface ICandidateSub {

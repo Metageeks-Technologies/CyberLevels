@@ -11,7 +11,23 @@ export const submitCandidateSub = async (dispatch: AppDispatch, bodyObj: any) =>
     dispatch(requestStart());
     try {
         const { data } = await instance.post(`/subscription/candidate`, bodyObj);
-        dispatch(submitCandidateSubSuccess(""));
+        dispatch(submitCandidateSubSuccess(data.candidateSub));
+        notifySuccess("new subscription Template created.");
+    } catch (error) {
+        const e = error as AxiosError;
+        const response = e.response as any;
+        const msg = response.data.message;
+        dispatch(requestFail(e.message));
+        notifyError(msg);
+    }
+}
+
+export const submitEmploySub = async (dispatch: AppDispatch, bodyObj: any) => {
+
+    dispatch(requestStart());
+    try {
+        const { data } = await instance.post(`/subscription/employer`, bodyObj);
+        dispatch(submitEmploySubSuccess(data.employerSub));
         notifySuccess("new subscription Template created.");
     } catch (error) {
         const e = error as AxiosError;
@@ -23,19 +39,32 @@ export const submitCandidateSub = async (dispatch: AppDispatch, bodyObj: any) =>
 
 }
 
-export const submitEmploySub = async (dispatch: AppDispatch, bodyObj: any) => {
+export const getEmploySub = async (dispatch: AppDispatch) => {
 
     dispatch(requestStart());
     try {
-        const { data } = await instance.post(`/subscription/employer`, bodyObj);
-        dispatch(submitEmploySubSuccess(""));
-        notifySuccess("new subscription Template created.");
+        const { data } = await instance(`/subscription/employer`);
+        dispatch(getEmploySubSuccess(data.subscriptions));
+
     } catch (error) {
         const e = error as AxiosError;
         const response = e.response as any;
         const msg = response.data.message;
         dispatch(requestFail(e.message));
-        notifyError(msg);
+    }
+
+}
+export const getCandidateSub = async (dispatch: AppDispatch) => {
+
+    dispatch(requestStart());
+    try {
+        const { data } = await instance(`/subscription/candidate`);
+        dispatch(getEmploySubSuccess(data.subscriptions));
+    } catch (error) {
+        const e = error as AxiosError;
+        const response = e.response as any;
+        const msg = response.data.message;
+        dispatch(requestFail(e.message));
     }
 
 }

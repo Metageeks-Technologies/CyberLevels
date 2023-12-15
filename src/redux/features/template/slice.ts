@@ -3,13 +3,13 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { ICandidateSub } from '@/types/template';
 
 export interface templateState {
-    candidateSubModel: ICandidateSub | null;
+    subscriptionModel: ICandidateSub | null;
     error: string | null,
     loading: boolean,
 }
 
 const initialState: templateState = {
-    candidateSubModel: null,
+    subscriptionModel: null,
     error: null,
     loading: false,
 }
@@ -30,8 +30,8 @@ export const templateSlice = createSlice({
         requestSuccess: (state) => {
             state.loading = false;
         },
-        getCandidateSubModelSuccess: (state, action: PayloadAction<ICandidateSub>) => {
-            state.candidateSubModel = action.payload;
+        getSubModelSuccess: (state, action: PayloadAction<ICandidateSub>) => {
+            state.subscriptionModel = action.payload;
             state.loading = false;
             state.error = null;
         }
@@ -44,7 +44,7 @@ export const {
     requestFail,
     requestStart,
     requestSuccess,
-    getCandidateSubModelSuccess
+    getSubModelSuccess
 
 } = templateSlice.actions
 

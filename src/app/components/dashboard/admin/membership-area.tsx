@@ -1,12 +1,21 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import DashboardHeader from "../candidate/dashboard-header";
 import SubscriptionModel from "./subscriptionModel";
+import CandidateSub from "./subscription/candidateSub";
+import { set } from "lodash";
 
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
+  const [isCandidate, setIsCandidate] = useState(false);
+
+  const handleToggle = () => {
+    setIsCandidate((prev) => !prev);
+  };
+
   return (
     <>
       <div className="dashboard-body">
@@ -15,19 +24,32 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
           <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
           {/* header end */}
 
-          <div className=" d-flex gap-3 py-4">
-            <h2 className="main-title mb-0 ">Membership </h2>
-            <button
-              className="btn-one justify-content-center"
-              data-bs-toggle="modal"
-              data-bs-target="#subscriptionModel"
-              type="button"
-            >
-              Add{" "}
-            </button>
+          <div className="d-flex justify-content-between align-items-center  ">
+            <div className=" d-flex gap-3 py-4">
+              <h2 className="main-title mb-0 ">Membership </h2>
+              <button
+                className="btn-one justify-content-center"
+                data-bs-toggle="modal"
+                data-bs-target="#subscriptionModel"
+                type="button"
+              >
+                Add{" "}
+              </button>
+            </div>
+            <div className="subscription-tab align-content-center py-2  d-flex gap-3 px-2">
+              <p
+                onClick={handleToggle}
+                className={`p-1 px-2 ${isCandidate && "active"}`}
+              >
+                Candidate
+              </p>
+              <p onClick={handleToggle} className="p-1 px-2">
+                Employer
+              </p>
+            </div>
           </div>
 
-          <div className="membership-plan-wrapper mb-20">
+          {/* <div className="membership-plan-wrapper mb-20">
             <div className="row gx-0">
               <div className="col-xxl-7 col-lg-6 d-flex flex-column">
                 <div className="column w-100 h-100">
@@ -56,59 +78,9 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                 </div>
               </div>
             </div>
-          </div>
-
-          <section className="pricing-section">
-            <div className="row justify-content-center">
-              <div className="col-lg-4 col-md-6">
-                <div className="pricing-card-one border-0 mt-25">
-                  <div className="pack-name">Standard</div>
-                  <div className="price fw-500">0</div>
-                  <ul className="style-none">
-                    <li>15 job posting </li>
-                    <li>7 featured job </li>
-                    <li>Job post live for 30 days </li>
-                  </ul>
-                  <a href="#" className="get-plan-btn tran3s w-100 mt-30">
-                    Choose Plan
-                  </a>
-                </div>
-              </div>
-              <div className="col-lg-4 col-md-6">
-                <div className="pricing-card-one popular-two mt-25">
-                  <div className="popular-badge">popular</div>
-                  <div className="pack-name">Gold</div>
-                  <div className="price fw-500">
-                    <sub>$</sub> 27.<sup>99</sup>
-                  </div>
-                  <ul className="style-none">
-                    <li>30 job posting </li>
-                    <li>15 featured job </li>
-                    <li>Job post live for 60 days </li>
-                  </ul>
-                  <a href="#" className="get-plan-btn tran3s w-100 mt-30">
-                    Choose Plan
-                  </a>
-                </div>
-              </div>
-              <div className="col-lg-4 col-md-6">
-                <div className="pricing-card-one border-0 mt-25">
-                  <div className="pack-name">Diamond</div>
-                  <div className="price fw-500">
-                    <sub>$</sub> 39.<sup>99</sup>
-                  </div>
-                  <ul className="style-none">
-                    <li>60 job posting </li>
-                    <li>30 featured job </li>
-                    <li>Job post live for 130 days </li>
-                  </ul>
-                  <a href="#" className="get-plan-btn tran3s w-100 mt-30">
-                    Choose Plan
-                  </a>
-                </div>
-              </div>
-            </div>
-          </section>
+          </div> */}
+          <div></div>
+          <CandidateSub />
         </div>
       </div>
       <SubscriptionModel />

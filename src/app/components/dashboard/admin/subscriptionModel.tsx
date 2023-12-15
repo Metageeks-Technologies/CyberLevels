@@ -8,7 +8,10 @@ import { useState, useEffect } from "react";
 import UniversalSelect from "./universel-select";
 import { getCandidateSubModel } from "@/redux/features/template/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { submitCandidateSub } from "@/redux/features/subscription/api";
+import {
+  submitCandidateSub,
+  submitEmploySub,
+} from "@/redux/features/subscription/api";
 
 interface OfferingField {
   type: string;
@@ -21,7 +24,7 @@ interface Offering {
 
 const SubscriptionModel = () => {
   const dispatch = useAppDispatch();
-  const { candidateSubModel } = useAppSelector((s) => s.template);
+  const { subscriptionModel } = useAppSelector((s) => s.template);
   const [subscriptionType, setSubscriptionType] = useState("");
   const [subscriptionFor, setSubscriptionFor] = useState("");
   const [subscriptionAmount, setSubscriptionAmount] = useState("");
@@ -33,14 +36,14 @@ const SubscriptionModel = () => {
 
   const renderDynamicFields = () => {
     if (
-      !candidateSubModel ||
-      !candidateSubModel.properties ||
-      !candidateSubModel.properties.offering
+      !subscriptionModel ||
+      !subscriptionModel.properties ||
+      !subscriptionModel.properties.offering
     ) {
       return null;
     }
 
-    const offeringProperties: Offering = candidateSubModel.properties.offering;
+    const offeringProperties: Offering = subscriptionModel.properties.offering;
 
     return Object.keys(offeringProperties).map((fieldName) => {
       const field = offeringProperties[fieldName];
@@ -76,7 +79,7 @@ const SubscriptionModel = () => {
       subscriptionFor,
       price: {
         amount: subscriptionAmount,
-        currency: "usd",
+        currency: subscriptionCurrency,
       },
       duration: subscriptionDuration,
       offering: {
@@ -86,7 +89,18 @@ const SubscriptionModel = () => {
 
     console.log(bodyObj);
 
-    await submitCandidateSub(dispatch, bodyObj);
+    if (subscriptionFor === "CandidateSubModel") {
+      await submitCandidateSub(dispatch, bodyObj);
+    } else {
+      await submitEmploySub(dispatch, bodyObj);
+    }
+    // Reset the form field
+    setSubscriptionType("");
+    setSubscriptionFor("");
+    setSubscriptionAmount("");
+    setSubscriptionCurrency("");
+    setSubscriptionDuration("");
+    setDynamicFields({});
   };
 
   useEffect(() => {
@@ -121,7 +135,7 @@ const SubscriptionModel = () => {
                   </div>
                 </div>
               </div>
-              {candidateSubModel && (
+              {subscriptionModel && (
                 <>
                   <div className="form-wrapper dash-input-wrapper m-auto w-100 ">
                     <div>
@@ -152,7 +166,7 @@ const SubscriptionModel = () => {
                           <label htmlFor="bio">Currency</label>
                           <UniversalSelect
                             options={currencyOptions}
-                            setSelected={setSubscriptionFor}
+                            setSelected={setSubscriptionCurrency}
                           />
                         </div>
                       </div>

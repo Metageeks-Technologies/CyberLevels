@@ -449,3 +449,18 @@ div[data-preview] p {
 .toggle-label:active:after {
   width: 20px;
 }
+
+.subscription-tab {
+  background-color: #e4e9e7;
+  border-radius: 25px;
+  box-sizing: border-box;
+  p {
+    margin-bottom: 0;
+  }
+  .active {
+    background-color: #d2f34c;
+    color: #000;
+    font-weight: 500;
+    border-radius: 25px;
+  }
+}

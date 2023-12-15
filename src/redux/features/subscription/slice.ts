@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { ICandidateSub } from '@/types/template';
+import { ICandidateSub, IEmployerSub } from '@/types/template';
 
 export interface templateState {
-    submitCandidateSub: any,
-    submitEmploySub: any,
-    employSub: any,
-    candidateSub: any,
+    submitCandidateSub: IEmployerSub | null,
+    submitEmploySub: IEmployerSub | null,
+    employSub: IEmployerSub[],
+    candidateSub: IEmployerSub[],
     error: string | null,
     loading: boolean,
 }
@@ -20,7 +20,7 @@ const initialState: templateState = {
     loading: false,
 }
 
-export const templateSlice = createSlice({
+export const subscriptionSlice = createSlice({
     name: 'subscription',
     initialState,
     reducers: {
@@ -35,23 +35,23 @@ export const templateSlice = createSlice({
         requestSuccess: (state) => {
             state.loading = false;
         },
-        getEmploySubSuccess: (state, action: PayloadAction<any>) => {
+        getEmploySubSuccess: (state, action: PayloadAction<IEmployerSub[]>) => {
             state.employSub = action.payload;
             state.loading = false;
             state.error = null;
         },
-        getCandidateSubSuccess: (state, action: PayloadAction<any>) => {
+        getCandidateSubSuccess: (state, action: PayloadAction<IEmployerSub[]>) => {
             state.candidateSub = action.payload;
             state.loading = false;
             state.error = null;
         },
-        submitCandidateSubSuccess: (state, action: PayloadAction<any>) => {
+        submitCandidateSubSuccess: (state, action: PayloadAction<IEmployerSub>) => {
             if (state.candidateSub && state.candidateSub.length > 0)
                 state.candidateSub.push(action.payload)
             state.loading = false;
             state.error = null;
         },
-        submitEmploySubSuccess: (state, action: PayloadAction<any>) => {
+        submitEmploySubSuccess: (state, action: PayloadAction<IEmployerSub>) => {
             if (state.employSub && state.employSub.length > 0)
                 state.employSub.push(action.payload)
             state.loading = false;
@@ -70,6 +70,6 @@ export const {
     submitCandidateSubSuccess,
     submitEmploySubSuccess
 
-} = templateSlice.actions
+} = subscriptionSlice.actions
 
-export default templateSlice.reducer;
+export default subscriptionSlice.reducer;

@@ -1,5 +1,5 @@
 import instance from "@/lib/axios";
-import { requestFail, requestStart, requestSuccess, getCandidateSubModelSuccess } from "./slice"
+import { requestFail, requestStart, requestSuccess, getSubModelSuccess } from "./slice"
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { IFilterState } from "../filterJobPostSlice";
@@ -11,7 +11,7 @@ export const getCandidateSubModel = async (dispatch: AppDispatch, modelName: str
     dispatch(requestStart());
     try {
         const { data } = await instance(`/template/get?model=${modelName}`);
-        dispatch(getCandidateSubModelSuccess(data.dynamicTemplate));
+        dispatch(getSubModelSuccess(data.dynamicTemplate));
 
     } catch (error) {
         const e = error as AxiosError;
