@@ -1,8 +1,8 @@
 
 export const subscriptionTypeOption = [
     { value: "Select duration", label: "Select duration" },
-    { value: "1-month", label: "1 month" },
-    { value: "1-year", label: "1 year" },
+    { value: "1 month", label: "1 month" },
+    { value: "1 year", label: "1 year" },
 
 ]
 

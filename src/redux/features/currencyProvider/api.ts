@@ -7,20 +7,22 @@ import {
 import { AxiosError } from "axios";
 
 interface Currency {
-    name: string;
-    symbol: string;
-  }
-  
-  interface Country {
-    currencies?: Currency[];
-  }
+  name: string;
+  symbol: string;
+}
+
+interface Country {
+  currencies?: Currency[];
+}
 
 
 export const getAllCurrencies = async (dispatch: AppDispatch) => {
-    dispatch(fetchCurrenciesRequest());
+  dispatch(fetchCurrenciesRequest());
   try {
     const response = await fetch("https://restcountries.com/v3.1/all");
     const countries: Country[] = await response.json();
+    // console.log(countries);
+
 
     const currencies = Array.from(
       new Set(
@@ -36,10 +38,10 @@ export const getAllCurrencies = async (dispatch: AppDispatch) => {
     );
     // console.log(flattenedValues);
     const currencyNames = Array.from(
-        new Set( flattenedValues
-      .map((currency) => currency.name)
-      .filter(Boolean)
-        )
+      new Set(flattenedValues
+        .map((currency) => currency.name)
+        .filter(Boolean)
+      )
     );
     // console.log(currencyNames);
     // const currencyList = Array.from(
@@ -47,6 +49,7 @@ export const getAllCurrencies = async (dispatch: AppDispatch) => {
     //         flattenedValues.map((c)=>c.name)
     //     )
     // )
+    // console.log(currencyNames)
 
     dispatch(fetchCurrenciesSuccess(currencyNames));
   } catch (error) {

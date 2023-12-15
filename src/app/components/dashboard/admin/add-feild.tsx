@@ -62,10 +62,10 @@ const AddNewField = ({ setIsOpenSidebar }: IProps) => {
     console.log(bodyObj, "bodyObj");
 
     await updateTemplate(dispatch, bodyObj);
-    // setAttachTo("");
-    // setType("");
-    // setLabel("");
-    // setIsChecked(false);
+    setAttachTo("");
+    setType("");
+    setLabel("");
+    setIsChecked(false);
   };
 
   return (

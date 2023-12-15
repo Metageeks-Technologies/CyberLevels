@@ -1,9 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DashboardHeader from "../candidate/dashboard-header";
 import SubscriptionModel from "./subscriptionModel";
 import CandidateSub from "./subscription/candidateSub";
-import { set } from "lodash";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import {
+  getCandidateSub,
+  getEmploySub,
+} from "@/redux/features/subscription/api";
 
 // props type
 type IProps = {
@@ -15,6 +19,14 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
   const handleToggle = () => {
     setIsCandidate((prev) => !prev);
   };
+
+  const dispatch = useAppDispatch();
+  const { employSub } = useAppSelector((s) => s.subscription);
+
+  useEffect(() => {
+    if (isCandidate) getCandidateSub(dispatch);
+    else getEmploySub(dispatch);
+  }, [isCandidate]);
 
   return (
     <>
@@ -43,7 +55,10 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
               >
                 Candidate
               </p>
-              <p onClick={handleToggle} className="p-1 px-2">
+              <p
+                onClick={handleToggle}
+                className={`p-1 px-2 ${!isCandidate && "active"}`}
+              >
                 Employer
               </p>
             </div>
@@ -80,7 +95,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
             </div>
           </div> */}
           <div></div>
-          <CandidateSub />
+          <CandidateSub subscriptionArr={employSub} />
         </div>
       </div>
       <SubscriptionModel />

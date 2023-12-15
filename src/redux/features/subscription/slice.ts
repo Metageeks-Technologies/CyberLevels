@@ -46,13 +46,13 @@ export const subscriptionSlice = createSlice({
             state.error = null;
         },
         submitCandidateSubSuccess: (state, action: PayloadAction<IEmployerSub>) => {
-            if (state.candidateSub && state.candidateSub.length > 0)
+            if (state.candidateSub)
                 state.candidateSub.push(action.payload)
             state.loading = false;
             state.error = null;
         },
         submitEmploySubSuccess: (state, action: PayloadAction<IEmployerSub>) => {
-            if (state.employSub && state.employSub.length > 0)
+            if (state.employSub)
                 state.employSub.push(action.payload)
             state.loading = false;
             state.error = null;
