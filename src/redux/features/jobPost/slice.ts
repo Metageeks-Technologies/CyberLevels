@@ -15,6 +15,7 @@ export interface jobPstState {
     jobPostsForEmployer: IJobPost[];
     relatedJobs: IJobPost[];
     fileNamePc: string;
+    allJobPostAdmin:IJobPost[]
 }
 type IForGetAllJobPost = {
     allJobPost: IJobPost[]
@@ -34,7 +35,8 @@ const initialState: jobPstState = {
     pageForCompany: 1,
     jobPostsForEmployer: [],
     relatedJobs: [],
-    fileNamePc: ""
+    fileNamePc: "",
+    allJobPostAdmin:[]
 }
 
 export const jobPostSlice = createSlice({
@@ -72,6 +74,10 @@ export const jobPostSlice = createSlice({
             state.totalNumOfPage = action.payload.totalNumOfPage;
             state.totalJobPost = action.payload.totalJobPost
         },
+        getAllJobPostsSuccess: (state, action: PayloadAction<IJobPost[]>) => {
+            state.loading = false
+            state.allJobPostAdmin = action.payload;
+        } ,
         getJobPostsForEmployerSuccess: (state, action: PayloadAction<IJobPost[]>) => {
             state.loading = false
             state.jobPostsForEmployer = action.payload;
@@ -116,7 +122,8 @@ export const {
     setPageForCompany,
     getJobPostsForEmployerSuccess,
     getRelatedJobsSuccess,
-    setFileNamePc
+    setFileNamePc,
+    getAllJobPostsSuccess
 } = jobPostSlice.actions
 
 export default jobPostSlice.reducer;

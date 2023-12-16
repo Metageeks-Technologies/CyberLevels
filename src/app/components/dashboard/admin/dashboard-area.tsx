@@ -11,8 +11,78 @@ import DashboardHeader from "../candidate/dashboard-header";
 import { CardItem } from "../candidate/dashboard-area";
 import NiceSelect from "@/ui/nice-select";
 import { useAppSelector, useAppDispatch } from "@/redux/hook";
-import { getJObPosts, deleteJobPost } from "@/redux/features/jobPost/api";
+import { getJObPosts, deleteJobPost, getAllJobPosts } from "@/redux/features/jobPost/api";
 import job_img_1 from "@/assets/images/logo/media_22.png";
+import Link from "next/link";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
+// import faker from 'faker';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+export const options = {
+  responsive: true,
+  scales: {
+    y: {
+      beginAtZero: true,
+      max: 1000,
+    },
+  },
+  plugins: {
+    legend: {
+      position: 'top' as const,
+    },
+    title: {
+      display: true,
+      text: 'Line Chart',
+    },
+  },
+};
+
+const generateRandomData = (count: number): number[] => {
+  const randomData: number[] = [];
+  for (let i = 0; i < count; i++) {
+    randomData.push(Math.floor(Math.random() * 1000 ));
+  }
+  return randomData;
+};
+
+const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+const data = {
+  labels,
+  datasets: [
+    {
+      label: 'Dataset 1',
+      data: generateRandomData(labels.length),
+      borderColor: 'rgb(255, 99, 132)',
+      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+    },
+    {
+      label: 'Dataset 2',
+      data: generateRandomData(labels.length),
+      borderColor: 'rgb(53, 162, 235)',
+      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+    },
+  ],
+};
 
 // props type
 type IProps = {
@@ -23,10 +93,10 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
   // const job_items = [...job_data.reverse().slice(0, 6)];
   const handleJobs = (item: { value: string; label: string }) => {};
   const dispatch = useAppDispatch();
-  const { allJobPost, page } = useAppSelector((state) => state.jobPost);
+  const { allJobPostAdmin, page } = useAppSelector((state) => state.jobPost);
   const filterObj = useAppSelector((state) => state.filter);
   useEffect(() => {
-    getJObPosts(dispatch, filterObj, page, "");
+    getAllJobPosts(dispatch);
   }, []);
   const handleDelete = (id: string) => {
     deleteJobPost(dispatch, id);
@@ -74,11 +144,7 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                 </div>
               </div>
               <div className="ps-5 pe-5 mt-50">
-                <Image
-                  src={main_graph}
-                  alt="main-graph"
-                  className="lazy-img m-auto"
-                />
+              <Line options={options} data={data} />
               </div>
             </div>
           </div>
@@ -87,61 +153,68 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
               <h4 className="dash-title-two">Posted Job</h4>
 
               <div className="wrapper">
-                {allJobPost?.map((j) => (
-                  <div
-                    key={j._id}
-                    className="job-item-list d-flex align-items-center"
-                  >
-                    <div>
-                      <Image
-                        src={job_img_1}
-                        alt="logo"
-                        width={40}
-                        height={40}
-                        className="lazy-img logo"
-                      />
-                    </div>
-                    <div className="job-title">
-                      <h6 className="mb-5">
-                        <a href="#">{j.jobCategory}</a>
-                      </h6>
-                      <div className="meta">
-                        <span>{j.jobType[0]}</span> . <span>{j.location}</span>
-                      </div>
-                    </div>
-                    <div className="job-action">
-                      <button
-                        className="action-btn dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
+              {allJobPostAdmin?.slice(0, 5).map((app) => {
+                console.log(allJobPostAdmin)
+                  if (typeof app !== "string") {
+                    return (
+                      <div
+                        key={app._id}
+                        className="job-item-list d-flex align-items-center"
                       >
-                        <span></span>
-                      </button>
-                      <ul className="dropdown-menu">
-                        <li>
-                          <a className="dropdown-item" href="#">
-                            View Job
-                          </a>
-                        </li>
-                        <li>
-                          <a className="dropdown-item" href="#">
-                            Archive
-                          </a>
-                        </li>
-                        <li>
+                        <div>
+                          <Image
+                            src={job_img_1}
+                            alt="logo"
+                            width={40}
+                            height={40}
+                            className="lazy-img logo"
+                          />
+                        </div>
+                        <div className="job-title">
+                          <h6 className="mb-5">
+                            <Link href={`/job-details-v1/${app._id}`}>
+                              {app.title}
+                            </Link>
+                          </h6>
+                          <div className="meta">
+                            <span>{app.jobType[0]}</span> .{" "}
+                            <span>{app.location[0]}</span>
+                          </div>
+                        </div>
+                        <div className="job-action">
                           <button
-                            className="dropdown-item"
+                            className="action-btn dropdown-toggle"
                             type="button"
-                            onClick={() => handleDelete(j._id)}
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
                           >
-                            Delete
+                            <span></span>
                           </button>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                ))}
+                          <ul className="dropdown-menu">
+                            <li>
+                              <Link
+                                className="dropdown-item"
+                                href={`/job-details-v1/${app._id}`}
+                              >
+                                View Job
+                              </Link>
+                            </li>
+                            {/* <li>
+                            <a className="dropdown-item" href="#">
+                              Archive
+                            </a>
+                          </li>
+                          <li>
+                            <a className="dropdown-item" href="#">
+                              Delete
+                            </a>
+                          </li> */}
+                          </ul>
+                        </div>
+                      </div>
+                    );
+                  }
+                })}
               </div>
             </div>
           </div>
