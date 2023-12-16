@@ -1,5 +1,5 @@
 import instance from "@/lib/axios";
-import { getJobPostsSuccess, requestFail, requestStart, requestSuccess, submitJobPostSuccess, getJobPostsForEmployerSuccess, askGptStart, askGptSuccess, askGptEnd, getRelatedJobsSuccess, setFileNamePc } from "./slice"
+import { getJobPostsSuccess, requestFail, requestStart, requestSuccess, submitJobPostSuccess, getJobPostsForEmployerSuccess, askGptStart, askGptSuccess, askGptEnd, getRelatedJobsSuccess, setFileNamePc, getAllJobPostsSuccess } from "./slice"
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { IFilterState } from "../filterJobPostSlice";
@@ -7,7 +7,16 @@ import { notifyError, notifySuccess } from "@/utils/toast";
 import { setUploadProgress } from "../globalSlice";
 
 
-
+export const getAllJobPosts = async(dispatch:AppDispatch) => {
+    dispatch(requestStart)
+    try {
+        const {data} = await instance(`/jobPost/getalljobposts`);
+        dispatch(getAllJobPostsSuccess(data.jobPosts))
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message))
+    }
+}
 
 export const getJObPosts = async (dispatch: AppDispatch, queryObject: IFilterState, page: number, candidateId: string) => {
     const { location, jobCategory, jobType, salary, workMode, preferredExperience, status } = queryObject;
