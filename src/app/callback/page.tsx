@@ -17,7 +17,7 @@ const page = () => {
   const state = urlParams.get("state");
   if (!whoIsTryingToLoginWithLn || !state) {
     alert(
-      "there is change in browser,please complete the login process with one browser only"
+      "There is change in browser,please complete the login process with one browser only"
     );
   }
 

@@ -87,6 +87,13 @@ const nav_data: {
   },
   {
     id: 8,
+    icon: nav_5,
+    icon_active: nav_5_active,
+    link: "/dashboard/admin-dashboard/add-field",
+    title: "Add New Field",
+  },
+  {
+    id: 9,
     icon: nav_7,
     icon_active: nav_7_active,
     link: "/dashboard/admin-dashboard/setting",

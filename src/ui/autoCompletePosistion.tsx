@@ -67,10 +67,10 @@ function AutocompletePosition({
             afterLeave={() => setQuery("")}
           >
             <Combobox.Options className="_my_nice_select_options _my_nice_select_options_extended">
-              {suggestions.length === 0 && query !== "" && suggestionsProp.length === 0? (
+              {suggestions.length === 0 && query !== "" && languages.length === 0? (
                 <div className=" px-4">Nothing found.</div>
                 ) : (
-                (suggestionsProp.length > 0 && query !== "" )? languages.map((language:string,id:number)=>(
+                (languages.length > 0  )? languages.map((language:string,id:number)=>(
                   <Combobox.Option
                     key={id}
                     className={({ active }) =>
@@ -101,7 +101,7 @@ function AutocompletePosition({
                     )}
                   </Combobox.Option>
                 )) : 
-                suggestions.map((person: any) => (
+                (suggestions.length !== 0 && query !== "")? suggestions.map((person: any) => (
                   <Combobox.Option
                     key={person._id}
                     className={({ active }) =>
@@ -131,7 +131,7 @@ function AutocompletePosition({
                       </>
                     )}
                   </Combobox.Option>
-                )))
+                )): null)
               }
             </Combobox.Options>
           </Transition>

@@ -22,6 +22,7 @@ import icon_3 from "@/assets/images/icon/icon_10.svg";
 import Image from "next/image";
 import UploadResume from "./resume/uploadResume";
 import Skills from "./resume/Skills";
+import Softskills from "./resume/Softskills";
 import Certificate from "./resume/Certification";
 // props type
 type IProps = {
@@ -289,9 +290,10 @@ const DashboardResume = ({ setIsOpenSidebar }: IProps) => {
           <div className="bg-white card-box border-20 mt-40">
             {user && <Certificate />}
           </div>
-          
+
           <div className="bg-white card-box border-20 mt-40">
             {user && <Skills skills={user.skills} />}
+            {user && <Softskills skills={user.softSkills} />}
           </div>
 
           {/* <DashboardPortfolio /> */}

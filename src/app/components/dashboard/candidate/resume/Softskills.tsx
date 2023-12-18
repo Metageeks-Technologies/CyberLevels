@@ -2,18 +2,19 @@
 import React from "react";
 import icon_3 from "@/assets/images/icon/icon_10.svg";
 import Image from "next/image";
-import EditSkill from "@/app/components/candidate-details/popup/EditSkill";
+// import EditSkill from "@/app/components/candidate-details/popup/EditSkill";
+import EditSoftSkill from "@/app/components/candidate-details/popup/EditSoftSkill";
 
-const Skills = ({ skills }: { skills: string[] }) => {
+const Softskills = ({ skills }: { skills: string[] }) => {
   return (
     <>
-      <h4 className="dash-title-three">Technical Skills</h4>
+      <h4 className="dash-title-three">Soft Skills</h4>
       <div className="dash-input-wrapper mb-40">
         {/* <label htmlFor="">Add Skills*</label> */}
 
         <div className="skills-wrapper">
           <ul className="style-none d-flex flex-wrap align-items-center">
-            {skills.map((val, index) => (
+            {skills?.map((val, index) => (
               <li key={index} className="is_tag" style={{ padding: "0 22px" }}>
                 <button>
                   {val}
@@ -25,7 +26,7 @@ const Skills = ({ skills }: { skills: string[] }) => {
             <li className="more_tag ">
               <button
                 data-bs-toggle="modal"
-                data-bs-target="#skillModal"
+                data-bs-target="#softSkillModal"
                 type="button"
                 className="d-flex mt-2 justify-content-center align-items-center "
               >
@@ -35,9 +36,9 @@ const Skills = ({ skills }: { skills: string[] }) => {
           </ul>
         </div>
       </div>
-      <EditSkill skills={skills} />
+      <EditSoftSkill skills={skills} />
     </>
   );
 };
 
-export default Skills;
+export default Softskills;

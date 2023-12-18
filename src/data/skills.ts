@@ -21,6 +21,30 @@ export const cybersecuritySkills = [
     { label: 'Security Risk Management', skill: 'Risk Management' },
 ];
 
+export const softSkillsSuggestions = [
+    { label: 'Communication Skills', skill: 'Communication Skills' },
+    { label: 'Problem-Solving', skill: 'Problem-Solving' },
+    { label: 'Critical Thinking', skill: 'Critical Thinking' },
+    { label: 'Adaptability', skill: 'Adaptability' },
+    { label: 'Team Collaboration', skill: 'Team Collaboration' },
+    { label: 'Leadership', skill: 'Leadership' },
+    { label: 'Ethical Judgement', skill: 'Ethical Judgement' },
+    { label: 'Attention to Detail', skill: 'Attention to Detail' },
+    { label: 'Analytical Thinking', skill: 'Analytical Thinking' },
+    { label: 'Time Management', skill: 'Time Management' },
+    { label: 'Creativity', skill: 'Creativity' },
+    { label: 'Curiosity', skill: 'Curiosity' },
+    { label: 'Continuous Learning', skill: 'Continuous Learning' },
+    { label: 'Interpersonal Skills', skill: 'Interpersonal Skills' },
+    { label: 'Emotional Intelligence', skill: 'Emotional Intelligence' },
+    { label: 'Conflict Resolution', skill: 'Conflict Resolution' },
+    { label: 'Resilience', skill: 'Resilience' },
+    { label: 'Stress Management', skill: 'Stress Management' },
+    { label: 'Decision Making', skill: 'Decision Making' },
+    { label: 'Negotiation Skills', skill: 'Negotiation Skills' },
+];
+
+
 export const benefits = [
     { value: "health_insurance", label: "Health Insurance" },
     { value: "retirement_plan", label: "Retirement Plan" },

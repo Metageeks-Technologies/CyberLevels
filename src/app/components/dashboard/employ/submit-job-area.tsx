@@ -17,15 +17,14 @@ import { askToGpt } from "@/redux/features/jobPost/api";
 import AutocompleteCompany from "@/ui/autoCompeteCompanyName";
 import AutocompleteBenefits from "@/ui/autoCompletebenefits";
 import { getAllLanguages } from "@/redux/features/languageProvider/api";
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import { getAllCurrencies } from "@/redux/features/currencyProvider/api";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
-// interface Country {
-//   languages?: string[];
-// }
+
 const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const dispatch = useAppDispatch();
   const { loading, gptLoading } = useSelector(
@@ -40,6 +39,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const [workMode, setWorkMode] = useState<string[]>([]);
   const [experience, setExperience] = useState<string[]>([]);
   const [language, setLanguage] = useState("");
+  const [currency, setCurrency] = useState("");
   const [location, setLocation] = useState<string[]>([]);
   const [salary, setSalary] = useState({
     minimum: "",
@@ -76,35 +76,16 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const [deadlineDate, setDeadlineDate] = useState<Date | null>(null);
   // const [fetchedLanguages, setFetchedLanguages] = useState<string[]>(languages);
 
-  const { languages } = useSelector(
-    (state: RootState) => state.language
-  );
+  const { languages } = useSelector((state: RootState) => state.language);
+  const { currencies } = useSelector((state: RootState) => state.currency);
   useEffect(() => {
-    // const fetchLanguages = async () => {
-    //   try {
-    //     const response = await fetch("https://restcountries.com/v3.1/all");
-    //     const countries: Country[] = await response.json();
-    //     const uniqueLanguages = Array.from(
-    //       new Set(
-    //         countries
-    //           .map((country) => country.languages || [])
-    //           .flat()
-    //           .filter(Boolean)
-    //       )
-    //     );
-    //     const flattenedValues = Array.from(
-    //       new Set(uniqueLanguages.flatMap((lang) => Object.values(lang)))
-    //     );
-    //     setFetchedLanguages(flattenedValues);
-    //   } catch (error) {
-    //     console.error("Error fetching languages:", error);
-    //   }
-    // };
-
-    // fetchLanguages()
-    // console.log("hello",fetchedLanguages)
     getAllLanguages(dispatch);
+    getAllCurrencies(dispatch);
   }, []);
+  useEffect(() => {
+    const item = { value: currency, label: currency };
+    updateSalaryProperty("currency", item);
+  }, [currency]);
 
   const handleSalary = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -189,15 +170,16 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
 
   const draftDescription = async () => {
     const query = `Help me in writing to the point job description for a job post with given information .
-                    job title:${bodyObj.title} job type:${bodyObj.jobType
-      } work mode:${bodyObj.workMode} primary skills:${bodyObj.primarySkills.join(
-        " ,"
-      )} 
+                    job title:${bodyObj.title} job type:${
+      bodyObj.jobType
+    } work mode:${bodyObj.workMode} primary skills:${bodyObj.primarySkills.join(
+      " ,"
+    )} 
                     secondary skill:${bodyObj.secondarySkills.join(
-        " ,"
-      )} preferred experience:${bodyObj.preferredExperience.join(
-        " ,"
-      )} 
+                      " ,"
+                    )} preferred experience:${bodyObj.preferredExperience.join(
+      " ,"
+    )} 
                     location:${bodyObj.location.join(" ,")} 
                     job benefits: ${bodyObj.benefits.join(" ,")}`;
     console.log(query);
@@ -376,7 +358,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
             </div>
             <div className="col-md-3">
               <div className="dash-input-wrapper mb-30">
-                <NiceSelect
+                {/* <NiceSelect
                   options={[
                     { value: "select currency", label: "select currency" },
                     { value: "Canadian dollars", label: "Canadian dollars" },
@@ -385,6 +367,13 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   defaultCurrent={0}
                   onChange={(item) => updateSalaryProperty("currency", item)}
                   name="currency"
+                /> */}
+                <AutocompletePosition
+                  selected={currency}
+                  setSelected={setCurrency}
+                  endPoint=""
+                  suggestionsProp={currencies}
+                  placeholder="Select Currency"
                 />
               </div>
             </div>
@@ -500,13 +489,14 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
                 <label htmlFor="">Application deadline</label>
-                <DatePicker className="w-full block"
+                <DatePicker
+                  className="w-full block"
                   placeholderText="DD/MM/YYYY"
                   name="deadlineDate"
                   selected={deadlineDate}
                   onChange={(date: Date | null) => setDeadlineDate(date)}
                   dateFormat="dd/MM/yyyy"
-                />               
+                />
               </div>
             </div>
           </div>
