@@ -2,23 +2,66 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { getCandidateSub } from "@/redux/features/subscription/api";
-import { IEmployerSub, Offering } from "@/types/template";
+import { getCandidateSub, updateCandidateSubscription } from "@/redux/features/subscription/api";
+import { IEmployerSub, Offering, OfferingField } from "@/types/template";
 import { camelCaseToNormal } from "@/utils/helper";
 import Loader from "@/ui/loader";
 
-const OfferingList = ({ offeringData }: { offeringData: Offering }) => {
+const OfferingList = ({ offeringData, planId }: { offeringData: Offering, planId: string }) => {
+  const dispatch = useAppDispatch();
+  const [edit, setEdit] = useState<number | null>(null);
+
+  const [offeringsDataCopy, setOfferingsDataCopy] = useState<Offering | null>(offeringData);
+  // console.log(offeringsDataCopy);
+  const handleEdit = () => {
+    setEdit(1);
+    
+  };
+  const handleSave = () => {
+    setEdit(null);
+    const Obj = {planId,data:{offering:offeringsDataCopy}}
+    updateCandidateSubscription(dispatch,Obj);
+
+  }
   const renderOfferingItems = () => {
+    // const [keyValuePair, setKeyValuePair] = useState<Offering | null>(offeringData);
+    // console.log(keyValuePair);
+    const handleOnChange = (key:string,value:OfferingField) => {
+      setOfferingsDataCopy({...offeringsDataCopy,[key]:value})
+    }
     return Object.entries(offeringData).map(([key, value]) => {
       // Customize the rendering based on your requirements
       let displayKey = key;
       let displayValue = value;
 
-      return <li key={key}>{`${camelCaseToNormal(key)}: ${displayValue}`}</li>;
+
+      return (
+        (edit !== null) ? <li key={key}>
+          {camelCaseToNormal(key)}
+        <input
+          key={key}
+          type="text"
+          value={offeringsDataCopy[key] || ''}
+          onChange={(e) => {
+            handleOnChange(key,e.target.value)
+          }}
+        />
+      </li> : (
+          <li key={key}>{`${camelCaseToNormal(key)}: ${displayValue}`}</li>
+        )
+      );
     });
   };
 
-  return <ul className="style-none">{renderOfferingItems()}</ul>;
+  return (
+    <>
+    
+        <ul className="style-none">{renderOfferingItems()}</ul>
+        {edit !== null?<button className="get-plan-btn tran3s w-100 mt-30" onClick={()=> handleSave()}>Save</button> : <button className="get-plan-btn tran3s w-100 mt-30" onClick={()=> handleEdit()}>Edit</button>}
+        
+    </>
+  
+  );
 };
 
 const CandidateSub = ({
@@ -45,7 +88,7 @@ const CandidateSub = ({
                     <p className=" fs-4 ">{subObj.price.currency}</p>
                   </div>
                   <ul className="style-none">
-                    <OfferingList offeringData={subObj.offering as Offering} />
+                    <OfferingList offeringData={subObj.offering as Offering} planId={subObj._id}/>
                   </ul>
                   <a href="#" className="get-plan-btn tran3s w-100 mt-30">
                     {subObj.duration} Plan

@@ -12,7 +12,7 @@ export interface IEmployerSub {
     },
     __v: number
 }
-interface OfferingField {
+export interface OfferingField {
     type: string;
     required?: boolean;
 }
