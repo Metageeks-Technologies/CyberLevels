@@ -59,6 +59,7 @@ export default function RootLayout({
         <Providers>{children}</Providers>
         <BackToTopCom />
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoRBoehhoLznAQVPyIQU5BoviiGRdIAao&libraries=places&callback=myCallbackFunc"></script>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
       </body>
     </html>
   );

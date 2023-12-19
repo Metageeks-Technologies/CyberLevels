@@ -1,18 +1,13 @@
 "use client";
-import { addCompany } from "@/redux/features/company/api";
-import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { RootState } from "@/redux/store";
-import { IFunding } from "@/types/company";
+import { updateTemplate } from "@/redux/features/template/api";
+import { useAppSelector } from "@/redux/hook";
 import Loader from "@/ui/loader";
-import { notifyInfo } from "@/utils/toast";
 import React, { useState } from "react";
 import "react-phone-number-input/style.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import DashboardHeader from "../candidate/dashboard-header";
-import TypeSelect from "./typeSelect";
 import AttachSelect from "./attachSelect";
-import { updateTemplate } from "@/redux/features/template/api";
-import { set } from "lodash";
+import TypeSelect from "./typeSelect";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;

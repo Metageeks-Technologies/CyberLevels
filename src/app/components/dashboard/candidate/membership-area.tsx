@@ -1,7 +1,13 @@
 import React from "react";
 import DashboardHeader from "../candidate/dashboard-header";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import instance from "@/lib/axios";
 
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,6 +17,47 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
     (s) => s.candidate.candidateDashboard
   );
   const subscription = currCandidate?.subscription;
+
+  const checkoutHandler = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    // console.log("amount", amount);
+    const amount = 277.99;
+    const {
+      data: { keyId },
+    } = await instance.get("/payment/getKey");
+
+    const {
+      data: { order },
+    } = await instance.post("/payment/checkout", {
+      amount,
+    });
+
+    const options = {
+      key: keyId,
+      amount: order.amount,
+      currency: order.currency,
+      name: "Shiva Shah",
+      description: "Testing of RazorPay",
+      image: "https://avatars.githubusercontent.com/u/86485099?v=4",
+      order_id: order.id,
+      callback_url: `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/payment/paymentVerification`,
+      prefill: {
+        name: "Gaurav Kumar",
+        email: "gaurav.kumar@example.com",
+        contact: "9999999999",
+      },
+      notes: {
+        address: "Razorpay Corporate Office",
+      },
+      theme: {
+        color: "#00BF58",
+      },
+    };
+
+    const razor = new window.Razorpay(options);
+    razor.open();
+  };
 
   return (
     <>
@@ -37,7 +84,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                 <div className="col-xxl-5 col-lg-6 d-flex flex-column">
                   <div className="column border-left w-100 h-100">
                     <div className="d-flex">
-                      <h3 className="price m0">$00</h3>
+                      <h3 className="price m0">₹00</h3>
                       <div className="ps-4 flex-fill">
                         <h6>Monthly Plan</h6>
                         <span className="text1 d-block">
@@ -71,11 +118,11 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                   </div>
                 </div>
                 <div className="col-lg-4 col-md-6">
-                  <div className="pricing-card-one popular-two mt-25">
+                  <div className="pricing-card-one popular-two mt-25 ">
                     <div className="popular-badge">popular</div>
                     <div className="pack-name">Gold</div>
                     <div className="price fw-500">
-                      <sub>$</sub> 27.<sup>99</sup>
+                      <sub>₹</sub> 277.<sup>99</sup>
                     </div>
                     <ul className="style-none">
                       <li>30 job Post </li>
@@ -84,16 +131,19 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                         1.5X high Chance for getting suggested to the employer{" "}
                       </li>
                     </ul>
-                    <a href="#" className="get-plan-btn tran3s w-100 mt-30">
+                    <button
+                      onClick={checkoutHandler}
+                      className="get-plan-btn tran3s w-100 mt-30 mx-auto "
+                    >
                       Choose Plan
-                    </a>
+                    </button>
                   </div>
                 </div>
                 <div className="col-lg-4 col-md-6">
                   <div className="pricing-card-one border-0 mt-25">
                     <div className="pack-name">Diamond</div>
                     <div className="price fw-500">
-                      <sub>$</sub> 39.<sup>99</sup>
+                      <sub>₹</sub> 399.<sup>99</sup>
                     </div>
                     <ul className="style-none">
                       <li>60 job post </li>
