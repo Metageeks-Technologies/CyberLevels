@@ -14,9 +14,14 @@ type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
-  const [isCandidate, setIsCandidate] = useState(false);
-
+  const [isCandidate, setIsCandidate] = useState<boolean>(() => {
+    const storedValue = localStorage.getItem("isCandidate");
+    return storedValue ? JSON.parse(storedValue) : false;
+  });
+  console.log("candidate value is",isCandidate)
   const handleToggle = () => {
+    const newCandidate = !isCandidate;
+    localStorage.setItem("isCandidate", newCandidate.toString());
     setIsCandidate((prev) => !prev);
   };
 
@@ -24,8 +29,19 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
   const { employSub } = useAppSelector((s) => s.subscription);
 
   useEffect(() => {
-    if (isCandidate) getCandidateSub(dispatch);
-    else getEmploySub(dispatch);
+    let storedValue: string | boolean | null = localStorage.getItem("isCandidate");
+  
+    if (storedValue) {
+      storedValue = JSON.parse(storedValue);
+    } else {
+      storedValue = false;
+    }
+  
+    if (storedValue) {
+      getCandidateSub(dispatch);
+    } else {
+      getEmploySub(dispatch);
+    }
   }, [isCandidate]);
 
   return (

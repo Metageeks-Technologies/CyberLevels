@@ -56,7 +56,7 @@ export const subscriptionSlice = createSlice({
                 state.employSub.push(action.payload)
             state.loading = false;
             state.error = null;
-        }
+        },
 
     },
 })

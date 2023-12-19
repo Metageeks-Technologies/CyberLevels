@@ -68,3 +68,19 @@ export const getCandidateSub = async (dispatch: AppDispatch) => {
     }
 
 }
+
+export const updateCandidateSubscription = async (dispatch: AppDispatch, bodyObj:any) => {
+    dispatch(requestStart());
+    try {
+        await instance.patch(`/subscription/candidate`,bodyObj);
+        await instance.patch(`/subscription/employer`,bodyObj);
+        
+            getCandidateSub(dispatch);
+            getEmploySub(dispatch);
+
+        
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message));
+    }
+}
