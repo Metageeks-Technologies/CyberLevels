@@ -15,15 +15,16 @@ const Certificates: React.FC = () => {
   const [currentText, setCurrentText] = useState<string>("");
 
   const addText = () => {
-    if (currentText.trim() !== "") {
-      setTexts([...texts, currentText]);
-      console.log(currentText, "hello");
-      setCurrentText("");
-    }
+    if (currentText.trim() !== ''){
+    setTexts([...texts, currentText]);
+    
+    setCurrentText('');
+    
+}
   };
 
   const handleSave = async () => {
-    console.log(texts, "hiiii");
+    
     if (currCandidate) {
       const isUpdated = await updateCurrCandidate(dispatch, currCandidate._id, {
         certificate: texts,

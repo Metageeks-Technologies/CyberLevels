@@ -86,6 +86,13 @@ const nav_data: {
     link: "/dashboard/candidate-dashboard/job-alert",
     title: "Job Alert",
   },
+  // {
+  //   id:10,
+  //   icon:nav_4,
+  //   icon_active:nav_4_active,
+  //   link:"/dashboard/admin-dashboard/template",
+  //   title:"Email Template"
+  // },
 
   // {
   //   id: 7,
