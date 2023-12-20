@@ -18,7 +18,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
     const storedValue = localStorage.getItem("isCandidate");
     return storedValue ? JSON.parse(storedValue) : false;
   });
-  console.log("candidate value is",isCandidate)
+  // console.log("candidate value is",isCandidate)
   const handleToggle = () => {
     const newCandidate = !isCandidate;
     localStorage.setItem("isCandidate", newCandidate.toString());
