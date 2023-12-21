@@ -21,17 +21,22 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
   const checkoutHandler = async (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
-    // console.log("amount", amount);
-    const amount = 277.99;
+    const bodyObj = {
+      amount: 100,
+      currency: "INR",
+      user: currCandidate?._id,
+      userModel: "Candidate",
+      product: "657c77e3b1d24ba5bfe3cdde",
+      productModel: "CandidateSub",
+    };
+
     const {
       data: { keyId },
     } = await instance.get("/payment/getKey");
 
     const {
       data: { order },
-    } = await instance.post("/payment/checkout", {
-      amount,
-    });
+    } = await instance.post("/payment/checkout", bodyObj);
 
     const options = {
       key: keyId,
@@ -56,6 +61,9 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
     };
 
     const razor = new window.Razorpay(options);
+    razor.on("payment.failed", function (response: any) {
+      alert(`Payment failed: ${response.error.code}`);
+    });
     razor.open();
   };
 

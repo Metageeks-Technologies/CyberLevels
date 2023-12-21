@@ -51,6 +51,13 @@ const nav_data: {
     title: "Companies",
   },
   {
+    id: 11,
+    icon: nav_2,
+    icon_active: nav_2_active,
+    link: "/dashboard/admin-dashboard/user",
+    title: "User",
+  },
+  {
     id: 3,
     icon: nav_3,
     icon_active: nav_3_active,
@@ -100,11 +107,11 @@ const nav_data: {
     title: "Account Settings",
   },
   {
-    id:9,
+    id: 10,
     icon: nav_4,
-    icon_active:nav_4_active,
-    link:"/dashboard/admin-dashboard/template",
-    title:"Email Template"
+    icon_active: nav_4_active,
+    link: "/dashboard/admin-dashboard/template",
+    title: "Email Template",
   },
 ];
 // props type
