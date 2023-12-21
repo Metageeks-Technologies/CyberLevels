@@ -147,7 +147,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   };
 
   const handleSubmit = async () => {
-    console.log(bodyObj);
+    // console.log(bodyObj);
 
     await addJobPost(dispatch, bodyObj);
     // setTitle("");

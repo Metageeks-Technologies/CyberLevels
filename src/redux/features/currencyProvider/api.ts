@@ -37,6 +37,7 @@ export const getAllCurrencies = async (dispatch: AppDispatch) => {
       new Set(currencies.flatMap((currency) => Object.values(currency)))
     );
     // console.log(flattenedValues);
+    
     const currencyNames = Array.from(
       new Set(flattenedValues
         .map((currency) => currency.name)
