@@ -193,23 +193,26 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
 
   const handleRemoveTemplate = async () => {
     if (selectedTemplate) {
-      try {
-        await deleteTemplateAction(dispatch, selectedTemplate._id);  //id
-        dispatch(deleteEmailTemplateSuccess(selectedTemplate.templateName));
-        if (templateType === 'employer') {
-          setEmployerTemplates((prevTemplates) =>
-            prevTemplates.filter((t) => t.id !== selectedTemplate.id)
-          );
-        } else if (templateType === 'candidate') {
-          setCandidateTemplates((prevTemplates) =>
-            prevTemplates.filter((t) => t.id !== selectedTemplate.id)
-          );
+      const confirmDelete = window.confirm("Do you really want to delete this template?");
+      if (confirmDelete) {
+        try {
+          await deleteTemplateAction(dispatch, selectedTemplate._id);  //id
+          dispatch(deleteEmailTemplateSuccess(selectedTemplate.templateName));
+          if (templateType === 'employer') {
+            setEmployerTemplates((prevTemplates) =>
+              prevTemplates.filter((t) => t.id !== selectedTemplate.id)
+            );
+          } else if (templateType === 'candidate') {
+            setCandidateTemplates((prevTemplates) =>
+              prevTemplates.filter((t) => t.id !== selectedTemplate.id)
+            );
+          }
+          // Clear the selected template
+          setSelectedTemplate(null);
         }
-        // Clear the selected template
-        setSelectedTemplate(null);
-      }
-      catch (error) {
-        console.error("Error deleting template:", error);
+        catch (error) {
+          console.error("Error deleting template:", error);
+        }
       }
     }
   };
