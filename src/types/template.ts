@@ -4,7 +4,11 @@ export interface IEmployerSub {
     subscriptionFor: string;
     price: {
         amount: number;
-        currency: string;
+        currency: {
+            abbreviation:string;
+            name:string;
+            symbol:string;
+        };
     };
     duration: string;
     offering: {
@@ -28,7 +32,11 @@ export interface ICandidateSub {
         subscriptionFor: string;
         price: {
             amount: number;
-            currency: string;
+            currency: {
+                abbreviation: string;
+                name: string;
+                symbol: string;
+            };
         };
         duration: string;
         // offering: {

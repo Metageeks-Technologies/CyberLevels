@@ -4,7 +4,7 @@ import {
   subscriptionForOption,
   currencyOptions,
 } from "@/utils/selectOtions";
-import AutocompletePosition from "@/ui/autoCompletePosistion";
+import AutocompleteCurrency from "@/ui/autoCompleteCurrency";
 import { useState, useEffect } from "react";
 import UniversalSelect from "./universel-select";
 import { getCandidateSubModel } from "@/redux/features/template/api";
@@ -15,6 +15,7 @@ import {
 } from "@/redux/features/subscription/api";
 import { getAllCurrencies } from "@/redux/features/currencyProvider/api";
 import { camelCaseToNormal } from "@/utils/helper";
+import { Currency } from "@/redux/features/currencyProvider/slice";
 
 interface OfferingField {
   type: string;
@@ -32,7 +33,11 @@ const SubscriptionModel = () => {
   const [subscriptionType, setSubscriptionType] = useState("");
   const [subscriptionFor, setSubscriptionFor] = useState("");
   const [subscriptionAmount, setSubscriptionAmount] = useState("");
-  const [subscriptionCurrency, setSubscriptionCurrency] = useState("");
+  const [subscriptionCurrency, setSubscriptionCurrency] = useState<Currency|undefined>({
+    abbreviation:"",
+    name:"",
+    symbol:""
+  });
   const [subscriptionDuration, setSubscriptionDuration] = useState("");
   const [dynamicFields, setDynamicFields] = useState<{
     [key: string]: string;
@@ -113,7 +118,11 @@ const SubscriptionModel = () => {
     setSubscriptionType("");
     setSubscriptionFor("");
     setSubscriptionAmount("");
-    setSubscriptionCurrency("");
+    setSubscriptionCurrency({
+      abbreviation:"",
+      name:"",
+      symbol:""
+    });
     setSubscriptionDuration("");
     setDynamicFields({});
   };
@@ -186,7 +195,7 @@ const SubscriptionModel = () => {
                             options={currencyOptions}
                             setSelected={setSubscriptionCurrency}
                           /> */}
-                        <AutocompletePosition
+                        <AutocompleteCurrency
                           selected={subscriptionCurrency}
                           setSelected={setSubscriptionCurrency}
                           endPoint=""

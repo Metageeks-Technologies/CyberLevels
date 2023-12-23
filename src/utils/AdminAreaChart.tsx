@@ -9,13 +9,13 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const AdminAreaChart = ({ dataMode }: { dataMode: string }) => {
+const AdminAreaChart = ({ dataMode, lastUnit }: { dataMode: string, lastUnit: number}) => {
   const getLastFiveDays = () => {
     const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const today = new Date();
     const lastFiveDays = [];
 
-    for (let i = 4; i >= 0; i--) {
+    for (let i = lastUnit; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(today.getDate() - i);
       const dayName = dayNames[date.getDay()];
@@ -29,7 +29,7 @@ const AdminAreaChart = ({ dataMode }: { dataMode: string }) => {
     const today = new Date();
     const lastMonths = [];
 
-    for (let i = 4; i >= 0; i--) {
+    for (let i = lastUnit; i >= 0; i--) {
       const date = new Date(today);
       date.setMonth(today.getMonth() - i);
       const monthName = new Intl.DateTimeFormat("en-US", {
@@ -45,7 +45,7 @@ const AdminAreaChart = ({ dataMode }: { dataMode: string }) => {
     const today = new Date();
     const lastYears = [];
 
-    for (let i = 4; i >= 0; i--) {
+    for (let i = lastUnit; i >= 0; i--) {
       const date = new Date(today);
       date.setFullYear(today.getFullYear() - i);
       lastYears.push(date.getFullYear().toString());

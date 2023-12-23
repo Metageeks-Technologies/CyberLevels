@@ -9,10 +9,12 @@ import { AxiosError } from "axios";
 interface Currency {
   name: string;
   symbol: string;
+  abbreviation:string;
+  [key:string]: any
 }
 
 interface Country {
-  currencies?: Currency[];
+  currencies?: Currency;
 }
 
 
@@ -34,15 +36,24 @@ export const getAllCurrencies = async (dispatch: AppDispatch) => {
     );
     // console.log(currencies);
     const flattenedValues = Array.from(
-      new Set(currencies.flatMap((currency) => Object.values(currency)))
+      new Set(currencies.map((item) => {
+        const [key]:string[] = Object.keys(item);
+        const {name , symbol} = item[key];
+        return {
+          abbreviation: key,
+          name,
+          symbol
+        }
+
+      }))
     );
     // console.log(flattenedValues);
     
-    const currencyNames = Array.from(
+    const currencyNames:any = Array.from(
       new Set(flattenedValues
-        .map((currency) => currency.name)
-        .filter(Boolean)
-      )
+        .map((currency) => currency.name)),
+        (name) => flattenedValues.find((currency) => currency.name === name)
+      
     );
     // console.log(currencyNames);
     // const currencyList = Array.from(

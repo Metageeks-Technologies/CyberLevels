@@ -70,7 +70,11 @@ export interface ICandidate {
     education: IEducation[],
     socialSites: ISocial;
     expectedSalary: {
-        currency: string,
+        currency: {
+            abbreviation:string;
+            name:string;
+            symbol:string;
+        },
         salary: number,
         period: string
     },

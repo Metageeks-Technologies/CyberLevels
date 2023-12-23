@@ -39,6 +39,11 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
     deleteJobPost(dispatch, id);
   };
   const [dataMode, setDataMode] = useState<string>("Day");
+  const [lastUnit, setLastUnit] = useState<number>(6)
+  const handleLastUnits = (item:{value:string,label:string}) => {
+    const val = parseInt(item.value);
+    setLastUnit(val);
+  }
 
   return (
     <div className="dashboard-body">
@@ -81,9 +86,11 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                   />
                 </div>
               </div>
-              <div className="flex gap-2 px-5 " style={{ display: "flex" }}>
+              <div className="flex px-4 md:px-6 lg:px-8 xl:px-10 " style={{ display: "flex", justifyContent: "space-between", alignItems:"center" }}>
+                <div className="gap-1 sm:gap-2" style={{ display: "flex"}}>
+
                 <button
-                  className=" font-bold p-2  px-3"
+                  className=" font-bold p-2 px-3"
                   style={{ background: dataMode=== "Day"? "#D2F34C" : "#3f634d",borderRadius: "9999px",color:dataMode === "Day"?" #3f634d" :"white" }}
                   onClick = {() => setDataMode("Day")}
                 >
@@ -93,19 +100,33 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                   className="p-2 font-bold px-3"
                   style={{ background: dataMode=== "Month"? "#D2F34C" : "#3f634d", borderRadius: "9999px",color:dataMode === "Month"?" #3f634d" :"white" }}
                   onClick = {() => setDataMode("Month")}
-                >
+                  >
                   Month
                 </button>
                 <button
                   className=" p-2 px-3"
                   style={{ background: dataMode === "Year"? "#D2F34C" : "#3f634d",borderRadius: "9999px",color:dataMode === "Year"?" #3f634d" :"white" }}
                   onClick = {() => setDataMode("Year")}
-                >
+                  >
                   Year
                 </button>
+                  </div>
+                <div>
+                <NiceSelect
+                  options={[
+                    { value: "2", label: "last 3 units" },
+                    { value: "4", label: "last 5 units" },
+                    { value: "6", label: "last 7 units" },
+                    { value: "11", label: "last 12 units" },
+                  ]}
+                  defaultCurrent={2}
+                  onChange={(item) => handleLastUnits(item)}
+                  name="last units"
+                />
+                </div>
               </div>
               <div className="px-3 pb-3 mt-50">
-                <AdminAreaChart dataMode = {dataMode} />
+                <AdminAreaChart dataMode = {dataMode} lastUnit={lastUnit}/>
               </div>
             </div>
           </div>

@@ -31,7 +31,6 @@ function AutocompletePosition({
           if (suggestionsProp.length > 0) {
             const filteredOptions: string[] = suggestionsProp.filter((option) =>
               option.toLowerCase().includes(query.toLowerCase())
-              // console.log(suggetionsProp)
             );
             setLanguages(filteredOptions);
           } else {
@@ -39,7 +38,6 @@ function AutocompletePosition({
               `${endPoint}/search?query=${query}`
             );
             setSuggestions(data);
-
             console.log(data);
           }
         }

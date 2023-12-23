@@ -1,7 +1,12 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+export interface Currency{
+  abbreviation:string,
+  name:string,
+  symbol:string
+}
 export interface currencyState {
-  currencies: string[];
+  currencies: Currency[];
   loading: boolean;
   error: string;
 }
@@ -19,7 +24,7 @@ export const currencySlice = createSlice({
     fetchCurrenciesRequest: (state) => {
       state.loading = true;
     },
-    fetchCurrenciesSuccess: (state, action: PayloadAction<string[]>) => {
+    fetchCurrenciesSuccess: (state, action: PayloadAction<Currency[]>) => {
       state.loading = false;
       state.currencies = action.payload;
     },

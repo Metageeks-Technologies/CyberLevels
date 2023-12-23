@@ -17,7 +17,11 @@ export interface IJobPost {
         minimum: number;
         maximum: number;
         isDisclosed: boolean;
-        currency: string;
+        currency: {
+            abbreviation: string;
+            name: string;
+            symbol: string;
+        }
         period: "monthly" | "yearly" | "weekly" | "hourly";
     };
     preferredExperience: string[];
