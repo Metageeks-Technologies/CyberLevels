@@ -17,6 +17,7 @@ import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 import currencySlice from './features/currencyProvider/slice'; import templateSlice from './features/template/slice';
 import subscriptionSlice from './features/subscription/slice';
+import emailTemplateSlice from './features/emailTemplate/slice';
 
 const rootReducer = combineReducers({
   user: userSlice
@@ -56,6 +57,7 @@ export const store = configureStore({
     template: templateSlice,
     language: languageSlice,
     currency: currencySlice,
+    emailTemplate: emailTemplateSlice,
   },
 
 })

@@ -103,7 +103,7 @@ const nav_data: {
     id:9,
     icon: nav_4,
     icon_active:nav_4_active,
-    link:"/dashboard/admin-dashboard/template",
+    link:"/dashboard/admin-dashboard/emailTemplate",
     title:"Email Template"
   },
 ];
