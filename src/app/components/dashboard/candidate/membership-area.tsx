@@ -1,8 +1,11 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import DashboardHeader from "../candidate/dashboard-header";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import instance from "@/lib/axios";
-
+import { getCandidateSub } from "@/redux/features/subscription/api";
+import { IEmployerSub, Offering, OfferingField } from "@/types/template";
+import { camelCaseToNormal } from "@/utils/helper";
 declare global {
   interface Window {
     Razorpay: any;
@@ -19,14 +22,15 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
   const subscription = currCandidate?.subscription;
 
   const checkoutHandler = async (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
+    sub: IEmployerSub
   ) => {
     const bodyObj = {
-      amount: 100,
+      amount: sub.price.amount,
       currency: "INR",
       user: currCandidate?._id,
       userModel: "Candidate",
-      product: "657c77e3b1d24ba5bfe3cdde",
+      product: sub._id,
       productModel: "CandidateSub",
     };
 
@@ -67,6 +71,23 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
     razor.open();
   };
 
+  const dispatch = useAppDispatch();
+  const { employSub } = useAppSelector((s) => s.subscription);
+
+  useEffect(() => {
+    getCandidateSub(dispatch);
+  }, []);
+
+  const renderOfferingItems = (offeringData: Offering) => {
+    return Object.entries(offeringData).map(([key, value]) => {
+      // Customize the rendering based on your requirements
+      let displayKey = key;
+      let displayValue = value;
+
+      return <li key={key}>{`${camelCaseToNormal(key)}: ${displayValue}`}</li>;
+    });
+  };
+
   return (
     <>
       {subscription && (
@@ -82,17 +103,24 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
               <div className="row gx-0">
                 <div className="col-xxl-7 col-lg-6 d-flex flex-column">
                   <div className="column w-100 h-100">
-                    <h4>Current Plan ({subscription.plan})</h4>
-                    <p>
-                      Unlimited access to our legal document library and online
-                      rental application tool, billed monthly.
-                    </p>
+                    <h4>
+                      Current Plan (
+                      {"subscriptionType" in subscription &&
+                        subscription.subscriptionType}
+                      )
+                    </h4>
+                    <p>You can anytime update the subscription plan.</p>
                   </div>
                 </div>
                 <div className="col-xxl-5 col-lg-6 d-flex flex-column">
                   <div className="column border-left w-100 h-100">
                     <div className="d-flex">
-                      <h3 className="price m0">₹00</h3>
+                      <h3 className="price m0">
+                        ₹
+                        {"price" in subscription &&
+                          "amount" in subscription.price &&
+                          subscription.price.amount}
+                      </h3>
                       <div className="ps-4 flex-fill">
                         <h6>Monthly Plan</h6>
                         <span className="text1 d-block">
@@ -111,8 +139,43 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
 
             <section className="pricing-section">
               <div className="row justify-content-center">
-                <div className="col-lg-4 col-md-6">
-                  <div className="pricing-card-one border-0 mt-25">
+                {employSub.map((sub, index) => (
+                  <div className="col-lg-4 col-md-6">
+                    <div className="pricing-card-one popular-two mt-25 ">
+                      {index === 1 && (
+                        <div className="popular-badge">popular</div>
+                      )}
+                      <div className="popular-badge">
+                        {subscription.hasOwnProperty("_id") &&
+                        subscription._id === sub._id
+                          ? "Current"
+                          : null}
+                      </div>
+
+                      <div className="pack-name text-capitalize ">
+                        {sub.subscriptionType}
+                      </div>
+                      <div className="price fw-500">
+                        <sub title={sub.price.currency}>₹</sub>{" "}
+                        {sub.price.amount}
+                      </div>
+                      <ul className="style-none">
+                        {renderOfferingItems(sub.offering as Offering)}
+                      </ul>
+                      <button
+                        onClick={(e) => checkoutHandler(e, sub)}
+                        className="get-plan-btn tran3s w-100 mt-30 mx-auto "
+                      >
+                        {subscription.hasOwnProperty("_id") &&
+                        subscription._id === sub._id
+                          ? "Current Plan"
+                          : "Choose Plan"}
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                {/* <div className="col-lg-4 col-md-6">
+                  <div className="pricing-card-one mt-25">
                     <div className="pack-name">Standard</div>
                     <div className="price fw-500">0</div>
                     <ul className="style-none">
@@ -165,7 +228,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                       Choose Plan
                     </a>
                   </div>
-                </div>
+                </div> */}
               </div>
             </section>
           </div>

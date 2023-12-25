@@ -85,7 +85,7 @@ export interface ICandidate {
     updatedAt: string,
     isSaved?: boolean,
     experienceInShort: string,
-    subscription: ISubscription
+    subscription: any,
     role: string,
     _id: string,
     __v: number

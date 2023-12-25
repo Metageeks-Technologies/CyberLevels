@@ -1,8 +1,10 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import ShortSelect from "../../common/short-select";
 import DashboardHeader from "../candidate/dashboard-header";
 // import ActionDropdown from "./action-dropdown-sabJobs";
 import CandidateList from "./user/candidates";
+import EmployerList from "./user/employer";
 
 // props type
 type IProps = {
@@ -10,6 +12,10 @@ type IProps = {
 };
 
 const UserList = ({ setIsOpenSidebar }: IProps) => {
+  const [isCandidate, setIsCandidate] = useState(true);
+  const handleToggle = () => {
+    setIsCandidate((prev) => !prev);
+  };
   return (
     <div className="dashboard-body">
       <div className="position-relative">
@@ -18,7 +24,20 @@ const UserList = ({ setIsOpenSidebar }: IProps) => {
         {/* header end */}
 
         <div className="d-flex align-items-center justify-content-between mb-40 lg-mb-30">
-          <h2 className="main-title m0">Saved Job</h2>
+          <div className="subscription-tab align-content-center py-2  d-flex gap-3 px-2">
+            <p
+              onClick={handleToggle}
+              className={`p-1 px-2 ${isCandidate && "active"}`}
+            >
+              Candidate
+            </p>
+            <p
+              onClick={handleToggle}
+              className={`p-1 px-2 ${!isCandidate && "active"}`}
+            >
+              Employer
+            </p>
+          </div>
           <div className="short-filter d-flex align-items-center">
             <div className="text-dark fw-500 me-2">Short by:</div>
             <ShortSelect />
@@ -26,7 +45,7 @@ const UserList = ({ setIsOpenSidebar }: IProps) => {
         </div>
 
         <div className="wrapper">
-          <CandidateList />
+          {isCandidate ? <CandidateList /> : <EmployerList />}
         </div>
       </div>
     </div>

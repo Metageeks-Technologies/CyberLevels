@@ -1,4 +1,4 @@
-interface ILocation {
+export interface ILocation {
     locality: string;
     city: string;
     state: string;

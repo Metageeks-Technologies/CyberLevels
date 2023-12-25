@@ -1,30 +1,31 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import candidate_data from "@/data/candidate-data";
-import CandidateListItem from "./utils/candidateList";
+import CandidateListItem from "../user/utils/candidateList";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { getCandidates } from "@/redux/features/candidate/api";
 import Pagination from "@/ui/pagination";
 import { setPage } from "@/redux/features/candidate/slice";
 import Loader from "@/ui/loader";
-import { getAllCandidate } from "@/redux/features/admin/api";
+import { getAllCandidate, getAllCompany } from "@/redux/features/admin/api";
+import CompanyListItem from "./companyListItem";
 
-const CandidateList = () => {
+const CompanyList = () => {
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
 
-  const { candidatesFA, pageFC, totalCandidate, totalNumOfPageFC, loading } =
+  const { companyFA, pageFCom, totalCompany, totalNumOfPageFCom, loading } =
     useAppSelector((state) => state.admin);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    getAllCandidate(dispatch, { page: pageFC, limit: 8 });
-  }, [pageFC]);
+    getAllCompany(dispatch, { page: pageFCom, limit: 8 });
+  }, [pageFCom]);
   const itemsPerPage = 8;
 
   const handlePageClick = (event: { selected: number }) => {
     dispatch(setPage(event.selected + 1));
   };
-  console.log("candidatesFA", candidatesFA);
+  //   console.log("candidatesFA", companyFA);
 
   return (
     <section className="candidates-profile lg-pt-80 pb-160 xl-pb-150 lg-pb-80">
@@ -53,76 +54,38 @@ const CandidateList = () => {
                     All <span className="text-dark fw-500">{"28"}</span>{" "}
                     candidates found
                   </div>
-                  {/* <div className="d-flex align-items-center">
-                    <div className="short-filter d-flex align-items-center">
-                      <div className="text-dark fw-500 me-2">Short:</div>
-                      <ShortSelect />
-                    </div>
-                    <button
-                      onClick={() => setJobType("list")}
-                      className={`style-changer-btn text-center rounded-circle tran3s ms-2 list-btn ${
-                        jobType === "grid" ? "active" : ""
-                      }`}
-                      title="Active List"
-                    >
-                      <i className="bi bi-list"></i>
-                    </button>
-                    <button
-                      onClick={() => setJobType("grid")}
-                      className={`style-changer-btn text-center rounded-circle tran3s ms-2 grid-btn ${
-                        jobType === "list" ? "active" : ""
-                      }`}
-                      title="Active Grid"
-                    >
-                      <i className="bi bi-grid"></i>
-                    </button>
-                  </div> */}
                 </div>
-
-                {/* <div
-                  className={`accordion-box grid-style ${
-                    jobType === "grid" ? "show" : ""
-                  }`}
-                >
-                  <div className="row">
-                    {candidates?.map((item) => (
-                      <div key={item._id} className="col-xxl-4 col-sm-6 d-flex">
-                        <CandidateGridItem item={item} />
-                      </div>
-                    ))}
-                  </div>
-                </div> */}
 
                 <div
                   className={`accordion-box list-style ${
                     "list" === "list" ? "show" : ""
                   }`}
                 >
-                  {candidatesFA?.map((item) => (
-                    <CandidateListItem key={item._id} item={item} />
+                  {companyFA?.map((item) => (
+                    <CompanyListItem key={item._id} item={item} />
                   ))}
                 </div>
 
-                {candidatesFA && (
+                {companyFA && (
                   <div className="pt-30 lg-pt-20 d-sm-flex align-items-center justify-content-between">
                     <p className="m0 order-sm-last text-center text-sm-start xs-pb-20">
                       Showing{" "}
                       <span className="text-dark fw-500">
-                        {(pageFC - 1) * itemsPerPage + 1}
+                        {(pageFCom - 1) * itemsPerPage + 1}
                       </span>{" "}
                       to{" "}
                       <span className="text-dark fw-500">
-                        {Math.min(pageFC * itemsPerPage, totalCandidate)}
+                        {Math.min(pageFCom * itemsPerPage, totalCompany)}
                       </span>{" "}
                       of{" "}
-                      <span className="text-dark fw-500">{totalCandidate}</span>
+                      <span className="text-dark fw-500">{totalCompany}</span>
                     </p>
 
-                    {totalCandidate > itemsPerPage && (
+                    {totalCompany > itemsPerPage && (
                       <Pagination
-                        pageCount={totalNumOfPageFC}
+                        pageCount={totalNumOfPageFCom}
                         handlePageClick={handlePageClick}
-                        currPage={pageFC}
+                        currPage={pageFCom}
                       />
                     )}
                   </div>
@@ -142,4 +105,4 @@ const CandidateList = () => {
   );
 };
 
-export default CandidateList;
+export default CompanyList;

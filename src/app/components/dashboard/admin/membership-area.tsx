@@ -18,7 +18,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
     const storedValue = localStorage.getItem("isCandidate");
     return storedValue ? JSON.parse(storedValue) : false;
   });
-  console.log("candidate value is",isCandidate)
+  console.log("candidate value is", isCandidate);
   const handleToggle = () => {
     const newCandidate = !isCandidate;
     localStorage.setItem("isCandidate", newCandidate.toString());
@@ -29,14 +29,15 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
   const { employSub } = useAppSelector((s) => s.subscription);
 
   useEffect(() => {
-    let storedValue: string | boolean | null = localStorage.getItem("isCandidate");
-  
+    let storedValue: string | boolean | null =
+      localStorage.getItem("isCandidate");
+
     if (storedValue) {
       storedValue = JSON.parse(storedValue);
     } else {
       storedValue = false;
     }
-  
+
     if (storedValue) {
       getCandidateSub(dispatch);
     } else {

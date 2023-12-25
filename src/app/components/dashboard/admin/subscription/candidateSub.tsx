@@ -50,7 +50,7 @@ const OfferingList = ({
             <input
               key={key}
               type="text"
-              value={offeringsDataCopy[key]}
+              value={offeringsDataCopy ? offeringsDataCopy[key] : ""}
               onChange={(e) => {
                 handleOnChange(key, e.target.value);
               }}
@@ -68,14 +68,14 @@ const OfferingList = ({
       <ul className="style-none">{renderOfferingItems()}</ul>
       {edit !== null ? (
         <button
-          className="get-plan-btn tran3s w-100 mt-30"
+          className="get-plan-btn tran3s mx-auto  w-100 mt-30"
           onClick={() => handleSave()}
         >
           Save
         </button>
       ) : (
         <button
-          className="get-plan-btn tran3s w-100 mt-30"
+          className="get-plan-btn tran3s mx-auto  w-100 mt-30"
           onClick={() => handleEdit()}
         >
           Edit
