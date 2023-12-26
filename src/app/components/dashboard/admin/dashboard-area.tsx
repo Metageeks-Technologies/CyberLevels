@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import job_data from "@/data/job-data";
 import icon_1 from "@/assets/dashboard/images/icon/icon_12.svg";
@@ -11,78 +11,15 @@ import DashboardHeader from "../candidate/dashboard-header";
 import { CardItem } from "../candidate/dashboard-area";
 import NiceSelect from "@/ui/nice-select";
 import { useAppSelector, useAppDispatch } from "@/redux/hook";
-import { getJObPosts, deleteJobPost, getAllJobPosts } from "@/redux/features/jobPost/api";
+import {
+  getJObPosts,
+  deleteJobPost,
+  getAllJobPosts,
+} from "@/redux/features/jobPost/api";
 import job_img_1 from "@/assets/images/logo/media_22.png";
 import Link from "next/link";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
-// import faker from 'faker';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
-export const options = {
-  responsive: true,
-  scales: {
-    y: {
-      beginAtZero: true,
-      max: 1000,
-    },
-  },
-  plugins: {
-    legend: {
-      position: 'top' as const,
-    },
-    title: {
-      display: true,
-      text: 'Line Chart',
-    },
-  },
-};
-
-const generateRandomData = (count: number): number[] => {
-  const randomData: number[] = [];
-  for (let i = 0; i < count; i++) {
-    randomData.push(Math.floor(Math.random() * 1000 ));
-  }
-  return randomData;
-};
-
-const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: generateRandomData(labels.length),
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: 'Dataset 2',
-      data: generateRandomData(labels.length),
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-  ],
-};
+import AdminAreaChart from "@/utils/AdminAreaChart";
+// import AdminDashboardChart from "@/utils/AdminDashboardChart";
 
 // props type
 type IProps = {
@@ -101,6 +38,12 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
   const handleDelete = (id: string) => {
     deleteJobPost(dispatch, id);
   };
+  const [dataMode, setDataMode] = useState<string>("Day");
+  const [lastUnit, setLastUnit] = useState<number>(6)
+  const handleLastUnits = (item:{value:string,label:string}) => {
+    const val = parseInt(item.value);
+    setLastUnit(val);
+  }
 
   return (
     <div className="dashboard-body">
@@ -143,8 +86,47 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                   />
                 </div>
               </div>
-              <div className="ps-5 pe-5 mt-50">
-              <Line options={options} data={data} />
+              <div className="flex px-4 md:px-6 lg:px-8 xl:px-10 " style={{ display: "flex", justifyContent: "space-between", alignItems:"center" }}>
+                <div className="gap-1 sm:gap-2" style={{ display: "flex"}}>
+
+                <button
+                  className=" font-bold p-2 px-3"
+                  style={{ background: dataMode=== "Day"? "#D2F34C" : "#3f634d",borderRadius: "9999px",color:dataMode === "Day"?" #3f634d" :"white" }}
+                  onClick = {() => setDataMode("Day")}
+                >
+                  Day
+                </button>
+                <button
+                  className="p-2 font-bold px-3"
+                  style={{ background: dataMode=== "Month"? "#D2F34C" : "#3f634d", borderRadius: "9999px",color:dataMode === "Month"?" #3f634d" :"white" }}
+                  onClick = {() => setDataMode("Month")}
+                  >
+                  Month
+                </button>
+                <button
+                  className=" p-2 px-3"
+                  style={{ background: dataMode === "Year"? "#D2F34C" : "#3f634d",borderRadius: "9999px",color:dataMode === "Year"?" #3f634d" :"white" }}
+                  onClick = {() => setDataMode("Year")}
+                  >
+                  Year
+                </button>
+                  </div>
+                <div>
+                <NiceSelect
+                  options={[
+                    { value: "2", label: "last 3 units" },
+                    { value: "4", label: "last 5 units" },
+                    { value: "6", label: "last 7 units" },
+                    { value: "11", label: "last 12 units" },
+                  ]}
+                  defaultCurrent={2}
+                  onChange={(item) => handleLastUnits(item)}
+                  name="last units"
+                />
+                </div>
+              </div>
+              <div className="px-3 pb-3 mt-50">
+                <AdminAreaChart dataMode = {dataMode} lastUnit={lastUnit}/>
               </div>
             </div>
           </div>
@@ -153,8 +135,8 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
               <h4 className="dash-title-two">Posted Job</h4>
 
               <div className="wrapper">
-              {allJobPostAdmin?.slice(0, 5).map((app) => {
-                console.log(allJobPostAdmin)
+                {allJobPostAdmin?.slice(0, 5).map((app) => {
+                  // console.log(allJobPostAdmin)
                   if (typeof app !== "string") {
                     return (
                       <div

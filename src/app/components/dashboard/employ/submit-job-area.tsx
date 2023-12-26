@@ -20,6 +20,8 @@ import { getAllLanguages } from "@/redux/features/languageProvider/api";
 import { getAllCurrencies } from "@/redux/features/currencyProvider/api";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Currency } from "@/redux/features/currencyProvider/slice";
+import AutocompleteCurrency from "@/ui/autoCompleteCurrency";
 
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -39,14 +41,18 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const [workMode, setWorkMode] = useState<string[]>([]);
   const [experience, setExperience] = useState<string[]>([]);
   const [language, setLanguage] = useState("");
-  const [currency, setCurrency] = useState("");
+  const [currency, setCurrency] = useState<Currency | undefined>();
   const [location, setLocation] = useState<string[]>([]);
   const [salary, setSalary] = useState({
     minimum: "",
     maximum: "",
     isDisclosed: true,
     period: "",
-    currency: "",
+    currency: {
+      abbreviation:"",
+      name:"",
+      symbol:""
+    },
   });
 
   const [company, setCompany] = useState({
@@ -56,7 +62,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
 
   const updateSalaryProperty = (
     property: string,
-    item: { value: string; label: string }
+    item: { value: Currency|string; label: string }
   ) => {
     setSalary({
       ...salary,
@@ -83,7 +89,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     getAllCurrencies(dispatch);
   }, []);
   useEffect(() => {
-    const item = { value: currency, label: currency };
+    const item:any = { value: currency, label: currency };
     updateSalaryProperty("currency", item);
   }, [currency]);
 
@@ -147,7 +153,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   };
 
   const handleSubmit = async () => {
-    console.log(bodyObj);
+    // console.log(bodyObj);
 
     await addJobPost(dispatch, bodyObj);
     // setTitle("");
@@ -368,7 +374,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   onChange={(item) => updateSalaryProperty("currency", item)}
                   name="currency"
                 /> */}
-                <AutocompletePosition
+                <AutocompleteCurrency
                   selected={currency}
                   setSelected={setCurrency}
                   endPoint=""
