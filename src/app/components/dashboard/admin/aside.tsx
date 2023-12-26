@@ -106,6 +106,14 @@ const nav_data: {
     link:"/dashboard/admin-dashboard/emailTemplate",
     title:"Email Template"
   },
+  {
+    id: 10,
+    icon: nav_7,
+    icon_active: nav_7_active,
+    link: "/dashboard/admin-dashboard/emailSettings",
+    title: "Email Settings",
+
+  }
 ];
 // props type
 type IProps = {

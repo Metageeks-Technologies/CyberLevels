@@ -9,6 +9,10 @@ import {
 } from "@/redux/features/emailTemplate/api";
 import { addEmailTemplateSuccess, setEmailTemplates, deleteEmailTemplateSuccess, updateEmailTemplateSuccess } from "@/redux/features/emailTemplate/slice";
 
+// import {addSmtpConfig,getSmtpConfigs} from "@/redux/features/smtpConfig/api";
+// import {addSmtpConfigSuccess,fetchSmtpConfigError,fetchSmtpConfigRequest,fetchSmtpConfigSuccess} from "@/redux/features/smtpConfig/slice";
+// import 'bootstrap/dist/css/bootstrap.css';
+
 
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -48,6 +52,32 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
   const templatesPerPage = 4;
   const pagesToShow = 1;
 
+  // const [showModelProperties, setShowModelProperties] = useState(false);
+
+  // const [host, setHost] = useState('');
+  // const [port, setPort] = useState(587);
+  // const [secure, setSecure] = useState(false);
+  // const [user, setUser] = useState('');
+  // const [pass, setPass] = useState('');
+  // const [showPassword, setShowPassword] = useState(false);
+
+  
+  
+    // const smtpModel = new SmtpModel (smtpConfig);
+
+    // try {
+    //   await smtpModel.sendMail({
+    //     from: 'your-email@example.com',
+    //     to: 'recipient@example.com',
+    //     subject: 'Test Email',
+    //     text: 'This is a test email.',
+    //   });
+
+    //   console.log('Email sent successfully!');
+    // } catch (error) {
+    //   console.error('Error sending email:', error);
+    // }
+  
 
 
   useEffect(() => {
@@ -66,6 +96,13 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
 
     fetchData();
   }, [dispatch]);
+
+  // useEffect(() => {
+  //   dispatch(fetchSmtpConfigRequest());
+  //   getSmtpConfigs(dispatch)
+  //     .then((data) => dispatch(fetchSmtpConfigSuccess(data)))
+  //     .catch((error) => dispatch(fetchSmtpConfigError(error.message)));
+  // }, [dispatch]);
 
 
   const handleTemplateNameClick = (template: Template) => {
@@ -228,10 +265,40 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
+  // const handleClick = () => {
+  //   setShowModelProperties(true); // Toggle the visibility
+  // };
+  // const handleClose = () => {
+  //   setShowModelProperties(false); // Toggle the visibility
+  // };
+
+  // const handleSaveSmtp = async () => {
+    
+  //   const smtpConfig = {
+  //     host,
+  //     port,
+  //     secure,
+  //      user: secure ? user : '',
+  //       pass: secure && showPassword ? pass : '*****', 
+    
+  // };
+  // try{
+  //   const addedSmtp= await addSmtpConfig(dispatch,smtpConfig)    
+  //   if(addedSmtp){
+  //     dispatch(addSmtpConfigSuccess(addedSmtp));
+  //     console.log("SMTP Configuration added successfully");
+  //   }
+  // }
+  // catch (error) {
+  //   console.error('Error adding SMTP Configuration:', error);
+  //   // Handle error, e.g., show an error message to the user
+  // }    
+      
+  //   };
 
   return (
     <div className="dashboard-body">
-      <div className="relative">
+      <div className="position-relative">
         <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
         <div className="d-flex justify-content-between align-items-center  ">
           <div className=" d-flex gap-3 py-4">
@@ -241,6 +308,84 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
               onClick={handleTemplateClick}>
               Add
             </button>
+            {/* <div>
+              <button className="btn-one justify-content-center"
+                onClick={handleClick}
+                data-bs-toggle="modal"
+                data-bs-target="#smtpModel"
+                type="button"
+              >
+                SMTP
+              </button>
+
+
+              <div className="modal fade" id="smtpModel" tabIndex={-1} aria-labelledby="smtpModelLabel" aria-hidden="true">
+                <div className="modal-dialog modal-fullscreen modal-dialog-centered">
+                  <div className="user-data-form modal-content">
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleClose}></button>
+                    <div className="container subscription-model">
+                      <h2 className="fs-2 text-center mb-3">SMTP Settings</h2>
+                      {showModelProperties &&
+                        <div>
+                          <div className="dash-input-wrapper input">
+                            <label htmlFor="host">
+                              Host:
+                              <input type="text"
+                                id="host"
+                                value={host}
+                                onChange={(e) => setHost(e.target.value)}
+
+                              />
+                            </label>
+                            <br />
+                            <label>
+                              Port:
+                              <input  type="number" value={port} onChange={(e) => setPort(parseInt(e.target.value, 10))} />
+                            </label>
+                            <br />
+                            </div>
+                            <div  className="d-flex ">
+                            <label className="me-3">
+                            Secure:
+                            </label>
+                            <input className="form-check d-flex" type="checkbox" checked={secure} onChange={(e) => setSecure(e.target.checked)} />
+                            </div>
+                            {/* <br /> *
+                            {secure && ( <div>
+                            <div className="dash-input-wrapper input" >
+                            <label>
+                              User:
+                              <input type="text" value={user} onChange={(e) => setUser(e.target.value)} />
+                            </label>
+                            <br />
+                            <label>
+                              Password:
+                              <input type={showPassword ? 'text' : 'password'} value={pass} onChange={(e) => setPass(e.target.value)} />
+                            </label>
+                            </div>
+                            
+                          
+                          <div className="d-flex ">
+                              <input className="form-check d-flex me-2" type="checkbox" checked={showPassword} onChange={() => setShowPassword(!showPassword)} />
+                            <label className="fs-6 fw-light">
+                              Show Password
+                            </label>
+                            
+                          </div>
+                          </div>
+                            )}
+                          <div className="d-flex justify-content-end " >
+                            <button
+                              className="d-flex dash-btn-two tran3s me-3 justify-content-center align-items-center mt-5 "
+                              onClick={handleSaveSmtp}>Save</button>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> */}
           </div>
 
           <div className="subscription-tab align-content-center py-2  d-flex px-2 ms-auto">
