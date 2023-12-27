@@ -1,5 +1,5 @@
 import instance from "@/lib/axios";
-import { getJobPostsSuccess, requestFail, requestStart, requestSuccess, submitJobPostSuccess, getJobPostsForEmployerSuccess, askGptStart, askGptSuccess, askGptEnd, getRelatedJobsSuccess, setFileNamePc, getAllJobPostsSuccess } from "./slice"
+import { getJobPostsSuccess, requestFail, requestStart, requestSuccess, submitJobPostSuccess, getJobPostsForEmployerSuccess, askGptStart, askGptSuccess, askGptEnd, getRelatedJobsSuccess, setFileNamePc, getAllJobPostsSuccess, getJobPostViewsSuccess, registerJobPostViewSuccess } from "./slice"
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { IFilterState } from "../filterJobPostSlice";
@@ -184,6 +184,34 @@ export const getSuggestion = async (dispatch: AppDispatch, candidateId: string, 
         console.log(error);
         const e = error as AxiosError;
         dispatch(askGptEnd());
+    }
+}
+
+export const registerJobPostView = async (dispatch:AppDispatch , id:string) => {
+    dispatch(requestStart());
+    try {
+        const data = await instance.post(`/jobPost/jobpostviews/${id}`)
+        dispatch(registerJobPostViewSuccess())
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message));
+    }
+}
+
+export const getJobPostViews = async( dispatch:AppDispatch, viewData: string, id: string) => {
+    dispatch(requestStart());
+    try {
+
+        const data = await instance.get(`/jobPost/jobpostviews/${id}/${viewData}`);
+        // console.log(data.data.data);
+        dispatch(getJobPostViewsSuccess(data.data.data))
+        return data.data.data;
+        
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message));
     }
 }
 

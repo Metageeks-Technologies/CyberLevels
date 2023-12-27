@@ -5,6 +5,7 @@ import { useClickAway } from "react-use";
 type Option = {
   value: string;
   label: string;
+  date?:string
 };
 
 type IPropType = {
@@ -66,7 +67,7 @@ const NiceSelect = ({
             role="menuitem"
             onClick={() => currentHandler(item)}
           >
-            {item.label}
+            {item.label}{" "}{item.date && item.date.split('T')[0]}{" "}{item.date && item.date.split('T')[1].split(".")[0]}
           </li>
         ))}
       </ul>

@@ -18,7 +18,7 @@ import {
 } from "@/redux/features/jobPost/api";
 import job_img_1 from "@/assets/images/logo/media_22.png";
 import Link from "next/link";
-import AdminAreaChart from "@/utils/AdminAreaChart";
+import AdminAreaChart from "@/ui/AdminAreaChart";
 // import AdminDashboardChart from "@/utils/AdminDashboardChart";
 
 // props type

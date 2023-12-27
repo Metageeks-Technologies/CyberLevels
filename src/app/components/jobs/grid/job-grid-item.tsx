@@ -6,6 +6,7 @@ import type { IJobPost } from "@/types/jobPost-type";
 import Image from "next/image";
 import Link from "next/link";
 import LoginModal from "../../common/popup/login-modal";
+import { registerJobPostView } from "@/redux/features/jobPost/api";
 
 const JobGridItem = ({
   item,
@@ -38,6 +39,9 @@ const JobGridItem = ({
       });
     }
   };
+  const handleViewClick = (id:string) => {
+    registerJobPostView(dispatch,id)
+  }
   const handleSubscribePopup = () => {};
   return (
     <>
@@ -99,6 +103,7 @@ const JobGridItem = ({
               href={`/job-details-v1/${item._id}`}
               // href={"/dashboard/candidate-dashboard/membership"}
               className="apply-btn text-center tran3s"
+              onClick={()=>handleViewClick(item._id)}
             >
               View
             </Link>
