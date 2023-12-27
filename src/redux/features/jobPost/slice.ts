@@ -2,6 +2,11 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { IJobPost } from '@/types/jobPost-type'
 
+export interface JobPostView {
+    
+    view_count?: number;
+    view_timestamp?: string;
+}
 export interface jobPstState {
     jobPost: IJobPost | null;
     allJobPost: IJobPost[]
@@ -15,7 +20,8 @@ export interface jobPstState {
     jobPostsForEmployer: IJobPost[];
     relatedJobs: IJobPost[];
     fileNamePc: string;
-    allJobPostAdmin:IJobPost[]
+    allJobPostAdmin:IJobPost[];
+    viewsOnJobPost:JobPostView[];
 }
 type IForGetAllJobPost = {
     allJobPost: IJobPost[]
@@ -36,7 +42,8 @@ const initialState: jobPstState = {
     jobPostsForEmployer: [],
     relatedJobs: [],
     fileNamePc: "",
-    allJobPostAdmin:[]
+    allJobPostAdmin:[],
+    viewsOnJobPost:[]
 }
 
 export const jobPostSlice = createSlice({
@@ -82,6 +89,14 @@ export const jobPostSlice = createSlice({
             state.loading = false
             state.jobPostsForEmployer = action.payload;
         },
+        getJobPostViewsSuccess: (state, action: PayloadAction<JobPostView[]>) => {
+            state.loading = false
+            state.viewsOnJobPost = action.payload
+            // console.log(action.payload,"Hello");
+        },
+        registerJobPostViewSuccess: (state) => {
+            state.loading=false;
+        },
         toggleIsSaved: (state, action: PayloadAction<string>) => {
             state.allJobPost = state.allJobPost.map((job) => {
                 if (job._id === action.payload) {
@@ -123,7 +138,9 @@ export const {
     getJobPostsForEmployerSuccess,
     getRelatedJobsSuccess,
     setFileNamePc,
-    getAllJobPostsSuccess
+    getAllJobPostsSuccess,
+    getJobPostViewsSuccess,
+    registerJobPostViewSuccess
 } = jobPostSlice.actions
 
 export default jobPostSlice.reducer;

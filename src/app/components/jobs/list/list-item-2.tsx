@@ -2,6 +2,7 @@
 import LoginModal from "@/app/components/common/popup/login-modal";
 import job_img_1 from "@/assets/images/logo/media_22.png";
 import { removeSavedJob, saveJob } from "@/redux/features/candidate/api";
+import { registerJobPostView } from "@/redux/features/jobPost/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { IJobPost } from "@/types/jobPost-type";
 import Image from "next/image";
@@ -14,6 +15,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
   const { isAuthenticated, currUser } = useAppSelector(
     (state) => state.persistedReducer.user
   );
+
 
   const dispatch = useAppDispatch();
   const isActive = item?.isSaved || false;
@@ -32,7 +34,9 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
       });
     }
   };
-
+  const handleViewClick = (id:string) => {
+    registerJobPostView(dispatch,id)
+  }
   const handleSubscribePopup = () => {};
   return (
     <>
@@ -89,6 +93,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                   href={`/job-details-v1/${item._id}`}
                   // href={"/dashboard/candidate-dashboard/membership"}
                   className="apply-btn text-center tran3s"
+                  onClick={()=>handleViewClick(item._id)}
                 >
                   View
                 </Link>

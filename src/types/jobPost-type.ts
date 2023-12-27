@@ -1,6 +1,11 @@
 import { ICompany } from "./company";
 import { IEmployer } from "./user-type";
 
+interface JobPostView {
+    
+    view_count?: number;
+    view_timestamp?: string;
+}
 export interface IJobPost {
     title: string;
     description: string;
@@ -37,4 +42,5 @@ export interface IJobPost {
     createdAt: string,
     isSaved?: boolean,
     matchScore?: number;
+    views?: JobPostView[]
 }
