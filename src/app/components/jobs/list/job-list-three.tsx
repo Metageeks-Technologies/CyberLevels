@@ -126,7 +126,7 @@ const JobListThree = ({
                 >
                   {allJobPost &&
                     allJobPost.map((job) => (
-                      <ListItemTwo key={job.location} item={job} />
+                      <ListItemTwo key={job._id} item={job} />
                     ))}
                 </div>
 

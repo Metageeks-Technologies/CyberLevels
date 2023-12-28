@@ -114,7 +114,7 @@ const nav_data: {
     title: "Email Template",
   },
   {
-    id: 10,
+    id: 12,
     icon: nav_7,
     icon_active: nav_7_active,
     link: "/dashboard/admin-dashboard/emailSettings",

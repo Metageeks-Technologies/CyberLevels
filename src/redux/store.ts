@@ -58,7 +58,7 @@ export const store = configureStore({
     template: templateSlice,
     language: languageSlice,
     currency: currencySlice,
-    admin: adminSlice
+    admin: adminSlice,
     emailTemplate: emailTemplateSlice,
     smtpConfig: smtpConfigSlice,
   },

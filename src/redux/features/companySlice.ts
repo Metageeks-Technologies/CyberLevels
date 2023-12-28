@@ -28,11 +28,14 @@ export const companySlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        updateLogo: (state, action: PayloadAction<string>) => {
+            state.company!.logo = action.payload;
+        }
 
 
     },
 })
 
-export const { submitCompanyFail, submitCompanyStart, submitCompanySuccess } = companySlice.actions
+export const { submitCompanyFail, submitCompanyStart, updateLogo, submitCompanySuccess } = companySlice.actions
 
 export default companySlice.reducer
