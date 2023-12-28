@@ -11,13 +11,13 @@ const EditCertificate = ({ certificates }: { certificates: string[] }) => {
     const { currCandidate } = useAppSelector(
         (s) => s.candidate.candidateDashboard
     );
-    
+
     const [_certificates, setCertificates] = useState<string[]>(certificates || []);
- 
+
 
     const [certificateInput, setCertificateInput] = useState('');
 
-  
+
 
     const handleSave = async () => {
 
@@ -32,8 +32,8 @@ const EditCertificate = ({ certificates }: { certificates: string[] }) => {
             } else notifyError("something went wrong try again");
         }
     };
-  
-    
+
+
 
 
     const addCertificate = () => {
@@ -82,7 +82,7 @@ const EditCertificate = ({ certificates }: { certificates: string[] }) => {
                                     <div className="mt-3">
                                         <h4>Certificates</h4>
                                         <div className="skills-wrapper">
-                                            
+
                                             <ul className="style-none .skill-input-data d-flex flex-wrap align-items-center">
                                                 {_certificates?.map((val, index) => (
                                                     <li key={index} className="is_tag">
@@ -98,29 +98,29 @@ const EditCertificate = ({ certificates }: { certificates: string[] }) => {
                                                 ))}
 
 
-                                               
+
                                             </ul>
-                                            
-                                            
+
+
                                         </div>
                                         <div className="d-flex">
                                             <div className="d-flex me-3 w-100">
-                                            <input
-                                                type="text"
-                                                value={certificateInput}
-                                                onChange={(e) => setCertificateInput(e.target.value)}
-                                                placeholder="Add a certificate"
-                                                className="mt-3 "
-                                            />
+                                                <input
+                                                    type="text"
+                                                    value={certificateInput}
+                                                    onChange={(e) => setCertificateInput(e.target.value)}
+                                                    placeholder="Add a certificate"
+                                                    className="mt-3 "
+                                                />
                                             </div>
                                             <div className="d-flex">
-                                            <button
-                                                className="mt-3 btn-one"
-                                                onClick={addCertificate}>Add</button>
-                                                </div>
-    </div>
+                                                <button
+                                                    className="mt-3 btn-one"
+                                                    onClick={addCertificate}>Add</button>
+                                            </div>
+                                        </div>
                                     </div>
-                                   
+
 
                                     <div className="button-group d-inline-flex align-items-center mt-30">
                                         <button
@@ -151,7 +151,7 @@ const EditCertificate = ({ certificates }: { certificates: string[] }) => {
                 </div>
             }
         </>
-       
+
     );
 };
 

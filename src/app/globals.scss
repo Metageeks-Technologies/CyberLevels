@@ -606,3 +606,27 @@ div[data-preview] p {
   color: #999;
   cursor: default;
 }
+
+
+.pagination-one li {
+  padding: 0 1px;
+}
+.pagination-one  {
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  line-height: 35px;
+  border-radius: 50%;
+  font-size: 17px;
+  font-weight: 500;
+  color: #31795A;
+}
+.pagination-one.active  {
+  background: #31795A;
+  color: #fff;
+}
+.pagination-one li:last-child a {
+  width: auto;
+  height: auto;
+}
+

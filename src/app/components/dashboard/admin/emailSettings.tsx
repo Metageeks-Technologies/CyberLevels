@@ -20,21 +20,7 @@ const AdminEmailSettings = ({ setIsOpenSidebar }: IProps) => {
     const [user, setUser] = useState('');
     const [pass, setPass] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    // const [hasConfig, setHasConfig] = useState(false);
-
-
-    // useEffect(() => {
-    //     dispatch(fetchSmtpConfigRequest());
-    //     getSmtpConfigs(dispatch)
-    //         .then((data) =>{ dispatch(fetchSmtpConfigSuccess(data))}
-    //         setHost(data.host);
-    //         setPort(data.port);
-    //         setSecure(data.secure);
-    //         setUser(data.user);
-    //         setPass(data.pass);
-    //         )
-    //         .catch((error) => dispatch(fetchSmtpConfigError(error.message)));
-    // }, [dispatch]);
+    
     useEffect(() => {
         const fetchData = async () => {
           try {

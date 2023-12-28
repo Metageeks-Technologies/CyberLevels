@@ -9,9 +9,9 @@ import {
 } from "@/redux/features/emailTemplate/api";
 import { addEmailTemplateSuccess, setEmailTemplates, deleteEmailTemplateSuccess, updateEmailTemplateSuccess } from "@/redux/features/emailTemplate/slice";
 
-// import {addSmtpConfig,getSmtpConfigs} from "@/redux/features/smtpConfig/api";
-// import {addSmtpConfigSuccess,fetchSmtpConfigError,fetchSmtpConfigRequest,fetchSmtpConfigSuccess} from "@/redux/features/smtpConfig/slice";
-// import 'bootstrap/dist/css/bootstrap.css';
+import Image from "next/image";
+import icon from "@/assets/images/icon/icon_50.svg";
+import icon_2 from "@/assets/images/icon/icon_69.svg";
 
 
 type IProps = {
@@ -52,32 +52,8 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
   const templatesPerPage = 4;
   const pagesToShow = 1;
 
-  // const [showModelProperties, setShowModelProperties] = useState(false);
+  const [showModelProperties, setShowModelProperties] = useState(false);
 
-  // const [host, setHost] = useState('');
-  // const [port, setPort] = useState(587);
-  // const [secure, setSecure] = useState(false);
-  // const [user, setUser] = useState('');
-  // const [pass, setPass] = useState('');
-  // const [showPassword, setShowPassword] = useState(false);
-
-  
-  
-    // const smtpModel = new SmtpModel (smtpConfig);
-
-    // try {
-    //   await smtpModel.sendMail({
-    //     from: 'your-email@example.com',
-    //     to: 'recipient@example.com',
-    //     subject: 'Test Email',
-    //     text: 'This is a test email.',
-    //   });
-
-    //   console.log('Email sent successfully!');
-    // } catch (error) {
-    //   console.error('Error sending email:', error);
-    // }
-  
 
 
   useEffect(() => {
@@ -97,12 +73,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
     fetchData();
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(fetchSmtpConfigRequest());
-  //   getSmtpConfigs(dispatch)
-  //     .then((data) => dispatch(fetchSmtpConfigSuccess(data)))
-  //     .catch((error) => dispatch(fetchSmtpConfigError(error.message)));
-  // }, [dispatch]);
+  
 
 
   const handleTemplateNameClick = (template: Template) => {
@@ -174,8 +145,9 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
 
 
   const handleEdit = (template: Template) => {
-    setIsEditing(true);
-    setShowInputFields(true);
+    setShowModelProperties(true);
+    // setIsEditing(true);
+    // setShowInputFields(true);
     setSubject(template.subject);
     setBody(template.body);
     setTemplateName(template.templateName);
@@ -221,8 +193,10 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
       setSubject("");
       setBody("");
       setTemplateName("");
-      setIsEditing(false);
-      setShowInputFields(false);
+      // setIsEditing(false);
+      // setShowInputFields(false);
+      setShowModelProperties(false);
+      // setSelectedTemplate(null);
     } catch (error) {
       console.error("Error updating template:", error);
     }
@@ -265,36 +239,13 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
-  // const handleClick = () => {
-  //   setShowModelProperties(true); // Toggle the visibility
-  // };
-  // const handleClose = () => {
-  //   setShowModelProperties(false); // Toggle the visibility
-  // };
+  const handleClick = () => {
+    setShowModelProperties(true); // Toggle the visibility
+  };
+  const handleClose = () => {
+    setShowModelProperties(false); // Toggle the visibility
+  };
 
-  // const handleSaveSmtp = async () => {
-    
-  //   const smtpConfig = {
-  //     host,
-  //     port,
-  //     secure,
-  //      user: secure ? user : '',
-  //       pass: secure && showPassword ? pass : '*****', 
-    
-  // };
-  // try{
-  //   const addedSmtp= await addSmtpConfig(dispatch,smtpConfig)    
-  //   if(addedSmtp){
-  //     dispatch(addSmtpConfigSuccess(addedSmtp));
-  //     console.log("SMTP Configuration added successfully");
-  //   }
-  // }
-  // catch (error) {
-  //   console.error('Error adding SMTP Configuration:', error);
-  //   // Handle error, e.g., show an error message to the user
-  // }    
-      
-  //   };
 
   return (
     <div className="dashboard-body">
@@ -308,84 +259,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
               onClick={handleTemplateClick}>
               Add
             </button>
-            {/* <div>
-              <button className="btn-one justify-content-center"
-                onClick={handleClick}
-                data-bs-toggle="modal"
-                data-bs-target="#smtpModel"
-                type="button"
-              >
-                SMTP
-              </button>
-
-
-              <div className="modal fade" id="smtpModel" tabIndex={-1} aria-labelledby="smtpModelLabel" aria-hidden="true">
-                <div className="modal-dialog modal-fullscreen modal-dialog-centered">
-                  <div className="user-data-form modal-content">
-                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleClose}></button>
-                    <div className="container subscription-model">
-                      <h2 className="fs-2 text-center mb-3">SMTP Settings</h2>
-                      {showModelProperties &&
-                        <div>
-                          <div className="dash-input-wrapper input">
-                            <label htmlFor="host">
-                              Host:
-                              <input type="text"
-                                id="host"
-                                value={host}
-                                onChange={(e) => setHost(e.target.value)}
-
-                              />
-                            </label>
-                            <br />
-                            <label>
-                              Port:
-                              <input  type="number" value={port} onChange={(e) => setPort(parseInt(e.target.value, 10))} />
-                            </label>
-                            <br />
-                            </div>
-                            <div  className="d-flex ">
-                            <label className="me-3">
-                            Secure:
-                            </label>
-                            <input className="form-check d-flex" type="checkbox" checked={secure} onChange={(e) => setSecure(e.target.checked)} />
-                            </div>
-                            {/* <br /> *
-                            {secure && ( <div>
-                            <div className="dash-input-wrapper input" >
-                            <label>
-                              User:
-                              <input type="text" value={user} onChange={(e) => setUser(e.target.value)} />
-                            </label>
-                            <br />
-                            <label>
-                              Password:
-                              <input type={showPassword ? 'text' : 'password'} value={pass} onChange={(e) => setPass(e.target.value)} />
-                            </label>
-                            </div>
-                            
-                          
-                          <div className="d-flex ">
-                              <input className="form-check d-flex me-2" type="checkbox" checked={showPassword} onChange={() => setShowPassword(!showPassword)} />
-                            <label className="fs-6 fw-light">
-                              Show Password
-                            </label>
-                            
-                          </div>
-                          </div>
-                            )}
-                          <div className="d-flex justify-content-end " >
-                            <button
-                              className="d-flex dash-btn-two tran3s me-3 justify-content-center align-items-center mt-5 "
-                              onClick={handleSaveSmtp}>Save</button>
-                          </div>
-                        </div>
-                      }
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
+            
           </div>
 
           <div className="subscription-tab align-content-center py-2  d-flex px-2 ms-auto">
@@ -495,16 +369,79 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                 <div className=" mt-3">
                   <div className=" email-format bg-white p-3 border-20">
 
-                    <div className=" float-end">
-                      <button className="btn btn-secondary me-3 " onClick={() => handleEdit(selectedTemplate)}>
-                        Edit
-                      </button>
-                      <button
-                        className="btn btn-danger  "
-                        onClick={handleRemoveTemplate}
-                      >
-                        Remove
-                      </button>
+                    <div className="d-flex float-end">
+                      <div>
+                        <button className="btn btn-secondary me-3 "
+                          onClick={() => handleEdit(selectedTemplate)}
+                          // onClick={handleClick}
+                          data-bs-toggle="modal"
+                          data-bs-target="#EditModel"
+                          type="button"
+                        >
+                          Edit
+                        </button>
+                        <div className="modal fade" id="EditModel" tabIndex={-1} aria-labelledby="smtpModelLabel" aria-hidden="true">
+                          <div className="modal-dialog modal-fullscreen modal-dialog-centered">
+                            <div className="user-data-form modal-content">
+                              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleClose}></button>
+                              <div className="container subscription-model">
+                                <h2 className="fs-2 text-center mb-3">Edit Template</h2>
+                                {showModelProperties &&
+                                  <div>
+                                    <div className="dash-input-wrapper input">
+                                      <label htmlFor="updatedTemplateName">Template Name:</label>
+                                      <input
+                                        type="text"
+                                        id="updatedTemplateName"
+                                        value={templateName}
+                                        onChange={(e) => setTemplateName(e.target.value)}
+                                      />
+                                      <br />
+                                      <label htmlFor="updatedSubject">Subject:</label>
+                                      <input
+                                        type="text"
+                                        id="updatedSubject"
+                                        value={subject}
+                                        onChange={(e) => setSubject(e.target.value)}
+                                        
+                                      />
+                                      <br />
+                                      <label htmlFor="updatedBody">Body:</label>
+                                      <textarea
+                                        id="updatedBody"
+                                        value={body}
+                                        onChange={(e) => setBody(e.target.value)}
+                                        className="size-lg"
+                                      />
+
+                                    <div>
+                                      <button
+                                        className="d-flex dash-btn-two tran3s me-3 justify-content-center align-items-center mt-5 "
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                        onClick={handleUpdate}
+                                        >
+                                        Update
+                                      </button>
+                                    </div>
+                                        </div>
+
+
+                                  </div>
+                                }
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <button
+                          className="btn btn-danger  "
+                          onClick={handleRemoveTemplate}
+                        >
+                          Remove
+                        </button>
+                      </div>
                     </div>
                     <h3>{selectedTemplate.templateName || `Template ${selectedTemplates.indexOf(selectedTemplate)}`}</h3>
                     <p>
@@ -523,16 +460,16 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
           <div className="dash-pagination d-flex justify-content-end mt-30">
             {currentPage > 1 && (
               <button
-                className="btn d-flex justify-content-center items-center"
+                className=""
                 onClick={() => handlePageChange(currentPage - 1)}
               >
-                <span>&laquo;</span>
+                <Image src={icon_2} className="me-2" alt="icon" />
               </button>
             )}
             {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
               <button
                 key={pageNumber}
-                className={`btn d-flex justify-content-center items-center ${currentPage === pageNumber ? 'active' : ''}`}
+                className={`pagination-one me-2 d-flex justify-content-center items-center ${currentPage === pageNumber ? 'active' : ''}`}
                 onClick={() => handlePageChange(pageNumber)}
               >
                 {pageNumber}
@@ -540,10 +477,12 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
             ))}
             {currentPage < totalPages && (
               <button
-                className="btn d-flex justify-content-center items-center"
+                className=""
                 onClick={() => handlePageChange(currentPage + 1)}
               >
-                <span>&raquo;</span>
+                
+                  <Image src={icon} alt="icon" className="ms-2" />
+                
               </button>
             )}
           </div>
