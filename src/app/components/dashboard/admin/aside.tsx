@@ -110,8 +110,15 @@ const nav_data: {
     id: 10,
     icon: nav_4,
     icon_active: nav_4_active,
-    link: "/dashboard/admin-dashboard/template",
+    link: "/dashboard/admin-dashboard/emailTemplate",
     title: "Email Template",
+  },
+  {
+    id: 12,
+    icon: nav_7,
+    icon_active: nav_7_active,
+    link: "/dashboard/admin-dashboard/emailSettings",
+    title: "Email Settings",
   },
 ];
 // props type

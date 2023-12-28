@@ -156,7 +156,9 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                         {sub.subscriptionType}
                       </div>
                       <div className="price fw-500">
-                        <sub title={sub.price.currency}>₹</sub>{" "}
+                        <sub title={sub.price.currency.name}>
+                          {sub.price.currency.symbol}
+                        </sub>{" "}
                         {sub.price.amount}
                       </div>
                       <ul className="style-none">

@@ -18,13 +18,13 @@ import { notifyError, notifySuccess } from "@/utils/toast";
 const OfferingList = ({
   offeringData,
   index,
-  edit,
+  editt,
   setOfferingsDataCopy,
   offeringsDataCopy,
 }: {
   offeringData: Offering;
   index: string;
-  edit: string | null;
+  editt: string | null;
   setOfferingsDataCopy: React.Dispatch<
     React.SetStateAction<Offering | null | undefined>
   >;
@@ -33,22 +33,22 @@ const OfferingList = ({
   const dispatch = useAppDispatch();
   const [edit, setEdit] = useState<number | null>(null);
 
-  const [offeringsDataCopy, setOfferingsDataCopy] = useState<Offering | null>(
-    offeringData
-  );
+  // const [offeringsDataCopy, setOfferingsDataCopy] = useState<Offering | null>(
+  //   offeringData
+  // );
   // console.log(offeringsDataCopy);
   const handleEdit = () => {
     setEdit(1);
   };
   const handleSave = () => {
     setEdit(null);
-    const Obj = { planId, data: { offering: offeringsDataCopy } };
+    const Obj = { planId: "", data: { offering: offeringsDataCopy } };
     updateCandidateSubscription(dispatch, Obj);
   };
   const renderOfferingItems = () => {
     // const [keyValuePair, setKeyValuePair] = useState<Offering | null>(offeringData);
     // console.log(keyValuePair);
-    const handleOnChange = (key: string, value: OfferingField) => {
+    const handleOnChange = (key: string, value: string) => {
       setOfferingsDataCopy({ ...offeringsDataCopy, [key]: value });
     };
     return Object.entries(offeringData).map(([key, value]) => {
@@ -254,7 +254,7 @@ const CandidateSub = ({
                     <OfferingList
                       offeringData={subObj.offering as Offering}
                       index={subObj._id}
-                      edit={edit}
+                      editt={edit}
                       setOfferingsDataCopy={setOfferingsDataCopy}
                       offeringsDataCopy={offeringsDataCopy}
                     />

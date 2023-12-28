@@ -38,15 +38,15 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     maximum: "",
     isDisclosed: true,
   });
-  // console.log(jobType);
 
   const [primarySkills, setPrimarySkills] = useState<string[]>([]);
   const [secondarySkills, setSecondarySkills] = useState<string[]>([]);
   const [benefits, setBenefits] = useState<string[]>([]);
   const [benefitsInput, setBenefitsInput] = useState("");
   const [isAddingBenefits, setAddingBenefits] = useState(false);
-  const [descriptionWithAI, setDescriptionWithAI] = useState<any>("");
+  const [descriptionWithAI, setDescriptionWithAI] = useState<string>("");
   const [questionWithAI, setQuestionWithAI] = useState<any>("");
+  const [description, setDescription] = useState("");
   console.log(questionWithAI);
 
   const handleSalary = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,12 +89,8 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     salary: salary,
     preferredExperience: experience,
     workMode: workMode,
-    testQuestions: questionWithAI
-      ? questionWithAI.choices[0].message.content
-      : "",
-    description: descriptionWithAI
-      ? descriptionWithAI.choices[0].message.content
-      : "",
+    testQuestions: questionWithAI ? questionWithAI : "",
+    description,
     benefits: benefits,
   };
 
@@ -137,7 +133,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
 
     try {
       const data = await askToGpt(dispatch, query);
-      setDescriptionWithAI(data);
+      setDescriptionWithAI(data.choices[0].message.content);
     } catch (error) {
       console.log(error);
     }
@@ -149,7 +145,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
 
     try {
       const data = await askToGpt(dispatch, query);
-      setQuestionWithAI(data);
+      setQuestionWithAI(data.choices[0].message.content);
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -394,13 +390,17 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                 <MagicWand size={32} color="#244034" weight="light" />
               </span>
             </button>
-            {descriptionWithAI ? (
+            {/* {descriptionWithAI ? (
               <TinyMCEEditor
                 text={descriptionWithAI.choices[0].message.content}
               />
             ) : (
               <TinyMCEEditor text={""} />
-            )}
+            )} */}
+            <TinyMCEEditor
+              text={descriptionWithAI ? descriptionWithAI : ""}
+              setText={setDescription}
+            />
           </div>
           <h4 className="dash-title-three pt-50 lg-pt-30">
             Add Test for Candidate{" "}

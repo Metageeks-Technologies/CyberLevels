@@ -24,6 +24,7 @@ import UploadResume from "./resume/uploadResume";
 import Skills from "./resume/Skills";
 import Softskills from "./resume/Softskills";
 import Certificate from "./resume/Certification";
+import Certificates from "./resume/Certification";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -288,7 +289,7 @@ const DashboardResume = ({ setIsOpenSidebar }: IProps) => {
           </div>
 
           <div className="bg-white card-box border-20 mt-40">
-            {user && <Certificate />}
+            {user && <Certificate certificate={user.certificate} />}
           </div>
 
           <div className="bg-white card-box border-20 mt-40">
