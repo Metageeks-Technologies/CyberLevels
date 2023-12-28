@@ -9,13 +9,13 @@ interface SmtpConfig {
 }
 
 interface SmtpConfigState {
-  data: SmtpConfig[];
+  data: SmtpConfig | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: SmtpConfigState = {
-  data: [],
+  data: null,
   loading: false,
   error: null,
 };
@@ -38,7 +38,7 @@ const smtpConfigSlice = createSlice({
         state.loading = true;
         state.error = null;
       },
-      fetchSmtpConfigSuccess: (state, action: PayloadAction<SmtpConfig[]>) => {
+      fetchSmtpConfigSuccess: (state, action: PayloadAction<SmtpConfig>) => {
         state.loading = false;
         state.data = action.payload;
       },
@@ -48,7 +48,14 @@ const smtpConfigSlice = createSlice({
       },
       addSmtpConfigSuccess: (state, action: PayloadAction<SmtpConfig>) => {
         state.loading = false;
-        state.data.push(action.payload);
+        state.data=action.payload;
+      },
+      updateSmtpConfigSuccess: (state, action: PayloadAction<SmtpConfig>) => {
+        state.loading = false;
+        state.data = action.payload;
+        // state.data = state.data.map((config) =>
+        //   config.host === action.payload.host ? action.payload : config
+        // );
       },
     },
 });
@@ -59,6 +66,7 @@ export const{
   fetchSmtpConfigSuccess,
   fetchSmtpConfigError,
   addSmtpConfigSuccess,
+  updateSmtpConfigSuccess,
 } =smtpConfigSlice.actions;
 
 export default smtpConfigSlice.reducer;
