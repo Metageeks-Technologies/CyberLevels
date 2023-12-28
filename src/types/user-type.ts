@@ -125,7 +125,8 @@ export interface IEmployer {
     createdAt: string,
     updatedAt: string,
     _id: string,
-    __v: number
+    __v: number,
+    subscription: any,
 
 }
 

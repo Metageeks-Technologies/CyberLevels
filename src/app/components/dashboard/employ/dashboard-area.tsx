@@ -37,6 +37,8 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
   const [viewsDataYear, setViewsDataYear] = useState<JobPostView[][] | []>();
   const [dataMode, setDataMode] = useState<string>("day");
   const [lastUnit, setLastUnit] = useState<number>(6);
+  const [totalViews, setTotalViews] = useState(0);
+  const [totalApplicants, setTotalApplicants] = useState(0);
   const handleLastUnits = (item: { value: string; label: string }) => {
     const val = parseInt(item.value);
     setLastUnit(val);
@@ -49,7 +51,35 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
   useEffect(() => {
     if (currEmployer) getJobPostsForEmployer(dispatch, currEmployer._id);
     // console.log(jobPostsForEmployer)
-  }, [currEmployer, jobPostsForEmployer]);
+  }, [currEmployer]);
+
+  useEffect(() => {
+    const calcTotalViews = () => {
+      // Sum up the views of all job posts
+      const total = jobPostsForEmployer.reduce(
+        (acc, job) => acc + job.views?.length!,
+        0
+      );
+      // console.log(total,"Total");
+      // Set the total views in the component state
+      setTotalViews(total);
+    };
+
+    const calcTotalApplicants = () => {
+      // Sum up the views of all job posts
+      const total = jobPostsForEmployer.reduce(
+        (acc, job) => acc + job.candidates?.length!,
+        0
+      );
+      // console.log(total,"Total");
+      // Set the total views in the component state
+      setTotalApplicants(total);
+    };
+
+    // Call the function to calculate total views
+    calcTotalViews();
+    calcTotalApplicants();
+  }, [jobPostsForEmployer]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -94,10 +124,26 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
 
         <h2 className="main-title">Dashboard</h2>
         <div className="row">
-          <CardItem img={icon_1} title="Total Visitor" value="1.7k+" />
-          <CardItem img={icon_2} title="Shortlisted" value="03" />
-          <CardItem img={icon_3} title="Views" value="2.1k" />
-          <CardItem img={icon_4} title="Applied Job" value="07" />
+          <CardItem
+            img={icon_1}
+            title="Total Views"
+            value={totalViews.toString()}
+          />
+          <CardItem
+            img={icon_2}
+            title="Applicants"
+            value={totalApplicants.toString()}
+          />
+          <CardItem
+            img={icon_3}
+            title="Tokens Left"
+            value={currEmployer?.subscription.requestLimit.toString()}
+          />
+          <CardItem
+            img={icon_4}
+            title="Jobs Posted"
+            value={jobPostsForEmployer?.length.toString()}
+          />
         </div>
 
         <div className="row d-flex pt-50 lg-pt-10">
