@@ -47,7 +47,7 @@ function AutocompletePosition({ selected, setSelected, endPoint,suggestionsProp,
           <div className="">
             <Combobox.Input
               className=""
-              placeholder="type title"
+              placeholder="Select Currency"
               displayValue={() => {
                 return selected?.symbol+" "+selected?.name;
               }}

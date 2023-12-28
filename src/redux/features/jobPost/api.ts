@@ -1,5 +1,5 @@
 import instance from "@/lib/axios";
-import { getJobPostsSuccess, requestFail, requestStart, requestSuccess, submitJobPostSuccess, getJobPostsForEmployerSuccess, askGptStart, askGptSuccess, askGptEnd, getRelatedJobsSuccess, setFileNamePc, getAllJobPostsSuccess, getJobPostViewsSuccess, registerJobPostViewSuccess } from "./slice"
+import { getJobPostsSuccess, requestFail, requestStart, requestSuccess, submitJobPostSuccess, getJobPostsForEmployerSuccess, askGptStart, askGptSuccess, askGptEnd, getRelatedJobsSuccess, setFileNamePc, getAllJobPostsSuccess, getJobPostViewsSuccess, registerJobPostViewSuccess, getJobPostForEmployerDashboardSuccess, getJobPostForEmployerNiceSelectSuccess, getJobPostForEmployerDashboardCardsSuccess } from "./slice"
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { IFilterState } from "../filterJobPostSlice";
@@ -61,12 +61,12 @@ export const addJobPost = async (dispatch: AppDispatch, bodyObj: any) => {
     }
 }
 
-export const getJobPostsForEmployer = async (dispatch: AppDispatch, id: string) => {
+export const getJobPostsForEmployer = async (dispatch: AppDispatch, id: string, page:number) => {
 
     dispatch(requestStart());
     try {
-        const { data } = await instance(`jobPost/employer/${id}`);
-        dispatch(getJobPostsForEmployerSuccess(data.jobPosts));
+        const { data } = await instance(`jobPost/employer/${id}?page=${page}`);
+        dispatch(getJobPostsForEmployerSuccess({jobPostsForEmployer:data.jobPosts,totalJobPostPagesForEmployer:data.totalPages,currentPageForJobPostEmployer:data.currentPage,pageSizeForJobPostEmployer:data.pageSize,totalJobPostsForEmployer:data.totalCount}));
     } catch (error) {
         console.log(error);
         const e = error as AxiosError;
@@ -215,4 +215,41 @@ export const getJobPostViews = async( dispatch:AppDispatch, viewData: string, id
     }
 }
 
+export const getJobPostForEmployerDashboard = async (dispatch:AppDispatch, id:string) => {
+    dispatch(requestStart());
+    try {
+        const data = await instance.get(`/jobPost/jobpostforemployerdashboard/${id}`);
+        dispatch(getJobPostForEmployerDashboardSuccess(data.data.data));
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message));
+    }
+}
+
+export const getJobPostForEmployerNiceSelect = async (dispatch:AppDispatch, id:string) => {
+    dispatch(requestStart());
+    try {
+        const data = await instance.get(`/jobPost/jobpostforemployerniceselect/${id}`);
+        // console.log(data,"getJobPostForEmployerNiceSelect");
+        dispatch(getJobPostForEmployerNiceSelectSuccess(data.data.data));
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message));
+    }
+}
+
+export const getJobPostForEmployerDashboardCards = async (dispatch:AppDispatch, id:string) => {
+    dispatch(requestStart());
+    try {
+        const data = await instance.get(`/jobPost/jobpostforemployerdashboardcards/${id}`);
+        // console.log(data,"getJobPostForEmployerDashboardCards");
+        dispatch(getJobPostForEmployerDashboardCardsSuccess(data.data));
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message));
+    }
+}
 

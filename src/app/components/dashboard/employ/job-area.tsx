@@ -1,16 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DashboardHeader from "../candidate/dashboard-header";
 import EmployJobItem from "./job-item";
 import EmployShortSelect from "./short-select";
 import { IJobPost } from "@/types/jobPost-type";
 import DeepMenus from "@/layouts/headers/component/deep-dash-nav";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { setPageForJobPostEmployer } from "@/redux/features/jobPost/slice";
+import Pagination from "@/ui/pagination";
+import { getJobPostsForEmployer } from "@/redux/features/jobPost/api";
 
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
-  jobPosts: IJobPost[];
+  // jobPosts: IJobPost[];
 };
-const EmployJobArea = ({ setIsOpenSidebar, jobPosts }: IProps) => {
+const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
+  const dispatch = useAppDispatch();
+
+  const {
+    jobPostsForEmployer,
+    currentPageForJobPostEmployer,
+    totalJobPostPagesForEmployer,
+    totalJobPostsForEmployer,
+    pageSizeForJobPostEmployer
+  } = useAppSelector((state) => state.jobPost);
+  const {currEmployer} = useAppSelector((state)=> state.employer)
+  const handlePageClick = (event: { selected: number }) => {
+    console.log("from pagination", event.selected);
+    dispatch(setPageForJobPostEmployer(event.selected + 1));
+  };
+
+  useEffect(() => {
+    if(currEmployer)
+    getJobPostsForEmployer(dispatch,currEmployer._id,currentPageForJobPostEmployer)
+  },[currentPageForJobPostEmployer,currEmployer])
   return (
     <div className="dashboard-body">
       <div className="position-relative">
@@ -70,7 +93,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobPosts }: IProps) => {
                     </tr>
                   </thead>
                   <tbody className="border-0">
-                    {jobPosts?.map((job) => {
+                    {jobPostsForEmployer?.map((job) => {
                       let createdAt: string | Date = new Date(job.createdAt);
                       createdAt = createdAt.toLocaleDateString();
 
@@ -137,6 +160,14 @@ const EmployJobArea = ({ setIsOpenSidebar, jobPosts }: IProps) => {
                 </table>
               </div>
             </div> */}
+
+            {totalJobPostsForEmployer > pageSizeForJobPostEmployer && (
+              <Pagination
+                pageCount={totalJobPostPagesForEmployer}
+                handlePageClick={handlePageClick}
+                currPage={currentPageForJobPostEmployer}
+              />
+            )}
           </div>
         </div>
 

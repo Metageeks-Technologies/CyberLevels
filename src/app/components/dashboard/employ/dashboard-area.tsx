@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import job_data from "@/data/job-data";
+import job_img_1 from "@/assets/images/logo/media_22.png";
 import icon_1 from "@/assets/dashboard/images/icon/icon_12.svg";
 import icon_2 from "@/assets/dashboard/images/icon/icon_13.svg";
 import icon_3 from "@/assets/dashboard/images/icon/icon_14.svg";
@@ -13,10 +14,14 @@ import NiceSelect from "@/ui/nice-select";
 import EmployeeAreaChart from "@/ui/EmployerAreaChart";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import {
+  getJobPostForEmployerDashboard,
+  getJobPostForEmployerDashboardCards,
+  getJobPostForEmployerNiceSelect,
   getJobPostViews,
   getJobPostsForEmployer,
 } from "@/redux/features/jobPost/api";
 import { JobPostView } from "@/redux/features/jobPost/slice";
+import Link from "next/link";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,10 +29,10 @@ type IProps = {
 const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
   const dispatch = useAppDispatch();
   const { currEmployer } = useAppSelector((state) => state.employer);
-  const { jobPostsForEmployer, viewsOnJobPost } = useAppSelector(
+  const {jobPostForEmployerDashboard, jobPostForEmployerNiceSelect, jobPostForEmployerDashboardCards } = useAppSelector(
     (state) => state.jobPost
   );
-  const job_items = [...job_data.reverse().slice(0, 6)];
+  const job_items = [...jobPostForEmployerDashboard];
   const [selectedJobId, setSelectedJobId] = useState<string>("");
   const handleJobs = (item: { value: string; label: string }) => {
     setSelectedJobId(item.value);
@@ -37,49 +42,29 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
   const [viewsDataYear, setViewsDataYear] = useState<JobPostView[][] | []>();
   const [dataMode, setDataMode] = useState<string>("day");
   const [lastUnit, setLastUnit] = useState<number>(6);
-  const [totalViews, setTotalViews] = useState(0);
-  const [totalApplicants, setTotalApplicants] = useState(0);
+  // const [totalViews, setTotalViews] = useState(0);
+  // const [totalApplicants, setTotalApplicants] = useState(0);
   const handleLastUnits = (item: { value: string; label: string }) => {
     const val = parseInt(item.value);
     setLastUnit(val);
   };
-  const jobTitles = jobPostsForEmployer.map((job) => ({
-    value: job._id, // Assuming the job ID is unique and can be used as a value
-    label: job.title,
-    date: job.createdAt,
-  }));
+  const jobTitles = jobPostForEmployerNiceSelect?.map((job) => ({
+      value: job._id,
+      label: job.title,
+      date: job.createdAt,
+    }));
   useEffect(() => {
-    if (currEmployer) getJobPostsForEmployer(dispatch, currEmployer._id);
+    if (currEmployer) {
+      getJobPostForEmployerDashboard(dispatch, currEmployer._id);
+      getJobPostForEmployerNiceSelect(dispatch, currEmployer._id);
+      getJobPostForEmployerDashboardCards(dispatch, currEmployer._id);
+    }
     // console.log(jobPostsForEmployer)
   }, [currEmployer]);
 
-  useEffect(() => {
-    const calcTotalViews = () => {
-      // Sum up the views of all job posts
-      const total = jobPostsForEmployer.reduce(
-        (acc, job) => acc + job.views?.length!,
-        0
-      );
-        // console.log(total,"Total");
-      // Set the total views in the component state
-      setTotalViews(total);
-    };
+  
 
-    const calcTotalApplicants = () => {
-      // Sum up the views of all job posts
-      const total = jobPostsForEmployer.reduce(
-        (acc, job) => acc + job.candidates?.length!,
-        0
-      );
-        // console.log(total,"Total");
-      // Set the total views in the component state
-      setTotalApplicants(total);
-    };
-
-    // Call the function to calculate total views
-    calcTotalViews();
-    calcTotalApplicants();
-  }, [jobPostsForEmployer]);
+ 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -124,10 +109,10 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
 
         <h2 className="main-title">Dashboard</h2>
         <div className="row">
-          <CardItem img={icon_1} title="Total Views" value={totalViews.toString()} />
-          <CardItem img={icon_2} title="Applicants" value={totalApplicants.toString()} />
-          <CardItem img={icon_3} title="Tokens Left" value={currEmployer?.subscription.requestLimit.toString()} />
-          <CardItem img={icon_4} title="Jobs Posted" value={jobPostsForEmployer?.length.toString()} />
+          <CardItem img={icon_1} title="Total Views" value={jobPostForEmployerDashboardCards?.totalViews?.toString()} />
+          <CardItem img={icon_2} title="Applicants" value={jobPostForEmployerDashboardCards?.totalApplications?.toString()} />
+          <CardItem img={icon_3} title="Tokens Left" value={currEmployer?.subscription?.requestLimit?.toString()} />
+          <CardItem img={icon_4} title="Jobs Posted" value={jobPostForEmployerNiceSelect?.length?.toString()} />
         </div>
 
         <div className="row d-flex pt-50 lg-pt-10">
@@ -218,57 +203,68 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
             <div className="recent-job-tab bg-white border-20 mt-30 w-100">
               <h4 className="dash-title-two">Posted Job</h4>
               <div className="wrapper">
-                {job_items.map((j) => (
-                  <div
-                    key={j.id}
-                    className="job-item-list d-flex align-items-center"
-                  >
-                    <div>
-                      <Image
-                        src={j.logo}
-                        alt="logo"
-                        width={40}
-                        height={40}
-                        className="lazy-img logo"
-                      />
-                    </div>
-                    <div className="job-title">
-                      <h6 className="mb-5">
-                        <a href="#">{j.duration}</a>
-                      </h6>
-                      <div className="meta">
-                        <span>Fulltime</span> . <span>{j.location}</span>
-                      </div>
-                    </div>
-                    <div className="job-action">
-                      <button
-                        className="action-btn dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
+              {job_items.map((app) => {
+                  // console.log(allJobPostAdmin)
+                  if (typeof app !== "string") {
+                    return (
+                      <div
+                        key={app._id}
+                        className="job-item-list d-flex align-items-center"
                       >
-                        <span></span>
-                      </button>
-                      <ul className="dropdown-menu">
-                        <li>
-                          <a className="dropdown-item" href="#">
-                            View Job
-                          </a>
-                        </li>
-                        <li>
-                          <a className="dropdown-item" href="#">
-                            Archive
-                          </a>
-                        </li>
-                        <li>
-                          <a className="dropdown-item" href="#">
-                            Delete
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                ))}
+                        <div>
+                          <Image
+                            src={job_img_1}
+                            alt="logo"
+                            width={40}
+                            height={40}
+                            className="lazy-img logo"
+                          />
+                        </div>
+                        <div className="job-title">
+                          <h6 className="mb-5">
+                            <Link href={`/job-details-v1/${app._id}`}>
+                              {app.title}
+                            </Link>
+                          </h6>
+                          <div className="meta">
+                            <span>{app.jobType[0]}</span> .{" "}
+                            <span>{app.location[0]}</span>
+                          </div>
+                        </div>
+                        <div className="job-action">
+                          <button
+                            className="action-btn dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            <span></span>
+                          </button>
+                          <ul className="dropdown-menu">
+                            <li>
+                              <Link
+                                className="dropdown-item"
+                                href={`/job-details-v1/${app._id}`}
+                              >
+                                View Job
+                              </Link>
+                            </li>
+                            {/* <li>
+                            <a className="dropdown-item" href="#">
+                              Archive
+                            </a>
+                          </li>
+                          <li>
+                            <a className="dropdown-item" href="#">
+                              Delete
+                            </a>
+                          </li> */}
+                          </ul>
+                        </div>
+                      </div>
+                    );
+                  }
+                })}
               </div>
             </div>
           </div>

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useAppSelector } from "@/redux/hook";
 import { useDispatch } from "react-redux";
-import { getJobPostsForEmployer } from "@/redux/features/jobPost/api";
+// import { getJobPostsForEmployer } from "@/redux/features/jobPost/api";
 import { addNotificationToCandidate } from "@/redux/features/employer/api";
 
 const RequestModal = ({ candidateId }: { candidateId: string }) => {
@@ -10,7 +10,7 @@ const RequestModal = ({ candidateId }: { candidateId: string }) => {
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
   const { socket } = useAppSelector((state) => state.global);
 
-  const { jobPostsForEmployer: jobs } = useAppSelector(
+  const {jobPostForEmployerDashboard:jobs} = useAppSelector(
     (state) => state.jobPost
   );
 
@@ -25,9 +25,9 @@ const RequestModal = ({ candidateId }: { candidateId: string }) => {
     addNotificationToCandidate(dispatch, bodyObj, socket);
   };
 
-  useEffect(() => {
-    if (currUser) getJobPostsForEmployer(dispatch, currUser);
-  }, []);
+  // useEffect(() => {
+  //   if (currUser) getJobPostsForEmployer(dispatch, currUser);
+  // }, []);
 
   return (
     <div

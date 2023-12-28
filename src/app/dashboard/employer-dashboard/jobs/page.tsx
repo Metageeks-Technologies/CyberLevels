@@ -11,7 +11,7 @@ const EmployDashboardJobsPage = () => {
   const [isOpenSidebar, setIsOpenSidebar] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
-  const { jobPostsForEmployer } = useAppSelector((state) => state.jobPost);
+  
 
   useEffect(() => {
     if (currUser) getJobPostsForEmployer(dispatch, currUser);
@@ -27,12 +27,12 @@ const EmployDashboardJobsPage = () => {
         {/* aside end  */}
 
         {/* job area start */}
-        {jobPostsForEmployer && (
+         {
           <EmployJobArea
             setIsOpenSidebar={setIsOpenSidebar}
-            jobPosts={jobPostsForEmployer}
+            
           />
-        )}
+        }
 
         {/* job area end */}
       </div>

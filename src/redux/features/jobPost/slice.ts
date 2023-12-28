@@ -18,10 +18,17 @@ export interface jobPstState {
     totalJobPost: number,
     gptLoading: boolean,
     jobPostsForEmployer: IJobPost[];
+    currentPageForJobPostEmployer:number,
+    totalJobPostPagesForEmployer:number,
+    pageSizeForJobPostEmployer:number,
     relatedJobs: IJobPost[];
     fileNamePc: string;
     allJobPostAdmin:IJobPost[];
     viewsOnJobPost:JobPostView[];
+    totalJobPostsForEmployer:number;
+    jobPostForEmployerDashboard:IJobPost[];
+    jobPostForEmployerNiceSelect:IJobPost[];
+    jobPostForEmployerDashboardCards:any;
 }
 type IForGetAllJobPost = {
     allJobPost: IJobPost[]
@@ -43,7 +50,14 @@ const initialState: jobPstState = {
     relatedJobs: [],
     fileNamePc: "",
     allJobPostAdmin:[],
-    viewsOnJobPost:[]
+    viewsOnJobPost:[],
+    currentPageForJobPostEmployer:1,
+    totalJobPostPagesForEmployer:1,
+    pageSizeForJobPostEmployer:1,
+    totalJobPostsForEmployer:0,
+    jobPostForEmployerDashboard:[],
+    jobPostForEmployerNiceSelect:[],
+    jobPostForEmployerDashboardCards:{},
 }
 
 export const jobPostSlice = createSlice({
@@ -85,20 +99,36 @@ export const jobPostSlice = createSlice({
             state.loading = false
             state.allJobPostAdmin = action.payload;
         } ,
-        getJobPostsForEmployerSuccess: (state, action: PayloadAction<IJobPost[]>) => {
+        getJobPostsForEmployerSuccess: (state, action: PayloadAction<any>) => {
             state.loading = false
-            state.jobPostsForEmployer = action.payload;
+            state.jobPostsForEmployer = action.payload.jobPostsForEmployer;
+            state.totalJobPostPagesForEmployer = action.payload.totalJobPostPagesForEmployer;
+            state.currentPageForJobPostEmployer = action.payload.currentPageForJobPostEmployer;
+            state.pageSizeForJobPostEmployer = action.payload.pageSizeForJobPostEmployer;
+            state.totalJobPostsForEmployer = action.payload.totalJobPostsForEmployer;
         },
         getJobPostViewsSuccess: (state, action: PayloadAction<JobPostView[]>) => {
             state.loading = false
             state.viewsOnJobPost = action.payload
             // console.log(action.payload,"Hello");
         },
+        getJobPostForEmployerDashboardSuccess: (state , action: PayloadAction<IJobPost[]>) => {
+            state.loading = false;
+            state.jobPostForEmployerDashboard = action.payload;
+        },
+        getJobPostForEmployerNiceSelectSuccess: (state, action: PayloadAction<IJobPost[]>) => {
+            state.loading = false;
+            state.jobPostForEmployerNiceSelect = action.payload;
+        },
+        getJobPostForEmployerDashboardCardsSuccess: (state, action: PayloadAction<any>) => {
+            state.loading = false;
+            state.jobPostForEmployerDashboardCards = action.payload;
+        },
         registerJobPostViewSuccess: (state) => {
             state.loading=false;
         },
         toggleIsSaved: (state, action: PayloadAction<string>) => {
-            state.allJobPost = state.allJobPost.map((job) => {
+            state.allJobPost = state.allJobPost?.map((job) => {
                 if (job._id === action.payload) {
                     return { ...job, isSaved: !job.isSaved }
                 } else return job;
@@ -107,6 +137,9 @@ export const jobPostSlice = createSlice({
         },
         setPage: (state, action: PayloadAction<number>) => {
             state.page = action.payload;
+        },
+        setPageForJobPostEmployer: (state,action:PayloadAction<number>) => {
+            state.currentPageForJobPostEmployer = action.payload;
         },
         setPageForCompany: (state, action: PayloadAction<number>) => {
             state.pageForCompany = action.payload;
@@ -140,7 +173,11 @@ export const {
     setFileNamePc,
     getAllJobPostsSuccess,
     getJobPostViewsSuccess,
-    registerJobPostViewSuccess
+    registerJobPostViewSuccess,
+    setPageForJobPostEmployer,
+    getJobPostForEmployerDashboardSuccess,
+    getJobPostForEmployerNiceSelectSuccess,
+    getJobPostForEmployerDashboardCardsSuccess,
 } = jobPostSlice.actions
 
 export default jobPostSlice.reducer;
