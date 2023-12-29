@@ -1,5 +1,5 @@
 import { JobPostView } from "@/redux/features/jobPost/slice";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   AreaChart,
   Area,
@@ -23,6 +23,9 @@ const AdminAreaChart = ({
   viewsDataMonth?: JobPostView[][];
   viewsDataYear?: JobPostView[][];
 }) => {
+  useEffect(() => {
+    console.log(viewsDataDay,"Day")
+  },[viewsDataYear])
   const getLastFiveDays = () => {
     const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const today = new Date();

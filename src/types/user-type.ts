@@ -7,6 +7,11 @@ export interface IEducation {
     description: string;
     _id: string
 }
+interface ProfileView {
+    
+    view_count?: number;
+    view_timestamp?: string;
+}
 export interface IExperience {
     title: string;
     company: string;
@@ -84,7 +89,7 @@ export interface ICandidate {
     testScore: number,
     notifications: INotification[],
     bio: string,
-    profileViews: number;
+    profileViews: ProfileView[];
     createdAt: string,
     updatedAt: string,
     isSaved?: boolean,

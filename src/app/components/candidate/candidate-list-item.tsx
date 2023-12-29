@@ -86,7 +86,7 @@ const CandidateListItem = ({
                 <div className="candidate-info">
                   <span>Location</span>
                   <div>
-                    {item.location.city},{item.location.country}
+                    {item.location?.city},{item.location?.country}
                   </div>
                 </div>
               </div>

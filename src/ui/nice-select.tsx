@@ -1,4 +1,5 @@
 "use client";
+import { getDate } from "@/utils/helper";
 import React, { useState, useCallback, useRef } from "react";
 import { useClickAway } from "react-use";
 
@@ -67,7 +68,7 @@ const NiceSelect = ({
             role="menuitem"
             onClick={() => currentHandler(item)}
           >
-            {item.label}{" "}{item.date && item.date.split('T')[0]}{" "}{item.date && item.date.split('T')[1].split(".")[0]}
+           {item.label} {item.date && `(${getDate(item.date.split('T')[0])})`}
           </li>
         ))}
       </ul>

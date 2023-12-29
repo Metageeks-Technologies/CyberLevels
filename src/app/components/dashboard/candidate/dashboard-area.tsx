@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import job_data from "@/data/job-data";
 import icon_1 from "@/assets/dashboard/images/icon/icon_12.svg";
@@ -13,7 +13,13 @@ import { getallJobAppByCandidateWithJobPost } from "@/redux/features/jobApp/api"
 import job_img_1 from "@/assets/images/logo/media_22.png";
 import { type } from "os";
 import Link from "next/link";
-
+import NiceSelect from "@/ui/nice-select";
+import { getCandidateProfileViewsForChart } from "@/redux/features/candidate/api";
+import CandidateAreaChart from "@/ui/EmployerAreaChart";
+interface ProfileView {
+  view_count?: number;
+  view_timestamp?: string;
+}
 // card item
 export function CardItem({
   img,
@@ -50,10 +56,67 @@ const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
     (state) => state.jobApplication
   );
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
+  const { currCandidate } = useAppSelector(
+    (state) => state.candidate.candidateDashboard
+  );
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (currUser) getallJobAppByCandidateWithJobPost(dispatch, currUser);
   }, []);
+
+  const [viewsDataDay, setViewsDataDay] = useState<ProfileView[][] | []>();
+  const [viewsDataMonth, setViewsDataMonth] = useState<ProfileView[][] | []>();
+  const [viewsDataYear, setViewsDataYear] = useState<ProfileView[][] | []>();
+  const [dataMode, setDataMode] = useState<string>("day");
+  const [lastUnit, setLastUnit] = useState<number>(6);
+  // const [trigger, setTrigger] = useState<number>();
+  const handleLastUnits = (item: { value: string; label: string }) => {
+    const val = parseInt(item.value);
+    setLastUnit(val);
+  };
+  // useEffect(() => {
+
+  // },[])
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (currCandidate) {
+          const viewsDay: any = await getCandidateProfileViewsForChart(
+            dispatch,
+            currCandidate._id,
+            "day"
+          );
+          setViewsDataDay(viewsDay);
+
+          const viewsMonth: any = await getCandidateProfileViewsForChart(
+            dispatch,
+            currCandidate._id,
+            "month"
+          );
+          setViewsDataMonth(viewsMonth);
+
+          const viewsYear: any = await getCandidateProfileViewsForChart(
+            dispatch,
+            currCandidate._id,
+            "year"
+          );
+          // console.log(viewsYear,"views year");
+          setViewsDataYear(viewsYear);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+    // console.log(currCandidate)
+    // console.log(viewsDataYear,"Year")
+  }, [currCandidate]);
+
+  // useEffect(() => {
+  //   console.log(viewsDataYear,"Year")
+  // },[viewsDataYear])
+  // const isDataAvailable = viewsDataDay && viewsDataMonth && viewsDataYear;
 
   return (
     <div className="dashboard-body">
@@ -74,12 +137,72 @@ const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
           <div className="col-xl-7 col-lg-6 d-flex flex-column">
             <div className="user-activity-chart bg-white border-20 mt-30 h-100">
               <h4 className="dash-title-two">Profile Views</h4>
-              <div className="ps-5 pe-5 mt-50">
-                <Image
-                  src={main_graph}
-                  alt="main-graph"
-                  className="lazy-img m-auto"
+              <div
+                className="flex px-4 md:px-6 lg:px-8 xl:px-10 "
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <div className="gap-1 sm:gap-2" style={{ display: "flex" }}>
+                  <button
+                    className=" font-bold p-2 px-3"
+                    style={{
+                      background: dataMode === "day" ? "#D2F34C" : "#3f634d",
+                      borderRadius: "9999px",
+                      color: dataMode === "day" ? " #3f634d" : "white",
+                    }}
+                    onClick={() => setDataMode("day")}
+                  >
+                    Day
+                  </button>
+                  <button
+                    className="p-2 font-bold px-3"
+                    style={{
+                      background: dataMode === "month" ? "#D2F34C" : "#3f634d",
+                      borderRadius: "9999px",
+                      color: dataMode === "month" ? " #3f634d" : "white",
+                    }}
+                    onClick={() => setDataMode("month")}
+                  >
+                    Month
+                  </button>
+                  <button
+                    className=" p-2 px-3"
+                    style={{
+                      background: dataMode === "year" ? "#D2F34C" : "#3f634d",
+                      borderRadius: "9999px",
+                      color: dataMode === "year" ? " #3f634d" : "white",
+                    }}
+                    onClick={() => setDataMode("year")}
+                  >
+                    Year
+                  </button>
+                </div>
+                <div>
+                  <NiceSelect
+                    options={[
+                      { value: "2", label: "last 3 units" },
+                      { value: "4", label: "last 5 units" },
+                      { value: "6", label: "last 7 units" },
+                      { value: "11", label: "last 12 units" },
+                    ]}
+                    defaultCurrent={2}
+                    onChange={(item) => handleLastUnits(item)}
+                    name="last units"
+                  />
+                </div>
+              </div>
+              <div className="px-3 pb-3 mt-50">
+                <CandidateAreaChart
+                  dataMode={dataMode}
+                  lastUnit={lastUnit}
+                  viewsDataDay={viewsDataDay}
+                  viewsDataMonth={viewsDataMonth}
+                  viewsDataYear={viewsDataYear}
                 />
+                {/* // <p>Hello</p> */}
               </div>
             </div>
           </div>

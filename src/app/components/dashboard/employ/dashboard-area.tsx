@@ -11,7 +11,7 @@ import main_graph from "@/assets/dashboard/images/main-graph.png";
 import DashboardHeader from "../candidate/dashboard-header";
 import { CardItem } from "../candidate/dashboard-area";
 import NiceSelect from "@/ui/nice-select";
-import EmployeeAreaChart from "@/ui/EmployerAreaChart";
+import EmployerAreaChart from "@/ui/EmployerAreaChart";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import {
   getJobPostForEmployerDashboard,
@@ -97,7 +97,7 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
     };
 
     fetchData();
-    // console.log(viewsDataMonth);
+    console.log(viewsDataMonth);
   }, [selectedJobId]);
 
   return (
@@ -189,7 +189,7 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                 </div>
               </div>
               <div className="px-3 pb-3 mt-50">
-                <EmployeeAreaChart
+                <EmployerAreaChart
                   dataMode={dataMode}
                   lastUnit={lastUnit}
                   viewsDataDay={viewsDataDay}

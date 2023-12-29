@@ -3,7 +3,11 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import type { ICandidate, INotification, IResume } from '@/types/user-type'
 import type { IJobPost } from "@/types/jobPost-type";
 import { ICompany } from "@/types/company";
-
+interface ProfileView {
+    
+    view_count?: number;
+    view_timestamp?: string;
+}
 // Define a type for the slice state
 export interface ICandidateDashboard {
     loading: boolean,
@@ -26,6 +30,7 @@ export interface ICandidateDashboard {
     ] | null,
     currDashEducation: string,
     currDashExperience: string,
+    viewsOnCandidateProfile: ProfileView[],
 }
 
 // Define the initial state using that type
@@ -45,6 +50,8 @@ const initialState: ICandidateDashboard = {
     recommendedJobs: null,
     currDashEducation: "",
     currDashExperience: "",
+    viewsOnCandidateProfile:[]
+   
 
 };
 
@@ -90,6 +97,10 @@ export const candidateDashboardSlice = createSlice({
             if (state.currCandidate)
                 state.currCandidate.experience = [...state.currCandidate.experience, action.payload]
             state.loading = false;
+        },
+        getCandidateProfileViewsForChartSuccess: (state,action: PayloadAction<ProfileView[]>) => {
+            state.loading = false;
+            state.viewsOnCandidateProfile = action.payload;
         },
         getSavedJobsSuccess: (state, action: PayloadAction<IForGetSavedJobs>) => {
             state.savedJobs = action.payload.savedJobs;
@@ -180,7 +191,8 @@ export const {
     addResume,
     deleteResumeSuccess,
     getRecommendedJobsSuccess,
-    setCurrDashEducation, setCurrDashExperience
+    setCurrDashEducation, setCurrDashExperience,
+    getCandidateProfileViewsForChartSuccess,
 } = candidateDashboardSlice.actions;
 
 export default candidateDashboardSlice.reducer;
