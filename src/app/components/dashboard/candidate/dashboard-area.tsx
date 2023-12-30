@@ -9,12 +9,12 @@ import icon_4 from "@/assets/dashboard/images/icon/icon_15.svg";
 import main_graph from "@/assets/dashboard/images/main-graph.png";
 import DashboardHeader from "./dashboard-header";
 import { useAppSelector, useAppDispatch } from "@/redux/hook";
-import { getallJobAppByCandidateWithJobPost } from "@/redux/features/jobApp/api";
+import { getAllShortlistedJobAppByCandidateId, getallJobAppByCandidateWithJobPost } from "@/redux/features/jobApp/api";
 import job_img_1 from "@/assets/images/logo/media_22.png";
 import { type } from "os";
 import Link from "next/link";
 import NiceSelect from "@/ui/nice-select";
-import { getCandidateProfileViewsForChart } from "@/redux/features/candidate/api";
+import { getCandidateProfileViewsForChart, getTotalViewsOfCandidate } from "@/redux/features/candidate/api";
 import CandidateAreaChart from "@/ui/EmployerAreaChart";
 interface ProfileView {
   view_count?: number;
@@ -52,17 +52,22 @@ type IProps = {
 };
 const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
   const job_items = [...job_data.reverse().slice(0, 5)];
-  const { allJobAppByCandidateWithJobPost: jobApps } = useAppSelector(
+  const { allJobAppByCandidateWithJobPost: jobApps, totalJobsApplied, numberOfShortlistedJobApps } = useAppSelector(
     (state) => state.jobApplication
   );
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
-  const { currCandidate } = useAppSelector(
+  const { currCandidate, totalViews } = useAppSelector(
     (state) => state.candidate.candidateDashboard
   );
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (currUser) getallJobAppByCandidateWithJobPost(dispatch, currUser);
-  }, []);
+    if (currCandidate) 
+    {
+      getallJobAppByCandidateWithJobPost(dispatch, currCandidate._id,1);
+      getTotalViewsOfCandidate(dispatch,currCandidate._id);
+      getAllShortlistedJobAppByCandidateId(dispatch,currCandidate._id);
+    };
+  }, [currCandidate]);
 
   const [viewsDataDay, setViewsDataDay] = useState<ProfileView[][] | []>();
   const [viewsDataMonth, setViewsDataMonth] = useState<ProfileView[][] | []>();
@@ -127,10 +132,10 @@ const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
 
         <h2 className="main-title">Dashboard</h2>
         <div className="row">
-          <CardItem img={icon_1} title="Total Visitor" value="1.7k+" />
-          <CardItem img={icon_2} title="Shortlisted" value="03" />
-          <CardItem img={icon_3} title="Views" value="2.1k" />
-          <CardItem img={icon_4} title="Credit left" value="05" />
+          <CardItem img={icon_1} title="Applications" value={totalJobsApplied.toString()} />
+          <CardItem img={icon_2} title="Shortlisted" value={numberOfShortlistedJobApps.toString()} />
+          <CardItem img={icon_3} title="Views" value={totalViews.toString()} />
+          <CardItem img={icon_4} title="Credit left" value="5" />
         </div>
 
         <div className="row d-flex pt-50 lg-pt-10">
@@ -210,7 +215,7 @@ const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
             <div className="recent-job-tab bg-white border-20 mt-30 w-100">
               <h4 className="dash-title-two">Recent Applied Job</h4>
               <div className="wrapper">
-                {jobApps.slice(0, 5).map((app) => {
+                {jobApps.slice(0, 6).map((app) => {
                   if (typeof app.jobPost !== "string") {
                     return (
                       <div

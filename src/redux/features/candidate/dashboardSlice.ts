@@ -31,6 +31,7 @@ export interface ICandidateDashboard {
     currDashEducation: string,
     currDashExperience: string,
     viewsOnCandidateProfile: ProfileView[],
+    totalViews:number,
 }
 
 // Define the initial state using that type
@@ -50,7 +51,8 @@ const initialState: ICandidateDashboard = {
     recommendedJobs: null,
     currDashEducation: "",
     currDashExperience: "",
-    viewsOnCandidateProfile:[]
+    viewsOnCandidateProfile:[],
+    totalViews: 0,
    
 
 };
@@ -82,6 +84,11 @@ export const candidateDashboardSlice = createSlice({
             state.currCandidate = action.payload;
             state.loading = false,
                 state.error = null;
+        },
+        getCandidateProfileTotalViewsSuccess: (state, action: PayloadAction<number>) => {
+            state.loading = false;
+            // console.log(action.payload,"Action")
+            state.totalViews = action.payload
         },
         updateCurrCandidateSuccess: (state, action: PayloadAction<ICandidate>) => {
             state.currCandidate = action.payload;
@@ -193,6 +200,7 @@ export const {
     getRecommendedJobsSuccess,
     setCurrDashEducation, setCurrDashExperience,
     getCandidateProfileViewsForChartSuccess,
+    getCandidateProfileTotalViewsSuccess,
 } = candidateDashboardSlice.actions;
 
 export default candidateDashboardSlice.reducer;

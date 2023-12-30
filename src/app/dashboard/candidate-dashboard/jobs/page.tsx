@@ -8,16 +8,16 @@ import { getallJobAppByCandidateWithJobPost } from "@/redux/features/jobApp/api"
 
 const EmployDashboardJobsPage = () => {
   const [isOpenSidebar, setIsOpenSidebar] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
-  const { allJobAppByCandidateWithJobPost } = useAppSelector(
-    (state) => state.jobApplication
-  );
+  // const dispatch = useAppDispatch();
+  // const { allJobAppByCandidateWithJobPost, currentPage } = useAppSelector(
+  //   (state) => state.jobApplication
+  // );
 
-  const { currUser } = useAppSelector((state) => state.persistedReducer.user);
+  // const { currUser } = useAppSelector((state) => state.persistedReducer.user);
 
-  useEffect(() => {
-    if (currUser) getallJobAppByCandidateWithJobPost(dispatch, currUser);
-  }, []);
+  // useEffect(() => {
+  //   if (currUser) getallJobAppByCandidateWithJobPost(dispatch, currUser, currentPage);
+  // }, []);
 
   return (
     <Wrapper>
@@ -30,12 +30,11 @@ const EmployDashboardJobsPage = () => {
         {/* aside end  */}
 
         {/* job area start */}
-        {allJobAppByCandidateWithJobPost && (
+         
           <CandidateJobArea
             setIsOpenSidebar={setIsOpenSidebar}
-            jobApps={allJobAppByCandidateWithJobPost}
           />
-        )}
+        
         {/* job area end */}
       </div>
     </Wrapper>

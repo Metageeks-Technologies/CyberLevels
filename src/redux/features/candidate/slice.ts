@@ -10,6 +10,7 @@ export interface CandidateState {
     page: number,
     totalNumOfPage: number,
     totalCandidate: number,
+  
    
 }
 type IForGetAllCandidate = {
@@ -26,6 +27,7 @@ const initialState: CandidateState = {
     page: 1,
     totalNumOfPage: 1,
     totalCandidate: 0,
+ 
     
 }
 
@@ -74,6 +76,7 @@ export const {
     setPage,
     toggleIsSaved,
     getDetailsSuccess,
+    
     
 } = candidateSlice.actions
 

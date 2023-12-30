@@ -23,9 +23,9 @@ const AdminAreaChart = ({
   viewsDataMonth?: JobPostView[][];
   viewsDataYear?: JobPostView[][];
 }) => {
-  useEffect(() => {
-    console.log(viewsDataDay,"Day")
-  },[viewsDataYear])
+  // useEffect(() => {
+  //   console.log(viewsDataDay,"Day")
+  // },[viewsDataYear])
   const getLastFiveDays = () => {
     const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const today = new Date();

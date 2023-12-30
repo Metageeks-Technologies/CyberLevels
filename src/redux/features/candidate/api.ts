@@ -1,6 +1,6 @@
 import instance from "@/lib/axios";
 import { getCandidatesSuccess, requestFail, requestStart, getDetailsSuccess } from "./slice"
-import { getCurrCandidateSuccess, requestFailDash, requestStartDash, removeSavedJobSuccess, updateExpSuccess, updateCurrCandidateSuccess, getSavedJobsSuccess, getSavedCompaniesSuccess, updateNotificationSuccess, addResume, getRecommendedJobsSuccess, deleteResumeSuccess, updateAvatarSuccess, updateEduSuccess, getCandidateProfileViewsForChartSuccess } from "./dashboardSlice";
+import { getCurrCandidateSuccess, requestFailDash, requestStartDash, removeSavedJobSuccess, updateExpSuccess, updateCurrCandidateSuccess, getSavedJobsSuccess, getSavedCompaniesSuccess, updateNotificationSuccess, addResume, getRecommendedJobsSuccess, deleteResumeSuccess, updateAvatarSuccess, updateEduSuccess, getCandidateProfileViewsForChartSuccess, getCandidateProfileTotalViewsSuccess } from "./dashboardSlice";
 import axios, { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { IFilterState } from "../candidate/filterSlice";
@@ -281,11 +281,27 @@ export const getCandidateProfileViewsForChart = async (dispatch: AppDispatch, id
         const {data} = await instance.get(`/candidate/profileViews/${id}/${viewby}`);
         // console.log(data.data);
         
-        getCandidateProfileViewsForChartSuccess(data.data);
+        dispatch(getCandidateProfileViewsForChartSuccess(data.data));
+        
         return data.data;
     } catch (error) {
         console.log(error);
         const e = error as AxiosError;
         dispatch(requestFailDash(e.message))
     }
+}
+
+export const getTotalViewsOfCandidate = async (dispatch:AppDispatch , id:string) => {
+    dispatch(requestStartDash());
+    try {
+        const {data} = await instance.get(`/candidate/totalProfileViews/${id}`);
+        // console.log(data.totalViews,"CheckTotalViews");
+        dispatch(getCandidateProfileTotalViewsSuccess(data.totalViews));
+        
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        dispatch(requestFailDash(e.message))
+    }
+
 }

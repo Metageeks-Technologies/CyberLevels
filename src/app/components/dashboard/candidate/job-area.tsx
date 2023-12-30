@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DashboardHeader from "../candidate/dashboard-header";
 import CandidateJobItem from "./job-item";
 import EmployShortSelect from "../employ/short-select";
@@ -7,14 +7,32 @@ import { IJobPost } from "@/types/jobPost-type";
 import Pagination from "@/ui/pagination";
 import ChatModal from "../../common/popup/chatModal";
 import FeedbackModal from "../../common/popup/feedback";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { getallJobAppByCandidateWithJobPost } from "@/redux/features/jobApp/api";
+import { setPage } from "@/redux/features/jobApp/slice";
 
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
-  jobApps: IJobApp[];
+
 };
-const EmployJobArea = ({ setIsOpenSidebar, jobApps }: IProps) => {
-  console.log(jobApps);
+
+const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
+  // console.log(jobApps);
+  const dispatch = useAppDispatch();
+  const { allJobAppByCandidateWithJobPostPagination, currentPage, totalPages, itemsPerPage,totalJobsApplied } = useAppSelector(
+    (state) => state.jobApplication
+  );
+  const {currCandidate} = useAppSelector((state) => state.candidate.candidateDashboard)
+    useEffect(() => {
+      if(currCandidate)
+      getallJobAppByCandidateWithJobPost(dispatch,currCandidate?._id,currentPage,"true");
+    },[currentPage,currCandidate])
+    console.log(allJobAppByCandidateWithJobPostPagination);
+    const handlePageClick = (event: { selected: number }) => {
+      dispatch(setPage(event.selected + 1));
+    };
+
   return (
     <>
       <div className="dashboard-body">
@@ -79,7 +97,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApps }: IProps) => {
                       </tr>
                     </thead>
                     <tbody className="border-0">
-                      {jobApps?.map((app) => {
+                      {allJobAppByCandidateWithJobPostPagination?.map((app) => {
                         let ceratedAt: Date | string = new Date(app.createdAt);
                         ceratedAt = ceratedAt.toLocaleDateString();
 
@@ -155,6 +173,13 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApps }: IProps) => {
             </div> */}
             </div>
           </div>
+          {totalJobsApplied > itemsPerPage && (
+                        <Pagination
+                          pageCount={totalPages}
+                          handlePageClick={handlePageClick}
+                          currPage={currentPage}
+                        />
+                      )}
         </div>
       </div>
       <ChatModal />
