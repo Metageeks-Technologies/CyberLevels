@@ -19,6 +19,7 @@ import {
 import job_img_1 from "@/assets/images/logo/media_22.png";
 import Link from "next/link";
 import AdminAreaChart from "@/ui/AdminAreaChart";
+import { getItemsByJoiningDate } from "@/redux/features/candidate/api";
 // import AdminDashboardChart from "@/utils/AdminDashboardChart";
 
 // props type
@@ -28,22 +29,54 @@ type IProps = {
 
 const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
   // const job_items = [...job_data.reverse().slice(0, 6)];
-  const handleJobs = (item: { value: string; label: string }) => {};
   const dispatch = useAppDispatch();
   const { allJobPostAdmin, page } = useAppSelector((state) => state.jobPost);
+  const [selectedUserType, setSelectedUserType] = useState<string>("candidate");
+  const [viewsDataDay, setViewsDataDay] = useState<[number] | any>();
+  const [viewsDataMonth, setViewsDataMonth] = useState<[number] | any>();
+  const [viewsDataYear, setViewsDataYear] = useState<[number] | any>();
+  const [dataMode, setDataMode] = useState<string>("day");
+  const [lastUnit, setLastUnit] = useState<number>(6);
   const filterObj = useAppSelector((state) => state.filter);
+  const handleJobs = (item: { value: string; label: string }) => {
+    setSelectedUserType(item.value);
+  };
   useEffect(() => {
     getAllJobPosts(dispatch);
   }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const dayViews = await getItemsByJoiningDate(
+        dispatch,
+        selectedUserType,
+        "day"
+      );
+      setViewsDataDay(dayViews);
+      const monthViews = await getItemsByJoiningDate(
+        dispatch,
+        selectedUserType,
+        "month"
+      );
+      setViewsDataMonth(monthViews);
+      const yearViews = await getItemsByJoiningDate(
+        dispatch,
+        selectedUserType,
+        "year"
+      );
+      setViewsDataYear(yearViews);
+    };
+    fetchData();
+  }, [selectedUserType]);
   const handleDelete = (id: string) => {
     deleteJobPost(dispatch, id);
   };
-  const [dataMode, setDataMode] = useState<string>("Day");
-  const [lastUnit, setLastUnit] = useState<number>(6)
-  const handleLastUnits = (item:{value:string,label:string}) => {
+  const handleLastUnits = (item: { value: string; label: string }) => {
     const val = parseInt(item.value);
     setLastUnit(val);
-  }
+  };
+  // useEffect(() => {
+  //   console.log(viewsDataYear,"useEffect Dashboard")
+  // },[viewsDataYear])
 
   return (
     <div className="dashboard-body">
@@ -63,22 +96,21 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
         <div className="row d-flex pt-0 lg-pt-10">
           <div className="col-xl-7 col-lg-6 d-flex flex-column">
             <div className="user-activity-chart bg-white border-20 mt-30 h-100">
-              <h4 className="dash-title-two">Job Views</h4>
+              <h4 className="dash-title-two">Statistics</h4>
               <div className="d-sm-flex align-items-center job-list">
-                <div className="fw-500 pe-3">Jobs:</div>
+                <div className="fw-500 pe-3">Field: </div>
                 <div className="flex-fill xs-mt-10">
                   <NiceSelect
                     options={[
                       {
-                        value: "Web-&-Mobile-Prototype-designer",
-                        label: "Web & Mobile Prototype designer....",
+                        value: "candidate",
+                        label: "Candidates",
                       },
-                      { value: "Document Writer", label: "Document Writer" },
+                      { value: "employer", label: "Employers" },
                       {
-                        value: "Outbound Call Service",
-                        label: "Outbound Call Service",
+                        value: "jobpost",
+                        label: "JobPosts",
                       },
-                      { value: "Product Designer", label: "Product Designer" },
                     ]}
                     defaultCurrent={0}
                     onChange={(item) => handleJobs(item)}
@@ -86,47 +118,73 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                   />
                 </div>
               </div>
-              <div className="flex px-4 md:px-6 lg:px-8 xl:px-10 " style={{ display: "flex", justifyContent: "space-between", alignItems:"center" }}>
-                <div className="gap-1 sm:gap-2" style={{ display: "flex"}}>
-
-                <button
-                  className=" font-bold p-2 px-3"
-                  style={{ background: dataMode=== "Day"? "#D2F34C" : "#3f634d",borderRadius: "9999px",color:dataMode === "Day"?" #3f634d" :"white" }}
-                  onClick = {() => setDataMode("Day")}
-                >
-                  Day
-                </button>
-                <button
-                  className="p-2 font-bold px-3"
-                  style={{ background: dataMode=== "Month"? "#D2F34C" : "#3f634d", borderRadius: "9999px",color:dataMode === "Month"?" #3f634d" :"white" }}
-                  onClick = {() => setDataMode("Month")}
+              <div
+                className="flex px-4 md:px-6 lg:px-8 xl:px-10 "
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <div className="gap-1 sm:gap-2" style={{ display: "flex" }}>
+                  <button
+                    className=" font-bold p-2 px-3"
+                    style={{
+                      background: dataMode === "day" ? "#D2F34C" : "#3f634d",
+                      borderRadius: "9999px",
+                      color: dataMode === "day" ? " #3f634d" : "white",
+                    }}
+                    onClick={() => setDataMode("day")}
                   >
-                  Month
-                </button>
-                <button
-                  className=" p-2 px-3"
-                  style={{ background: dataMode === "Year"? "#D2F34C" : "#3f634d",borderRadius: "9999px",color:dataMode === "Year"?" #3f634d" :"white" }}
-                  onClick = {() => setDataMode("Year")}
+                    Day
+                  </button>
+                  <button
+                    className="p-2 font-bold px-3"
+                    style={{
+                      background: dataMode === "month" ? "#D2F34C" : "#3f634d",
+                      borderRadius: "9999px",
+                      color: dataMode === "month" ? " #3f634d" : "white",
+                    }}
+                    onClick={() => setDataMode("month")}
                   >
-                  Year
-                </button>
-                  </div>
+                    Month
+                  </button>
+                  <button
+                    className=" p-2 px-3"
+                    style={{
+                      background: dataMode === "year" ? "#D2F34C" : "#3f634d",
+                      borderRadius: "9999px",
+                      color: dataMode === "year" ? " #3f634d" : "white",
+                    }}
+                    onClick={() => setDataMode("year")}
+                  >
+                    Year
+                  </button>
+                </div>
                 <div>
-                <NiceSelect
-                  options={[
-                    { value: "2", label: "last 3 units" },
-                    { value: "4", label: "last 5 units" },
-                    { value: "6", label: "last 7 units" },
-                    { value: "11", label: "last 12 units" },
-                  ]}
-                  defaultCurrent={2}
-                  onChange={(item) => handleLastUnits(item)}
-                  name="last units"
-                />
+                  <NiceSelect
+                    options={[
+                      { value: "2", label: "last 3 units" },
+                      { value: "4", label: "last 5 units" },
+                      { value: "6", label: "last 7 units" },
+                      { value: "11", label: "last 12 units" },
+                    ]}
+                    defaultCurrent={2}
+                    onChange={(item) => handleLastUnits(item)}
+                    name="last units"
+                  />
                 </div>
               </div>
               <div className="px-3 pb-3 mt-50">
-                <AdminAreaChart dataMode = {dataMode} lastUnit={lastUnit}/>
+                {viewsDataYear && (
+                  <AdminAreaChart
+                    dataMode={dataMode}
+                    lastUnit={lastUnit}
+                    viewsDataDay={viewsDataDay}
+                    viewsDataMonth={viewsDataMonth}
+                    viewsDataYear={viewsDataYear}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -135,7 +193,7 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
               <h4 className="dash-title-two">Posted Job</h4>
 
               <div className="wrapper">
-                {allJobPostAdmin?.slice(0, 5).map((app) => {
+                {allJobPostAdmin?.map((app) => {
                   // console.log(allJobPostAdmin)
                   if (typeof app !== "string") {
                     return (
