@@ -55,7 +55,7 @@
   margin-right: 0.5rem; /* Equivalent to mr-2 in Tailwind */
   color: #ccc; /* Equivalent to text-gray-200 in Tailwind */
   animation: spin 0.7s linear infinite; /* Equivalent to animate-spin in Tailwind */
-  fill: $color-three; /* Equivalent to fill-[#6469ff] in Tailwind */
+  fill: var(--color-three); /* Equivalent to fill-[#6469ff] in Tailwind */
 }
 
 @keyframes spin {
@@ -119,7 +119,7 @@
   }
 }
 ._checked {
-  background: $color-three;
+  background: var(--color-three);
   --tw-bg-opacity: 0.75;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -235,8 +235,8 @@
   padding: 0 15px;
   line-height: 45px;
   border-radius: 25px;
-  background: $color-two;
-  color: $color-one;
+  background: var(--color-two);
+  color: var(--color-one);
 }
 
 div[data-preview] p {
@@ -606,3 +606,27 @@ div[data-preview] p {
   color: #999;
   cursor: default;
 }
+
+
+.pagination-one li {
+  padding: 0 1px;
+}
+.pagination-one  {
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  line-height: 35px;
+  border-radius: 50%;
+  font-size: 17px;
+  font-weight: 500;
+  color: #31795A;
+}
+.pagination-one.active  {
+  background: #31795A;
+  color: #fff;
+}
+.pagination-one li:last-child a {
+  width: auto;
+  height: auto;
+}
+

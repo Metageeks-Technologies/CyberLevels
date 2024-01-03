@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DashboardHeader from "../candidate/dashboard-header";
-import { addSmtpConfig, getSmtpConfigs } from "@/redux/features/smtpConfig/api";
-import { addSmtpConfigSuccess, fetchSmtpConfigError, fetchSmtpConfigRequest, fetchSmtpConfigSuccess } from "@/redux/features/smtpConfig/slice";
+import { addSmtpConfig, getSmtpConfigs,updateSmtpConfig } from "@/redux/features/smtpConfig/api";
+import { addSmtpConfigSuccess, fetchSmtpConfigError, fetchSmtpConfigRequest, fetchSmtpConfigSuccess,updateSmtpConfigSuccess } from "@/redux/features/smtpConfig/slice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 
 type IProps = {
@@ -20,14 +20,33 @@ const AdminEmailSettings = ({ setIsOpenSidebar }: IProps) => {
     const [user, setUser] = useState('');
     const [pass, setPass] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-
-
+    
     useEffect(() => {
-        dispatch(fetchSmtpConfigRequest());
-        getSmtpConfigs(dispatch)
-            .then((data) => dispatch(fetchSmtpConfigSuccess(data)))
-            .catch((error) => dispatch(fetchSmtpConfigError(error.message)));
-    }, [dispatch]);
+        const fetchData = async () => {
+          try {
+            dispatch(fetchSmtpConfigRequest());
+            const data = await getSmtpConfigs(dispatch);
+            
+            // Dispatch success action
+            dispatch(fetchSmtpConfigSuccess(data));
+    
+            // Update state based on the fetched SMTP configuration
+            setHost(data.host);
+            setPort(data.port);
+            setSecure(data.secure);
+            setUser(data.user);
+            setPass(data.pass);
+          } catch (error:any) {
+            // Dispatch error action
+            dispatch(fetchSmtpConfigError(error.message));
+    
+            // Handle error
+            console.error('Error fetching SMTP configuration:', error);
+          }
+        };
+    
+        fetchData();
+      }, [dispatch]);
 
     const handleSaveSmtp = async () => {
 
@@ -35,14 +54,14 @@ const AdminEmailSettings = ({ setIsOpenSidebar }: IProps) => {
             host,
             port,
             secure,
-            user: secure ? user : '',
-            pass: secure && showPassword ? pass : '*****',
+            user,
+            pass,
 
         };
         try {
-            const addedSmtp = await addSmtpConfig(dispatch, smtpConfig)
+            const addedSmtp = await updateSmtpConfig(dispatch, smtpConfig)
             if (addedSmtp) {
-                dispatch(addSmtpConfigSuccess(addedSmtp));
+                dispatch(updateSmtpConfigSuccess(addedSmtp));
                 console.log("SMTP Configuration added successfully");
             }
         }
@@ -89,7 +108,7 @@ const AdminEmailSettings = ({ setIsOpenSidebar }: IProps) => {
                         <input className="form-check d-flex" type="checkbox" checked={secure} onChange={(e) => setSecure(e.target.checked)} />
                     </div>
                     {/* <br /> */}
-                    {secure && (<div>
+                    <div className="mt-3">
                         <div className="dash-input-wrapper input" >
                             <label>
                                 User:
@@ -111,7 +130,7 @@ const AdminEmailSettings = ({ setIsOpenSidebar }: IProps) => {
 
                         </div>
                     </div>
-                    )}
+                    
                     <div className="d-flex justify-content-end " >
                         <button
                             className="d-flex dash-btn-two tran3s me-3 justify-content-center align-items-center mt-5 "

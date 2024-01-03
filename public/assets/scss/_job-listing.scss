@@ -17,7 +17,7 @@
     box-shadow: none;
   }
   .filter-header {
-    background: $light-bg;
+    background: var(--light-bg);
     padding-top: 25px;
     padding-bottom: 25px;
     &:before {
@@ -34,7 +34,7 @@
       right: 25px;
       top: 27px;
       text-align: center;
-      color: $color-five;
+      color: var(--color-five);
       @include transition(0.2s);
     }
     &.search:before {
@@ -45,7 +45,7 @@
     }
   }
   .light-bg {
-    background: $light-bg;
+    background: var(--light-bg);
   }
   .main-title {
     font-size: 25px;
@@ -69,7 +69,7 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: $color-five;
+      background: var(--color-five);
       position: absolute;
       right: 0;
       top: 3px;
@@ -123,10 +123,10 @@
     }
   }
   .loccation-range-select {
-    color: $color-five;
+    color: var(--color-five);
     font-size: 15px;
     input[type="range"] {
-      background: $color-five;
+      background: var(--color-five);
       border-radius: 8px;
       height: 7px;
       width: 100%;
@@ -140,7 +140,7 @@
       width: 14px;
       border-radius: 50%;
       background: #fff;
-      border: 2px solid $color-three;
+      border: 2px solid var(--color-three);
       cursor: pointer;
       pointer-events: auto;
       appearance: none;
@@ -151,7 +151,7 @@
       width: 14px;
       border-radius: 50%;
       background: #fff;
-      border: 2px solid $color-three;
+      border: 2px solid var(--color-three);
       cursor: pointer;
       pointer-events: auto;
       appearance: none;
@@ -209,16 +209,16 @@
     }
     input[type="checkbox"]:checked + label:before {
       content: "\f633";
-      background: $color-five;
+      background: var(--color-five);
       color: #fff;
-      border-color: $color-five;
+      border-color: var(--color-five);
     }
     input[type="checkbox"]:checked + label {
-      background: rgba($color: $color-five, $alpha: 0.02);
+      background: rgba($color: var(--color-five), $alpha: 0.02);
     }
     &:hover label {
-      color: $color-five;
-      background: rgba($color: $color-five, $alpha: 0.02);
+      color: var(--color-five);
+      background: rgba($color: var(--color-five), $alpha: 0.02);
     }
   }
   .filter-input .hide {
@@ -234,7 +234,7 @@
     line-height: 28px;
     font-weight: 500;
     cursor: pointer;
-    background: rgba($color: $color-one, $alpha: 0.6);
+    background: rgba($color: var(--color-one), $alpha: 0.6);
     text-align: center;
     border-radius: 5px;
     @include transition(0.2s);
@@ -243,7 +243,7 @@
       vertical-align: -4px;
     }
     &:hover {
-      background: $color-three;
+      background: var(--color-three);
       color: #fff;
     }
   }
@@ -286,7 +286,7 @@
       right: 70%;
       position: absolute;
       border-radius: 7px;
-      background: $color-three;
+      background: var(--color-three);
     }
     .range-input {
       position: relative;
@@ -307,7 +307,7 @@
       width: 12px;
       border-radius: 50%;
       background: #fff;
-      border: 2px solid $color-three;
+      border: 2px solid var(--color-three);
       cursor: pointer;
       pointer-events: auto;
       appearance: none;
@@ -318,7 +318,7 @@
       width: 12px;
       border-radius: 50%;
       background: #fff;
-      border: 2px solid $color-three;
+      border: 2px solid var(--color-three);
       cursor: pointer;
       pointer-events: auto;
       appearance: none;
@@ -335,7 +335,7 @@
       font-weight: 500;
       line-height: 20px;
       background: #fff;
-      color: $color-five;
+      color: var(--color-five);
       border-radius: 30px;
       padding: 0 12px;
       @include transition(0.1s);
@@ -352,7 +352,7 @@
     }
     input[type="radio"]:checked + label,
     input[type="checkbox"]:checked + label {
-      background: $color-five;
+      background: var(--color-five);
       color: #fff;
     }
   }
@@ -379,10 +379,10 @@
 }
 .filter-btn {
   font-size: 15px;
-  color: $color-one;
+  color: var(--color-one);
   width: 86px;
   height: 32px;
-  border: 2px solid $color-one;
+  border: 2px solid var(--color-one);
   border-radius: 6px;
   i {
     display: inline-block;
@@ -391,7 +391,7 @@
     margin-right: 2px;
   }
   &:hover {
-    background: $color-one;
+    background: var(--color-one);
     color: #fff;
   }
 }
@@ -430,8 +430,8 @@
     display: none;
     &:hover {
       color: #fff;
-      background: $color-five;
-      border-color: $color-five;
+      background: var(--color-five);
+      border-color: var(--color-five);
     }
     &.active {
       display: block;
@@ -440,10 +440,10 @@
 }
 .bg-color .upper-filter .nice-select {
   background: transparent;
-  border-color: $color-one;
+  border-color: var(--color-one);
 }
 .bg-color .upper-filter .style-changer-btn {
-  border-color: $color-one;
+  border-color: var(--color-one);
 }
 // Modal Filter
 .popUpModal .modal-content {
@@ -490,12 +490,12 @@
     width: 120px;
     line-height: 31px;
     font-size: 15px;
-    color: $color-three;
-    border: 1px solid $color-three;
+    color: var(--color-three);
+    border: 1px solid var(--color-three);
     background: #eaf9e9;
     border-radius: 30px;
     &:hover {
-      background: $color-three;
+      background: var(--color-three);
       color: #fff;
     }
   }
@@ -506,7 +506,7 @@
     width: calc(100% - 90px);
     margin-left: 30px;
     &:hover {
-      color: $color-three;
+      color: var(--color-three);
     }
   }
   .split-box1 {
@@ -519,7 +519,7 @@
   }
   .job-duration {
     font-size: 15px;
-    color: $color-three;
+    color: var(--color-three);
     &:hover {
       text-decoration: underline;
     }
@@ -565,7 +565,7 @@
     &:hover {
       background: #e7f6ef;
       border-color: #e7f6ef;
-      color: $color-four;
+      color: var(--color-four);
     }
   }
   .apply-btn {
@@ -577,22 +577,22 @@
     color: #fff;
     text-transform: uppercase;
     border-radius: 17px;
-    background: $color-three;
+    background: var(--color-three);
     &:hover {
-      background: $color-four;
+      background: var(--color-four);
     }
   }
   &.style-two {
     padding-top: 35px;
     padding-bottom: 35px;
     .apply-btn {
-      background: $color-five;
+      background: var(--color-five);
       &:hover {
-        background: $color-three;
+        background: var(--color-three);
       }
     }
     .title:hover {
-      color: $color-five;
+      color: var(--color-five);
     }
   }
 }
@@ -613,7 +613,7 @@
     height: 1px;
     left: 0;
     bottom: 0;
-    background: $color-three;
+    background: var(--color-three);
     opacity: 0;
     @include transition(0.1s);
   }
@@ -621,7 +621,7 @@
     opacity: 1;
   }
   &.is-checked {
-    color: $color-three;
+    color: var(--color-three);
   }
   &:first-child {
     margin-left: 0;
@@ -629,7 +629,7 @@
 }
 // Job Listing Two
 .job-listing-two {
-  background: $light-bg;
+  background: var(--light-bg);
 }
 .job-list-two {
   padding: 35px 35px 30px;
@@ -652,7 +652,7 @@
   }
   .job-duration {
     font-size: 13px;
-    color: $color-three;
+    color: var(--color-three);
     padding: 2px 12px;
     background: #e7f6ef;
     border-radius: 3px;
@@ -667,7 +667,7 @@
     line-height: 1.416em;
     color: #000;
     &:hover {
-      color: $color-three;
+      color: var(--color-three);
     }
   }
   .job-date {
@@ -697,9 +697,9 @@
     color: #fff;
     text-transform: uppercase;
     border-radius: 17px;
-    background: $color-three;
+    background: var(--color-three);
     &:hover {
-      background: $color-four;
+      background: var(--color-four);
     }
   }
   .save-btn {
@@ -715,7 +715,7 @@
     &:hover {
       background: #e7f6ef;
       border-color: #e7f6ef;
-      color: $color-four;
+      color: var(--color-four);
     }
   }
 
@@ -723,31 +723,31 @@
     border: 1px solid #ebebeb;
     &:hover {
       background: #f8fde4;
-      border-color: $color-five;
+      border-color: var(--color-five);
       box-shadow: none;
     }
     .job-duration {
       background: #e7f6ef;
-      color: $color-five;
+      color: var(--color-five);
       &.part-time {
         background: rgba($color: #ff5757, $alpha: 0.08);
         color: #ff6060;
       }
     }
     .title:hover {
-      color: $color-five;
+      color: var(--color-five);
     }
     .apply-btn {
-      background: $color-five;
+      background: var(--color-five);
       &:hover {
-        background: $color-three;
+        background: var(--color-three);
       }
     }
   }
 }
 // Job Listing Three
 .job-listing-three.bg-color {
-  background: $light-bg;
+  background: var(--light-bg);
 }
 .job-list-three {
   background: #fff;
@@ -780,7 +780,7 @@
       color: #000;
       margin-bottom: 7px;
       &:hover {
-        color: $color-five;
+        color: var(--color-five);
       }
     }
     .info-data li {
@@ -815,7 +815,7 @@
       &:hover {
         background: #e7f6ef;
         border-color: #e7f6ef;
-        color: $color-four;
+        color: var(--color-four);
       }
     }
     p {
@@ -829,7 +829,7 @@
     }
     .job-duration {
       font-size: 14px;
-      color: $color-three;
+      color: var(--color-three);
       &:hover {
         text-decoration: underline;
       }
@@ -846,9 +846,9 @@
       color: #fff;
       text-transform: uppercase;
       border-radius: 17px;
-      background: $color-five;
+      background: var(--color-five);
       &:hover {
-        background: $color-four;
+        background: var(--color-four);
       }
     }
   }
@@ -857,7 +857,7 @@
 .job-company-info {
   border-radius: 20px;
   padding: 50px 20px 30px;
-  background: $light-bg;
+  background: var(--light-bg);
   .logo {
     height: 60px;
   }
@@ -870,10 +870,10 @@
     font-weight: 500;
     letter-spacing: -0.5px;
     color: #fff;
-    background: $color-one;
+    background: var(--color-one);
     border-radius: 30px;
     &:hover {
-      background: $color-five;
+      background: var(--color-five);
     }
   }
   .website-btn-two {
@@ -883,21 +883,21 @@
     text-decoration: underline;
     color: #008fdf;
     &:hover {
-      color: $color-five;
+      color: var(--color-five);
     }
   }
   .job-meta-data span {
     font-size: 15px;
-    color: rgba($color: $color-one, $alpha: 0.6);
+    color: rgba($color: var(--color-one), $alpha: 0.6);
   }
   .job-meta-data div {
     font-size: 15px;
     font-weight: 500;
-    color: $color-one;
+    color: var(--color-one);
     margin: 4px 0 25px;
     a:hover {
       text-decoration: underline;
-      color: $color-one;
+      color: var(--color-one);
     }
   }
   .job-tags {
@@ -913,8 +913,8 @@
       padding: 0 11px;
       @include transition(0.2s);
       &:hover {
-        background: $color-one;
-        border-color: $color-one;
+        background: var(--color-one);
+        border-color: var(--color-one);
         color: #fff;
       }
     }
@@ -923,7 +923,7 @@
 .job-details {
   position: relative;
   &.style-two {
-    background: $light-bg;
+    background: var(--light-bg);
   }
   .post-date {
     color: rgba($color: #000000, $alpha: 0.5);
@@ -946,10 +946,10 @@
       color: #fff;
       padding: 5px 10px;
       font-size: small;
-      background: $color-one;
+      background: var(--color-one);
       border-radius: 30px;
       // &:hover {
-      //   background: $color-five;
+      //   background: var(--color-five);
       // }
     }
   }
@@ -963,7 +963,7 @@
     a {
       font-size: 14px;
       font-weight: 500;
-      color: $color-one;
+      color: var(--color-one);
       line-height: 33px;
       border-radius: 5px;
       padding: 0 15px;
@@ -975,7 +975,7 @@
         margin-right: 7px;
       }
       &:hover {
-        background: $color-one;
+        background: var(--color-one);
         color: #fff;
       }
     }
@@ -995,7 +995,7 @@
     height: 25px;
     line-height: 25px;
     font-size: 14px;
-    background: $color-five;
+    background: var(--color-five);
   }
   p {
     font-size: 17px;
@@ -1006,7 +1006,7 @@
       color: #000;
       @include transition(0.2s);
       &:hover {
-        color: $color-three;
+        color: var(--color-three);
       }
     }
   }
@@ -1022,7 +1022,7 @@
       position: absolute;
       left: 0;
       top: 0;
-      color: $color-five;
+      color: var(--color-five);
     }
   }
   .border-style .list-type-one li:before {
@@ -1057,19 +1057,19 @@
         font-size: 15px;
         display: block;
         margin: 48px 0 4px;
-        color: rgba($color: $color-one, $alpha: 0.6);
+        color: rgba($color: var(--color-one), $alpha: 0.6);
       }
       div {
         font-size: 15px;
         font-weight: 500;
-        color: $color-one;
+        color: var(--color-one);
       }
     }
   }
 }
 // Related Job Slider
 .related-job-section {
-  background: $light-bg;
+  background: var(--light-bg);
   .slick-arrow-one {
     position: absolute;
     right: 0;
