@@ -596,8 +596,10 @@ div[data-preview] p {
   transition: all 0.2s;
 }
 
-.nice-select .option:hover, .nice-select .option.focus, .nice-select .option.selected.focus {
-  color: #00BF58;
+.nice-select .option:hover,
+.nice-select .option.focus,
+.nice-select .option.selected.focus {
+  color: #00bf58;
   background: rgba(36, 64, 52, 0.03);
 }
 
@@ -607,11 +609,10 @@ div[data-preview] p {
   cursor: default;
 }
 
-
 .pagination-one li {
   padding: 0 1px;
 }
-.pagination-one  {
+.pagination-one {
   width: 35px;
   height: 35px;
   text-align: center;
@@ -619,14 +620,13 @@ div[data-preview] p {
   border-radius: 50%;
   font-size: 17px;
   font-weight: 500;
-  color: #31795A;
+  color: #31795a;
 }
-.pagination-one.active  {
-  background: #31795A;
+.pagination-one.active {
+  background: #31795a;
   color: #fff;
 }
 .pagination-one li:last-child a {
   width: auto;
   height: auto;
 }
-
