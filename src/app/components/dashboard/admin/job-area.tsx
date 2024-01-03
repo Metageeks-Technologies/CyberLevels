@@ -45,7 +45,7 @@ const EmployJobArea = ({setIsOpenSidebar}:IProps) => {
               </button>
             </div>
             <div className="short-filter d-flex align-items-center ms-auto">
-              <div className="text-dark fw-500 me-2">Short by:</div>
+              <div className="text-dark fw-500 me-2">Sort by:</div>
               <EmployShortSelect />
             </div>
           </div>

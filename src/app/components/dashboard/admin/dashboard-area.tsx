@@ -176,15 +176,13 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                 </div>
               </div>
               <div className="px-3 pb-3 mt-50">
-                {viewsDataYear && (
-                  <AdminAreaChart
-                    dataMode={dataMode}
-                    lastUnit={lastUnit}
-                    viewsDataDay={viewsDataDay}
-                    viewsDataMonth={viewsDataMonth}
-                    viewsDataYear={viewsDataYear}
-                  />
-                )}
+                <AdminAreaChart
+                  dataMode={dataMode}
+                  lastUnit={lastUnit}
+                  viewsDataDay={viewsDataDay}
+                  viewsDataMonth={viewsDataMonth}
+                  viewsDataYear={viewsDataYear}
+                />
               </div>
             </div>
           </div>
