@@ -120,6 +120,13 @@ const nav_data: {
     link: "/dashboard/admin-dashboard/emailSettings",
     title: "Email Settings",
   },
+  {
+    id: 13,
+    icon: nav_5,
+    icon_active: nav_5_active,
+    link: "/dashboard/admin-dashboard/blog",
+    title: "blog",
+  },
 ];
 // props type
 type IProps = {

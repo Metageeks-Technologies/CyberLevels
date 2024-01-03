@@ -34,3 +34,25 @@ export interface ICompanyForAdmin {
     teamSize: string;
     location: ILocation[];
 }
+
+export interface IBlogComment {
+    userId: string;
+    userAvatar: string;
+    userName: string;
+    text: string;
+    timestamp: Date;
+}
+
+export interface IBlogPost {
+    _id: string;
+    title: string;
+    content: string;
+    category: string[];
+    mainImage?: string;
+    createdBy: {
+        id: string;
+        name: string;
+    };
+    createdAt: Date;
+    comments: IBlogComment[];
+}

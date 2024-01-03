@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import blog_data from "@/data/blog-data";
 
-const BlogSidebar = () => {
+const BlogSidebar = ({ keywords }: { keywords: string[] }) => {
   const recent_blogs = blog_data.slice(-3);
   return (
     <div className="blog-sidebar ps-xl-4 md-mt-60">
@@ -64,24 +64,18 @@ const BlogSidebar = () => {
         ))}
       </div>
       <div className="sidebar-keyword">
-        <h4 className="sidebar-title">Keywords</h4>
-        <ul className="style-none d-flex flex-wrap">
-          <li>
-            <a href="#">Ideas</a>
-          </li>
-          <li>
-            <a href="#">Education</a>
-          </li>
-          <li>
-            <a href="#">Design</a>
-          </li>
-          <li>
-            <a href="#">Development</a>
-          </li>
-          <li>
-            <a href="#">Branding</a>
-          </li>
-        </ul>
+        {keywords.length > 0 && (
+          <>
+            <h4 className="sidebar-title">Keywords</h4>
+            <ul className="style-none d-flex flex-wrap">
+              {keywords?.map((k, i) => (
+                <li>
+                  <a href="#">{k}</a>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import { setSocket } from "@/redux/features/globalSlice";
 import { getCurrCandidate } from "@/redux/features/candidate/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { getCurrEmployer } from "@/redux/features/employer/api";
+import { getCurrAdmin } from "@/redux/features/admin/api";
 import { addNotification } from "@/redux/features/candidate/dashboardSlice";
 const initialLoad = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
@@ -19,6 +20,7 @@ const initialLoad = ({ children }: { children: React.ReactNode }) => {
     if (currUser && isAuthenticated) {
       if (userRole === "candidate") getCurrCandidate(dispatch, currUser);
       else if (userRole === "employer") getCurrEmployer(dispatch, currUser);
+      else if (userRole === "admin") getCurrAdmin(dispatch, currUser);
     }
 
     // connect to socket

@@ -8,7 +8,7 @@ export interface IEducation {
     _id: string
 }
 interface ProfileView {
-    
+
     view_count?: number;
     view_timestamp?: string;
 }
@@ -76,9 +76,9 @@ export interface ICandidate {
     socialSites: ISocial;
     expectedSalary: {
         currency: {
-            abbreviation:string;
-            name:string;
-            symbol:string;
+            abbreviation: string;
+            name: string;
+            symbol: string;
         },
         salary: number,
         period: string
@@ -138,7 +138,6 @@ export interface IEmployer {
 export interface IAdmin {
     name: string;
     email: string;
-    password: string,
     avatar: string,
     role: string;
     createdAt: string,

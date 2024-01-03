@@ -16,7 +16,7 @@ const BlogGridArea = () => {
             <div className="row">
               {blog_items.map((b) => (
                 <div key={b.id} className="col-md-6">
-                  <BlogItem blog={b} style_2={true} />
+                  {/* <BlogItem blog={b} style_2={true} /> */}
                 </div>
               ))}
             </div>
@@ -25,7 +25,7 @@ const BlogGridArea = () => {
 
           <div className="col-lg-4">
             {/* sidebar start */}
-            <BlogSidebar />
+            {/* <BlogSidebar /> */}
             {/* sidebar  end */}
           </div>
         </div>

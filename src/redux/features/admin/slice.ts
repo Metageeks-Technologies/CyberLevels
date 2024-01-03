@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { ICandidateForAdmin, ICompanyForAdmin, IEmployerForAdmin } from '@/types/for-admin-type'
+import type { IAdmin } from '@/types/user-type'
 
 export interface InitialState {
+    currAdmin: IAdmin | null,
     candidatesFA: ICandidateForAdmin[],
     pageFC: number,
     totalNumOfPageFC: number,
@@ -35,6 +37,7 @@ type IForGetAllCompany = {
 }
 
 const initialState: InitialState = {
+    currAdmin: null,
     candidatesFA: [],
     error: null,
     loading: false,
@@ -80,8 +83,9 @@ export const adminSlice = createSlice({
             state.totalNumOfPageFCom = action.payload.totalNumOfPageFCom;
             state.totalCompany = action.payload.totalCompany
         },
-
-
+        getCurrAdminSuccess: (state, action: PayloadAction<IAdmin>) => {
+            state.currAdmin = action.payload;
+        },
     },
 })
 
@@ -90,7 +94,8 @@ export const {
     requestFail,
     getCandidateSuccess,
     getEmployerSuccess,
-    getCompanySuccess
+    getCompanySuccess,
+    getCurrAdminSuccess
 
 } = adminSlice.actions
 

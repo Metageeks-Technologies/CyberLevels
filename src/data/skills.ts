@@ -83,4 +83,16 @@ export const JobBenefits = [
     { value: "childcare_support", label: "Childcare Support" }
 ]
 
+export const BlogCategories = [
+    { value: "technology", label: "Technology" },
+    { value: "health_wellness", label: "Health & Wellness" },
+    { value: "finance", label: "Finance" },
+    { value: "travel", label: "Travel" },
+    { value: "education", label: "Education" },
+    { value: "lifestyle", label: "Lifestyle" },
+    { value: "business", label: "Business" },
+    { value: "entertainment", label: "Entertainment" },
+    { value: "sports", label: "Sports" },
+    { value: "food", label: "Food" }
+];
 
