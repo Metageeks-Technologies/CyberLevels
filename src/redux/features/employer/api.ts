@@ -71,7 +71,7 @@ export const saveCandidate = async (dispatch: AppDispatch, bodyObj: any) => {
     dispatch(requestStartDash());
     try {
         const { data } = await instance.post(`/employer/savedCandidate`, bodyObj);
-        dispatch(getSavedCandidatesSuccess({ savedCandidates: data.savedCandidates, totalNumOfPage: data.totalNumOfPage, totalCandidate: data.totalSavedCandidate }))
+        dispatch(getSavedCandidatesSuccess({ savedCandidates: data.savedCandidates, totalNumOfPage: data.totalNumOfPage, totalCandidate: data.totalSavedCandidate, itemsPerPage:data.itemsPerPage }))
         dispatch(toggleIsSaved(bodyObj.candidateId))
         notifySuccess("Candidate Saved Successfully")
     } catch (error) {
@@ -89,7 +89,7 @@ export const removeCandidate = async (dispatch: AppDispatch, bodyObj: any) => {
     dispatch(requestStartDash());
     try {
         const { data } = await instance.delete(`/employer/savedCandidate?employerId=${employerId}&candidateId=${candidateId}&page=${page}`);
-        dispatch(getSavedCandidatesSuccess({ savedCandidates: data.savedCandidates, totalNumOfPage: data.totalNumOfPage, totalCandidate: data.totalSavedCandidate }))
+        dispatch(getSavedCandidatesSuccess({ savedCandidates: data.savedCandidates, totalNumOfPage: data.totalNumOfPage, totalCandidate: data.totalSavedCandidate, itemsPerPage:data.itemsPerPage }))
         dispatch(toggleIsSaved(bodyObj.candidateId))
         notifySuccess("Candidate removed from Saved Candidates")
     } catch (error) {
@@ -107,7 +107,7 @@ export const getSavedCandidate = async (dispatch: AppDispatch, bodyObj: any) => 
     dispatch(requestStartDash());
     try {
         const { data } = await instance.get(`/employer/savedCandidate?employerId=${employerId}&page=${page}`);
-        dispatch(getSavedCandidatesSuccess({ savedCandidates: data.savedCandidates, totalNumOfPage: data.totalNumOfPage, totalCandidate: data.totalSavedCandidate }))
+        dispatch(getSavedCandidatesSuccess({ savedCandidates: data.savedCandidates, totalNumOfPage: data.totalNumOfPage, totalCandidate: data.totalSavedCandidate, itemsPerPage: data.itemsPerPage }))
     } catch (error) {
         const e = error as AxiosError;
         dispatch(requestFailDash(e.message))

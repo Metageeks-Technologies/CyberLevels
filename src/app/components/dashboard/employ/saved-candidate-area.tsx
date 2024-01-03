@@ -5,6 +5,9 @@ import candidate_data from "@/data/candidate-data";
 import CandidateItem from "./candidate-item";
 import EmployShortSelect from "./short-select";
 import { ICandidate } from "@/types/user-type";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import Pagination from "@/ui/pagination";
+import { setPage } from "@/redux/features/employer/dashboardSlice";
 
 // props type
 type IProps = {
@@ -13,6 +16,11 @@ type IProps = {
 };
 
 const SavedCandidateArea = ({ setIsOpenSidebar, savedCandidates }: IProps) => {
+  const dispatch = useAppDispatch();
+  const {page, totalCandidate, totalNumOfPage, itemsPerPage} = useAppSelector((state) => state.employer)
+  const handlePageClick = (event: { selected: number }) => {
+    dispatch(setPage(event.selected + 1));
+  }
   return (
     <div className="dashboard-body">
       <div className="position-relative">
@@ -58,6 +66,13 @@ const SavedCandidateArea = ({ setIsOpenSidebar, savedCandidates }: IProps) => {
             </li>
           </ul>
         </div> */}
+         {totalCandidate > itemsPerPage && (
+                        <Pagination
+                          pageCount={totalNumOfPage}
+                          handlePageClick={handlePageClick}
+                          currPage={page}
+                        />
+                      )}
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ export interface ICandidateDashboard {
     page: number,
     totalNumOfPage: number,
     totalCandidate: number,
+    itemsPerPage:number,
 }
 
 // Define the initial state using that type
@@ -21,13 +22,15 @@ const initialState: ICandidateDashboard = {
     page: 1,
     totalNumOfPage: 1,
     totalCandidate: 0,
-    savedCandidates: []
+    savedCandidates: [],
+    itemsPerPage:0,
 };
 
 type IForGetSavedCandidate = {
     savedCandidates: ICandidate[]
     totalNumOfPage: number,
     totalCandidate: number,
+    itemsPerPage:number
 }
 
 export const candidateDashboardSlice = createSlice({
@@ -58,6 +61,7 @@ export const candidateDashboardSlice = createSlice({
             state.savedCandidates = action.payload.savedCandidates;
             state.totalNumOfPage = action.payload.totalNumOfPage;
             state.totalCandidate = action.payload.totalCandidate;
+            state.itemsPerPage = action.payload.itemsPerPage;
             state.loading = false;
         },
         setPage: (state, action: PayloadAction<number>) => {

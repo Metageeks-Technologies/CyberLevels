@@ -1,5 +1,5 @@
 import { JobPostView } from "@/redux/features/jobPost/slice";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   AreaChart,
   Area,
@@ -10,17 +10,38 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const AdminAreaChart = ({ dataMode, lastUnit,viewsDataDay , viewsDataMonth, viewsDataYear}: { dataMode: string, lastUnit: number, viewsDataDay?: JobPostView[], viewsDataMonth?: JobPostView[], viewsDataYear?:JobPostView[]}) => {
+const AdminAreaChart = ({
+  dataMode,
+  lastUnit,
+  viewsDataDay,
+  viewsDataMonth,
+  viewsDataYear,
+}: {
+  dataMode: string;
+  lastUnit: number;
+  viewsDataDay?: [number] | any;
+  viewsDataMonth?: [number] | any;
+  viewsDataYear?: [number] | any;
+}) => {
+  // useEffect(() => {
+  //   console.log(viewsDataDay,"Day")
+  // },[viewsDataYear])
+
+  // let viewsDay = viewsDataDay
   const getLastFiveDays = () => {
     const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const today = new Date();
     const lastFiveDays = [];
-
-    for (let i = lastUnit; i >= 0; i--) {
-      const date = new Date(today);
-      date.setDate(today.getDate() - i);
-      const dayName = dayNames[date.getDay()];
-      lastFiveDays.push(dayName);
+    if (viewsDataDay) {
+      for (let i = lastUnit; i >= 0; i--) {
+        const date = new Date(today);
+        date.setDate(today.getDate() - i);
+        const dayName = dayNames[date.getDay()];
+        lastFiveDays.push({
+          name: dayName,
+          views: viewsDataDay[11 - i] || 0,
+        });
+      }
     }
 
     return lastFiveDays;
@@ -29,14 +50,19 @@ const AdminAreaChart = ({ dataMode, lastUnit,viewsDataDay , viewsDataMonth, view
   const getLastMonths = () => {
     const today = new Date();
     const lastMonths = [];
+    if (viewsDataMonth) {
+      for (let i = lastUnit; i >= 0; i--) {
+        const date = new Date(today);
+        date.setMonth(today.getMonth() - i);
+        const monthName = new Intl.DateTimeFormat("en-US", {
+          month: "short",
+        }).format(date);
 
-    for (let i = lastUnit; i >= 0; i--) {
-      const date = new Date(today);
-      date.setMonth(today.getMonth() - i);
-      const monthName = new Intl.DateTimeFormat("en-US", {
-        month: "short",
-      }).format(date);
-      lastMonths.push(monthName);
+        lastMonths.push({
+          name: monthName,
+          views: viewsDataMonth[11 - i] || 0,
+        });
+      }
     }
 
     return lastMonths;
@@ -45,11 +71,15 @@ const AdminAreaChart = ({ dataMode, lastUnit,viewsDataDay , viewsDataMonth, view
   const getLastYears = () => {
     const today = new Date();
     const lastYears = [];
-
-    for (let i = lastUnit; i >= 0; i--) {
-      const date = new Date(today);
-      date.setFullYear(today.getFullYear() - i);
-      lastYears.push(date.getFullYear().toString());
+    if (viewsDataYear) {
+      for (let i = lastUnit; i >= 0; i--) {
+        const date = new Date(today);
+        date.setFullYear(today.getFullYear() - i);
+        lastYears.push({
+          name: date.getFullYear().toString(),
+          views: viewsDataYear[11 - i] || 0,
+        });
+      }
     }
 
     return lastYears;
@@ -68,16 +98,12 @@ const AdminAreaChart = ({ dataMode, lastUnit,viewsDataDay , viewsDataMonth, view
     }
   };
 
-  const data = getYAxisData().map((axisItem) => ({
-    name: axisItem,
-    uv: Math.floor(Math.random() * 5000), // Replace this with your actual data
-    pv: Math.floor(Math.random() * 5000), // Replace this with your actual data
-    amt: Math.floor(Math.random() * 5000), // Replace this with your actual data
-  }));
+  const data = getYAxisData();
+  // console.log(data,"data")
 
   const gradientOffset = () => {
-    const dataMax = Math.max(...data.map((i) => i.uv));
-    const dataMin = Math.min(...data.map((i) => i.uv));
+    const dataMax = Math.max(...data.map((i) => i.views));
+    const dataMin = Math.min(...data.map((i) => i.views));
 
     if (dataMax <= 0) {
       return 0;
@@ -123,7 +149,7 @@ const AdminAreaChart = ({ dataMode, lastUnit,viewsDataDay , viewsDataMonth, view
         <Tooltip />
         <Area
           type="monotone"
-          dataKey="uv"
+          dataKey="views"
           stroke="url(#colorUv)"
           fill="url(#colorUv)"
         />

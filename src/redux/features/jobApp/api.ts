@@ -50,8 +50,10 @@ export const getallJobAppByCandidateWithJobPost = async (dispatch: AppDispatch, 
         if(True==="true"){
             // dispatch(allJobAppByCandidateWithJobPostSuccess(data));
             dispatch(allJobAppByCandidateWithJobPostPaginationSuccess(data));
+            // console.log(data);
         }else{
             dispatch(allJobAppByCandidateWithJobPostSuccess(data));
+            console.log(data);
         }
     } catch (error) {
         const e = error as AxiosError;

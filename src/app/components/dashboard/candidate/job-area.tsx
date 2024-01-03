@@ -28,7 +28,7 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
       if(currCandidate)
       getallJobAppByCandidateWithJobPost(dispatch,currCandidate?._id,currentPage,"true");
     },[currentPage,currCandidate])
-    console.log(allJobAppByCandidateWithJobPostPagination);
+    // console.log(allJobAppByCandidateWithJobPostPagination);
     const handlePageClick = (event: { selected: number }) => {
       dispatch(setPage(event.selected + 1));
     };

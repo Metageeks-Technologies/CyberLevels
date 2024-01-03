@@ -32,7 +32,7 @@ const CandidateDashboardSavedJobPage = () => {
           <SavedCompanyArea
             setIsOpenSidebar={setIsOpenSidebar}
             savedCompanies={savedCompanies}
-          />
+            />
         )}
         {/* saved job area end */}
       </div>

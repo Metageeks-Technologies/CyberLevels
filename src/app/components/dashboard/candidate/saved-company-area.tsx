@@ -18,10 +18,11 @@ import { ICompany } from "@/types/company";
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
   savedCompanies: ICompany[];
+
 };
 
 const SavedCompanyArea = ({ setIsOpenSidebar, savedCompanies }: IProps) => {
-  const { totalSavedJob, totalNumOfSavedJobsPage, savedJobsPage } =
+  const { totalSavedCompany, totalNumOfSavedCompaniesPage, savedCompanyPage } =
     useAppSelector((s) => s.candidate.candidateDashboard);
   const dispatch = useAppDispatch();
   const itemsPerPage = 4;
@@ -122,11 +123,11 @@ const SavedCompanyArea = ({ setIsOpenSidebar, savedCompanies }: IProps) => {
             </div>
           ))}
         </div>
-        {totalSavedJob > itemsPerPage && (
+        {totalSavedCompany > itemsPerPage && (
           <Pagination
-            pageCount={totalNumOfSavedJobsPage}
+            pageCount={totalNumOfSavedCompaniesPage}
             handlePageClick={handlePageClick}
-            currPage={savedJobsPage}
+            currPage={savedCompanyPage}
           />
         )}
       </div>
