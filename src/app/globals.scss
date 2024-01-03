@@ -55,7 +55,7 @@
   margin-right: 0.5rem; /* Equivalent to mr-2 in Tailwind */
   color: #ccc; /* Equivalent to text-gray-200 in Tailwind */
   animation: spin 0.7s linear infinite; /* Equivalent to animate-spin in Tailwind */
-  fill: $color-three; /* Equivalent to fill-[#6469ff] in Tailwind */
+  fill: var(--color-three); /* Equivalent to fill-[#6469ff] in Tailwind */
 }
 
 @keyframes spin {
@@ -119,7 +119,7 @@
   }
 }
 ._checked {
-  background: $color-three;
+  background: var(--color-three);
   --tw-bg-opacity: 0.75;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -235,8 +235,8 @@
   padding: 0 15px;
   line-height: 45px;
   border-radius: 25px;
-  background: $color-two;
-  color: $color-one;
+  background: var(--color-two);
+  color: var(--color-one);
 }
 
 div[data-preview] p {

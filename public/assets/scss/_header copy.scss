@@ -28,7 +28,7 @@
             border-radius: 10px;
             @include transition(0.2s);
             &:hover {
-                background: rgba($color: $color-three, $alpha: 0.07);
+                background: rgba($color: var(--color-three), $alpha: 0.07);
             }
             .icon {
                width: 48px;
@@ -40,8 +40,8 @@
                 margin-top: 2px;
             }
             &:hover .icon {
-                background: $color-two;
-                border-color: $color-two;
+                background: var(--color-two);
+                border-color: var(--color-two);
             }
         }
         .explore-all-btn {
@@ -50,20 +50,20 @@
             padding: 12px 20px;
             margin-top: 40px;
             border-radius: 0 0 10px 10px;
-            color: $color-five;
+            color: var(--color-five);
             font-size: 17px;
             letter-spacing: -0.3px;
             .icon {
                 width: 28px;
                 height: 28px;
                 line-height: 26px;
-                border: 1px solid $color-five;
+                border: 1px solid var(--color-five);
                 font-weight: 900;
                 text-align: center;
                 border-radius: 50%;
             }
             &:hover {
-                background: $color-five;
+                background: var(--color-five);
                 color: #fff;
             }
         }
@@ -76,9 +76,9 @@
         position: relative;
         z-index: 99;
         border: none;
-        background: $color-three;
+        background: var(--color-three);
     }
-    &.menu-style-one .navbar-toggler {background: $color-two;}
+    &.menu-style-one .navbar-toggler {background: var(--color-two);}
     .navbar-toggler:focus {box-shadow: none;}
     .navbar-toggler::before,
     .navbar-toggler::after {
@@ -109,7 +109,7 @@
     }
     &.menu-style-one .navbar-toggler:before,
     &.menu-style-one .navbar-toggler:after,
-    &.menu-style-one .navbar-toggler span {background: $color-one;}
+    &.menu-style-one .navbar-toggler span {background: var(--color-one);}
     .navbar-toggler::before {
         -webkit-transform: translate3d(0, -9px, 0) scale3d(1, 1, 1);
         transform: translate3d(0, -9px, 0) scale3d(1, 1, 1);
@@ -133,18 +133,18 @@
     font-weight: 500;
     font-size: 1em;
     line-height: initial;
-    color: $text-dark;
+    color: var(--text-dark);
     padding: 20px 0;
     margin: 0 18px;
     position: relative;
     @include transition(0.2s);
 }
-.navbar .nav-item:hover .nav-link {color:$color-three;}
+.navbar .nav-item:hover .nav-link {color:var(--color-three);}
 .navbar .dropdown-menu .dropdown-item {
     text-transform: capitalize;
     line-height: 38px; 
     padding: 0 15px;
-    color: $text-dark;
+    color: var(--text-dark);
     font-size: 0.88em;
     background: transparent;
     position: relative;
@@ -152,23 +152,23 @@
     border-radius: 5px;
     @include transition(0.2s);
     &:hover {
-        color:$color-four;
-        background: rgba($color: $color-three, $alpha: 0.06);
+        color:var(--color-four);
+        background: rgba($color: var(--color-three), $alpha: 0.06);
     }
 }
 // Menu One
 .menu-style-one.theme-main-menu.fixed {
-    background: $color-one;
+    background: var(--color-one);
 }
 .menu-style-one .navbar .nav-item .nav-link {color: #fff;}
-.menu-style-one .navbar .nav-item:hover .nav-link {color:$color-two;}
+.menu-style-one .navbar .nav-item:hover .nav-link {color:var(--color-two);}
 .menu-style-one .navbar .nav-item.category-btn .nav-link {
     background: rgba($color: #fff, $alpha: 0.1);
     line-height: 33px;
     padding: 0 17px;
     border-radius: 25px;
     margin: 10px 35px 10px 0;
-    color: $color-two;
+    color: var(--color-two);
     i {
         margin-right: 5px;
         vertical-align: -2px;
@@ -179,7 +179,7 @@
     background: #212121;
 }
 .menu-style-two .navbar .nav-item .nav-link {color: #fff;}
-.menu-style-two .navbar .nav-item:hover .nav-link {color:$color-three;}
+.menu-style-two .navbar .nav-item:hover .nav-link {color:var(--color-three);}
 // Mega Menu
 .theme-main-menu .mega-dropdown,.theme-main-menu .navbar {position: static;}
 .navbar [class*="mega-dropdown"] .dropdown-menu {
@@ -208,7 +208,7 @@
         font-family: var(--gorditas-font);
         font-size: 14px;
         font-weight: 500;
-        color: $color-four;
+        color: var(--color-four);
         display: inline-block;
         position: relative;
         margin: 0 0 5px;
@@ -224,18 +224,18 @@
     line-height: 14px;
     border-right: 1px solid rgba($color: #fff, $alpha: 0.27);
     &:hover {
-        color: $color-two;
+        color: var(--color-two);
     }
 }
 .theme-main-menu .login-btn-one {
-    color: $color-two;
+    color: var(--color-two);
     font-weight: 500;
     &:hover {
         text-decoration: underline;
     }
 }
 .theme-main-menu .login-btn-two {
-    color: $color-three;
+    color: var(--color-three);
     &:hover {
         text-decoration: underline;
     }
@@ -246,15 +246,15 @@
     color: #fff;
     border-radius: 50px;
     &:hover {
-        background: $color-three;
-        border-color: $color-three;
+        background: var(--color-three);
+        border-color: var(--color-three);
     }
     &.dark-style {
         border-color: #000;
         color: #000;
         &:hover {
-            background: $color-three;
-            border-color: $color-three;
+            background: var(--color-three);
+            border-color: var(--color-three);
             color: #fff;
         }
     }
@@ -321,7 +321,7 @@
             padding: 13px 0;
             @include transition (0.2s);
             &:hover {
-                color: $color-three;
+                color: var(--color-three);
             }
         }
     }
@@ -417,7 +417,7 @@
         padding: 0;
         border-radius: 0;
         margin: 0;
-        background: rgba($color: $color-two, $alpha: 0.25);
+        background: rgba($color: var(--color-two), $alpha: 0.25);
     }
     .menu-style-one .navbar .dropdown-menu,
     .menu-style-two .navbar .dropdown-menu {background: #fff;}

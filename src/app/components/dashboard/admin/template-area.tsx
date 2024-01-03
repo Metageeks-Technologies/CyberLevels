@@ -14,6 +14,7 @@ import icon from "@/assets/images/icon/icon_50.svg";
 import icon_2 from "@/assets/images/icon/icon_69.svg";
 
 
+
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -55,6 +56,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
   const [showModelProperties, setShowModelProperties] = useState(false);
 
 
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -247,8 +249,11 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
   };
 
 
-  return (
-    <div className="dashboard-body">
+  
+
+
+  return ( 
+    <div className="dashboard-body ">
       <div className="position-relative">
         <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
         <div className="d-flex justify-content-between align-items-center  ">
@@ -258,7 +263,8 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
               type="button"
               onClick={handleTemplateClick}>
               Add
-            </button>
+            </button>  
+           
             
           </div>
 
@@ -493,7 +499,8 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
 
       </div>
     </div>
-
+    
+             
   );
 };
 

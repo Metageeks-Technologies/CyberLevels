@@ -25,3 +25,16 @@ export function camelCaseToNormal(str: string) {
         });
 }
 
+
+export const setAuthToken = (token:any) => {
+    localStorage.setItem('authToken', token);
+  };
+  
+  export const getAuthToken = () => {
+    return localStorage.getItem('authToken');
+  };
+  
+  export const clearAuthToken = () => {
+    localStorage.removeItem('authToken');
+  };
+

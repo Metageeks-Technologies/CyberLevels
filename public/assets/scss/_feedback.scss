@@ -11,7 +11,7 @@
     padding: 40px 40px 45px;
     @include transition(0.25s);
     &:hover {
-        background: $color-two;
+        background: var(--color-two);
     }
     .logo {
         height: 50px;
@@ -57,7 +57,7 @@
 }
 .feedback-section-two .rating-title {
     font-size: 42px;
-    color: $color-three;
+    color: var(--color-three);
 }
 .feedback-section-two .slider-wrapper {
     width: calc(100% + 33vw);
@@ -82,7 +82,7 @@
     }
     .review {
        font-size: 28px;
-       color: $color-three; 
+       color: var(--color-three); 
     }
     .rating li a {
         font-size: 13px;
@@ -150,8 +150,8 @@
         color: #000;
         @include transition(0.2s);
         &:hover {
-            border-color: $color-three;
-            background: $color-three;
+            border-color: var(--color-three);
+            background: var(--color-three);
             color: #fff;
         }
     }
@@ -244,7 +244,7 @@
     }
     .review {
        font-size: 28px;
-       color: $color-three; 
+       color: var(--color-three); 
     }
     .rating li a {
         font-size: 14px;

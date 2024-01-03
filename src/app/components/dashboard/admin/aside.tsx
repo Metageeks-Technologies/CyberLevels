@@ -97,7 +97,7 @@ const nav_data: {
     icon: nav_7,
     icon_active: nav_7_active,
     link: "/dashboard/admin-dashboard/setting",
-    title: "Account Settings",
+    title: "Settings",
   },
   {
     id:9,

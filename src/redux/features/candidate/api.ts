@@ -274,3 +274,4 @@ export const getRecommendedJobs = async (dispatch: AppDispatch, candidateId: str
         dispatch(requestFailDash(e.message))
     }
 }
+
