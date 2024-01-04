@@ -14,7 +14,7 @@ export const loginWithLn = async (dispatch: AppDispatch, bodyObj: any) => {
         const { data } = await instance.post(
             "/candidate/auth/getCandidate",
             formData,
-            { headers: headers, withCredentials: true }
+            { headers: headers }
         );
         dispatch(getUserSuccess({ user: data.user._id, userRole: data.user.role, avatar: data.user.avatar, name: data.user.firstName }));
         // console.log(data);

@@ -46,7 +46,7 @@ const Suggestion = ({
       resume.s3Key
     );
     console.log(response);
-    setSuggestionWithAi(response?.response);
+    setSuggestionWithAi(response?.response || "");
     setSaved(true);
   };
   const handleSave = () => {};

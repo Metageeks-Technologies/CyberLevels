@@ -78,17 +78,17 @@ const menu_data: IMenuData[] = [
   //     },
   //   ]
   // },
-  // {
-  //   id:4,
-  //   link:'/blog-v1',
-  //   title:'Blog',
-  //   sub_menus:[
-  //     {link:'/blog-v1',title:'Blog Standard'},
-  //     {link:'/blog-v2',title:'Blog Grid'},
-  //     {link:'/blog-v3',title:'Full width'},
-  //     {link:'/blog-details',title:'Blog Details'},
-  //   ]
-  // },
+  {
+    id: 4,
+    link: '/blog-v1',
+    title: 'Blog',
+    // sub_menus:[
+    //   {link:'/blog-v1',title:'Blog Standard'},
+    //   {link:'/blog-v2',title:'Blog Grid'},
+    //   {link:'/blog-v3',title:'Full width'},
+    //   {link:'/blog-details',title:'Blog Details'},
+    // ]
+  },
   {
     id: 5,
     link: '/contact',

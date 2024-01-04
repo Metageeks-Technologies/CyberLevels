@@ -1,4 +1,5 @@
 import instance from "@/lib/axios";
+import axios from "axios";
 import React from "react";
 
 const ResumeDownloadButton = ({
@@ -14,9 +15,11 @@ const ResumeDownloadButton = ({
 }) => {
   const handleDownloadClick = async () => {
     const { data } = await instance.post("/candidate/download", { s3Key });
-    const { data: resume } = await instance(data.url, {
+    // console.log("downloaded data", data);
+    const { data: resume } = await axios(data.url, {
       responseType: "blob",
     });
+    console.log("resume", resume);
 
     const url = window.URL.createObjectURL(new Blob([resume]));
     const link = document.createElement("a");

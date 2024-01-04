@@ -18,7 +18,7 @@ const QuestionModal = ({
   );
 
   const dispatch = useAppDispatch;
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
   const [from, setForm] = useState({
     testScore: 0,
     appliedWithResume: "",

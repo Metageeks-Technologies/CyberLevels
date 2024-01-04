@@ -7,10 +7,10 @@ import { notifyError, notifySuccess } from "@/utils/toast";
 import { setUploadProgress } from "../globalSlice";
 
 
-export const getAllJobPosts = async(dispatch:AppDispatch) => {
+export const getAllJobPosts = async (dispatch: AppDispatch) => {
     dispatch(requestStart)
     try {
-        const {data} = await instance(`/jobPost/getalljobposts`);
+        const { data } = await instance(`/jobPost/getalljobposts`);
         dispatch(getAllJobPostsSuccess(data.jobPosts))
     } catch (error) {
         const e = error as AxiosError;
@@ -61,12 +61,12 @@ export const addJobPost = async (dispatch: AppDispatch, bodyObj: any) => {
     }
 }
 
-export const getJobPostsForEmployer = async (dispatch: AppDispatch, id: string, page:number) => {
+export const getJobPostsForEmployer = async (dispatch: AppDispatch, id: string, page: number) => {
 
     dispatch(requestStart());
     try {
         const { data } = await instance(`jobPost/employer/${id}?page=${page}`);
-        dispatch(getJobPostsForEmployerSuccess({jobPostsForEmployer:data.jobPosts,totalJobPostPagesForEmployer:data.totalPages,currentPageForJobPostEmployer:data.currentPage,pageSizeForJobPostEmployer:data.pageSize,totalJobPostsForEmployer:data.totalCount}));
+        dispatch(getJobPostsForEmployerSuccess({ jobPostsForEmployer: data.jobPosts, totalJobPostPagesForEmployer: data.totalPages, currentPageForJobPostEmployer: data.currentPage, pageSizeForJobPostEmployer: data.pageSize, totalJobPostsForEmployer: data.totalCount }));
     } catch (error) {
         console.log(error);
         const e = error as AxiosError;
@@ -172,11 +172,17 @@ export const queryToGpt = async (dispatch: AppDispatch, candidateId: string, que
 
 export const getSuggestion = async (dispatch: AppDispatch, candidateId: string, question: string, s3Key: string) => {
 
-    console.log("called");
+    // alert("called");
+    const bodyObj = {
+        candidateId,
+        question,
+        s3Key
+    }
 
     dispatch(askGptStart());
     try {
-        const { data } = await instance(`/jobPost/suggestion?candidateId=${candidateId}&question=${question}&s3Key=${s3Key}`);
+        // const { data } = await instance(`/jobPost/suggestion?candidateId=${candidateId}&question=${question}&s3Key=${s3Key}`);
+        const { data } = await instance(`/jobPost/suggestion`, { params: bodyObj });
         console.log(data);
         dispatch(askGptSuccess());
         return data.response;
@@ -187,7 +193,7 @@ export const getSuggestion = async (dispatch: AppDispatch, candidateId: string, 
     }
 }
 
-export const registerJobPostView = async (dispatch:AppDispatch , id:string) => {
+export const registerJobPostView = async (dispatch: AppDispatch, id: string) => {
     dispatch(requestStart());
     try {
         const data = await instance.post(`/jobPost/jobpostviews/${id}`)
@@ -199,7 +205,7 @@ export const registerJobPostView = async (dispatch:AppDispatch , id:string) => {
     }
 }
 
-export const getJobPostViews = async( dispatch:AppDispatch, viewData: string, id: string) => {
+export const getJobPostViews = async (dispatch: AppDispatch, viewData: string, id: string) => {
     dispatch(requestStart());
     try {
 
@@ -207,7 +213,7 @@ export const getJobPostViews = async( dispatch:AppDispatch, viewData: string, id
         // console.log(data.data.data);
         dispatch(getJobPostViewsSuccess(data.data.data))
         return data.data.data;
-        
+
     } catch (error) {
         console.log(error);
         const e = error as AxiosError;
@@ -215,7 +221,7 @@ export const getJobPostViews = async( dispatch:AppDispatch, viewData: string, id
     }
 }
 
-export const getJobPostForEmployerDashboard = async (dispatch:AppDispatch, id:string) => {
+export const getJobPostForEmployerDashboard = async (dispatch: AppDispatch, id: string) => {
     dispatch(requestStart());
     try {
         const data = await instance.get(`/jobPost/jobpostforemployerdashboard/${id}`);
@@ -227,7 +233,7 @@ export const getJobPostForEmployerDashboard = async (dispatch:AppDispatch, id:st
     }
 }
 
-export const getJobPostForEmployerNiceSelect = async (dispatch:AppDispatch, id:string) => {
+export const getJobPostForEmployerNiceSelect = async (dispatch: AppDispatch, id: string) => {
     dispatch(requestStart());
     try {
         const data = await instance.get(`/jobPost/jobpostforemployerniceselect/${id}`);
@@ -240,7 +246,7 @@ export const getJobPostForEmployerNiceSelect = async (dispatch:AppDispatch, id:s
     }
 }
 
-export const getJobPostForEmployerDashboardCards = async (dispatch:AppDispatch, id:string) => {
+export const getJobPostForEmployerDashboardCards = async (dispatch: AppDispatch, id: string) => {
     dispatch(requestStart());
     try {
         const data = await instance.get(`/jobPost/jobpostforemployerdashboardcards/${id}`);
