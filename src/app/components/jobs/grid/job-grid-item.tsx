@@ -50,7 +50,7 @@ const JobGridItem = ({
           style_2 ? "style-two" : ""
         } position-relative`}
       >
-        <Link href={`/job-details-v1/${item._id}`} className="logo">
+        <Link href={`/job-details-v1/${item._id}`} className="logo"  onClick={()=>handleViewClick(item._id)}>
           <Image
             src={job_img_1}
             alt="logo"
@@ -73,6 +73,7 @@ const JobGridItem = ({
           {item?.jobType?.map((val, index) => (
             <Link
               href={`/job-details-v1/${item._id}`}
+              onClick={()=>handleViewClick(item._id)}
               className={`job-duration fw-500 ${
                 val == "part-time" ? "part-time" : ""
               }`}
@@ -84,6 +85,7 @@ const JobGridItem = ({
         <div>
           <Link
             href={`/job-details-v1/${item._id}`}
+            onClick={()=>handleViewClick(item._id)}
             className="title fw-500 tran3s"
           >
             {item.title}
@@ -96,7 +98,7 @@ const JobGridItem = ({
         </div>
         <div className="d-flex align-items-center justify-content-between mt-auto">
           <div className="job-location">
-            <Link href={`/job-details-v1/${item._id}`}>{item.location}</Link>
+            <Link href={`/job-details-v1/${item._id}`}  onClick={()=>handleViewClick(item._id)} >{item.location}</Link>
           </div>
           {isAuthenticated ? (
             <Link
