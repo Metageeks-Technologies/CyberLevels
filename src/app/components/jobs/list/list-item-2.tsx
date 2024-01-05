@@ -35,6 +35,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
     }
   };
   const handleViewClick = (id:string) => {
+    console.log("Function called",id);
     registerJobPostView(dispatch,id)
   }
   const handleSubscribePopup = () => {};
@@ -44,19 +45,21 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
         <div className="row justify-content-between align-items-center">
           <div className="col-md-5">
             <div className="job-title d-flex align-items-center">
-              <Link href={`/job-details-v1/${item._id}`} className="logo">
+              <Link href={`/job-details-v1/${item._id}`} className="logo" onClick={()=>handleViewClick(item._id)}>
                 <Image src={job_img_1} alt="logo" className="lazy-img m-auto" />
               </Link>
               <div className="split-box1">
                 <Link
                   href={`/job-details-v1/${item._id}`}
                   className="job-duration fw-500"
+                  onClick={()=>handleViewClick(item._id)}
                 >
                   {item.jobType?.join(" ,")}
                 </Link>
                 <Link
                   href={`/job-details-v1/${item._id}`}
                   className="title fw-500 tran3s"
+                  onClick={()=>handleViewClick(item._id)}
                 >
                   {item.title?.slice(0, 22)}{" "}
                   {item.title?.length > 20 ? ".." : ""}
@@ -66,7 +69,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
           </div>
           <div className="col-md-4 col-sm-6">
             <div className="job-location">
-              <Link href={`/job-details-v1/${item._id}`}>{item.location}</Link>
+              <Link href={`/job-details-v1/${item._id}`} onClick={()=>handleViewClick(item._id)}>{item.location}</Link>
             </div>
             <div className="job-salary">
               <span className="fw-500 text-dark">

@@ -48,19 +48,20 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
               key={j._id}
               className="job-list-one style-two position-relative mb-20"
             >
+              <Link href={`/job-details-v1/${j._id}`}>
               <div className="row justify-content-between align-items-center">
                 <div className="col-xxl-3 col-lg-4">
                   <div className="job-title d-flex align-items-center">
-                    <a href="#" className="logo">
+                    <Link href={`/job-details-v1/${j._id}`} className="logo">
                       <Image
                         src={job_img_1}
                         alt="img"
                         className="lazy-img m-auto"
                       />
-                    </a>
-                    <a href="#" className="title fw-500 tran3s">
+                    </Link>
+                    <Link href={`/job-details-v1/${j._id}`} className="title fw-500 tran3s">
                       {j.title}
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div className="col-lg-3 col-md-4 col-sm-6 ms-auto">
@@ -86,12 +87,14 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
                     <a href="#">{j.location}</a>
                   </div>
                   <div className="job-category">
+                    <Link href={`/job-details-v1/${j._id}`}>
                     {j.primarySkills.map((c, i) => (
                       <a key={i} href="#">
                         {c}
                         {i < j.primarySkills.length - 1 && ", "}
                       </a>
                     ))}
+                    </Link>
                   </div>
                 </div>
                 <div className="col-lg-2 col-md-4">
@@ -101,7 +104,7 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
                       type="button"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
-                    >
+                      >
                       <span></span>
                     </button>
                     {/* action dropdown start */}
@@ -110,6 +113,7 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
                   </div>
                 </div>
               </div>
+                </Link>
             </div>
           ))}
         </div>
@@ -118,10 +122,10 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
             pageCount={totalNumOfSavedJobsPage}
             handlePageClick={handlePageClick}
             currPage={savedJobsPage}
-          />
-        )}
-      </div>
-    </div>
+            />
+            )}
+            </div>
+            </div>
   );
 };
 
