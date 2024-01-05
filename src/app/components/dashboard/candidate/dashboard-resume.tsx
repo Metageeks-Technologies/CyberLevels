@@ -239,7 +239,7 @@ const DashboardResume = ({ setIsOpenSidebar }: IProps) => {
                             <div className="col-sm-3">
                               <SelectYear
                                 setYear={setStartYear}
-                                firstInput="End4 Year"
+                                firstInput="End Year"
                               />
                             </div>
                             <div className="col-sm-3">
