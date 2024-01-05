@@ -30,6 +30,7 @@ import { notifyError, notifySuccess } from "@/utils/toast";
 import { toggleIsSaved as toggleJobIsSaved } from "@/redux/features/jobPost/slice";
 import { toggleIsSaved as toggleCompanyIsSaved } from "@/redux/features/company/slice";
 import { setUploadProgress } from "../globalSlice";
+import { logoutAdmin } from "../user/api";
 
 export const getCandidates = async (
   dispatch: AppDispatch,
@@ -87,6 +88,10 @@ export const getCurrCandidate = async (dispatch: AppDispatch, id: string) => {
     dispatch(getCurrCandidateSuccess(data.candidate));
   } catch (error) {
     const e = error as AxiosError;
+    console.log(e);
+    if (e.response?.status === 401) {
+      await logoutAdmin(dispatch)
+    }
     dispatch(requestFailDash(e.message));
   }
 };
