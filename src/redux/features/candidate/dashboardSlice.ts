@@ -32,6 +32,10 @@ export interface ICandidateDashboard {
     currDashExperience: string,
     viewsOnCandidateProfile: ProfileView[],
     totalViews: number,
+    photoFile: File | null,
+    resumeFile: File | null,
+    photoUploadProgress: number,
+    resumeUploadProgress: number,
 }
 
 // Define the initial state using that type
@@ -53,6 +57,10 @@ const initialState: ICandidateDashboard = {
     currDashExperience: "",
     viewsOnCandidateProfile: [],
     totalViews: 0,
+    photoFile: null,
+    resumeFile: null,
+    photoUploadProgress: 0,
+    resumeUploadProgress: 0,
 
 
 };
@@ -150,9 +158,11 @@ export const candidateDashboardSlice = createSlice({
         },
         addResume: (state, action: PayloadAction<IResume>) => {
             state.currCandidate?.resumes.push(action.payload);
+            state.loading = false;
         },
         updateAvatarSuccess: (state, action: PayloadAction<string>) => {
             if (state.currCandidate) state.currCandidate.avatar = action.payload
+            state.loading = false;
         },
         deleteResumeSuccess: (state, action: PayloadAction<string>) => {
             if (state.currCandidate) {
@@ -177,8 +187,18 @@ export const candidateDashboardSlice = createSlice({
         ]>) => {
             state.recommendedJobs = action.payload
         },
-
-
+        setPhotoFile: (state, action: PayloadAction<File | null>) => {
+            state.photoFile = action.payload;
+        },
+        setResumeFile: (state, action: PayloadAction<File | null>) => {
+            state.resumeFile = action.payload;
+        },
+        setPhotoUploadProgress: (state, action: PayloadAction<number>) => {
+            state.photoUploadProgress = action.payload;
+        },
+        setResumeUploadProgress: (state, action: PayloadAction<number>) => {
+            state.resumeUploadProgress = action.payload;
+        },
     },
 });
 
@@ -205,6 +225,10 @@ export const {
     setCurrDashEducation, setCurrDashExperience,
     getCandidateProfileViewsForChartSuccess,
     getCandidateProfileTotalViewsSuccess,
+    setPhotoFile,
+    setResumeFile,
+    setPhotoUploadProgress,
+    setResumeUploadProgress,
 } = candidateDashboardSlice.actions;
 
 export default candidateDashboardSlice.reducer;

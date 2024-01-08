@@ -23,6 +23,10 @@ import {
   updateEduSuccess,
   getCandidateProfileViewsForChartSuccess,
   getCandidateProfileTotalViewsSuccess,
+  setPhotoFile,
+  setResumeFile,
+  setPhotoUploadProgress,
+  setResumeUploadProgress
 } from "./dashboardSlice";
 import axios, { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
@@ -329,7 +333,7 @@ export const uploadResume = async (
         onUploadProgress: (data) => {
           if (data.total)
             dispatch(
-              setUploadProgress(Math.round((data.loaded / data.total) * 100))
+              setResumeUploadProgress(Math.round((data.loaded / data.total) * 100))
             );
         },
       });
@@ -383,7 +387,7 @@ export const updateAvatar = async (
         onUploadProgress: (data) => {
           if (data.total)
             dispatch(
-              setUploadProgress(Math.round((data.loaded / data.total) * 100))
+              setPhotoUploadProgress(Math.round((data.loaded / data.total) * 100))
             );
         },
       });
@@ -399,6 +403,7 @@ export const updateAvatar = async (
   } catch (error) {
     const e = error as AxiosError;
     dispatch(requestFailDash(e.message));
+    notifyError("something went wrong try again");
   }
 };
 export const getRecommendedJobs = async (
@@ -482,10 +487,14 @@ export const addCandidateSkillDB = async (
     const { data } = await instance.post(
       `/candidateSkills/add`, { skillName: skill }
     );
+    console.log(data);
     dispatch(requestSuccessDash())
+    return true;
   } catch (error) {
-    console.log(error);
-    const e = error as AxiosError;
-    dispatch(requestFailDash(e.message));
+    // console.log(error);
+    const e = error as any;
+    dispatch(requestFailDash(e.response?.data.message));
+    notifyError(e.response?.data.message);
+    return false;
   }
 };
