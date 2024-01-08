@@ -1,7 +1,10 @@
 import React, { useState, useEffect, Fragment } from "react";
-import axios from "axios";
 import { Combobox, Transition } from "@headlessui/react";
-import { cybersecuritySkills } from "@/data/skills";
+import instance from "@/lib/axios";
+import { notifyError, notifyInfo } from "@/utils/toast";
+import { useAppDispatch } from "@/redux/hook";
+// import { cybersecuritySkills } from "@/data/skills";
+import { addCandidateSkillDB } from "@/redux/features/candidate/api";
 interface Props {
   skills: string[];
   setSkills: React.Dispatch<React.SetStateAction<string[]>>;
@@ -12,33 +15,83 @@ function AutocompleteSkill({ skills, setSkills }: Props) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<any>([]);
 
-  useEffect(() => {
-    const input = query.toLocaleLowerCase();
-    const _suggestions = cybersecuritySkills.filter((obj) =>
-      obj.skill.toLowerCase().includes(input)
-    );
+  const dispatch = useAppDispatch();
 
-    setSuggestions(_suggestions);
+  useEffect(() => {
+    // const input = query.toLocaleLowerCase();
+    // const _suggestions = cybersecuritySkills.filter((obj) =>
+    //   obj.skill.toLowerCase().includes(input)
+    // );
+
+    // setSuggestions(_suggestions);
+    const callApi = async () => {
+      try {
+        if (query.length >= 2) {
+          const { data } = await instance.get(
+            `candidateSkills/search?query=${query}`
+          );
+          setSuggestions(data);
+          console.log(data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    callApi();
   }, [query]);
   //   console.log(suggestions);
 
   const handleSelect = (value: string) => {
+    if (skills.includes(value)) {
+      notifyInfo("Skill already added");
+      return;
+    }
+
     setSelected(value);
     setSkills((prev) => [...prev, value]);
     setQuery("");
+  };
+  const handleAddSkill = async () => {
+    if (skills.includes(query)) {
+      notifyInfo("Skill already added");
+      return;
+    }
+    try {
+      await addCandidateSkillDB(dispatch, query);
+      setSkills((prev) => [...prev, query]);
+      setQuery("");
+    } catch (error) {
+      const e = error as any;
+      notifyError(e.response.data.message);
+    }
   };
 
   return (
     <div className="nice-select" style={{ border: "none", padding: "0" }}>
       <Combobox value={selected} onChange={handleSelect}>
         <div className="">
-          <div className="">
+          <div className=" position-relative ">
             <Combobox.Input
               className=""
               placeholder="Add Skill"
               displayValue={() => ""}
               onChange={(event) => setQuery(event.target.value)}
             />
+            {query.length >= 3 && (
+              <p
+                onClick={handleAddSkill}
+                title="Add this skill if not found in the list"
+                className="skill-add btn-one position-absolute px-3 py-1"
+                style={{
+                  zIndex: 10,
+                  top: "50%",
+                  right: "5%",
+                  transform: "translateY(-50%)",
+                }}
+              >
+                Add
+              </p>
+            )}
           </div>
           <Transition
             as={Fragment}
@@ -49,15 +102,15 @@ function AutocompleteSkill({ skills, setSkills }: Props) {
           >
             <Combobox.Options className="_my_nice_select_options _my_nice_select_options_extended">
               {suggestions.length === 0 && query !== "" ? (
-                <div className=" px-4">Nothing found.</div>
+                <div className="mx-4">Nothing found.</div>
               ) : (
                 suggestions.map((person: any) => (
                   <Combobox.Option
-                    key={person.skill}
+                    key={person._id}
                     className={({ active }) =>
                       `option ${active && "selected focus"}`
                     }
-                    value={person.skill}
+                    value={person.name}
                   >
                     {({ selected, active }) => (
                       <>
@@ -66,7 +119,7 @@ function AutocompleteSkill({ skills, setSkills }: Props) {
                             selected ? "font-normal" : "font-normal"
                           }`}
                         >
-                          {person.skill}
+                          {person.name}
                         </span>
                         {selected ? (
                           <span

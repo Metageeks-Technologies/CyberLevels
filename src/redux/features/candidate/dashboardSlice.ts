@@ -4,7 +4,7 @@ import type { ICandidate, INotification, IResume } from '@/types/user-type'
 import type { IJobPost } from "@/types/jobPost-type";
 import { ICompany } from "@/types/company";
 interface ProfileView {
-    
+
     view_count?: number;
     view_timestamp?: string;
 }
@@ -31,7 +31,7 @@ export interface ICandidateDashboard {
     currDashEducation: string,
     currDashExperience: string,
     viewsOnCandidateProfile: ProfileView[],
-    totalViews:number,
+    totalViews: number,
 }
 
 // Define the initial state using that type
@@ -51,9 +51,9 @@ const initialState: ICandidateDashboard = {
     recommendedJobs: null,
     currDashEducation: "",
     currDashExperience: "",
-    viewsOnCandidateProfile:[],
+    viewsOnCandidateProfile: [],
     totalViews: 0,
-   
+
 
 };
 
@@ -80,6 +80,9 @@ export const candidateDashboardSlice = createSlice({
                 state.error = action.payload
 
         },
+        requestSuccessDash: (state) => {
+            state.loading = false;
+        },
         getCurrCandidateSuccess: (state, action: PayloadAction<ICandidate>) => {
             state.currCandidate = action.payload;
             state.loading = false,
@@ -105,7 +108,7 @@ export const candidateDashboardSlice = createSlice({
                 state.currCandidate.experience = [...state.currCandidate.experience, action.payload]
             state.loading = false;
         },
-        getCandidateProfileViewsForChartSuccess: (state,action: PayloadAction<ProfileView[]>) => {
+        getCandidateProfileViewsForChartSuccess: (state, action: PayloadAction<ProfileView[]>) => {
             state.loading = false;
             state.viewsOnCandidateProfile = action.payload;
         },
@@ -196,6 +199,7 @@ export const {
     addNotification,
     setToggle,
     addResume,
+    requestSuccessDash,
     deleteResumeSuccess,
     getRecommendedJobsSuccess,
     setCurrDashEducation, setCurrDashExperience,

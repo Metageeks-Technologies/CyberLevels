@@ -29,7 +29,10 @@ const OpenPosition = ({ companyId }: { companyId: string }) => {
     dispatch(setPageForCompany(event.selected + 1));
   };
   return (
-    <section className="company-open-position pt-80 lg-pt-60 pb-100 lg-pb-60">
+    <section
+      id="open-job"
+      className="company-open-position pt-80 lg-pt-60 pb-100 lg-pb-60"
+    >
       <div className="container">
         <div className="row justify-content-between align-items-center">
           <div className="col-lg-6">

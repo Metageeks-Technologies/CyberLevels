@@ -7,7 +7,10 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { getCurrEmployer } from "@/redux/features/employer/api";
 import { getCurrAdmin } from "@/redux/features/admin/api";
 import { addNotification } from "@/redux/features/candidate/dashboardSlice";
+import { usePathname } from "next/navigation";
+
 const initialLoad = ({ children }: { children: React.ReactNode }) => {
+  const pathname = usePathname();
   const dispatch = useAppDispatch();
   const { currUser, userRole, isAuthenticated } = useAppSelector(
     (s) => s.persistedReducer.user

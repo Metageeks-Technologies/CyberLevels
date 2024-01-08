@@ -81,7 +81,7 @@ const Header = () => {
                       <span>{name}</span>
                     </li>
                   )}
-                  {userRole !== "candidate" && (
+                  {userRole && userRole !== "candidate" && (
                     <li className="d-none d-md-block ms-4">
                       <Link href="/candidates-v1" className="btn-one">
                         Hire Top Talents
@@ -129,7 +129,7 @@ const Header = () => {
                     {/* menus start */}
                     <Menus />
                     {/* menus end */}
-                    <li className="d-md-none">
+                    {/* <li className="d-md-none">
                       <Link href="/register" className="job-post-btn tran3s">
                         Post Job
                       </Link>
@@ -138,7 +138,7 @@ const Header = () => {
                       <Link href="/candidates-v1" className="btn-one w-100">
                         Hire Top Talents
                       </Link>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </nav>

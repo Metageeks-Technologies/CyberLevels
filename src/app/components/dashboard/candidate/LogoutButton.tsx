@@ -43,7 +43,7 @@ const LogoutButton = () => {
       disabled={loading}
       onClick={handleClick}
     >
-      <Image src={logout} alt="icon" className="lazy-img" />
+      {/* <Image src={logout} alt="icon" className="lazy-img" /> */}
       <span>Logout</span>
     </button>
   );

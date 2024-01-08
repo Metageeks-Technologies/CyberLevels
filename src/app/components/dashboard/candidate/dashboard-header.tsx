@@ -9,6 +9,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { format } from "timeago.js";
+import LogoutButton from "./LogoutButton";
 // notification item
 function NotificationItem({
   icon,
@@ -83,12 +84,24 @@ const DashboardHeader = ({ setIsOpenSidebar }: IProps) => {
         >
           <span></span>
         </button>
-        <form action="#" className="search-form">
+        {pathName.split("/").includes("candidate-dashboard") && (
+          <div className="me-5 fw-normal  btn-one ">
+            <Link href={`${process.env.NEXT_PUBLIC_HOME_ENDPOINT}/job-list-v1`}>
+              Find Jobs
+            </Link>
+          </div>
+        )}
+
+        {/* <form action="#" className="search-form">
           <input type="text" placeholder="Search here.." />
           <button>
             <Image src={search} alt="search" className="lazy-img m-auto" />
           </button>
-        </form>
+        </form> */}
+
+        <div className=" btn-one">
+          <LogoutButton />
+        </div>
         <div className="profile-notification ms-2 ms-md-5 me-4">
           <button
             className="noti-btn dropdown-toggle"
@@ -124,7 +137,7 @@ const DashboardHeader = ({ setIsOpenSidebar }: IProps) => {
             </li>
           </ul>
         </div>
-        {pathName.split("/").includes("employer-dashboard") && (
+        {/* {pathName.split("/").includes("employer-dashboard") && (
           <div>
             <Link
               href="/dashboard/employer-dashboard/submit-job"
@@ -133,7 +146,7 @@ const DashboardHeader = ({ setIsOpenSidebar }: IProps) => {
               Post a Job
             </Link>
           </div>
-        )}
+        )} */}
       </div>
     </header>
   );

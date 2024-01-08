@@ -13,6 +13,12 @@ import DashboardHeader from "./dashboard-header";
 import Location from "./profile/Location";
 import Social from "./profile/OnTheWeb";
 import Profile from "./profile/Profile";
+import UploadResume from "./resume/uploadResume";
+import Skills from "./resume/Skills";
+import Softskills from "./resume/Softskills";
+import Experience from "./resume/Experience";
+import Education from "./resume/Education";
+import Certificate from "./resume/Certification";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -55,63 +61,103 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
   };
 
   return (
-    <div className="dashboard-body">
-      <div className="position-relative">
-        {/* header start */}
-        <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
-        {/* header end */}
+    <>
+      <div className="dashboard-body">
+        <div className="position-relative candidates-profile-details">
+          {/* header start */}
+          <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
+          {/* header end */}
 
-        {/* Profile start */}
-        <h2 className="main-title">My Profile</h2>
-        <div className="bg-white card-box border-20 ">
-          <div className="d-flex justify-content-between ">
-            <div className="user-avatar-setting d-flex align-items-center mb-30">
-              <img
-                width={50}
-                height={50}
-                src={user.avatar}
-                // src={
-                //   user?.avatar !== "none" || false
-                //     ? (user?.avatar as string)
-                //     : avatar
-                // }
-                alt="avatar"
-                className="lazy-img user-img"
-              />
-              {!file && (
-                <div className=" upload-btn position-relative tran3s ms-4 me-3">
-                  <DropZone
-                    text={
-                      user.avatar
-                        ? "Update profile photo"
-                        : "Upload profile photo"
-                    }
-                  />
-                </div>
-              )}
-              {file && (
-                <>
-                  <div className="d-flex flex-column justify-content-center   ">
-                    <button
-                      onClick={handleProfilePhoto}
-                      className="upload-btn position-relative tran3s ms-4 me-3"
-                    >
-                      {"Save"}
-                    </button>
-                    <div className="ms-4 mt-1 ">
-                      <small>
-                        Upload square image in .png, .jpeg, max 1mb sized
-                      </small>
-                    </div>
+          {/* Profile start */}
+          <h2 className="main-title">My Profile</h2>
+          <div className="bg-white card-box border-20 ">
+            <div className="d-flex justify-content-between ">
+              <div className="user-avatar-setting d-flex align-items-center mb-30">
+                <img
+                  width={50}
+                  height={50}
+                  src={user.avatar}
+                  // src={
+                  //   user?.avatar !== "none" || false
+                  //     ? (user?.avatar as string)
+                  //     : avatar
+                  // }
+                  alt="avatar"
+                  className="lazy-img user-img"
+                />
+                {!file && (
+                  <div className=" upload-btn position-relative tran3s ms-4 me-3">
+                    <DropZone
+                      text={
+                        user.avatar
+                          ? "Update profile photo"
+                          : "Upload profile photo"
+                      }
+                    />
                   </div>
-                  <p className="dash-title-three">{file?.name}</p>
-                </>
-              )}
+                )}
+                {file && (
+                  <>
+                    <div className="d-flex flex-column justify-content-center   ">
+                      <button
+                        onClick={handleProfilePhoto}
+                        className="upload-btn position-relative tran3s ms-4 me-3"
+                      >
+                        {"Save"}
+                      </button>
+                      <div className="ms-4 mt-1 ">
+                        <small>
+                          Upload square image in .png, .jpeg, max 1mb sized
+                        </small>
+                      </div>
+                    </div>
+                    <p className="dash-title-three">{file?.name}</p>
+                  </>
+                )}
+              </div>
+              <div>
+                <button
+                  data-bs-toggle="modal"
+                  data-bs-target="#profileModal"
+                  type="button"
+                  className="apply-btn text-center tran3s"
+                >
+                  <Image
+                    height={24}
+                    width={24}
+                    src={icon_3}
+                    title="Edit Profile"
+                    alt="edit"
+                  />
+                </button>
+              </div>
             </div>
-            <div>
+            <Profile />
+          </div>
+          {/* Profile end */}
+
+          {/* resume start */}
+          <UploadResume />
+          {/* resume end */}
+
+          <div className="bg-white card-box border-20 mt-40">
+            {<Skills skills={user?.skills || []} />}
+            {<Softskills skills={user?.softSkills || []} />}
+          </div>
+
+          <Experience />
+          <Education />
+
+          <div className="bg-white card-box border-20 mt-40">
+            <Certificate certificate={user?.certificate} />
+          </div>
+
+          <div className="bg-white card-box border-20 mt-40">
+            <div className=" d-flex justify-content-between ">
+              <h4 className="dash-title-three">On the web</h4>
               <button
                 data-bs-toggle="modal"
-                data-bs-target="#profileModal"
+                data-bs-target="#socialModal"
                 type="button"
                 className="apply-btn text-center tran3s"
               >
@@ -119,70 +165,18 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
                   height={24}
                   width={24}
                   src={icon_3}
-                  title="Edit Profile"
-                  alt="edit"
+                  title="Edit Social"
+                  alt="Edit Social"
                 />
               </button>
             </div>
+            <Social />
           </div>
-          <Profile />
+
+          <Location />
         </div>
-        {/* Profile end */}
-
-        {/* Skills start */}
-        <div className="bg-white card-box border-20 mt-40">
-          <div className=" d-flex justify-content-between ">
-            <h4 className="dash-title-three">On the web</h4>
-            <button
-              data-bs-toggle="modal"
-              data-bs-target="#socialModal"
-              type="button"
-              className="apply-btn text-center tran3s"
-            >
-              <Image
-                height={24}
-                width={24}
-                src={icon_3}
-                title="Edit Social"
-                alt="Edit Social"
-              />
-            </button>
-          </div>
-          <Social />
-          {/* {[...user?.socialSites, ...social].map((val, index) => (
-            <div key={val} className="dash-input-wrapper mb-20">
-              <label htmlFor="">Network {index + 1}</label>
-              <input type="text" readOnly value={val} />
-            </div>
-          ))} */}
-
-          {/* {isAddingSocialLink && (
-            <div className="dash-input-wrapper mb-20">
-              <label htmlFor="SocialInput">
-                Network {user?.socialSites.length + social.length + 1}
-              </label>
-              <input
-                name="SocialInput"
-                value={SocialInput}
-                onChange={(e) => setSocialInput(e.target.value)}
-                onBlur={addToSocial}
-                type="text"
-                placeholder="#"
-              />
-            </div>
-          )} */}
-
-          {/* <button onClick={() => setSocialLink(true)} className="dash-btn-one">
-            <i className="bi bi-plus"></i> Add more link
-          </button> */}
-        </div>
-        {/* Skills end */}
-
-        {/*location start */}
-        <Location />
-        {/*location end */}
       </div>
-    </div>
+    </>
   );
 };
 

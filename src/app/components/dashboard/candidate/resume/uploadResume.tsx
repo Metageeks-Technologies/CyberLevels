@@ -48,11 +48,11 @@ const UploadResume = () => {
   };
   return (
     <>
-      <h2 className="main-title">My Resume</h2>
-      <div className="bg-white card-box border-20">
-        <h4 className="dash-title-three">Resume Attachment</h4>
+      {/* <h2 className="main-title">My Resume</h2> */}
+      <div className="bg-white card-box border-20 mt-40 ">
+        <h4 className="dash-title-three">Resume</h4>
         <div className="dash-input-wrapper mb-20">
-          <label htmlFor="">CV Attachment*</label>
+          <label htmlFor=""> Attachment*</label>
 
           {currCandidate?.resumes.map((resume) => (
             <div
@@ -81,10 +81,10 @@ const UploadResume = () => {
               Upload CV
               <input type="file" id="uploadCV" name="uploadCV" placeholder="" /> */}
 
-              <DropZone showIcon={false} style="" text={"Upload CV"} />
+              <DropZone showIcon={false} style="" text={"Upload New"} />
             </div>
             <div className=" mt-3 ">
-              <small>Upload file .pdf</small>
+              <small>Upload file with .pdf .doc .docx</small>
             </div>
           </>
         )}
