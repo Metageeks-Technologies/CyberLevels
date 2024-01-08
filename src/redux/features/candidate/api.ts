@@ -9,6 +9,7 @@ import {
   getCurrCandidateSuccess,
   requestFailDash,
   requestStartDash,
+  requestSuccessDash,
   removeSavedJobSuccess,
   updateExpSuccess,
   updateCurrCandidateSuccess,
@@ -125,6 +126,27 @@ export const addEducation = async (
     );
     dispatch(updateEduSuccess(bodyObj));
     notifySuccess("Education added successfully");
+  } catch (error) {
+    const e = error as AxiosError;
+    dispatch(requestFailDash(e.message));
+    notifyError("Something went wrong try again");
+  }
+};
+
+export const addExperience = async (
+  dispatch: AppDispatch,
+  id: string,
+  bodyObj: any
+) => {
+  dispatch(requestStartDash());
+  try {
+    const { data } = await instance.patch(
+      `/candidate/updateExp/${id}`,
+      bodyObj
+    );
+    console.log(data);
+    dispatch(updateExpSuccess(bodyObj));
+    notifySuccess("Experience added successfully")
   } catch (error) {
     const e = error as AxiosError;
     dispatch(requestFailDash(e.message));
@@ -444,6 +466,23 @@ export const getItemsByJoiningDate = async (
     );
     // console.log(data);
     return data;
+  } catch (error) {
+    console.log(error);
+    const e = error as AxiosError;
+    dispatch(requestFailDash(e.message));
+  }
+};
+
+export const addCandidateSkillDB = async (
+  dispatch: AppDispatch,
+  skill: string
+) => {
+  dispatch(requestStartDash());
+  try {
+    const { data } = await instance.post(
+      `/candidateSkills/add`, { skillName: skill }
+    );
+    dispatch(requestSuccessDash())
   } catch (error) {
     console.log(error);
     const e = error as AxiosError;

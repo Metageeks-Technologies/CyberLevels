@@ -22,7 +22,7 @@ const JobAlertArea = ({ setIsOpenSidebar }: IProps) => {
         {/* header end */}
 
         <div className="d-flex align-items-center justify-content-between mb-40 lg-mb-30">
-          <h2 className="main-title m0">Recommended Jobs</h2>
+          <h2 className="main-title m0">Job Alert </h2>
           {/* <div className="short-filter d-flex align-items-center">
             <div className="text-dark fw-500 me-2">Short by:</div>
             <ShortSelect />
@@ -42,13 +42,13 @@ const JobAlertArea = ({ setIsOpenSidebar }: IProps) => {
                 <div className="row justify-content-between align-items-center">
                   <div className="col-xxl-3 col-lg-4">
                     <div className="job-title d-flex align-items-center">
-                      <a href="#" className="logo">
+                      <Link href={`/job-details-v1/${j._id}`} className="logo">
                         <Image
                           src={job_img_1}
                           alt="img"
                           className="lazy-img m-auto"
                         />
-                      </a>
+                      </Link>
                       <Link
                         href={`/job-details-v1/${j._id}`}
                         className="title fw-500 tran3s"
@@ -77,14 +77,17 @@ const JobAlertArea = ({ setIsOpenSidebar }: IProps) => {
                   </div>
                   <div className="col-xxl-2 col-lg-3 col-md-4 col-sm-6 ms-auto xs-mt-10">
                     <div className="job-location">
-                      <a href="#">{j.location}</a>
+                      <span></span>
+                      {j.location.map((l, i) => (
+                        <span>{l}</span>
+                      ))}
                     </div>
                     <div className="job-category">
                       {j.primarySkills.map((c, i) => (
-                        <a key={i} href="#">
+                        <Link key={i} href={`/job-details-v1/${j._id}`}>
                           {c}
                           {i < j.primarySkills.length - 1 && ", "}
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   </div>

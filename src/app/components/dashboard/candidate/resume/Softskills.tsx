@@ -8,7 +8,7 @@ import EditSoftSkill from "@/app/components/candidate-details/popup/EditSoftSkil
 const Softskills = ({ skills }: { skills: string[] }) => {
   return (
     <>
-      <h4 className="dash-title-three">Soft Skills</h4>
+      <h4 className="dash-title-three">Secondary Skills</h4>
       <div className="dash-input-wrapper mb-40">
         {/* <label htmlFor="">Add Skills*</label> */}
 

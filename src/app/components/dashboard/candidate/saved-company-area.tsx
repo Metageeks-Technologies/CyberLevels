@@ -18,7 +18,6 @@ import { ICompany } from "@/types/company";
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
   savedCompanies: ICompany[];
-
 };
 
 const SavedCompanyArea = ({ setIsOpenSidebar, savedCompanies }: IProps) => {
@@ -38,11 +37,11 @@ const SavedCompanyArea = ({ setIsOpenSidebar, savedCompanies }: IProps) => {
         {/* header end */}
 
         <div className="d-flex align-items-center justify-content-between mb-40 lg-mb-30">
-          <h2 className="main-title m0">Saved Companies</h2>
-          <div className="short-filter d-flex align-items-center">
+          <h2 className="main-title m0">Favorite Companies</h2>
+          {/* <div className="short-filter d-flex align-items-center">
             <div className="text-dark fw-500 me-2">Sort by:</div>
             <ShortSelect />
-          </div>
+          </div> */}
         </div>
 
         <div className="wrapper">
@@ -54,16 +53,19 @@ const SavedCompanyArea = ({ setIsOpenSidebar, savedCompanies }: IProps) => {
               <div className="row justify-content-between align-items-center">
                 <div className="col-xxl-3 col-lg-4">
                   <div className="job-title d-flex align-items-center">
-                    <a href="#" className="logo">
+                    <Link href={`/company-details/${c._id}`} className="logo">
                       <Image
                         src={job_img_1}
                         alt="img"
                         className="lazy-img m-auto"
                       />
-                    </a>
-                    <a href="#" className="title fw-500 tran3s">
+                    </Link>
+                    <Link
+                      href={`/company-details/${c._id}`}
+                      className="title fw-500 tran3s"
+                    >
                       {c.name}
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div className="col-lg-3 col-md-4 col-sm-6 ms-auto">
@@ -97,7 +99,7 @@ const SavedCompanyArea = ({ setIsOpenSidebar, savedCompanies }: IProps) => {
                     ))}
                   </div> */}
                   <Link
-                    href={`/company-details/${c._id}`}
+                    href={`/company-details/${c._id}#open-job`}
                     className="open-job-btn text-center fw-500 tran3s me-2"
                   >
                     {/* {item.vacancy} open job */}

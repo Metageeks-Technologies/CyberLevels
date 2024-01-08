@@ -83,7 +83,7 @@ export interface ICandidate {
         salary: number,
         period: string
     },
-    profileCompleted: number,
+    isProfileCompleted: boolean,
     gender: "male" | "female" | "others";
     location: ILocation,
     testScore: number,

@@ -1,13 +1,11 @@
-import React from "react";
-import Image from "next/image";
-import { StaticImageData } from "next/image";
 import port_1 from "@/assets/dashboard/images/portfolio_img_01.jpg";
 import port_2 from "@/assets/dashboard/images/portfolio_img_02.jpg";
 import port_3 from "@/assets/dashboard/images/portfolio_img_03.jpg";
 import port_4 from "@/assets/dashboard/images/portfolio_img_04.jpg";
+import Image, { StaticImageData } from "next/image";
 
-import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
 // portfolio item
 function PortfolioItem({ img }: { img: StaticImageData }) {
   // const pathname = usePathname();

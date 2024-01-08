@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { IJobPost } from '@/types/jobPost-type'
 
 export interface JobPostView {
-    
+
     view_count?: number;
     view_timestamp?: string;
 }
@@ -18,17 +18,17 @@ export interface jobPstState {
     totalJobPost: number,
     gptLoading: boolean,
     jobPostsForEmployer: IJobPost[];
-    currentPageForJobPostEmployer:number,
-    totalJobPostPagesForEmployer:number,
-    pageSizeForJobPostEmployer:number,
+    currentPageForJobPostEmployer: number,
+    totalJobPostPagesForEmployer: number,
+    pageSizeForJobPostEmployer: number,
     relatedJobs: IJobPost[];
     fileNamePc: string;
-    allJobPostAdmin:IJobPost[];
-    viewsOnJobPost:JobPostView[];
-    totalJobPostsForEmployer:number;
-    jobPostForEmployerDashboard:IJobPost[];
-    jobPostForEmployerNiceSelect:IJobPost[];
-    jobPostForEmployerDashboardCards:any;
+    allJobPostAdmin: IJobPost[];
+    viewsOnJobPost: JobPostView[];
+    totalJobPostsForEmployer: number;
+    jobPostForEmployerDashboard: IJobPost[];
+    jobPostForEmployerNiceSelect: IJobPost[];
+    jobPostForEmployerDashboardCards: any;
 }
 type IForGetAllJobPost = {
     allJobPost: IJobPost[]
@@ -49,15 +49,15 @@ const initialState: jobPstState = {
     jobPostsForEmployer: [],
     relatedJobs: [],
     fileNamePc: "",
-    allJobPostAdmin:[],
-    viewsOnJobPost:[],
-    currentPageForJobPostEmployer:1,
-    totalJobPostPagesForEmployer:1,
-    pageSizeForJobPostEmployer:1,
-    totalJobPostsForEmployer:0,
-    jobPostForEmployerDashboard:[],
-    jobPostForEmployerNiceSelect:[],
-    jobPostForEmployerDashboardCards:{},
+    allJobPostAdmin: [],
+    viewsOnJobPost: [],
+    currentPageForJobPostEmployer: 1,
+    totalJobPostPagesForEmployer: 1,
+    pageSizeForJobPostEmployer: 1,
+    totalJobPostsForEmployer: 0,
+    jobPostForEmployerDashboard: [],
+    jobPostForEmployerNiceSelect: [],
+    jobPostForEmployerDashboardCards: {},
 }
 
 export const jobPostSlice = createSlice({
@@ -93,12 +93,15 @@ export const jobPostSlice = createSlice({
             state.loading = false
             state.allJobPost = action.payload.allJobPost;
             state.totalNumOfPage = action.payload.totalNumOfPage;
-            state.totalJobPost = action.payload.totalJobPost
+            state.totalJobPost = action.payload.totalJobPost;
+            if (state.page > state.totalNumOfPage) {
+                state.page = state.totalNumOfPage > 0 ? state.totalNumOfPage : 1;
+            }
         },
         getAllJobPostsSuccess: (state, action: PayloadAction<IJobPost[]>) => {
             state.loading = false
             state.allJobPostAdmin = action.payload;
-        } ,
+        },
         getJobPostsForEmployerSuccess: (state, action: PayloadAction<any>) => {
             state.loading = false
             state.jobPostsForEmployer = action.payload.jobPostsForEmployer;
@@ -112,7 +115,7 @@ export const jobPostSlice = createSlice({
             state.viewsOnJobPost = action.payload
             // console.log(action.payload,"Hello");
         },
-        getJobPostForEmployerDashboardSuccess: (state , action: PayloadAction<IJobPost[]>) => {
+        getJobPostForEmployerDashboardSuccess: (state, action: PayloadAction<IJobPost[]>) => {
             state.loading = false;
             state.jobPostForEmployerDashboard = action.payload;
         },
@@ -125,7 +128,7 @@ export const jobPostSlice = createSlice({
             state.jobPostForEmployerDashboardCards = action.payload;
         },
         registerJobPostViewSuccess: (state) => {
-            state.loading=false;
+            state.loading = false;
         },
         toggleIsSaved: (state, action: PayloadAction<string>) => {
             state.allJobPost = state.allJobPost?.map((job) => {
@@ -138,7 +141,7 @@ export const jobPostSlice = createSlice({
         setPage: (state, action: PayloadAction<number>) => {
             state.page = action.payload;
         },
-        setPageForJobPostEmployer: (state,action:PayloadAction<number>) => {
+        setPageForJobPostEmployer: (state, action: PayloadAction<number>) => {
             state.currentPageForJobPostEmployer = action.payload;
         },
         setPageForCompany: (state, action: PayloadAction<number>) => {

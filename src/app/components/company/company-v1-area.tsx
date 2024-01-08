@@ -21,7 +21,7 @@ const CompanyV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
   const [jobType, setJobType] = useState<string>(style_2 ? "list" : "grid");
 
   useEffect(() => {
-    if (currUser) getCompanies(dispatch, filterState, page, currUser);
+    getCompanies(dispatch, filterState, page, currUser ? currUser : "");
   }, [name, teamSize, page]);
 
   const handlePageClick = (event: { selected: number }) => {
@@ -63,9 +63,9 @@ const CompanyV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
               <div className="ms-xxl-5 ms-xl-3">
                 <div className="upper-filter d-flex justify-content-between align-items-center mb-20">
                   <div className="total-job-found">
-                    All{" "}
+                    Total{" "}
                     <span className="text-dark fw-500">{totalCompanies}</span>{" "}
-                    company found
+                    {totalCompanies > 1 ? "companies" : "company"} found
                   </div>
                   <div className="d-flex align-items-center">
                     {/* <div className="short-filter d-flex align-items-center">
@@ -125,7 +125,7 @@ const CompanyV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
                     <p className="m0 order-sm-last text-center text-sm-start xs-pb-20">
                       Showing{" "}
                       <span className="text-dark fw-500">
-                        {(page - 1) * 8 + 1}
+                        {totalCompanies > 0 ? (page - 1) * 8 + 1 : 0}
                       </span>{" "}
                       to{" "}
                       <span className="text-dark fw-500">

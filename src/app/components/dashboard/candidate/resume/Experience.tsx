@@ -1,54 +1,46 @@
 "use client";
-import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import ShowEducation from "../../../candidate-details/DashEducation";
-import SelectYear from "../select-year";
-import { addEducation } from "@/redux/features/candidate/api";
-import { notifyError } from "@/utils/toast";
+import React, { useState } from "react";
 import SelectMonth from "../select-month";
-import EditEducation from "@/app/components/candidate-details/popup/EditEducation";
-
-const Education = () => {
-  const { currCandidate, loading, currDashEducation } = useAppSelector(
+import SelectYear from "../select-year";
+import { addExperience } from "@/redux/features/candidate/api";
+import WorkExperience from "@/app/components/candidate-details/work-experience";
+const Experience = () => {
+  const dispatch = useAppDispatch();
+  const { currCandidate, loading } = useAppSelector(
     (store) => store.candidate.candidateDashboard
   );
-  const dispatch = useAppDispatch();
   const user = currCandidate;
-  const [education, setEducation] = useState({
-    degree: "",
-    institute: "",
+  const [experience, setExperience] = useState({
+    title: "",
+    company: "",
     description: "",
   });
-
   const [startYear, setStartYear] = useState("");
   const [startMonth, setStartMonth] = useState("");
   const [endYear, setEndYear] = useState("");
   const [endMonth, setEndMonth] = useState("");
 
-  const handleEducationChange = (
+  const handleExperienceChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setEducation({
-      ...education,
+    setExperience({
+      ...experience,
       [name]: value,
     });
   };
-  const handleAddEducation = async () => {
-    if (!user) {
-      notifyError("! unauthenticated user");
-      return;
-    }
+
+  const handleAddExperience = async () => {
     const bodyObj = {
-      ...education,
-      startYear: startMonth + " " + startYear,
-      endYear: endMonth + " " + endYear,
+      ...experience,
+      startYear,
+      endYear,
     };
-    console.log(bodyObj);
-    await addEducation(dispatch, user._id, bodyObj);
-    setEducation({
-      degree: "",
-      institute: "",
+    await addExperience(dispatch, user?._id || "", bodyObj);
+    setExperience({
+      title: "",
+      company: "",
       description: "",
     });
     setStartYear("");
@@ -59,50 +51,51 @@ const Education = () => {
     <>
       <div className="bg-white card-box border-20 mt-40">
         <div>
-          {user?.education.length !== 0 && (
+          {user?.experience.length !== 0 && (
             <div className="inner-card border-style mb-25 lg-mb-20">
-              <h3 className="title">Education</h3>
-              <ShowEducation education={user?.education} />
+              <h3 className="title">Work Experience</h3>
+
+              <WorkExperience experience={user?.experience} />
             </div>
           )}
-          <div className="accordion dash-accordion-one" id="accordionOne">
+          <div className="accordion dash-accordion-one" id="accordionTwo">
             <div className="accordion-item">
-              <div className="accordion-header" id="headingOne">
+              <div className="accordion-header" id="headingOneA">
                 <button
-                  className="accordion-button collapsed"
+                  className="accordion-button  collapsed"
                   type="button"
                   data-bs-toggle="collapse"
-                  data-bs-target="#collapseOne"
+                  data-bs-target="#collapseOneA"
                   aria-expanded="false"
-                  aria-controls="collapseOne"
+                  aria-controls="collapseOneA"
                 >
-                  Add Education
+                  Add Experience{" "}
                   <span className="fw-bold fs-5 mt-1  ">
                     <i className="bi bi-plus"></i>
                   </span>
                 </button>
               </div>
               <div
-                id="collapseOne"
+                id="collapseOneA"
                 className="accordion-collapse collapse"
-                aria-labelledby="headingOne"
-                data-bs-parent="#accordionOne"
+                aria-labelledby="headingOneA"
+                data-bs-parent="#accordionTwo"
               >
                 <div className="accordion-body">
                   <div className="row">
                     <div className="col-lg-2">
                       <div className="dash-input-wrapper mb-30 md-mb-10">
-                        <label htmlFor="degree">Degree*</label>
+                        <label htmlFor="title">Title*</label>
                       </div>
                     </div>
                     <div className="col-lg-10">
                       <div className="dash-input-wrapper mb-30">
                         <input
-                          name="degree"
-                          value={education.degree}
-                          onChange={handleEducationChange}
+                          name="title"
+                          value={experience.title}
+                          onChange={handleExperienceChange}
                           type="text"
-                          placeholder="Bachelor's"
+                          placeholder="Lead Security Manager "
                         />
                       </div>
                     </div>
@@ -110,17 +103,17 @@ const Education = () => {
                   <div className="row">
                     <div className="col-lg-2">
                       <div className="dash-input-wrapper mb-30 md-mb-10">
-                        <label htmlFor="institute">Institute*</label>
+                        <label htmlFor="company">Company*</label>
                       </div>
                     </div>
                     <div className="col-lg-10">
                       <div className="dash-input-wrapper mb-30">
                         <input
-                          name="institute"
-                          value={education.institute}
-                          onChange={handleEducationChange}
+                          name="company"
+                          value={experience.company}
+                          onChange={handleExperienceChange}
                           type="text"
-                          placeholder="Oxford"
+                          placeholder="Amazon Inc"
                         />
                       </div>
                     </div>
@@ -134,6 +127,12 @@ const Education = () => {
                     <div className="col-lg-10">
                       <div className="row">
                         <div className="col-sm-3">
+                          <SelectYear
+                            setYear={setStartYear}
+                            firstInput="Start Year"
+                          />
+                        </div>
+                        <div className="col-sm-3">
                           <SelectMonth
                             setMonth={setStartMonth}
                             firstInput="Start Month"
@@ -142,37 +141,33 @@ const Education = () => {
                         <div className="col-sm-3">
                           <SelectYear
                             setYear={setStartYear}
-                            firstInput="Start Year"
+                            firstInput="End Year"
                           />
                         </div>
-
                         <div className="col-sm-3">
                           <SelectMonth
                             setMonth={setEndMonth}
                             firstInput="End Month"
                           />
                         </div>
-                        <div className="col-sm-3">
-                          <SelectYear
-                            setYear={setEndYear}
-                            firstInput="End Year"
-                          />
-                        </div>
                       </div>
+                    </div>
+                    <div className="col-lg-10">
+                      <div className="row"></div>
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-lg-2">
-                      <div className="dash-input-wrapper mb-15 md-mb-7">
+                      <div className="dash-input-wrapper mb-30 md-mb-10">
                         <label htmlFor="description">Description*</label>
                       </div>
                     </div>
                     <div className="col-lg-10">
                       <div className="dash-input-wrapper mb-30">
                         <textarea
-                          value={education.description}
+                          value={experience.description}
                           name="description"
-                          onChange={handleEducationChange}
+                          onChange={handleExperienceChange}
                           className="size-lg"
                           placeholder="Morbi ornare ipsum sed sem condimentum, et pulvinar tortor luctus. Suspendisse condimentum lorem ut elementum aliquam et pulvinar tortor luctus."
                         ></textarea>
@@ -185,7 +180,7 @@ const Education = () => {
                     data-bs-target="#collapseOne"
                     aria-expanded="false"
                     aria-controls="collapseOne"
-                    onClick={handleAddEducation}
+                    onClick={handleAddExperience}
                     className="dash-btn-two tran3s me-3 mb-15"
                   >
                     Save
@@ -196,9 +191,8 @@ const Education = () => {
           </div>
         </div>
       </div>
-      {<EditEducation />}
     </>
   );
 };
 
-export default Education;
+export default Experience;
