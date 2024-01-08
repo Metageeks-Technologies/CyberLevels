@@ -7,6 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import LoginModal from "../../common/popup/login-modal";
 import { registerJobPostView } from "@/redux/features/jobPost/api";
+import { useRouter } from "next/navigation";
+import { notifyError, notifyWarn } from "@/utils/toast";
 
 const JobGridItem = ({
   item,
@@ -21,16 +23,22 @@ const JobGridItem = ({
   const { isAuthenticated, currUser } = useAppSelector(
     (state) => state.persistedReducer.user
   );
-
+  const {currCandidate} = useAppSelector((state)=> state.candidate.candidateDashboard)
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const isActive = item?.isSaved || false;
   const handleSaveJob = (jobPostId: string) => {
     if (!isActive) {
-      saveJob(dispatch, {
-        jobPostId,
-        candidateId: currUser,
-        page: savedJobsPage,
-      });
+      if(currCandidate?.isProfileCompleted === true){
+        saveJob(dispatch, {
+          jobPostId,
+          candidateId: currUser,
+          page: savedJobsPage,
+        });
+
+      }else{
+        notifyWarn("Please complete your profile.")
+      }
     } else {
       removeSavedJob(dispatch, {
         jobPostId,
@@ -39,9 +47,16 @@ const JobGridItem = ({
       });
     }
   };
-  const handleViewClick = (id:string) => {
-    registerJobPostView(dispatch,id)
-  }
+  const handleViewClick = (id: string) => {
+    if(currCandidate?.isProfileCompleted === true){
+      registerJobPostView(dispatch, id);
+      router.push(`/job-details-v1/${id}`);
+
+    }
+    else{
+      notifyWarn("Please complete your profile.")
+    }
+  };
   const handleSubscribePopup = () => {};
   return (
     <>
@@ -50,46 +65,106 @@ const JobGridItem = ({
           style_2 ? "style-two" : ""
         } position-relative`}
       >
-        <Link href={`/job-details-v1/${item._id}`} className="logo"  onClick={()=>handleViewClick(item._id)}>
-          <Image
-            src={job_img_1}
-            alt="logo"
-            style={{ height: "auto", width: "auto" }}
-            className="lazy-img m-auto"
-          />
-        </Link>
-        <button
-          type="button"
-          disabled={loading}
-          onClick={() => handleSaveJob(item._id)}
-          className={`save-btn text-center rounded-circle tran3s cursor-pointer ${
-            isActive ? "active" : ""
-          }`}
-          title={`${isActive ? "Remove Job" : "Save Job"}`}
-        >
-          <i className="bi bi-bookmark-dash"></i>
-        </button>
-        <div className="d-flex gap-2 mt-40 mb-40  flex-wrap ">
-          {item?.jobType?.map((val, index) => (
-            <Link
-              href={`/job-details-v1/${item._id}`}
-              onClick={()=>handleViewClick(item._id)}
-              className={`job-duration fw-500 ${
-                val == "part-time" ? "part-time" : ""
+        {isAuthenticated ? (
+          <div className="logo cursor-pointer" onClick={() => handleViewClick(item._id)}>
+            <Image
+              src={job_img_1}
+              alt="logo"
+              style={{ height: "auto", width: "auto" }}
+              className="lazy-img m-auto"
+            />
+          </div>
+        ) : (
+          <button
+            data-bs-toggle="modal"
+            data-bs-target="#loginModal"
+            type="button"
+            //  className="apply-btn text-center tran3s"
+            onClick={handleSubscribePopup}
+          >
+            <div className="logo" onClick={() => handleViewClick(item._id)}>
+              <Image
+                src={job_img_1}
+                alt="logo"
+                style={{ height: "auto", width: "auto" }}
+                className="lazy-img m-auto"
+              />
+            </div>
+          </button>
+        )}
+        {isAuthenticated ? (
+          <button
+            type="button"
+            disabled={loading}
+            onClick={() => handleSaveJob(item._id)}
+            className={`save-btn text-center rounded-circle tran3s cursor-pointer ${
+              isActive ? "active" : ""
+            }`}
+            title={`${isActive ? "Remove Job" : "Save Job"}`}
+          >
+            <i className="bi bi-bookmark-dash"></i>
+          </button>
+        ) : (
+          <button
+            data-bs-toggle="modal"
+            data-bs-target="#loginModal"
+            type="button"
+            //  className="apply-btn text-center tran3s"
+            onClick={handleSubscribePopup}
+          >
+            <button
+              type="button"
+              disabled={loading}
+              // onClick={() => handleSaveJob(item._id)}
+              className={`save-btn text-center rounded-circle tran3s cursor-pointer ${
+                isActive ? "active" : ""
               }`}
+              // title={`${isActive ? "Remove Job" : "Save Job"}`}
             >
-              {val}
-            </Link>
-          ))}
+              <i className="bi bi-bookmark-dash"></i>
+            </button>
+          </button>
+        )}
+        <div className="d-flex gap-2 mt-40 mb-40  flex-wrap cursor-pointer">
+          {item?.jobType?.map((val, index) =>
+            isAuthenticated ? (
+              <div
+                onClick={() => handleViewClick(item._id)}
+                className={`job-duration fw-500 ${
+                  val == "part-time" ? "part-time" : ""
+                }`}
+              >
+                {val}
+              </div>
+            ) : (
+              <button
+                data-bs-toggle="modal"
+                data-bs-target="#loginModal"
+                type="button"
+                //  className="apply-btn text-center tran3s"
+                onClick={handleSubscribePopup}
+              >
+                <div
+                  //  onClick={() => handleViewClick(item._id)}
+                  className={`job-duration fw-500 ${
+                    val == "part-time" ? "part-time" : ""
+                  }`}
+                >
+                  {val}
+                </div>
+              </button>
+            )
+          )}
         </div>
-        <div>
-          <Link
-            href={`/job-details-v1/${item._id}`}
-            onClick={()=>handleViewClick(item._id)}
+        {isAuthenticated ? (
+          <div className="cursor-pointer">
+          <div>
+          <div
+            onClick={() => handleViewClick(item._id)}
             className="title fw-500 tran3s"
           >
             {item.title}
-          </Link>
+          </div>
         </div>
         <div className="job-salary">
           <span className="fw-500 text-dark">
@@ -98,30 +173,59 @@ const JobGridItem = ({
         </div>
         <div className="d-flex align-items-center justify-content-between mt-auto">
           <div className="job-location">
-            <Link href={`/job-details-v1/${item._id}`}  onClick={()=>handleViewClick(item._id)} >{item.location}</Link>
+            <div onClick={() => handleViewClick(item._id)}>{item.location}</div>
           </div>
-          {isAuthenticated ? (
-            <Link
-              href={`/job-details-v1/${item._id}`}
-              // href={"/dashboard/candidate-dashboard/membership"}
-              className="apply-btn text-center tran3s"
-              onClick={()=>handleViewClick(item._id)}
-            >
-              View
-            </Link>
-          ) : (
-            <button
-              data-bs-toggle="modal"
-              data-bs-target="#loginModal"
-              type="button"
-              className="apply-btn text-center tran3s"
-              onClick={handleSubscribePopup}
-            >
-              View
-            </button>
-          )}
+
+          <div
+            // href={`/job-details-v1/${item._id}`}
+            // href={"/dashboard/candidate-dashboard/membership"}
+            className="apply-btn text-center tran3s"
+            onClick={() => handleViewClick(item._id)}
+          >
+            View
+          </div>
         </div>
-      </div>
+          </div>
+        ) : (
+          <button
+            data-bs-toggle="modal"
+            data-bs-target="#loginModal"
+            type="button"
+            // className="apply-btn text-center tran3s"
+            onClick={handleSubscribePopup}
+          >
+            <div>
+          <div
+            // onClick={() => handleViewClick(item._id)}
+            className="title fw-500 tran3s"
+          >
+            {item.title}
+          </div>
+        </div>
+        <div className="job-salary">
+          <span className="fw-500 text-dark">
+            ${`${item.salary.minimum}-${item.salary.maximum}`} PA
+          </span>
+        </div>
+        <div className="d-flex align-items-center justify-content-between mt-auto">
+          <div className="job-location">
+            <div 
+            // onClick={() => handleViewClick(item._id)}
+            >{item.location}</div>
+          </div>
+
+          <div
+            // href={`/job-details-v1/${item._id}`}
+            // href={"/dashboard/candidate-dashboard/membership"}
+            className="apply-btn text-center tran3s"
+            // onClick={() => handleViewClick(item._id)}
+          >
+            View
+          </div>
+        </div>
+          </button>
+        )}
+        </div>
       {/* login modal start */}
       <LoginModal />
       {/* login modal end */}

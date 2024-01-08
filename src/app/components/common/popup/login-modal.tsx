@@ -33,10 +33,12 @@ const LoginModal = () => {
             ></button>
             <div className="text-center">
               <h2>Hi, Welcome Back!</h2>
+              {activeTab==="employer" &&
               <p>
                 Still do not have an account?{" "}
                 <a href="#">contact us at register@cyberlevels.com</a>
               </p>
+              }
             </div>
             <div className="form-wrapper m-auto" >
               <ul className="nav nav-tabs border-0 mt-30" role="tablist">
