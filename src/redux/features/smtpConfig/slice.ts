@@ -1,12 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { SmtpConfig } from './api';
 
-interface SmtpConfig {
-  host: string;
-  port: number;
-  secure: boolean;
-  user: string;
-  pass: string;
-}
+
 
 interface SmtpConfigState {
   data: SmtpConfig | null;

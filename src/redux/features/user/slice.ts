@@ -16,6 +16,7 @@ export interface userState {
     error: string | null,
     userRole: string,
     whoIsTryingToLoginWithLn: string,
+    whoIsTryingToLoginWithGoogle: string,
     avatar: string,
     name: string,
 }
@@ -27,7 +28,8 @@ const initialState: userState = {
     userRole: "",
     avatar: "none",
     whoIsTryingToLoginWithLn: "",
-    name: ""
+    name: "",
+    whoIsTryingToLoginWithGoogle:"",
 }
 
 export const userSlice = createSlice({
@@ -58,6 +60,7 @@ export const userSlice = createSlice({
             state.userRole = ""
             state.error = null,
                 state.whoIsTryingToLoginWithLn = ""
+                state.whoIsTryingToLoginWithGoogle=""
         },
         logoutUserFail: (state, action: PayloadAction<string>) => {
             state.loading = false;
@@ -66,9 +69,12 @@ export const userSlice = createSlice({
         setLoggerWithLn: (state, action: PayloadAction<string>) => {
             state.whoIsTryingToLoginWithLn = action.payload
         },
+        setLoggerWithGoogle: (state,action: PayloadAction<string>) => {
+            state.whoIsTryingToLoginWithGoogle = action.payload;
+        }
 
     },
 })
 
-export const { getUserFail, getUserStart, setLoggerWithLn, getUserSuccess, logoutUserFail, logoutUserSuccess } = userSlice.actions
+export const { getUserFail, getUserStart, setLoggerWithLn, getUserSuccess, logoutUserFail, logoutUserSuccess, setLoggerWithGoogle } = userSlice.actions
 export default userSlice.reducer

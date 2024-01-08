@@ -10,10 +10,11 @@ import {
   updateSmtpConfigSuccess,
   
 } from "./slice";
+import { String } from "lodash";
 
-interface SmtpConfig {
+export interface SmtpConfig {
   host: string;
-  port: number;
+  port: string;
   secure: boolean;
   user: string;
   pass: string;
@@ -23,7 +24,8 @@ export const getSmtpConfigs = async (dispatch: AppDispatch) => {
   dispatch(fetchSmtpConfigRequest());
   try {
     const { data } = await instance.get("/smtpConfig");
-    dispatch(setSmtpConfig(data));
+    // console.log(data[0],"From api")
+    dispatch(fetchSmtpConfigSuccess(data[0]));
     return data;
   } catch (error) {
     const e = error as AxiosError;
@@ -48,10 +50,10 @@ export const updateSmtpConfig = async (dispatch: AppDispatch, smtpConfig: SmtpCo
   dispatch(fetchSmtpConfigRequest());
   try {
     // Assuming you have an identifier to determine which configuration to update
-    const { data } = await instance.put("/smtpConfig", smtpConfig);
-
+    const { data } = await instance.patch("/smtpConfig", smtpConfig);
+    console.log(data);
     dispatch(updateSmtpConfigSuccess(data));
-    return data;
+    // return data;
   } catch (error) {
     const e = error as AxiosError;
     dispatch(fetchSmtpConfigError(e.message));
