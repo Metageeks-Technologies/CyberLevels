@@ -52,7 +52,7 @@ const page = () => {
         const isLoginSuccessful = await loginWithLn(dispatch, requestData);
 
         if (isLoginSuccessful)
-          router.push(`/dashboard/${whoIsTryingToLoginWithLn}-dashboard`);
+          router.push(`/`);
         else router.push("/");
       };
 
@@ -85,7 +85,7 @@ const page = () => {
         const isLoginSuccessful = await loginWithGoogle(dispatch, requestData);
 
         if (isLoginSuccessful)
-          router.push(`/dashboard/${whoIsTryingToLoginWithGoogle}-dashboard`);
+          router.push(`/`);
         else router.push("/");
       };
 
