@@ -49,7 +49,7 @@ const JobGridItem = ({
   };
   const handleViewClick = (id: string) => {
     if(currCandidate?.isProfileCompleted === true){
-      registerJobPostView(dispatch, id);
+      // registerJobPostView(dispatch, id);
       router.push(`/job-details-v1/${id}`);
 
     }

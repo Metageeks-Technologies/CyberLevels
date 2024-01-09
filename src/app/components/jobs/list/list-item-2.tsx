@@ -43,7 +43,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
   };
   const handleViewClick = (id: string) => {
     if(currCandidate?.isProfileCompleted === true){
-      registerJobPostView(dispatch, id);
+      // registerJobPostView(dispatch, id);
       router.push(`/job-details-v1/${id}`);
 
     }
@@ -128,7 +128,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
             // className="apply-btn text-center tran3s"
             onClick={handleSubscribePopup}
           >
-            <div className="row justify-content-between align-items-center">
+            <div className="row justify-content-between align-items-center cursor-pointer">
               <div className="col-md-5">
                 <div className="job-title d-flex align-items-center">
                   <div
