@@ -2,6 +2,7 @@
 import icon_3 from "@/assets/images/icon/icon_10.svg";
 import DropZone from "@/layouts/dropZone";
 import { updateAvatar } from "@/redux/features/candidate/api";
+import { setFile, setUploadProgress } from "@/redux/features/globalSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { ICandidate } from "@/types/user-type";
 import { notifyError } from "@/utils/toast";
@@ -18,24 +19,20 @@ import Softskills from "./resume/Softskills";
 import Experience from "./resume/Experience";
 import Education from "./resume/Education";
 import Certificate from "./resume/Certification";
-import {
-  setPhotoFile,
-  setPhotoUploadProgress,
-} from "@/redux/features/candidate/dashboardSlice";
-
+import SelfDeclaration from "./profile/SelfDecalration";
+import Preferences from "./profile/Preferences";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
-  const {
-    currCandidate,
-    loading,
-    photoUploadProgress,
-    photoFile: file,
-  } = useAppSelector((state) => state.candidate.candidateDashboard);
+  const { currCandidate, loading } = useAppSelector(
+    (state) => state.candidate.candidateDashboard
+  );
   const dispatch = useAppDispatch();
   const user = currCandidate as ICandidate;
+
+  const { file } = useAppSelector((s) => s.global);
 
   const handleProfilePhoto = async () => {
     if (!user) {
@@ -47,7 +44,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
     const supportedFormat = ["image/jpeg", "image/png"];
     if (!file || !supportedFormat.includes(file?.type) || file.size > 1048576) {
       notifyError("Please upload Profile Photo in supported format.");
-      dispatch(setPhotoFile(null));
+      dispatch(setFile(null));
       return;
     }
 
@@ -61,11 +58,8 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
     };
     await updateAvatar(dispatch, file, metaData);
 
-    dispatch(setPhotoFile(null));
-    dispatch(setPhotoUploadProgress(0));
-  };
-  const handlePhotoChange = (file: File | null) => {
-    dispatch(setPhotoFile(file));
+    dispatch(setFile(null));
+    dispatch(setUploadProgress(0));
   };
 
   return (
@@ -84,7 +78,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
                 <img
                   width={50}
                   height={50}
-                  src={user.avatar}
+                  src={user?.avatar}
                   // src={
                   //   user?.avatar !== "none" || false
                   //     ? (user?.avatar as string)
@@ -96,9 +90,8 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
                 {!file && (
                   <div className=" upload-btn position-relative tran3s ms-4 me-3">
                     <DropZone
-                      setFile={handlePhotoChange}
                       text={
-                        user.avatar
+                        user?.avatar
                           ? "Update profile photo"
                           : "Upload profile photo"
                       }
@@ -107,35 +100,21 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
                 )}
                 {file && (
                   <>
-                    <div className="d-flex flex-column gap-2  justify-content-center   ">
+                    <div className="d-flex flex-column justify-content-center   ">
                       <button
-                        disabled={photoUploadProgress !== 0}
-                        type="button"
                         onClick={handleProfilePhoto}
-                        className="dash-btn-one position-relative tran3s ms-4 me-3"
+                        className="upload-btn position-relative tran3s ms-4 me-3"
                       >
-                        {photoUploadProgress !== 0
-                          ? `${photoUploadProgress}% `
-                          : "Save"}
+                        {"Save"}
                       </button>
-                      <button
-                        className="btn-hover-underline"
-                        onClick={() => dispatch(setPhotoFile(null))}
-                      >
-                        Cancel
-                      </button>
+                      <div className="ms-4 mt-1 ">
+                        <small>
+                          Upload square image in .png, .jpeg, max 1mb sized
+                        </small>
+                      </div>
                     </div>
+                    <p className="dash-title-three">{file?.name}</p>
                   </>
-                )}
-                {file && (
-                  <div className="ms-4 mt-1 ">
-                    <p className="dash-title-three mb-0 ">
-                      {file?.name} {`(${(file.size / 1000000).toFixed(2)} mb)`}
-                    </p>
-                    <small>
-                      *Upload square image in .png, .jpeg, max 1mb sized
-                    </small>
-                  </div>
                 )}
               </div>
               <div>
@@ -160,7 +139,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
           {/* Profile end */}
 
           {/* resume start */}
-          <UploadResume resume={user.resumes} />
+          <UploadResume />
           {/* resume end */}
 
           <div className="bg-white card-box border-20 mt-40">
@@ -197,6 +176,8 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
           </div>
 
           <Location />
+          <SelfDeclaration />
+          <Preferences />
         </div>
       </div>
     </>

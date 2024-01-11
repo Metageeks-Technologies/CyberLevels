@@ -7,48 +7,61 @@ import { Value } from "sass";
 import { notifyError, notifyInfo, notifySuccess } from "@/utils/toast";
 import { updateCurrCandidate } from "@/redux/features/candidate/api";
 import LocationAutoComplete from "@/ui/locationAutoComplete";
+import NiceSelect from "@/ui/nice-select";
 
-const EditLocation = () => {
+const EditSelfDeclaration = () => {
   const { currCandidate, loading } = useAppSelector(
     (state) => state.candidate.candidateDashboard
   );
   const dispatch = useAppDispatch();
   const user = currCandidate;
 
-  const [city, setCity] = useState(user?.location?.city);
-  const [country, setCountry] = useState(user?.location?.country);
+//   const [gender, setGender] = useState(user?.location?.city);
+//   const [race, setRace] = useState(user?.location?.country);
+//   const [ethnicity, setEthnicity] = useState(user?.location?.country);
+    const [selfDeclaration, setSelfDeclaration] = useState({
+        gender:"",
+        race:"",
+    });
+
+    const handleSelfDeclarationChange = (item:{value:string,label:string},name:string) => {
+        setSelfDeclaration({
+            ...selfDeclaration,
+            [name] : item.value,
+        })
+    }
+
+
+
 
   const handleSave = async () => {
-    const location = {
-      city,
-      country,
-    };
+    
     // validation
-    if (!location.city || !location.country) {
+    if (
+      !selfDeclaration.gender ||
+      !selfDeclaration.race
+    ) {
       notifyInfo("field with marked * can't be empty");
       return;
     }
 
     if (currCandidate) {
       const isUpdated = await updateCurrCandidate(dispatch, currCandidate._id, {
-        location,
+        selfDeclaration,
       });
 
       if (isUpdated) {
         notifySuccess("Location updated updated successfully");
       } else notifyError("something went wrong try again");
-
     }
-    setCity("");
-    setCountry("");
   };
-  console.log(city, country);
+  console.log(selfDeclaration);
 
   return (
     <>
       <div
         className="modal fade"
-        id="locationModal"
+        id="selfDeclarationModal"
         tabIndex={-1}
         aria-hidden="true"
       >
@@ -66,28 +79,43 @@ const EditLocation = () => {
                 <div className="row">
                   <div className="col-12">
                     <div className="dash-input-wrapper mb-25">
-                      <label htmlFor="city">City*</label>
-                      <LocationAutoComplete
-                        selected={city}
-                        setSelected={setCity}
-                        setCountry={setCountry}
-                        type="cities"
-                        label="City"
+                      <label htmlFor="city">Gender*</label>
+                      <NiceSelect
+                        options={[
+                          { value: "Male", label: "Male" },
+                          { value: "Female", label: "Female" },
+                          { value: "Other", label: "Other" },
+                        ]}
+                        defaultCurrent={0}
+                        onChange={(item) => handleSelfDeclarationChange(item,"gender")}
+                        name="gender"
+                        placeholder="Gender"
+                        cls="bg-white"
                       />
                     </div>
                   </div>
                   <div className="col-12">
                     <div className="dash-input-wrapper mb-25">
-                      <label htmlFor="">Country*</label>
-                      <LocationAutoComplete
-                        selected={country}
-                        setSelected={setCountry}
-                        type="regions"
-                        label="Country"
+                      <label htmlFor="">Race*</label>
+                      <NiceSelect
+                        options={[
+                          { value: "White", label: "White" },
+                          { value: "Black or African American", label: "Black or African American" },
+                          { value: "American Indian or Alaska Native", label: "American Indian or Alaska Native" },
+                          { value: "Asian", label: "Asian" },
+                          { value: "Native Hawaiian or Other Pacific Islander", label: "Native Hawaiian or Other Pacific Islander" },
+                        ]}
+                        defaultCurrent={0}
+                        onChange={(item) => handleSelfDeclarationChange(item,"race")}
+                        name="race"
+                        placeholder="Race"
+                        cls="bg-white"
                       />
                     </div>
                   </div>
+                  
                 </div>
+
                 <div className="button-group d-inline-flex align-items-center mt-30">
                   <button
                     onClick={handleSave}
@@ -116,4 +144,4 @@ const EditLocation = () => {
   );
 };
 
-export default EditLocation;
+export default EditSelfDeclaration;

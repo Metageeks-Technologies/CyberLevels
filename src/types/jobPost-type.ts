@@ -1,8 +1,9 @@
+import { ICandidate } from "@/data/candidate-data";
 import { ICompany } from "./company";
 import { IEmployer } from "./user-type";
 
 interface JobPostView {
-    
+    viewed_by?: ICandidate
     view_count?: number;
     view_timestamp?: string;
 }
