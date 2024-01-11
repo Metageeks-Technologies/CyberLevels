@@ -10,19 +10,18 @@ import { useEffect } from "react";
 const page = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { whoIsTryingToLoginWithLn, whoIsTryingToLoginWithGoogle, loading } = useAppSelector(
-    (state) => state.persistedReducer.user
-  );
+  const { whoIsTryingToLoginWithLn, whoIsTryingToLoginWithGoogle, loading } =
+    useAppSelector((state) => state.persistedReducer.user);
 
   const urlParams = new URLSearchParams(window.location.search);
   const state = urlParams.get("state");
-  if ((!whoIsTryingToLoginWithLn && !whoIsTryingToLoginWithGoogle) || !state) {
-    // console.log(state)
-    // console.log(whoIsTryingToLoginWithGoogle)
-    alert(
-      "There is change in browser,please complete the login process with one browser only"
-    );
-  }
+  // if ((!whoIsTryingToLoginWithLn && !whoIsTryingToLoginWithGoogle) || !state) {
+  //   // console.log(state)
+  //   // console.log(whoIsTryingToLoginWithGoogle)
+  //   alert(
+  //     "There is change in browser,please complete the login process with one browser only"
+  //   );
+  // }
 
   useEffect(() => {
     if (whoIsTryingToLoginWithLn && state) {
@@ -51,14 +50,12 @@ const page = () => {
       const handleLogin = async () => {
         const isLoginSuccessful = await loginWithLn(dispatch, requestData);
 
-        if (isLoginSuccessful)
-          router.push(`/`);
+        if (isLoginSuccessful) router.push(`/`);
         else router.push("/");
       };
 
       handleLogin();
-    }
-    else if(whoIsTryingToLoginWithGoogle && state){
+    } else if (whoIsTryingToLoginWithGoogle && state) {
       type RequestData = {
         code?: string;
         state: string;
@@ -84,8 +81,7 @@ const page = () => {
       const handleLogin = async () => {
         const isLoginSuccessful = await loginWithGoogle(dispatch, requestData);
 
-        if (isLoginSuccessful)
-          router.push(`/`);
+        if (isLoginSuccessful) router.push(`/`);
         else router.push("/");
       };
 

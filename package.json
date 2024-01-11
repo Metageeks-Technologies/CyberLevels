@@ -13,7 +13,7 @@
     "@emailjs/browser": "^3.11.0",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
-    "@hookform/resolvers": "^3.1.1",
+    "@hookform/resolvers": "^3.3.4",
     "@phosphor-icons/react": "^2.0.13",
     "@popperjs/core": "^2.11.8",
     "@reduxjs/toolkit": "^1.9.5",
@@ -69,6 +69,7 @@
     "yup": "^1.2.0"
   },
   "devDependencies": {
+    "@types/bootstrap": "^5.2.10",
     "@types/circular-json": "^0.4.0",
     "@types/lodash": "^4.14.200",
     "@types/react-places-autocomplete": "^7.2.10"

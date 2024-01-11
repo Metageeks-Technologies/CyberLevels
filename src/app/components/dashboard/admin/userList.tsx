@@ -5,6 +5,7 @@ import DashboardHeader from "../candidate/dashboard-header";
 // import ActionDropdown from "./action-dropdown-sabJobs";
 import CandidateList from "./user/candidates";
 import EmployerList from "./user/employer";
+import CreateEmployerModal from "./user/utils/addemployerpopup";
 
 // props type
 type IProps = {
@@ -38,7 +39,15 @@ const UserList = ({ setIsOpenSidebar }: IProps) => {
               Employer
             </p>
           </div>
-          <div className="short-filter d-flex align-items-center">
+          <div className="short-filter d-flex align-items-center dash-btn-one ">
+            <button
+              data-bs-toggle="modal"
+              data-bs-target="#createEmployerModal"
+              type="button"
+              className="apply-btn text-center tran3s"
+            >
+              Create employer
+            </button>
             <div className="text-dark fw-500 me-2">Short by:</div>
             <ShortSelect />
           </div>
@@ -48,6 +57,7 @@ const UserList = ({ setIsOpenSidebar }: IProps) => {
           {isCandidate ? <CandidateList /> : <EmployerList />}
         </div>
       </div>
+      <CreateEmployerModal />
     </div>
   );
 };
