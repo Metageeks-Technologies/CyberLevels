@@ -19,6 +19,8 @@ import Softskills from "./resume/Softskills";
 import Experience from "./resume/Experience";
 import Education from "./resume/Education";
 import Certificate from "./resume/Certification";
+import SelfDeclaration from "./profile/SelfDecalration";
+import Preferences from "./profile/Preferences";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -76,7 +78,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
                 <img
                   width={50}
                   height={50}
-                  src={user.avatar}
+                  src={user?.avatar}
                   // src={
                   //   user?.avatar !== "none" || false
                   //     ? (user?.avatar as string)
@@ -89,7 +91,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
                   <div className=" upload-btn position-relative tran3s ms-4 me-3">
                     <DropZone
                       text={
-                        user.avatar
+                        user?.avatar
                           ? "Update profile photo"
                           : "Upload profile photo"
                       }
@@ -174,6 +176,8 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
           </div>
 
           <Location />
+          <SelfDeclaration />
+          <Preferences />
         </div>
       </div>
     </>

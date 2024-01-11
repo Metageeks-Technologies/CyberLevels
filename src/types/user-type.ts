@@ -73,16 +73,24 @@ export interface ICandidate {
     certificate: string[],
     experience: IExperience[],
     education: IEducation[],
-    socialSites: ISocial;
+    socialSites: ISocial,
+    experienceInYears:number,
     expectedSalary: {
         currency: {
             abbreviation: string;
             name: string;
             symbol: string;
         },
-        salary: number,
+        min: number,
+        max:number,
         period: string
     },
+    selfDeclaration: {
+        gender:string,
+        race:string
+    },
+    preferredLocations:string[],
+    preferredLanguages:string[],
     isProfileCompleted: boolean,
     gender: "male" | "female" | "others";
     location: ILocation,

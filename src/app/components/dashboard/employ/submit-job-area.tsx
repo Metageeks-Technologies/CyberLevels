@@ -33,7 +33,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     (state: RootState) => state.jobPost
   );
 
-  const { currEmployer } = useAppSelector((s) => s.employer);
+  const { currEmployer } = useAppSelector((state) => state.employer);
 
   const [title, setTitle] = useState("");
   const [jobCategory, setJobCategory] = useState("");
@@ -82,8 +82,8 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const [deadlineDate, setDeadlineDate] = useState<Date | null>(null);
   // const [fetchedLanguages, setFetchedLanguages] = useState<string[]>(languages);
 
-  const { languages } = useSelector((state: RootState) => state.language);
-  const { currencies } = useSelector((state: RootState) => state.currency);
+  const { languages } = useAppSelector((state: RootState) => state.language);
+  const { currencies } = useAppSelector((state: RootState) => state.currency);
   useEffect(() => {
     getAllLanguages(dispatch);
     getAllCurrencies(dispatch);

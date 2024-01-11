@@ -5,6 +5,7 @@ import SelectMonth from "../select-month";
 import SelectYear from "../select-year";
 import { addExperience } from "@/redux/features/candidate/api";
 import WorkExperience from "@/app/components/candidate-details/work-experience";
+import { notifyInfo } from "@/utils/toast";
 const Experience = () => {
   const dispatch = useAppDispatch();
   const { currCandidate, loading } = useAppSelector(
@@ -20,6 +21,7 @@ const Experience = () => {
   const [startMonth, setStartMonth] = useState("");
   const [endYear, setEndYear] = useState("");
   const [endMonth, setEndMonth] = useState("");
+  const [allFieldsCheck,setAllFieldsCheck] = useState(false);
 
   const handleExperienceChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -29,9 +31,18 @@ const Experience = () => {
       ...experience,
       [name]: value,
     });
+    if(!experience.title || !experience.company || !experience.description || !startYear || startYear ==="Start Year" || !startMonth || startMonth ==="Start Month" || !endYear || endYear ==="End Year" || !endMonth || endMonth ==="End Month"){
+      // notifyInfo("Please Complete fields marked with *");
+      return;
+    }
+    setAllFieldsCheck(true);
   };
 
   const handleAddExperience = async () => {
+    if(!experience.title || !experience.company || !experience.description || !startYear || startYear ==="Start Year" || !startMonth || startMonth ==="Start Month" || !endYear || endYear ==="End Year" || !endMonth || endMonth ==="End Month"){
+      notifyInfo("Please Complete fields marked with *");
+      return;
+    }
     const bodyObj = {
       ...experience,
       startYear,
@@ -45,6 +56,9 @@ const Experience = () => {
     });
     setStartYear("");
     setEndYear("");
+    setStartMonth("");
+    setEndMonth("");
+    setAllFieldsCheck(false);
   };
 
   return (
@@ -140,7 +154,7 @@ const Experience = () => {
                         </div>
                         <div className="col-sm-3">
                           <SelectYear
-                            setYear={setStartYear}
+                            setYear={setEndYear}
                             firstInput="End Year"
                           />
                         </div>
@@ -174,10 +188,11 @@ const Experience = () => {
                       </div>
                     </div>
                   </div>
+                  {allFieldsCheck === true ? 
                   <button
                     type="button"
                     data-bs-toggle="collapse"
-                    data-bs-target="#collapseOne"
+                    data-bs-target="#collapseOneA"
                     aria-expanded="false"
                     aria-controls="collapseOne"
                     onClick={handleAddExperience}
@@ -185,6 +200,19 @@ const Experience = () => {
                   >
                     Save
                   </button>
+                  :
+                  <button
+                    type="button"
+                    // data-bs-toggle="collapse"
+                    // data-bs-target="#collapseOneA"
+                    // aria-expanded="false"
+                    // aria-controls="collapseOne"
+                    onClick={handleAddExperience}
+                    className="dash-btn-two tran3s me-3 mb-15"
+                  >
+                    Save
+                  </button>
+                  }
                 </div>
               </div>
             </div>
