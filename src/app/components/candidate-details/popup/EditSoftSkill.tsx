@@ -18,6 +18,10 @@ const EditSoftSkill = ({ skills }: { skills: string[] }) => {
   );
   const handleSave = async () => {
     if (currCandidate) {
+      if(_skills.length === 0){
+        notifyInfo("Soft Skills cannot be empty");
+        return;
+      }
       const isUpdated = await updateCurrCandidate(dispatch, currCandidate._id, {
         softSkills: _skills,
       });
@@ -87,6 +91,17 @@ const EditSoftSkill = ({ skills }: { skills: string[] }) => {
                   </div>
 
                   <div className="button-group d-inline-flex align-items-center mt-30">
+                    {_skills.length === 0 ? 
+                    <button
+                    onClick={handleSave}
+                    className="dash-btn-two tran3s me-3"
+                    type="button"
+                    // data-bs-dismiss="modal"
+                    // aria-label="Close"
+                  >
+                    Save
+                  </button>
+                    :
                     <button
                       onClick={handleSave}
                       className="dash-btn-two tran3s me-3"
@@ -96,6 +111,7 @@ const EditSoftSkill = ({ skills }: { skills: string[] }) => {
                     >
                       Save
                     </button>
+                    }
                     <button
                       className="dash-cancel-btn tran3s"
                       type="button"

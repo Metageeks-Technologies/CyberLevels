@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import ShowEducation from "../../../candidate-details/DashEducation";
 import SelectYear from "../select-year";
 import { addEducation } from "@/redux/features/candidate/api";
-import { notifyError } from "@/utils/toast";
+import { notifyError, notifyInfo } from "@/utils/toast";
 import SelectMonth from "../select-month";
 import EditEducation from "@/app/components/candidate-details/popup/EditEducation";
 
@@ -24,7 +24,7 @@ const Education = () => {
   const [startMonth, setStartMonth] = useState("");
   const [endYear, setEndYear] = useState("");
   const [endMonth, setEndMonth] = useState("");
-
+  const [allFieldsCheck,setAllFieldsCheck] = useState(false);
   const handleEducationChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -33,8 +33,19 @@ const Education = () => {
       ...education,
       [name]: value,
     });
+    if(!education.degree || !education.description || !education.institute || !startYear || startYear ==="Start Year" || !startMonth || startMonth ==="Start Month" || !endYear || endYear ==="End Year" || !endMonth || endMonth ==="End Month"){
+      
+      return;
+    }
+    setAllFieldsCheck(true);
+    console.log(allFieldsCheck,"Validator");
   };
   const handleAddEducation = async () => {
+    if(!education.degree || !education.description || !education.institute || !startYear || startYear ==="Start Year" || !startMonth || startMonth ==="Start Month" || !endYear || endYear ==="End Year" || !endMonth || endMonth ==="End Month"){
+      notifyInfo("Please complete fields marked with *");
+      return;
+    }
+
     if (!user) {
       notifyError("! unauthenticated user");
       return;
@@ -53,6 +64,7 @@ const Education = () => {
     });
     setStartYear("");
     setEndYear("");
+    setAllFieldsCheck(false);
   };
 
   return (
@@ -179,6 +191,7 @@ const Education = () => {
                       </div>
                     </div>
                   </div>
+                  {allFieldsCheck === true ? 
                   <button
                     type="button"
                     data-bs-toggle="collapse"
@@ -190,6 +203,19 @@ const Education = () => {
                   >
                     Save
                   </button>
+                  :
+                  <button
+                    type="button"
+                    // data-bs-toggle="collapse"
+                    // data-bs-target="#collapseOne"
+                    // aria-expanded="false"
+                    // aria-controls="collapseOne"
+                    onClick={handleAddEducation}
+                    className="dash-btn-two tran3s me-3 mb-15"
+                  >
+                    Save
+                  </button>
+                  }
                 </div>
               </div>
             </div>

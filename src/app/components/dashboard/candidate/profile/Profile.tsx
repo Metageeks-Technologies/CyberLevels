@@ -55,6 +55,17 @@ const Profile = () => {
         /> */}
           {/* <input type="text" placeholder="Brower" /> */}
         </div>
+        <div className="dash-input-wrapper mb-30 col-5">
+          <label htmlFor="lastName">Experience in years</label>
+          <div className="d-flex  align-items-center position-relative">
+            <input
+              type="number"
+              placeholder="Enter your experience in years"
+              value={user?.experienceInYears}
+              readOnly
+            />
+          </div>
+        </div>
         <div className="dash-input-wrapper w-100 ">
           <label htmlFor="bio">Bio</label>
 
