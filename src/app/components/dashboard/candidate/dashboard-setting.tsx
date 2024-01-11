@@ -1,21 +1,44 @@
 import React from "react";
 import DashboardHeader from "./dashboard-header";
 import ChangePasswordArea from "./change-password";
+// import { ColorProvider } from '../../themeSelector';
+import { AppProps } from 'next/app';
+// import YourComponent from "./myApp";
+import {handleBackup} from "../../../../redux/backupButton";
+import App from "../../themeSelector"
 
 // props type 
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const DashboardSettingArea = ({setIsOpenSidebar}:IProps) => {
+const DashboardSettingArea = ({setIsOpenSidebar}:IProps,{Component,pageProps}: AppProps) => {
+  
+  const backup =async () => {
+    try{
+      const backup = await handleBackup();
+      console.log(backup);
+    } catch(error){
+      console.log(error);
+    }
+  };
+ 
   return (
+    // <ColorProvider>
     <div className="dashboard-body">
       <div className="position-relative">
         {/* header start */}
         <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
         {/* header end */}
-
+        
+        <div className="d-flex justify-content-end">
+        <button className="dash-btn-two tran3s me-3 rounded-3 " onClick={backup}>backup</button>
+        </div>
         <h2 className="main-title">Account Settings</h2>
+     
+       
+     
+   
 
         <div className="bg-white card-box border-20">
           <h4 className="dash-title-three">Edit & Update</h4>
@@ -64,11 +87,18 @@ const DashboardSettingArea = ({setIsOpenSidebar}:IProps) => {
           </form>
         </div>
 
+
         {/* change password area */}
         <ChangePasswordArea />
         {/* change password area */}
       </div>
+      <div className="mt-3">
+      <div className="bg-white card-box border-20">             
+        <App />
+      </div>
+      </div> 
     </div>
+    // </ColorProvider>
   );
 };
 

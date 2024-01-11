@@ -52,6 +52,10 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
     dispatch(setUploadProgress(0));
   };
 
+  const handleFile = (file: File | null) => {
+    setFile(file);
+  };
+
   return (
     <>
       {currEmployer && (
@@ -81,6 +85,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
                   {!file && (
                     <div className=" upload-btn position-relative tran3s ms-4 me-3">
                       <DropZone
+                        setFile={handleFile}
                         text={
                           user?.avatar
                             ? "Update profile photo"

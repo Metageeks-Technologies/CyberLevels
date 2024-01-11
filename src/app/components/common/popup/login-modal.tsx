@@ -4,7 +4,9 @@ import Link from "next/link";
 import LoginForm from "../../forms/login-form";
 import google from "@/assets/images/icon/google.png";
 import { useDispatch } from "react-redux";
-import { setLoggerWithLn } from "@/redux/features/userSlice";
+import { setLoggerWithLn,setLoggerWithGoogle } from "@/redux/features/userSlice";
+// import {  } from "@/redux/features/user/slice";
+
 
 const LoginModal = () => {
   const [activeTab, setActiveTab] = useState("candidate");
@@ -31,12 +33,14 @@ const LoginModal = () => {
             ></button>
             <div className="text-center">
               <h2>Hi, Welcome Back!</h2>
+              {activeTab==="employer" &&
               <p>
                 Still do not have an account?{" "}
-                <Link href="/register">Sign up</Link>
+                <a href="#">contact us at register@cyberlevels.com</a>
               </p>
+              }
             </div>
-            <div className="form-wrapper m-auto ">
+            <div className="form-wrapper m-auto" >
               <ul className="nav nav-tabs border-0 mt-30" role="tablist">
                 <li className="nav-item" role="presentation">
                   <button
@@ -67,17 +71,31 @@ const LoginModal = () => {
               </ul>
             </div>
             <div className="form-wrapper m-auto">
+              {activeTab==="employer" && 
+            
               <LoginForm />
+        
+              }
+              { activeTab==="employer" ? 
               <div className="d-flex align-items-center mt-30 mb-10">
                 <div className="line"></div>
                 <span className="pe-3 ps-3">OR</span>
                 <div className="line"></div>
+              </div>:<div className="d-flex align-items-center mt-30 mb-10">
+                <div className="line"></div>
+                <span className="pe-1 ps-3">*</span>
+                <span className="pe-1 ps-1">*</span>
+                <span className="pe-3 ps-1">*</span>
+                <div className="line"></div>
               </div>
-              <div className="row">
-                <div className="col-md-6">
+              }
+              <div className="row " style={{padding:"20px"}}>
+                <div className="col-md-6 " >
                   <a
-                    href="#"
+                    onClick={() => dispatch(setLoggerWithGoogle(activeTab))}
+                    href={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/candidate/auth/google`}
                     className="social-use-btn d-flex align-items-center justify-content-center tran3s w-100 mt-10"
+                    style={{padding:"20px"}}
                   >
                     <Image src={google} alt="google-img" />
                     <span className="ps-2">Login with Google</span>
@@ -88,6 +106,7 @@ const LoginModal = () => {
                     onClick={() => dispatch(setLoggerWithLn(activeTab))}
                     href={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/candidate/auth/linkedin`}
                     className="social-use-btn d-flex align-items-center justify-content-center tran3s w-100 mt-10"
+                    style={{padding:"20px"}}
                   >
                     <Image
                       height={30}
@@ -97,16 +116,16 @@ const LoginModal = () => {
                       }
                       alt="linkedIn-img"
                     />
-                    <span className="ps-2">Signup with LinkedIn</span>
+                    <span className="ps-2 " style={{whiteSpace:"nowrap"}}>Login with LinkedIn</span>
                   </a>
                 </div>
               </div>
-              <p className="text-center mt-10">
+              {/* <p className="text-center mt-10">
                 Do not have an account?{" "}
                 <Link href="/register" className="fw-500">
                   Sign up
                 </Link>
-              </p>
+              </p> */}
             </div>
           </div>
         </div>

@@ -39,6 +39,9 @@ const FancyBanner = () => {
     dispatch(setFile(null));
     dispatch(setUploadProgress(0));
   };
+  const handleFile = (file: File | null) => {
+    setFile(file);
+  };
   return (
     <section className="fancy-banner-one mt-150 xl-mt-120 lg-mt-100">
       <div className="container">
@@ -64,6 +67,7 @@ const FancyBanner = () => {
                     >
                       {/* <input type="file" id="uploadCV" name="uploadCV" /> */}
                       <DropZone
+                        setFile={handleFile}
                         showIcon={true}
                         style={"text-dark"}
                         text={"Upload Your CV"}

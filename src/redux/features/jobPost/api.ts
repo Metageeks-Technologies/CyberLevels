@@ -1,13 +1,22 @@
 import instance from "@/lib/axios";
-import { getJobPostsSuccess, requestFail, requestStart, requestSuccess, submitJobPostSuccess, getJobPostsForEmployerSuccess, askGptStart, askGptSuccess, askGptEnd, getRelatedJobsSuccess, setFileNamePc } from "./slice"
+import { getJobPostsSuccess, requestFail, requestStart, requestSuccess, submitJobPostSuccess, getJobPostsForEmployerSuccess, askGptStart, askGptSuccess, askGptEnd, getRelatedJobsSuccess, setFileNamePc, getAllJobPostsSuccess, getJobPostViewsSuccess, registerJobPostViewSuccess, getJobPostForEmployerDashboardSuccess, getJobPostForEmployerNiceSelectSuccess, getJobPostForEmployerDashboardCardsSuccess } from "./slice"
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { IFilterState } from "../filterJobPostSlice";
-import { notifyError } from "@/utils/toast";
+import { notifyError, notifySuccess } from "@/utils/toast";
 import { setUploadProgress } from "../globalSlice";
 
 
-
+export const getAllJobPosts = async (dispatch: AppDispatch) => {
+    dispatch(requestStart)
+    try {
+        const { data } = await instance(`/jobPost/getalljobposts`);
+        dispatch(getAllJobPostsSuccess(data.jobPosts))
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message))
+    }
+}
 
 export const getJObPosts = async (dispatch: AppDispatch, queryObject: IFilterState, page: number, candidateId: string) => {
     const { location, jobCategory, jobType, salary, workMode, preferredExperience, status } = queryObject;
@@ -25,7 +34,6 @@ export const getJObPosts = async (dispatch: AppDispatch, queryObject: IFilterSta
 }
 export const getJObPostsByCompanyId = async (dispatch: AppDispatch, queryObject: { companyId: string, status: string }, page: number, candidateId: string) => {
     const { companyId, status } = queryObject;
-
     dispatch(requestStart());
     try {
         const { data } = await instance(`/jobPost/get?page=${page}&candidateId=${candidateId}&companyId=${companyId}&status=${status}`)
@@ -43,19 +51,22 @@ export const addJobPost = async (dispatch: AppDispatch, bodyObj: any) => {
     try {
         const { data } = await instance.post("/jobPost/add", bodyObj);
         dispatch(submitJobPostSuccess(data.job));
+        notifySuccess("Job Posted Successfully")
     } catch (error) {
-        console.log(error);
         const e = error as AxiosError;
+        const response = e.response as any;
+        const msg = response.data.message;
         dispatch(requestFail(e.message));
+        notifyError(msg);
     }
 }
 
-export const getJobPostsForEmployer = async (dispatch: AppDispatch, id: string) => {
+export const getJobPostsForEmployer = async (dispatch: AppDispatch, id: string, page: number) => {
 
     dispatch(requestStart());
     try {
-        const { data } = await instance(`jobPost/employer/${id}`);
-        dispatch(getJobPostsForEmployerSuccess(data.jobPosts));
+        const { data } = await instance(`jobPost/employer/${id}?page=${page}`);
+        dispatch(getJobPostsForEmployerSuccess({ jobPostsForEmployer: data.jobPosts, totalJobPostPagesForEmployer: data.totalPages, currentPageForJobPostEmployer: data.currentPage, pageSizeForJobPostEmployer: data.pageSize, totalJobPostsForEmployer: data.totalCount }));
     } catch (error) {
         console.log(error);
         const e = error as AxiosError;
@@ -161,9 +172,17 @@ export const queryToGpt = async (dispatch: AppDispatch, candidateId: string, que
 
 export const getSuggestion = async (dispatch: AppDispatch, candidateId: string, question: string, s3Key: string) => {
 
+    // alert("called");
+    const bodyObj = {
+        candidateId,
+        question,
+        s3Key
+    }
+
     dispatch(askGptStart());
     try {
-        const { data } = await instance(`/jobPost/suggestion?candidateId=${candidateId}&question=${question}&s3Key=${s3Key}`);
+        // const { data } = await instance(`/jobPost/suggestion?candidateId=${candidateId}&question=${question}&s3Key=${s3Key}`);
+        const { data } = await instance(`/jobPost/suggestion`, { params: bodyObj });
         console.log(data);
         dispatch(askGptSuccess());
         return data.response;
@@ -174,4 +193,69 @@ export const getSuggestion = async (dispatch: AppDispatch, candidateId: string, 
     }
 }
 
+export const registerJobPostView = async (dispatch: AppDispatch, id: string) => {
+    dispatch(requestStart());
+    try {
+        const data = await instance.post(`/jobPost/jobpostviews/${id}`)
+        dispatch(registerJobPostViewSuccess())
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message));
+    }
+}
+
+export const getJobPostViews = async (dispatch: AppDispatch, viewData: string, id: string) => {
+    dispatch(requestStart());
+    try {
+
+        const data = await instance.get(`/jobPost/jobpostviews/${id}/${viewData}`);
+        // console.log(data.data.data);
+        dispatch(getJobPostViewsSuccess(data.data.data))
+        return data.data.data;
+
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message));
+    }
+}
+
+export const getJobPostForEmployerDashboard = async (dispatch: AppDispatch, id: string) => {
+    dispatch(requestStart());
+    try {
+        const data = await instance.get(`/jobPost/jobpostforemployerdashboard/${id}`);
+        dispatch(getJobPostForEmployerDashboardSuccess(data.data.data));
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message));
+    }
+}
+
+export const getJobPostForEmployerNiceSelect = async (dispatch: AppDispatch, id: string) => {
+    dispatch(requestStart());
+    try {
+        const data = await instance.get(`/jobPost/jobpostforemployerniceselect/${id}`);
+        // console.log(data,"getJobPostForEmployerNiceSelect");
+        dispatch(getJobPostForEmployerNiceSelectSuccess(data.data.data));
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message));
+    }
+}
+
+export const getJobPostForEmployerDashboardCards = async (dispatch: AppDispatch, id: string) => {
+    dispatch(requestStart());
+    try {
+        const data = await instance.get(`/jobPost/jobpostforemployerdashboardcards/${id}`);
+        // console.log(data,"getJobPostForEmployerDashboardCards");
+        dispatch(getJobPostForEmployerDashboardCardsSuccess(data.data));
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message));
+    }
+}
 

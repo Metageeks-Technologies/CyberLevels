@@ -116,8 +116,8 @@
       -webkit-transition: all 0.2s;
       transition: all 0.2s; }
       .nice-select .option:hover, .nice-select .option.focus, .nice-select .option.selected.focus {
-        color:$color-three;
-        background: rgba($color: $color-one, $alpha: 0.03);
+        color:var(--color-three);
+        background: rgba($color: var(--color-one), $alpha: 0.03);
     }
       .nice-select .option.disabled {
         background-color: transparent;
@@ -166,7 +166,7 @@
   transition: all 0.3s ease-in-out;
 }
 .slick-dots .slick-active button {
-    background: $color-three;
+    background: var(--color-three);
 }
 .slick-list
 {

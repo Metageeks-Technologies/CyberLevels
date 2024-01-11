@@ -33,7 +33,7 @@ const Pagination = ({ handlePageClick, pageCount, currPage }: IProps) => {
           pageRangeDisplayed={4}
           pageCount={pageCount}
           previousLabel={
-            <span className="d-flex align-items-center">
+            <span className="d-flex align-items-center me-4">
               <Image src={icon_2} className="me-2" alt="icon" /> Prev
             </span>
           }

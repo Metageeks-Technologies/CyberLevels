@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 const BlogDetailsDynamicPage = ({ params }: { params: { id: string } }) => {
-  const blog = blog_data.find((b) => Number(b.id) === Number(params.id))!;
+  const blog = blog_data.find((b) => Number(b.id) === Number(1))!;
   return (
     <Wrapper>
       <div className="main-page-wrapper">
@@ -29,7 +29,7 @@ const BlogDetailsDynamicPage = ({ params }: { params: { id: string } }) => {
         {/*breadcrumb end */}
 
         {/* blog details start */}
-        <BlogDetailsArea item={blog} />
+        <BlogDetailsArea id={params.id} />
         {/* blog details end */}
 
         {/* job portal intro start */}

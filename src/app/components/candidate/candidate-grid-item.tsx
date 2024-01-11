@@ -97,7 +97,7 @@ const CandidateGridItem = ({
             <div className="candidate-info mt-10">
               <span>Location</span>
               <div>
-                {item.location.city}, {item.location.country}
+                {item.location?.city}, {item.location?.country}
               </div>
             </div>
           </div>

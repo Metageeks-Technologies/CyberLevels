@@ -14,11 +14,14 @@ import {
     askFeedbackSuccess,
     responseFeedbackSuccess,
     getChatsFail,
-    getChatsByEmployerSuccess
+    getChatsByEmployerSuccess,
+    allJobAppByCandidateWithJobPostPaginationSuccess,
+    getAllShortlistedJobAppByCandidateIdSuccess
 } from "./slice";
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { notifyError, notifySuccess } from "@/utils/toast";
+import { useAppDispatch } from "@/redux/hook";
 
 // dashboard
 export const getAllJobAppByCandidate = async (dispatch: AppDispatch, id: string) => {
@@ -37,16 +40,21 @@ export const getAllJobAppByCandidate = async (dispatch: AppDispatch, id: string)
     }
 }
 
-export const getallJobAppByCandidateWithJobPost = async (dispatch: AppDispatch, id: string) => {
+export const getallJobAppByCandidateWithJobPost = async (dispatch: AppDispatch, id: string, page:number, True:string = "false") => {
 
     // console.log("from jopApp api", id)
 
     dispatch(requestStart());
     try {
-        const { data } = await instance(`/jobApp/candidateDash/${id}`)
-
-
-        dispatch(allJobAppByCandidateWithJobPostSuccess(data.allJobApp))
+        const { data } = await instance(`/jobApp/candidateDash/${id}/${page}`)
+        if(True==="true"){
+            // dispatch(allJobAppByCandidateWithJobPostSuccess(data));
+            dispatch(allJobAppByCandidateWithJobPostPaginationSuccess(data));
+            // console.log(data);
+        }else{
+            dispatch(allJobAppByCandidateWithJobPostSuccess(data));
+            console.log(data);
+        }
     } catch (error) {
         const e = error as AxiosError;
         dispatch(requestFail(e.message))
@@ -221,6 +229,17 @@ export const responseFeedback = async (dispatch: AppDispatch, bodyObj: any, sock
             receiverId: candidateId,
             data: data.notification
         });
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message))
+    }
+}
+
+export const getAllShortlistedJobAppByCandidateId = async (dispatch:AppDispatch,candidateId: string) => {
+    dispatch(requestStart());
+    try {
+        const {data} = await instance.get(`/jobApp/getallshortlistedjobapp/${candidateId}`);
+        dispatch(getAllShortlistedJobAppByCandidateIdSuccess(data.data));
     } catch (error) {
         const e = error as AxiosError;
         dispatch(requestFail(e.message))

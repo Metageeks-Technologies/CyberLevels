@@ -1,21 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { addComment } from "@/redux/features/admin/api";
+import { notifyError, notifyInfo } from "@/utils/toast";
+import Loader from "@/ui/loader";
 
-const BlogCommentForm = () => {
+const BlogCommentForm = ({ blogId }: { blogId: string }) => {
+  const dispatch = useAppDispatch();
+  const { blog, loading } = useAppSelector((state) => state.blog);
+  const { currAdmin } = useAppSelector((state) => state.admin);
+  const [text, setText] = useState("");
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    if (!currAdmin) {
+      notifyInfo("Please login to comment");
+      return;
+    }
+    if (!blog) {
+      notifyError("blog not found");
+    }
+    const bodyObj = {
+      userId: currAdmin._id,
+      userAvatar: currAdmin.avatar,
+      userName: currAdmin.name,
+      text: text,
+    };
+    await addComment(dispatch, blogId, bodyObj);
+    setText("");
+  };
   return (
-    <form action="#" className="mt-30">
-      <div className="input-wrapper mb-35">
-        <label>Name*</label>
-        <input type="text" placeholder="James Brower" />
-      </div>
-      <div className="input-wrapper mb-40">
-        <label>Email*</label>
-        <input type="email" placeholder="james@example.com" />
-      </div>
+    <form onSubmit={handleSubmit} className="mt-30">
       <div className="input-wrapper mb-30">
-        <textarea placeholder="Your Comment"></textarea>
+        <textarea
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Your Comment"
+        ></textarea>
       </div>
-      <button className="btn-ten fw-500 text-white text-center pe-5 ps-5 tran3s">
-        Post Comment
+      <button
+        type="submit"
+        className="btn-ten fw-500 text-white text-center pe-5 ps-5 tran3s"
+      >
+        {loading ? <Loader /> : "Post Comment"}
       </button>
     </form>
   );

@@ -3,11 +3,21 @@ import React from "react";
 import DropZone from "@/layouts/dropZone";
 import { notifyError } from "@/utils/toast";
 import { deleteResume, uploadResume } from "@/redux/features/candidate/api";
-import { setFile, setUploadProgress } from "@/redux/features/globalSlice";
+import {
+  setResumeFile,
+  setResumeUploadProgress,
+} from "@/redux/features/candidate/dashboardSlice";
+
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 
-const UploadResume = () => {
-  const { file, uploadProgress } = useAppSelector((s) => s.global);
+const UploadResume = ({
+  resume,
+}: {
+  resume: { s3Key: string; name: string; _id: string }[];
+}) => {
+  const { resumeFile: file, resumeUploadProgress } = useAppSelector(
+    (s) => s.candidate.candidateDashboard
+  );
   const { currCandidate, loading } = useAppSelector(
     (store) => store.candidate.candidateDashboard
   );
@@ -17,8 +27,19 @@ const UploadResume = () => {
       notifyError("please Login to upload your resume.");
       return;
     }
-    if (!file || file?.type !== "application/pdf") {
-      notifyError("Please upload Your resume as pdf.");
+    if (resume.length == 3) {
+      notifyError(
+        "You can upload only 3 resumes, try to delete one of your resume and try again."
+      );
+      return;
+    }
+    const supportedFormat = [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ];
+    if (!file || !supportedFormat.includes(file.type)) {
+      notifyError("Please upload Your resume in supported format.");
       return;
     }
     const metaData = {
@@ -28,8 +49,8 @@ const UploadResume = () => {
       candidateName: currCandidate.firstName + " " + currCandidate.lastName,
     };
     await uploadResume(dispatch, file, metaData);
-    dispatch(setFile(null));
-    dispatch(setUploadProgress(0));
+    dispatch(setResumeFile(null));
+    dispatch(setResumeUploadProgress(0));
   };
 
   const handleDelete = (s3Key: string, resumeId: string) => {
@@ -46,13 +67,17 @@ const UploadResume = () => {
     console.log(metaData);
     deleteResume(dispatch, metaData);
   };
+  const handleResumeChange = (file: File | null) => {
+    dispatch(setResumeFile(file));
+  };
+
   return (
     <>
-      <h2 className="main-title">My Resume</h2>
-      <div className="bg-white card-box border-20">
-        <h4 className="dash-title-three">Resume Attachment</h4>
+      {/* <h2 className="main-title">My Resume</h2> */}
+      <div className="bg-white card-box border-20 mt-40 ">
+        <h4 className="dash-title-three">Resume</h4>
         <div className="dash-input-wrapper mb-20">
-          <label htmlFor="">CV Attachment*</label>
+          <label htmlFor=""> Attachment*</label>
 
           {currCandidate?.resumes.map((resume) => (
             <div
@@ -77,30 +102,42 @@ const UploadResume = () => {
               style={{ cursor: "pointer" }}
               className="dash-btn-one d-inline-block position-relative me-3"
             >
-              {/* 
-              Upload CV
-              <input type="file" id="uploadCV" name="uploadCV" placeholder="" /> */}
-
-              <DropZone showIcon={false} style="" text={"Upload CV"} />
-            </div>
-            <div className=" mt-3 ">
-              <small>Upload file .pdf</small>
+              <DropZone
+                setFile={handleResumeChange}
+                showIcon={false}
+                style=""
+                text={"Upload New"}
+              />
             </div>
           </>
         )}
 
-        {file && file.type === "application/pdf" && (
+        {file && (
           <>
             <p className="my-2">{file.name}</p>
-            <button
-              className="dash-btn-one  tran3s me-3 mt-3 mb-20"
-              type="button"
-              onClick={handleSubmit}
-            >
-              {uploadProgress !== 0 ? `${uploadProgress}% ` : "Save"}
-            </button>
+            <div className="btn-group">
+              <button
+                disabled={resumeUploadProgress !== 0}
+                className="dash-btn-one  tran3s me-3 mt-3 mb-20"
+                type="button"
+                onClick={handleSubmit}
+              >
+                {resumeUploadProgress !== 0
+                  ? `${resumeUploadProgress}% `
+                  : "Save"}
+              </button>
+              <button
+                className="btn-hover-underline"
+                onClick={() => dispatch(setResumeFile(null))}
+              >
+                Cancel
+              </button>
+            </div>
           </>
         )}
+        <div className=" mt-3 ">
+          <small>*Upload file with .pdf .doc .docx</small>
+        </div>
       </div>
     </>
   );

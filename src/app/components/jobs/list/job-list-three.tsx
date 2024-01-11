@@ -39,7 +39,7 @@ const JobListThree = ({
   };
 
   useEffect(() => {
-    if (currUser) getJObPosts(dispatch, filterState, page, currUser);
+    getJObPosts(dispatch, filterState, page, currUser ? currUser : "");
   }, [
     location,
     jobCategory,
@@ -49,6 +49,8 @@ const JobListThree = ({
     preferredExperience,
     page,
   ]);
+
+  // Usage
 
   const handlePageClick = (event: { selected: number }) => {
     console.log("from pagination", event.selected);
@@ -84,7 +86,8 @@ const JobListThree = ({
               <div className="job-post-item-wrapper ms-xxl-5 ms-xl-3">
                 <div className="upper-filter d-flex justify-content-between align-items-center mb-20">
                   <div className="total-job-found">
-                    All <span className="text-dark">{totalJobPost}</span> jobs
+                    Total <span className="text-dark">{totalJobPost}</span>{" "}
+                    {totalJobPost > 1 ? " jobs " : " job "}
                     found
                   </div>
                   <div className="d-flex align-items-center">
@@ -126,7 +129,7 @@ const JobListThree = ({
                 >
                   {allJobPost &&
                     allJobPost.map((job) => (
-                      <ListItemTwo key={job.location} item={job} />
+                      <ListItemTwo key={job._id} item={job} />
                     ))}
                 </div>
 
@@ -150,7 +153,7 @@ const JobListThree = ({
                     <p className="m0 order-sm-last text-center text-sm-start xs-pb-20">
                       Showing{" "}
                       <span className="text-dark fw-500">
-                        {(page - 1) * itemsPerPage + 1}
+                        {totalJobPost > 0 ? (page - 1) * itemsPerPage + 1 : 0}
                       </span>{" "}
                       to{" "}
                       <span className="text-dark fw-500">

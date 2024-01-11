@@ -35,8 +35,8 @@ const CandidateItem = ({ item }: { item: ICandidate }) => {
                       {val}
                     </li>
                   ))}
-                  {item.skills.length - 4 > 1 && (
-                    <li className="more">{item.skills.length - 4}+</li>
+                  {item.skills?.length - 4 > 1 && (
+                    <li className="more">{item.skills?.length - 4}+</li>
                   )}
                 </ul>
               </div>
@@ -53,7 +53,7 @@ const CandidateItem = ({ item }: { item: ICandidate }) => {
               <div className="candidate-info">
                 <span>Location</span>
                 <div>
-                  {item.location.city}, {item.location.country}
+                  {item.location?.city}, {item.location?.country}
                 </div>
               </div>
             </div>

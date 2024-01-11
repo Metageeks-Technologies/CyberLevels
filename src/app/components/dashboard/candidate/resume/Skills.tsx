@@ -7,7 +7,7 @@ import EditSkill from "@/app/components/candidate-details/popup/EditSkill";
 const Skills = ({ skills }: { skills: string[] }) => {
   return (
     <>
-      <h4 className="dash-title-three">Skills</h4>
+      <h4 className="dash-title-three">Primary Skills</h4>
       <div className="dash-input-wrapper mb-40">
         {/* <label htmlFor="">Add Skills*</label> */}
 

@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import type { IJobPost } from "@/types/jobPost-type";
-import job_img_1 from "@/assets/images/logo/media_22.png";
-import type { ICompany } from "@/types/company";
-import Link from "next/link";
-import { createJobApp } from "@/redux/features/jobApp/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import Loader from "@/ui/loader";
-import { string } from "yup";
-import { stringify } from "querystring";
+import type { ICompany } from "@/types/company";
+import type { IJobPost } from "@/types/jobPost-type";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
 import QuestionModal from "../common/popup/testQuestion";
-import ChatWithGpt from "../common/chat-with-gpt";
+async function getData() {
+  const response = await fetch("/data.json");
+  return response.json();
+}
+
+import Skills from "../candidate-details/skills";
 import GptSidebar from "../common/chat-gpt-sidebar";
+import ChatWithGpt from "../common/chat-with-gpt";
 
 const JobDetailsV1Area = ({
   job,
@@ -31,6 +32,10 @@ const JobDetailsV1Area = ({
 
   const dispatch = useAppDispatch();
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
+  const { currCandidate } = useAppSelector(
+    (state) => state.candidate.candidateDashboard
+  );
+
   const { loading, allJobAppByCandidate } = useAppSelector(
     (state) => state.jobApplication
   );
@@ -51,71 +56,95 @@ const JobDetailsV1Area = ({
   console.log(temp);
   const test = 58;
 
+  const description = job?.description.replaceAll("\\n", "<br/>");
+  const missingSKills = job.primarySkills.filter((val) => {
+    return !currCandidate?.skills.includes(val);
+  });
+  // missingSKills.push(...job.secondarySkills);
   return (
     <>
       <section className="job-details pt-100 lg-pt-80 pb-130 lg-pb-80">
         <div className="container">
           <div className="row">
             <div className="col-xxl-9 col-xl-8">
-              <div className="details-post-data me-xxl-5 pe-xxl-4">
-                <div className="post-date">
-                  {readableString} by
-                  <a href="#" className="fw-500 ms-2  text-dark">
-                    {company?.name}
-                  </a>
-                </div>
-                <h3 className="post-title">{job.title}</h3>
-                <div className=" d-flex justify-items-center w-100 justify-content-between align-items-center   ">
-                  <ul className="share-buttons d-flex flex-wrap style-none">
-                    <li>
-                      <a
-                        target="_blank"
-                        href={`https://twitter.com/intent/tweet?text=${""}&url=${URL}`}
-                        className="d-flex align-items-center justify-content-center"
-                      >
-                        <i className="bi bi-linkedin"></i>
-                        <span>Twitter</span>
+              <div className="details-post-data hello me-xxl-5 pe-xxl-4">
+                <div className="d-flex justify-content-between align-items-end  ">
+                  <div className="">
+                    <div className="post-date">
+                      {readableString} by
+                      <a href="#" className="fw-500 ms-2  text-dark">
+                        {company?.name}
                       </a>
-                    </li>
-                    <li>
-                      <a
-                        target="_blank"
-                        href={`https://www.linkedin.com/sharing/share-offsite/?url=${URL}`}
-                        className="d-flex align-items-center justify-content-center"
-                      >
-                        <i className="bi bi-twitter"></i>
-                        <span>LinkedIn</span>
-                      </a>
-                    </li>
-                    {/* <li>
-                  <a
-                    href="#"
-                    className="d-flex align-items-center justify-content-center"
-                  >
-                    <i className="bi bi-link-45deg"></i>
-                    <span>Copy</span>
-                  </a>
-                </li> */}
-                  </ul>
-                  {job.matchScore && (
-                    <div>
-                      <span
-                        className={` ${
-                          job.matchScore >= 80
-                            ? "text-success"
-                            : job.matchScore >= 60
-                            ? "text-primary"
-                            : "text-warning"
-                        } fw-bold `}
-                      >
-                        {job.matchScore} %
-                      </span>{" "}
-                      <span className=" fw-medium ">
-                        {" "}
-                        match with your profile.
-                      </span>
                     </div>
-                  )}
+                    <h3 className="post-title">{job.title}</h3>
+                    <div className=" d-flex justify-items-center w-100 justify-content-between align-items-center   ">
+                      <ul className="share-buttons d-flex flex-wrap style-none">
+                        <li>
+                          <a
+                            target="_blank"
+                            href={`https://twitter.com/intent/tweet?text=${""}&url=${URL}`}
+                            className="d-flex align-items-center justify-content-center"
+                          >
+                            <i className="bi bi-linkedin"></i>
+                            <span>Twitter</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            target="_blank"
+                            href={`https://www.linkedin.com/sharing/share-offsite/?url=${URL}`}
+                            className="d-flex align-items-center justify-content-center"
+                          >
+                            <i className="bi bi-twitter"></i>
+                            <span>LinkedIn</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="gap-3 ">
+                    {job.matchScore && (
+                      <div className="job-match">
+                        <span
+                          className={` ${
+                            job.matchScore >= 80
+                              ? "text-success"
+                              : job.matchScore >= 60
+                              ? "text-primary"
+                              : "text-warning"
+                          } fw-bold `}
+                        >
+                          {job.matchScore} %
+                        </span>{" "}
+                        <span className=" fw-medium ">
+                          {" "}
+                          match with your profile.
+                        </span>
+                        <div>
+                          {missingSKills.length > 0 && (
+                            <div className="">
+                              <div>
+                                Your profile is missing these key skills:
+                              </div>
+                              <ul className="p-0  gap-2 mt-2 flex-wrap  d-flex shadow-none ">
+                                {missingSKills.map((skill, index) => (
+                                  <li
+                                    className="website-btn d-flex justify-content-center gap-1 "
+                                    key={index}
+                                  >
+                                    <span>
+                                      <i className="bi bi-x-circle"></i>
+                                    </span>
+                                    {skill}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* {description?.map((text, index) => {
@@ -139,25 +168,12 @@ const JobDetailsV1Area = ({
               })} */}
 
                 <div className="post-block border-style mt-30">
-                  <div className="d-flex align-items-center">
-                    <div className="block-numb text-center fw-500 text-white rounded-circle me-2">
-                      1
-                    </div>
-                    <h4 className="block-title">Job Description</h4>
-                  </div>
-                  <p>
-                    As a <a href="#">Product Designer</a> at WillowTree, you’ll
-                    give form to ideas by being the voice and owner of product
-                    decisions. You’ll drive the design direction, and then make
-                    it happen!
-                  </p>
-                  <p>
-                    We understand our responsibility to create a diverse,
-                    equitable, and inclusive place within the tech industry,
-                    while pushing to make our industry more representative.{" "}
-                  </p>
+                  <div
+                    className="_description"
+                    dangerouslySetInnerHTML={{ __html: description }}
+                  />
                 </div>
-                <div className="post-block border-style mt-40 lg-mt-30">
+                {/* <div className="post-block border-style mt-40 lg-mt-30">
                   <div className="d-flex align-items-center">
                     <div className="block-numb text-center fw-500 text-white rounded-circle me-2">
                       2
@@ -199,12 +215,42 @@ const JobDetailsV1Area = ({
                       and push our work
                     </li>
                   </ul>
+                </div> */}
+                <div className="post-block border-style mt-40 lg-mt-30">
+                  <div className="d-flex align-items-center">
+                    <div className="block-numb text-center fw-500 text-white rounded-circle me-2">
+                      3
+                    </div>
+                    <h4 className="block-title">Primary Skill:</h4>
+                  </div>
+                  <div className="candidates-profile-details">
+                    <div className="inner-card p-0">
+                      {/* skill area */}
+                      <Skills skills={job.primarySkills} />
+                      {/* skill area */}
+                    </div>
+                  </div>
+                </div>
+                <div className="post-block border-style mt-40 lg-mt-30">
+                  <div className="d-flex align-items-center">
+                    <div className="block-numb text-center fw-500 text-white rounded-circle me-2">
+                      4
+                    </div>
+                    <h4 className="block-title">Secondary Skill:</h4>
+                  </div>
+                  <div className="candidates-profile-details">
+                    <div className="inner-card p-0">
+                      {/* skill area */}
+                      <Skills skills={job.secondarySkills} />
+                      {/* skill area */}
+                    </div>
+                  </div>
                 </div>
 
                 <div className="post-block border-style mt-40 lg-mt-30">
                   <div className="d-flex align-items-center">
                     <div className="block-numb text-center fw-500 text-white rounded-circle me-2">
-                      3
+                      5
                     </div>
                     <h4 className="block-title">Benefits:</h4>
                   </div>

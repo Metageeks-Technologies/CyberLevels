@@ -8,7 +8,7 @@ import FooterOne from "@/layouts/footers/footer-one";
 import BlogPostboxArea from "../components/blogs/blog-postbox";
 
 export const metadata: Metadata = {
-  title: "Blog v1",
+  title: "Blogs",
 };
 
 const BlogV1Page = () => {

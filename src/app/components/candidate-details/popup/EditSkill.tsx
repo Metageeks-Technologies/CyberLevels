@@ -16,6 +16,10 @@ const EditSkill = ({ skills }: { skills: string[] }) => {
   );
   const handleSave = async () => {
     if (currCandidate) {
+      if(skills.length === 0){
+        notifyInfo("Skills should not be empty.");
+        return;
+      }
       const isUpdated = await updateCurrCandidate(dispatch, currCandidate._id, {
         skills: _skills,
       });
@@ -85,7 +89,18 @@ const EditSkill = ({ skills }: { skills: string[] }) => {
                   </div>
 
                   <div className="button-group d-inline-flex align-items-center mt-30">
-                    <button
+                   {skills.length === 0? 
+                   <button
+                   onClick={handleSave}
+                   className="dash-btn-two tran3s me-3"
+                   type="button"
+                  //  data-bs-dismiss="modal"
+                  //  aria-label="Close"
+                 >
+                   Save
+                 </button>
+                   :
+                   <button
                       onClick={handleSave}
                       className="dash-btn-two tran3s me-3"
                       type="button"
@@ -94,6 +109,7 @@ const EditSkill = ({ skills }: { skills: string[] }) => {
                     >
                       Save
                     </button>
+                   } 
                     <button
                       className="dash-cancel-btn tran3s"
                       type="button"

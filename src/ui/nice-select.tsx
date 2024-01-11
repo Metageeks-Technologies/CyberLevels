@@ -1,10 +1,12 @@
 "use client";
+import { getDate } from "@/utils/helper";
 import React, { useState, useCallback, useRef } from "react";
 import { useClickAway } from "react-use";
 
 type Option = {
   value: string;
   label: string;
+  date?:string
 };
 
 type IPropType = {
@@ -52,7 +54,7 @@ const NiceSelect = ({
     >
       <span className="current">{current?.label || placeholder}</span>
       <ul
-        className={`list ${isScroll && "add_Scroll_to_nice_select"} `}
+        className={`list ${isScroll && "add_Scroll_to_nice_select"}`}
         role="menubar"
         onClick={(e) => e.stopPropagation()}
       >
@@ -66,7 +68,7 @@ const NiceSelect = ({
             role="menuitem"
             onClick={() => currentHandler(item)}
           >
-            {item.label}
+           {item.label} {item.date && `(${getDate(item.date.split('T')[0])})`}
           </li>
         ))}
       </ul>

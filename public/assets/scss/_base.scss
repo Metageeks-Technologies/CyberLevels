@@ -11,7 +11,7 @@
   background: #fff;
 }
 ::-webkit-scrollbar-thumb {
-  background: $color-two;
+  background: var(--color-two);
   border-radius: 0;
 }
 body {
@@ -19,7 +19,7 @@ body {
   font-weight: normal;
   font-size: 16px;
   position: relative;
-  color: $text-color;
+  color: var(--text-color);
 }
 .main-page-wrapper {
   overflow-x: hidden;
@@ -38,7 +38,7 @@ h5,
 h6 {
   font-family: var(--eb_garamond-font);
   font-weight: 500;
-  color: $text-dark;
+  color: var(--text-dark);
 }
 .h1,
 h1 {
@@ -97,13 +97,13 @@ hr {
       font-weight: 700;
       letter-spacing: 8px;
       display: inline-block;
-      color: rgba($color: $color-three, $alpha: 0.12);
+      color: rgba($color: var(--color-three), $alpha: 0.12);
       position: relative;
       font-size: 50px;
       line-height: 30px;
       &::before {
         animation: letters-loading 4s infinite;
-        color: $color-three;
+        color: var(--color-three);
         content: attr(data-text-preloader);
         left: 0;
         opacity: 0;
@@ -212,7 +212,7 @@ hr {
   font-size: 25px;
   cursor: pointer;
   border-radius: 50%;
-  background: $color-three;
+  background: var(--color-three);
   transition: all 0.3s ease-in-out;
   &:after {
     position: absolute;
@@ -244,7 +244,7 @@ hr {
   font-size: 25px;
   cursor: pointer;
   border-radius: 50%;
-  background: $color-three;
+  background: var(--color-three);
   transition: all 0.3s ease-in-out;
   &:after {
     position: absolute;
@@ -289,16 +289,16 @@ hr {
   text-align: center;
   border-radius: 50px;
   color: #000;
-  background-color: $color-two;
+  background-color: var(--color-two);
   border: 2px solid transparent;
   @include transition(0.3s);
   &.lg {
     padding: 8px 32px;
   }
   &:hover {
-    background-color: $color-one;
-    color: $color-two;
-    border-color: $color-two;
+    background-color: var(--color-one);
+    color: var(--color-two);
+    border-color: var(--color-two);
   }
 }
 .btn-one-applied {
@@ -310,7 +310,7 @@ hr {
   // letter-spacing: 1px;
   color: #fff;
   border-radius: 17px;
-  background: $color-three;
+  background: var(--color-three);
   cursor: default;
   &.lg {
     padding: 8px 32px;
@@ -349,11 +349,11 @@ hr {
   padding: 13px 26px;
   text-align: center;
   border-radius: 6px;
-  color: $color-one;
-  border: 2px solid $color-one;
+  color: var(--color-one);
+  border: 2px solid var(--color-one);
   @include transition(0.3s);
   &:hover {
-    background: $color-one;
+    background: var(--color-one);
     color: #fff;
   }
 }
@@ -363,11 +363,11 @@ hr {
   min-width: 150px;
   text-align: center;
   border-radius: 6px;
-  color: $color-one;
-  background: $color-two;
+  color: var(--color-one);
+  background: var(--color-two);
   @include transition(0.3s);
   &:hover {
-    background: $color-one;
+    background: var(--color-one);
     color: #fff;
   }
 }
@@ -378,10 +378,10 @@ hr {
   text-align: center;
   border-radius: 50px;
   color: #fff;
-  background: $color-three;
+  background: var(--color-three);
   @include transition(0.3s);
   &:hover {
-    background: $color-one;
+    background: var(--color-one);
     color: #fff;
   }
 }
@@ -390,18 +390,18 @@ hr {
 }
 .btn-six {
   font-weight: 500;
-  color: $color-three;
+  color: var(--color-three);
   position: relative;
   padding-right: 12px;
-  border-bottom: 2px solid $color-three;
+  border-bottom: 2px solid var(--color-three);
   @include transition(0.3s);
   &:hover {
-    color: $color-three;
+    color: var(--color-three);
     letter-spacing: 0.2px;
   }
   &:after {
-    border-bottom: 2px solid $color-three;
-    border-right: 2px solid $color-three;
+    border-bottom: 2px solid var(--color-three);
+    border-right: 2px solid var(--color-three);
     content: "";
     display: block;
     margin-top: -4px;
@@ -429,12 +429,12 @@ hr {
   min-width: 150px;
   text-align: center;
   border-radius: 50px;
-  color: $color-three;
-  border: 1px solid $color-three;
+  color: var(--color-three);
+  border: 1px solid var(--color-three);
   @include transition(0.3s);
   &:hover {
-    background: $color-one;
-    border-color: $color-one;
+    background: var(--color-one);
+    border-color: var(--color-one);
     color: #fff;
   }
 }
@@ -449,15 +449,15 @@ hr {
   background: #f1f6f3;
   border: 1px solid #d6ece0;
   &.style-two {
-    border: 2px solid $color-three;
+    border: 2px solid var(--color-three);
     background: transparent;
   }
   span {
-    color: $color-three;
+    color: var(--color-three);
   }
   a {
     font-weight: normal;
-    color: $color-three;
+    color: var(--color-three);
     text-decoration: underline;
   }
 }
@@ -466,7 +466,7 @@ hr {
   color: #000;
   letter-spacing: -1px;
   &:hover {
-    color: $color-three;
+    color: var(--color-three);
   }
   i {
     font-size: 1.4em;
@@ -476,10 +476,10 @@ hr {
 .btn-ten {
   line-height: 50px;
   border-radius: 10px;
-  background: $color-five;
+  background: var(--color-five);
   padding: 0 26px;
   &:hover {
-    background: $color-three;
+    background: var(--color-three);
   }
 }
 .btn-eleven {
@@ -489,16 +489,16 @@ hr {
   text-transform: uppercase;
   letter-spacing: 0.88px;
   color: #fff;
-  background: $color-five;
+  background: var(--color-five);
   width: 100%;
   &:hover,
   &:focus {
-    background: $color-three;
+    background: var(--color-three);
   }
 }
 // Title Style
 .title-one h2 {
-  color: $heading;
+  color: var(--heading);
   margin: 0;
   &.main-font {
     font-family: var(--gorditas-font);
@@ -529,13 +529,13 @@ hr {
 .title-two h2 {
   font-size: 64px;
   line-height: 1.062em;
-  color: $heading;
+  color: var(--heading);
   margin: 0;
   &.color-blue {
-    color: $color-four;
+    color: var(--color-four);
   }
   span {
-    color: $color-two;
+    color: var(--color-two);
   }
   &.main-font {
     font-family: var(--gorditas-font);
@@ -543,7 +543,7 @@ hr {
   }
 }
 .title-two .sub-title {
-  color: $color-three;
+  color: var(--color-three);
   font-weight: 500;
   font-size: 18px;
   margin-bottom: 15px;
@@ -551,14 +551,14 @@ hr {
 .title-three h2 {
   font-size: 48px;
   line-height: 1.062em;
-  color: $heading;
+  color: var(--heading);
   margin: 0;
   &.main-font {
     font-family: var(--gorditas-font);
     color: #000;
   }
   &.color-blue {
-    color: $color-four;
+    color: var(--color-four);
   }
 }
 .title-four h2 {

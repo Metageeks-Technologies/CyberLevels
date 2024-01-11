@@ -19,6 +19,10 @@
   border: none;
   padding: 0;
 }
+.btn-hover-underline:hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
 
 .add_Scroll_to_nice_select {
   overflow-y: scroll !important;
@@ -55,7 +59,7 @@
   margin-right: 0.5rem; /* Equivalent to mr-2 in Tailwind */
   color: #ccc; /* Equivalent to text-gray-200 in Tailwind */
   animation: spin 0.7s linear infinite; /* Equivalent to animate-spin in Tailwind */
-  fill: $color-three; /* Equivalent to fill-[#6469ff] in Tailwind */
+  fill: var(--color-three); /* Equivalent to fill-[#6469ff] in Tailwind */
 }
 
 @keyframes spin {
@@ -119,7 +123,7 @@
   }
 }
 ._checked {
-  background: $color-three;
+  background: var(--color-three);
   --tw-bg-opacity: 0.75;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -154,6 +158,14 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+}
+// description
+._description {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 }
 
 // feedback
@@ -227,8 +239,8 @@
   padding: 0 15px;
   line-height: 45px;
   border-radius: 25px;
-  background: $color-two;
-  color: $color-one;
+  background: var(--color-two);
+  color: var(--color-one);
 }
 
 div[data-preview] p {
@@ -398,4 +410,227 @@ div[data-preview] p {
   .chatOnline {
     flex: 1px;
   }
+}
+// toggle
+.toggle-input {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+.toggle-label {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 50px;
+  height: 25px;
+  background: grey;
+  display: block;
+  border-radius: 100px;
+  position: relative;
+}
+
+.toggle-label:after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 15px;
+  height: 15px;
+  background: #fff;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.toggle-input:checked + .toggle-label {
+  background: #bada55;
+}
+
+.toggle-input:checked + .toggle-label:after {
+  left: calc(100% - 5px);
+  transform: translateX(-100%);
+}
+
+.toggle-label:active:after {
+  width: 20px;
+}
+
+.subscription-tab {
+  background-color: #e4e9e7;
+  border-radius: 25px;
+  box-sizing: border-box;
+  p {
+    margin-bottom: 0;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+  }
+  .active {
+    background-color: #d2f34c;
+    color: #000;
+    font-weight: 500;
+    border-radius: 25px;
+  }
+}
+
+.nice-select {
+  -webkit-tap-highlight-color: transparent;
+  background-color: #fff;
+  border-radius: 5px;
+  box-sizing: border-box;
+  clear: both;
+  cursor: pointer;
+  display: block;
+  font-family: inherit;
+  font-size: 0.9em;
+  height: 35px;
+  line-height: 35px;
+  outline: none;
+  padding-left: 10px;
+  padding-right: 18px;
+  text-transform: capitalize;
+  position: relative;
+  text-align: left !important;
+  transition: all 0.2s ease-in-out;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  width: auto;
+}
+
+.nice-select:after {
+  border-bottom: 1px solid #000;
+  border-right: 1px solid #000;
+  content: "";
+  display: block;
+  height: 7px;
+  margin-top: -4px;
+  pointer-events: none;
+  position: absolute;
+  right: 15px !important;
+  top: 50%;
+  transform-origin: 66% 66%;
+  transform: rotate(45deg);
+  transition: all 0.15s ease-in-out;
+  width: 7px;
+}
+
+.nice-select.open:after {
+  transform: rotate(-135deg);
+}
+
+.nice-select.open .list {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1) translateY(0);
+}
+
+.nice-select.disabled {
+  border-color: #ededed;
+  color: #999;
+  pointer-events: none;
+}
+
+.nice-select.disabled:after {
+  border-color: #cccccc;
+}
+
+.nice-select.wide {
+  width: 100%;
+}
+
+.nice-select.wide .list {
+  left: 0 !important;
+  right: 0 !important;
+}
+
+.nice-select.right {
+  float: right;
+}
+
+.nice-select.right .list {
+  left: auto;
+  right: 0;
+}
+
+.nice-select.small {
+  font-size: 12px;
+  height: 36px;
+  line-height: 34px;
+}
+
+.nice-select.small:after {
+  height: 4px;
+  width: 4px;
+}
+
+.nice-select.small .option {
+  line-height: 34px;
+  min-height: 34px;
+}
+
+.nice-select .list {
+  background-color: #fff;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 13px 35px -12px rgba(35, 35, 35, 0.1);
+  box-sizing: border-box;
+  opacity: 0;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 5px 0 15px;
+  pointer-events: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  transform-origin: 50% 0;
+  transform: scale(0.75) translateY(-21px);
+  transition: all 0.2s cubic-bezier(0.5, 0, 0, 1.25), opacity 0.15s ease-out;
+  z-index: 9;
+}
+
+.nice-select .option {
+  font-size: 0.95em;
+  cursor: pointer;
+  font-weight: 400;
+  margin-top: 5px;
+  list-style: none;
+  outline: none;
+  padding: 0 10px;
+  text-align: left;
+  transition: all 0.2s;
+}
+
+.nice-select .option:hover,
+.nice-select .option.focus,
+.nice-select .option.selected.focus {
+  color: #00bf58;
+  background: rgba(36, 64, 52, 0.03);
+}
+
+.nice-select .option.disabled {
+  background-color: transparent;
+  color: #999;
+  cursor: default;
+}
+
+.pagination-one li {
+  padding: 0 1px;
+}
+.pagination-one {
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  line-height: 35px;
+  border-radius: 50%;
+  font-size: 17px;
+  font-weight: 500;
+  color: #31795a;
+}
+.pagination-one.active {
+  background: #31795a;
+  color: #fff;
+}
+.pagination-one li:last-child a {
+  width: auto;
+  height: auto;
 }

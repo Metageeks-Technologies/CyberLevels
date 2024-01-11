@@ -27,6 +27,8 @@ import nav_9 from "@/assets/dashboard/images/icon/icon_40.svg";
 import nav_9_active from "@/assets/dashboard/images/icon/icon_40_active.svg";
 import nav_8 from "@/assets/dashboard/images/icon/icon_8.svg";
 import LogoutModal from "../../common/popup/logout-modal";
+import { logoutAdmin } from "@/redux/features/user/api";
+import { useAppDispatch } from "@/redux/hook";
 
 // nav data
 const nav_data: {
@@ -51,19 +53,26 @@ const nav_data: {
     title: "Companies",
   },
   {
+    id: 11,
+    icon: nav_2,
+    icon_active: nav_2_active,
+    link: "/dashboard/admin-dashboard/user",
+    title: "User",
+  },
+  {
     id: 3,
     icon: nav_3,
     icon_active: nav_3_active,
     link: "/dashboard/admin-dashboard/jobs",
     title: "My Jobs",
   },
-  {
-    id: 4,
-    icon: nav_4,
-    icon_active: nav_4_active,
-    link: "/dashboard/admin-dashboard/messages",
-    title: "Messages",
-  },
+  // {
+  //   id: 4,
+  //   icon: nav_4,
+  //   icon_active: nav_4_active,
+  //   link: "/dashboard/admin-dashboard/messages",
+  //   title: "Messages",
+  // },
   {
     id: 5,
     icon: nav_5,
@@ -87,10 +96,38 @@ const nav_data: {
   },
   {
     id: 8,
+    icon: nav_5,
+    icon_active: nav_5_active,
+    link: "/dashboard/admin-dashboard/add-field",
+    title: "Add New Field",
+  },
+  {
+    id: 9,
     icon: nav_7,
     icon_active: nav_7_active,
     link: "/dashboard/admin-dashboard/setting",
-    title: "Account Settings",
+    title: "Settings",
+  },
+  {
+    id: 10,
+    icon: nav_4,
+    icon_active: nav_4_active,
+    link: "/dashboard/admin-dashboard/emailTemplate",
+    title: "Email Template",
+  },
+  {
+    id: 12,
+    icon: nav_7,
+    icon_active: nav_7_active,
+    link: "/dashboard/admin-dashboard/emailSettings",
+    title: "Email Settings",
+  },
+  {
+    id: 13,
+    icon: nav_5,
+    icon_active: nav_5_active,
+    link: "/dashboard/admin-dashboard/blog",
+    title: "blog",
   },
 ];
 // props type
@@ -100,6 +137,10 @@ type IProps = {
 };
 const AdminAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
   const pathname = usePathname();
+  const dispatch = useAppDispatch();
+  const handleLogout = async () => {
+    await logoutAdmin(dispatch);
+  };
   return (
     <>
       <aside className={`dash-aside-navbar ${isOpenSidebar ? "show" : ""}`}>
@@ -139,7 +180,7 @@ const AdminAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
                 John Doe
               </button>
               <ul className="dropdown-menu" aria-labelledby="profile-dropdown">
-                <li>
+                {/* <li>
                   <Link
                     className="dropdown-item d-flex align-items-center"
                     href="/dashboard/admin-dashboard/profile"
@@ -151,7 +192,17 @@ const AdminAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
                     />
                     <span className="ms-2 ps-1">Profile</span>
                   </Link>
+                </li> */}
+                <li>
+                  <button
+                    onClick={handleLogout}
+                    className="d-flex w-100 align-items-center logout-btn"
+                  >
+                    <Image src={logout} alt="icon" className="lazy-img" />
+                    <span>Logout</span>
+                  </button>
                 </li>
+                {/*
                 <li>
                   <Link
                     className="dropdown-item d-flex align-items-center"
@@ -177,7 +228,7 @@ const AdminAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
                     />
                     <span className="ms-2 ps-1">Notification</span>
                   </a>
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>
@@ -203,7 +254,7 @@ const AdminAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
                   </li>
                 );
               })}
-              <li>
+              {/* <li>
                 <a
                   href="#"
                   className="d-flex w-100 align-items-center"
@@ -213,7 +264,7 @@ const AdminAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
                   <Image src={nav_8} alt="icon" className="lazy-img" />
                   <span>Delete Account</span>
                 </a>
-              </li>
+              </li> */}
             </ul>
           </nav>
           <div className="profile-complete-status">

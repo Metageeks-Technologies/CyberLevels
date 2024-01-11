@@ -10,6 +10,8 @@ export interface CandidateState {
     page: number,
     totalNumOfPage: number,
     totalCandidate: number,
+  
+   
 }
 type IForGetAllCandidate = {
     candidates: ICandidate[]
@@ -24,7 +26,9 @@ const initialState: CandidateState = {
     candidates: [],
     page: 1,
     totalNumOfPage: 1,
-    totalCandidate: 0
+    totalCandidate: 0,
+ 
+    
 }
 
 export const candidateSlice = createSlice({
@@ -48,6 +52,7 @@ export const candidateSlice = createSlice({
             state.loading = false
             state.candidate = action.payload
         },
+        
 
         setPage: (state, action: PayloadAction<number>) => {
             state.page = action.payload;
@@ -70,7 +75,9 @@ export const {
     requestStart,
     setPage,
     toggleIsSaved,
-    getDetailsSuccess
+    getDetailsSuccess,
+    
+    
 } = candidateSlice.actions
 
 export default candidateSlice.reducer;

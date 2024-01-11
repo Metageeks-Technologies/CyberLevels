@@ -11,10 +11,15 @@ import candidateDashboardSlice from "@/redux/features/candidate/dashboardSlice"
 import employerSlice from "./features/employer/dashboardSlice"
 import jobApplicationSlice from "./features/jobApp/slice"
 import globalSlice from './features/globalSlice';
-
-
+import companyDashboardSlice from './features/company/dashboardSlice';
+import languageSlice from './features/languageProvider/slice';
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
+import currencySlice from './features/currencyProvider/slice'; import templateSlice from './features/template/slice';
+import subscriptionSlice from './features/subscription/slice';
+import adminSlice from './features/admin/slice'; import emailTemplateSlice from './features/emailTemplate/slice';
+import smtpConfigSlice from './features/smtpConfig/slice';
+import blogSlice from './features/admin/blogSlice';
 
 const rootReducer = combineReducers({
   user: userSlice
@@ -28,6 +33,7 @@ const candidate = combineReducers({
 const company = combineReducers({
   companyList: companySlice,
   companyFilter: companyFilterSlice,
+  companyDashboard: companyDashboardSlice
 })
 
 const persistConfig = {
@@ -48,8 +54,15 @@ export const store = configureStore({
     filter: filterSlice,
     wishlist: wishlistSlice,
     jobApplication: jobApplicationSlice,
-    global: globalSlice
-
+    global: globalSlice,
+    subscription: subscriptionSlice,
+    template: templateSlice,
+    language: languageSlice,
+    currency: currencySlice,
+    admin: adminSlice,
+    emailTemplate: emailTemplateSlice,
+    smtpConfig: smtpConfigSlice,
+    blog: blogSlice
   },
 
 })

@@ -3,7 +3,6 @@ import "react-phone-number-input/style.css";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { Value } from "sass";
 import { notifyError, notifyInfo, notifySuccess } from "@/utils/toast";
 import { updateCurrCandidate } from "@/redux/features/candidate/api";
 
@@ -21,11 +20,12 @@ const EditProfile = () => {
     lastName: user?.lastName || "",
     bio: user?.bio || "",
     phoneNumber: user?.phoneNumber || "",
+    experienceInYears: user?.experienceInYears || 0,
   });
 
   const handleSave = async () => {
     // validation
-    if (!form.firstName || !form.lastName || !form.bio || !value) {
+    if (!form.firstName || !form.lastName || !form.bio || !value || !form.experienceInYears) {
       notifyInfo("Felid with * can't be empty");
       return;
     }
@@ -107,12 +107,21 @@ const EditProfile = () => {
                       placeholder="+880 01723801729"
                     /> */}
                     <PhoneInput
-                      d
                       placeholder="Enter phone number"
                       value={value}
                       onChange={(value: any) => setValue(value)}
                     />
                     {/* <input type="text" placeholder="Brower" /> */}
+                  </div>
+                  <div className="dash-input-wrapper mb-30">
+                    <label htmlFor="lastName">Years of experience*</label>
+                    <input
+                      type="number"
+                      name="experienceInYears"
+                      onChange={handleInputChange}
+                      value={form.experienceInYears}
+                      placeholder="Enter your experience in years"
+                    />
                   </div>
                   <div className="dash-input-wrapper">
                     <label htmlFor="bio">Bio*</label>

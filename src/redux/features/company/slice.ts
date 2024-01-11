@@ -47,7 +47,10 @@ export const companySlice = createSlice({
             state.loading = false
             state.companies = action.payload.companies;
             state.totalNumOfPage = action.payload.totalNumOfPage;
-            state.totalCompanies = action.payload.totalCompanies
+            state.totalCompanies = action.payload.totalCompanies;
+            if (state.page > state.totalNumOfPage) {
+                state.page = state.totalNumOfPage > 0 ? state.totalNumOfPage : 1;
+            }
         },
         setPage: (state, action: PayloadAction<number>) => {
             state.page = action.payload;

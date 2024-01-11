@@ -26,6 +26,7 @@ const EditLocation = () => {
     // validation
     if (!location.city || !location.country) {
       notifyInfo("field with marked * can't be empty");
+      return;
     }
 
     if (currCandidate) {
@@ -36,7 +37,10 @@ const EditLocation = () => {
       if (isUpdated) {
         notifySuccess("Location updated updated successfully");
       } else notifyError("something went wrong try again");
+
     }
+    setCity("");
+    setCountry("");
   };
   console.log(city, country);
 

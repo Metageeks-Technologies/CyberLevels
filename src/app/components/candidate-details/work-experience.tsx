@@ -20,9 +20,7 @@ const WorkExperience = ({ experience }: Props) => {
             {obj.title} ({obj.company})
           </h4>
           <p>
-            {obj.description}+ Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames
-            ac ante ipsum primis in faucibus.
+            {obj.description}
           </p>
         </div>
       ))}

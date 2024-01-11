@@ -7,6 +7,11 @@ export interface IEducation {
     description: string;
     _id: string
 }
+interface ProfileView {
+
+    view_count?: number;
+    view_timestamp?: string;
+}
 export interface IExperience {
     title: string;
     company: string;
@@ -64,26 +69,40 @@ export interface ICandidate {
     resumes: IResume[],
     signInProvider?: "linkedIn" | "jwt"
     skills: string[],
+    softSkills: string[],
+    certificate: string[],
     experience: IExperience[],
     education: IEducation[],
-    socialSites: ISocial;
+    socialSites: ISocial,
+    experienceInYears:number,
     expectedSalary: {
-        currency: string,
-        salary: number,
+        currency: {
+            abbreviation: string;
+            name: string;
+            symbol: string;
+        },
+        min: number,
+        max:number,
         period: string
     },
-    profileCompleted: number,
+    selfDeclaration: {
+        gender:string,
+        race:string
+    },
+    preferredLocations:string[],
+    preferredLanguages:string[],
+    isProfileCompleted: boolean,
     gender: "male" | "female" | "others";
     location: ILocation,
     testScore: number,
     notifications: INotification[],
     bio: string,
-    profileViews: number;
+    profileViews: ProfileView[];
     createdAt: string,
     updatedAt: string,
     isSaved?: boolean,
     experienceInShort: string,
-    subscription: ISubscription
+    subscription: any,
     role: string,
     _id: string,
     __v: number
@@ -119,14 +138,14 @@ export interface IEmployer {
     createdAt: string,
     updatedAt: string,
     _id: string,
-    __v: number
+    __v: number,
+    subscription: any,
 
 }
 
 export interface IAdmin {
     name: string;
     email: string;
-    password: string,
     avatar: string,
     role: string;
     createdAt: string,

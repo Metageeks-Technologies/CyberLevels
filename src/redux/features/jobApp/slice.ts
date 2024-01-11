@@ -9,6 +9,12 @@ export interface IJobApplication {
     allJobAppByCandidate: IJobApp[];
     allJobAppByCandidateWithJobPost: IJobApp[];
     allJobAppByJobPostWithCandidate: IJobApp[];
+    allJobAppByCandidateWithJobPostPagination:IJobApp[];
+    numberOfShortlistedJobApps:number;
+    currentPage:number;
+    itemsPerPage:number;
+    totalPages:number;
+    totalJobsApplied:number;
     allJobAppByJobPost: IJobApp[];
     jobApp: IJobApp | null;
     chat: IChat | null;
@@ -31,6 +37,14 @@ const initialState: IJobApplication = {
     currJobApp: "",
     feedback: null,
     chatsByEmp: [],
+    allJobAppByCandidateWithJobPostPagination:[],
+    currentPage: 1,
+    itemsPerPage: 6,
+    totalPages:0,
+    totalJobsApplied:0,
+    numberOfShortlistedJobApps:0,
+
+
 };
 
 export const jobApplicationSlice = createSlice({
@@ -53,8 +67,16 @@ export const jobApplicationSlice = createSlice({
             state.allJobAppByCandidate = action.payload;
             state.loading = false
         },
-        allJobAppByCandidateWithJobPostSuccess: (state, action: PayloadAction<IJobApp[]>) => {
-            state.allJobAppByCandidateWithJobPost = action.payload;
+        allJobAppByCandidateWithJobPostSuccess: (state, action: PayloadAction<any>) => {
+            state.allJobAppByCandidateWithJobPost = action.payload.allJobApp;
+            state.totalJobsApplied = action.payload.totalJobApplied
+            state.loading = false
+        },
+        allJobAppByCandidateWithJobPostPaginationSuccess: (state, action: PayloadAction<any>) => {
+            state.allJobAppByCandidateWithJobPostPagination = action.payload.allJobApp;
+            state.currentPage = action.payload.currentPage;
+            state.itemsPerPage = action.payload.itemsPerPage;
+            state.totalPages = action.payload.totalPages;
             state.loading = false
         },
         allJobAppByJobPostWithCandidateSuccess: (state, action: PayloadAction<IJobApp[]>) => {
@@ -101,6 +123,13 @@ export const jobApplicationSlice = createSlice({
             state.feedback = action.payload;
             state.loading = false;
         },
+        setPage: (state, action:PayloadAction<number>) => {
+            state.currentPage = action.payload;
+        },
+        getAllShortlistedJobAppByCandidateIdSuccess: (state, action:PayloadAction<number>) => {
+            state.loading = false;
+            state.numberOfShortlistedJobApps = action.payload
+        },
 
 
     }
@@ -122,8 +151,10 @@ export const {
     allJobAppByCandidateWithJobPostSuccess,
     allJobAppByJobPostWithCandidateSuccess,
     getChatsFail,
-    getChatsByEmployerSuccess
-
+    getChatsByEmployerSuccess,
+    allJobAppByCandidateWithJobPostPaginationSuccess,
+    setPage,
+    getAllShortlistedJobAppByCandidateIdSuccess,
 } = jobApplicationSlice.actions;
 
 export default jobApplicationSlice.reducer;
