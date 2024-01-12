@@ -40,7 +40,9 @@ const Preferences = () => {
               <input
                 type="text"
                 placeholder="Currency"
-                value={`${user?.expectedSalary?.currency?.symbol} ${user?.expectedSalary?.currency?.name}`}
+                value={ user?.expectedSalary?.currency
+                  ? `${user.expectedSalary.currency.symbol} ${user.expectedSalary.currency.name}`
+                  : undefined}
                 readOnly
               />
             </div>
