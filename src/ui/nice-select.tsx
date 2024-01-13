@@ -11,7 +11,7 @@ type Option = {
 
 type IPropType = {
   options: Option[];
-  defaultCurrent: number;
+  defaultCurrent?: number;
   placeholder?: string;
   cls?: string | undefined;
   onChange: (item: Option) => void;
@@ -30,7 +30,7 @@ const NiceSelect = ({
 }: IPropType) => {
   // console.log(defaultCurrent, "from defalt current");
   const [open, setOpen] = useState(false);
-  const [current, setCurrent] = useState(options[defaultCurrent]);
+  const [current, setCurrent] = useState(defaultCurrent?options[defaultCurrent]:undefined);
   const onClose = useCallback(() => {
     setOpen(false);
   }, []);
