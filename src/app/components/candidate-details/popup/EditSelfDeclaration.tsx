@@ -20,8 +20,8 @@ const EditSelfDeclaration = () => {
 //   const [race, setRace] = useState(user?.location?.country);
 //   const [ethnicity, setEthnicity] = useState(user?.location?.country);
     const [selfDeclaration, setSelfDeclaration] = useState({
-        gender:"",
-        race:"",
+        gender:user?.selfDeclaration?.gender||undefined,
+        race:user?.selfDeclaration?.race||undefined,
     });
 
     const handleSelfDeclarationChange = (item:{value:string,label:string},name:string) => {
@@ -51,7 +51,7 @@ const EditSelfDeclaration = () => {
       });
 
       if (isUpdated) {
-        notifySuccess("Location updated updated successfully");
+        notifySuccess("Self Declaration updated successfully");
       } else notifyError("something went wrong try again");
     }
   };

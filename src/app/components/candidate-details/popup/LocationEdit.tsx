@@ -35,7 +35,7 @@ const EditLocation = () => {
       });
 
       if (isUpdated) {
-        notifySuccess("Location updated updated successfully");
+        notifySuccess("Location updated successfully");
       } else notifyError("something went wrong try again");
 
     }

@@ -53,11 +53,7 @@ const EditPreferences = () => {
     max: currCandidate?.expectedSalary?.max || "",
 
     period: currCandidate?.expectedSalary?.period || "",
-    currency: currCandidate?.expectedSalary?.currency || {
-      abbreviation: "",
-      name: "",
-      symbol: "",
-    },
+    currency: currCandidate?.expectedSalary?.currency || undefined,
   });
   console.log(prefLanguages, "Pref Languages");
   useEffect(() => {

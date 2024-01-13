@@ -35,10 +35,10 @@ const SelfDeclaration = () => {
         <div className="row">
           <div className="col-lg-3">
             <div className="dash-input-wrapper mb-25">
-              <label htmlFor="city">Gender</label>
+              <label htmlFor="gender">Gender</label>
               <input
                 type="text"
-                placeholder="Toronto"
+                placeholder="M/F/O"
                 value={user?.selfDeclaration?.gender}
                 readOnly
               />
@@ -46,10 +46,10 @@ const SelfDeclaration = () => {
           </div>
           <div className="col-lg-3">
             <div className="dash-input-wrapper mb-25">
-              <label htmlFor="">Race</label>
+              <label htmlFor="race">Race</label>
               <input
                 type="text"
-                placeholder="Canada"
+                placeholder="Race"
                 value={user?.selfDeclaration?.race}
                 readOnly
               />
