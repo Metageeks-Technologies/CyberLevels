@@ -45,6 +45,9 @@ const GptSidebar = ({
     dispatch(setFile(null));
     dispatch(setUploadProgress(0));
   };
+  const handleFile = (file: File | null) => {
+    setFile(file);
+  };
   return (
     <div className="chat-bot-overlay">
       <div className="chat-bot-container">
@@ -58,7 +61,7 @@ const GptSidebar = ({
           {!fileNamePc && (
             <div className="upload   mx-auto  p-3 d-flex justify-content-center align-items-center gap-2  ">
               <button className="me-3 ">
-                <DropZone text={"Upload resume"} />
+                <DropZone setFile={handleFile} text={"Upload resume"} />
               </button>
               {gptLoading ? (
                 <div>

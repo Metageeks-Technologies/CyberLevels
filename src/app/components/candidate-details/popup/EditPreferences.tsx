@@ -37,12 +37,10 @@ const EditPreferences = () => {
   //   const [race, setRace] = useState(user?.location?.country);
   //   const [ethnicity, setEthnicity] = useState(user?.location?.country);
   const [currency, setCurrency] = useState<Currency | undefined>(
-    currCandidate?.expectedSalary?.currency || {
-      abbreviation: "",
-      name: "",
-      symbol: "",
-    }
+    currCandidate?.expectedSalary?.currency || undefined
   );
+ 
+
   const [language, setLanguage] = useState("");
   const [location, setLocation] = useState<string[]>(
     currCandidate?.preferredLocations || []
@@ -173,16 +171,16 @@ const EditPreferences = () => {
                     <div className="dash-input-wrapper mb-25">
                       <label htmlFor="city">Expected Salary</label>
                       <AutocompleteCurrency
-                        selected={currency}
+                        // selected={currency}
+                        selected={undefined} 
                         setSelected={setCurrency}
                         endPoint=""
                         suggestionsProp={currencies}
-                        placeholder="Select Currency"
-                      />
+                        placeholder="Select Currency"                      />
                     </div>
                   </div>
                   <div className="col-md-3">
-                    <div className="dash-input-wrapper mb-30">
+                    <div className="dash-input-wrapper mb-30 ">
                       <NiceSelect
                         options={[
                           { value: "select period", label: "select period" },

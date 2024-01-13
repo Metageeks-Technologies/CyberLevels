@@ -10,7 +10,6 @@ import { addNotification } from "@/redux/features/candidate/dashboardSlice";
 import { usePathname } from "next/navigation";
 
 const initialLoad = ({ children }: { children: React.ReactNode }) => {
-  const pathname = usePathname();
   const dispatch = useAppDispatch();
   const { currUser, userRole, isAuthenticated } = useAppSelector(
     (s) => s.persistedReducer.user

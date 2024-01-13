@@ -51,18 +51,16 @@ function AutocompleteSkill({ skills, setSkills }: Props) {
     setSkills((prev) => [...prev, value]);
     setQuery("");
   };
+
   const handleAddSkill = async () => {
     if (skills.includes(query)) {
       notifyInfo("Skill already added");
       return;
     }
-    try {
-      await addCandidateSkillDB(dispatch, query);
+    const isAdded = await addCandidateSkillDB(dispatch, query);
+    if (isAdded) {
       setSkills((prev) => [...prev, query]);
       setQuery("");
-    } catch (error) {
-      const e = error as any;
-      notifyError(e.response.data.message);
     }
   };
 

@@ -133,7 +133,7 @@ const CandidateAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
           </div>
           <div className="user-data">
             <div className="user-avatar position-relative rounded-circle">
-              <Image
+              {/* <Image
                 src={
                   user?.avatar !== "none" ? (user?.avatar as string) : avatar
                 }
@@ -142,6 +142,18 @@ const CandidateAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
                 alt="avatar"
                 className="lazy-img"
                 style={{ height: "auto" }}
+              /> */}
+              <img
+                width={50}
+                height={50}
+                src={user?.avatar || ""}
+                // src={
+                //   user?.avatar !== "none" || false
+                //     ? (user?.avatar as string)
+                //     : avatar
+                // }
+                alt="avatar"
+                className="lazy-img user-img"
               />
             </div>
             <div className="user-name-data user-name ">

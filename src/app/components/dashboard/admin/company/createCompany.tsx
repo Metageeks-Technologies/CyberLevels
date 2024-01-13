@@ -20,6 +20,7 @@ import "react-phone-number-input/style.css";
 import AutocompleteBenefits from "@/ui/autoCompletebenefits";
 import Finance from "../show-finance";
 import { notifyInfo } from "@/utils/toast";
+import { setFile } from "@/redux/features/globalSlice";
 
 const CreateCompany = () => {
   const dispatch = useDispatch();
@@ -164,6 +165,9 @@ const CreateCompany = () => {
     // setBenefits([]);
     // setFunding([]);
   };
+  const handleFile = (file: File | null) => {
+    setFile(file);
+  };
   return (
     <div>
       <div className="bg-white card-box border-20">
@@ -183,7 +187,7 @@ const CreateCompany = () => {
           />
           {!file && (
             <div className=" upload-btn position-relative tran3s ms-4 px-2  mx-3">
-              <DropZone text={"Upload logo"} />
+              <DropZone setFile={handleFile} text={"Upload logo"} />
             </div>
           )}
           {file && (

@@ -4,7 +4,8 @@ import { updateCurrCandidate } from "@/redux/features/candidate/api";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { notifyError, notifyInfo, notifySuccess } from "@/utils/toast";
-import AutocompleteSoftSkill from "@/ui/autoCompleteSoftSkill";
+// import AutocompleteSoftSkill from "@/ui/autoCompleteSoftSkill";
+import AutocompleteSkill from "@/ui/autoCompleteSkill";
 
 const EditSoftSkill = ({ skills }: { skills: string[] }) => {
   const dispatch = useAppDispatch();
@@ -53,8 +54,8 @@ const EditSoftSkill = ({ skills }: { skills: string[] }) => {
                     <h3 className=" text-dark ">Soft skills</h3>
                     <div>
                       Tell recruiters what you know or what you are known for
-                      e.g. Time Management, Communication, Leadership etc. We will send you
-                      job recommendations based on these skills.
+                      e.g. Time Management, Communication, Leadership etc. We
+                      will send you job recommendations based on these skills.
                     </div>
                   </div>
                   <div className="mt-3">
@@ -86,7 +87,7 @@ const EditSoftSkill = ({ skills }: { skills: string[] }) => {
                     </div>
                   </div>
                   <div className="mt-3">
-                    <AutocompleteSoftSkill skills={_skills} setSkills={setSkills} />
+                    <AutocompleteSkill skills={_skills} setSkills={setSkills} />
                   </div>
 
                   <div className="button-group d-inline-flex align-items-center mt-30">
