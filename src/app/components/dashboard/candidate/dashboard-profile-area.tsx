@@ -19,6 +19,13 @@ import Softskills from "./resume/Softskills";
 import Experience from "./resume/Experience";
 import Education from "./resume/Education";
 import Certificate from "./resume/Certification";
+import setPhotoFile from "@/redux/features/candidate/dashboardSlice";
+import setPhotoUploadProgress from "@/redux/features/candidate/dashboardSlice";
+// import {
+//   setPhotoFile,
+//   setPhotoUploadProgress,
+// } from "@/redux/features/candidate/dashboardSlice";
+
 import SelfDeclaration from "./profile/SelfDecalration";
 import Preferences from "./profile/Preferences";
 // props type
@@ -61,6 +68,9 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
     dispatch(setFile(null));
     dispatch(setUploadProgress(0));
   };
+  const handlePhotoChange = (file: File | null) => {
+    dispatch(setPhotoFile(file));
+  };
 
   return (
     <>
@@ -90,6 +100,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
                 {!file && (
                   <div className=" upload-btn position-relative tran3s ms-4 me-3">
                     <DropZone
+                    setFile={handlePhotoChange}
                       text={
                         user?.avatar
                           ? "Update profile photo"
