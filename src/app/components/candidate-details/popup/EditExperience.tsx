@@ -1,40 +1,41 @@
 "use client";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { IEducation } from "@/types/user-type";
+import { IEducation, IExperience } from "@/types/user-type";
 import { useEffect } from "react";
 import EditEducationBody from "./EducationBody";
-import { setCurrDashEducation } from "@/redux/features/candidate/dashboardSlice";
+import { setCurrDashEducation, setCurrDashExperience } from "@/redux/features/candidate/dashboardSlice";
+import EditExperienceBody from "./ExperienceBody";
 
-const EditEducation = () => {
-  const { currDashEducation, currCandidate } = useAppSelector(
+const EditExperience = () => {
+  const { currDashExperience, currCandidate } = useAppSelector(
     (s) => s.candidate.candidateDashboard
   );
 
   const dispatch = useAppDispatch();
 
-  const [educationProp, setEducationProp] = useState<IEducation | undefined>(
+  const [experienceProp, setExperienceProp] = useState<IExperience | undefined>(
     undefined
   );
 
   useEffect(() => {
-    const updatedEducationProp = currCandidate?.education.find(
-      (obj) => obj?._id === currDashEducation
+    const updatedExperienceProp = currCandidate?.experience.find(
+      (obj) => obj?._id === currDashExperience
     );
 
-    setEducationProp(updatedEducationProp);
+    setExperienceProp(updatedExperienceProp);
     // console.log(updatedEducationProp);
-  }, [currDashEducation]);
+  }, [currDashExperience]);
   useEffect(() => {
     return () => {
-      dispatch(setCurrDashEducation(""));
+      dispatch(setCurrDashExperience(""));
     };
   }, []);
 
   return (
     <div
       className={`modal fade`}
-      id="EducationModal"
+      id="ExperienceModal"
       tabIndex={-1}
       aria-hidden="true"
     >
@@ -49,9 +50,9 @@ const EditEducation = () => {
             ></button>
 
             <div className="form-wrapper m-auto w-100 ">
-              {educationProp && (
+              {experienceProp && (
                 <>
-                  <EditEducationBody educationProp={educationProp} />
+                  <EditExperienceBody experienceProp={experienceProp} />
                 </>
               )}
             </div>
@@ -62,4 +63,4 @@ const EditEducation = () => {
   );
 };
 
-export default EditEducation;
+export default EditExperience;

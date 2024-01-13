@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import ShowEducation from "../../../candidate-details/DashEducation";
 import SelectYear from "../select-year";
@@ -19,6 +19,9 @@ const Education = () => {
     institute: "",
     description: "",
   });
+  // useEffect(() => {
+
+  // },[currCandidate])
 
   const [startYear, setStartYear] = useState("");
   const [startMonth, setStartMonth] = useState("");
@@ -74,7 +77,7 @@ const Education = () => {
           {user?.education.length !== 0 && (
             <div className="inner-card border-style mb-25 lg-mb-20">
               <h3 className="title">Education</h3>
-              <ShowEducation education={user?.education} />
+              <ShowEducation />
             </div>
           )}
           <div className="accordion dash-accordion-one" id="accordionOne">

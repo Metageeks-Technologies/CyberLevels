@@ -23,6 +23,8 @@ import {
   updateEduSuccess,
   getCandidateProfileViewsForChartSuccess,
   getCandidateProfileTotalViewsSuccess,
+  updateExistingEduSuccess,
+  updateExistingExpSuccess,
 } from "./dashboardSlice";
 import axios, { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
@@ -90,9 +92,9 @@ export const getCurrCandidate = async (dispatch: AppDispatch, id: string) => {
   } catch (error) {
     const e = error as AxiosError;
     console.log(e);
-    if (e.response?.status === 401) {
-      await logoutAdmin(dispatch)
-    }
+    // if (e.response?.status === 401) {
+    //   await logoutAdmin(dispatch)
+    // }
     dispatch(requestFailDash(e.message));
   }
 };
@@ -124,7 +126,7 @@ export const addEducation = async (
       `/candidate/updateEdu/${id}`,
       bodyObj
     );
-    dispatch(updateEduSuccess(bodyObj));
+    dispatch(updateEduSuccess(data.education));
     notifySuccess("Education added successfully");
   } catch (error) {
     const e = error as AxiosError;
@@ -132,6 +134,20 @@ export const addEducation = async (
     notifyError("Something went wrong try again");
   }
 };
+export const updateEducation = async(dispatch: AppDispatch,id:string,eduId:string,bodyObj:any) => {
+  try {
+    const { data } = await instance.patch(
+      `/candidate/updateEdu/${id}/${eduId}`,
+      bodyObj
+    );
+    dispatch(updateExistingEduSuccess(data.data));
+    notifySuccess("Education updated successfully");
+  } catch (error) {
+    const e = error as AxiosError;
+    dispatch(requestFailDash(e.message));
+    notifyError("Something went wrong try again");
+  }
+}
 
 export const addExperience = async (
   dispatch: AppDispatch,
@@ -144,8 +160,8 @@ export const addExperience = async (
       `/candidate/updateExp/${id}`,
       bodyObj
     );
-    console.log(data);
-    dispatch(updateExpSuccess(bodyObj));
+    // console.log(data);
+    dispatch(updateExpSuccess(data.experience));
     notifySuccess("Experience added successfully")
   } catch (error) {
     const e = error as AxiosError;
@@ -153,6 +169,22 @@ export const addExperience = async (
     notifyError("Something went wrong try again");
   }
 };
+export const updateExperience = async(dispatch:AppDispatch,id:string,expId:string,bodyObj:any) => {
+  dispatch(requestStartDash());
+  try {
+    const { data } = await instance.patch(
+      `/candidate/updateExp/${id}/${expId}`,
+      bodyObj
+    );
+    console.log(data);
+    dispatch(updateExistingExpSuccess(data.data));
+    notifySuccess("Experience added successfully")
+  } catch (error) {
+    const e = error as AxiosError;
+    dispatch(requestFailDash(e.message));
+    notifyError("Something went wrong try again");
+  }
+}
 export const getSavedJobs = async (
   dispatch: AppDispatch,
   id: string,

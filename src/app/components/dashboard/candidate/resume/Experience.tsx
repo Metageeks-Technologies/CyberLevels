@@ -6,6 +6,7 @@ import SelectYear from "../select-year";
 import { addExperience } from "@/redux/features/candidate/api";
 import WorkExperience from "@/app/components/candidate-details/work-experience";
 import { notifyInfo } from "@/utils/toast";
+import EditExperience from "@/app/components/candidate-details/popup/EditExperience";
 const Experience = () => {
   const dispatch = useAppDispatch();
   const { currCandidate, loading } = useAppSelector(
@@ -45,8 +46,8 @@ const Experience = () => {
     }
     const bodyObj = {
       ...experience,
-      startYear,
-      endYear,
+      startYear: startMonth+ " "+ startYear,
+      endYear:endMonth + " "+ endYear,
     };
     await addExperience(dispatch, user?._id || "", bodyObj);
     setExperience({
@@ -69,7 +70,7 @@ const Experience = () => {
             <div className="inner-card border-style mb-25 lg-mb-20">
               <h3 className="title">Work Experience</h3>
 
-              <WorkExperience experience={user?.experience} />
+              <WorkExperience />
             </div>
           )}
           <div className="accordion dash-accordion-one" id="accordionTwo">
@@ -219,6 +220,7 @@ const Experience = () => {
           </div>
         </div>
       </div>
+      {<EditExperience />}
     </>
   );
 };

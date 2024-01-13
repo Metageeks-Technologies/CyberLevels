@@ -1,6 +1,6 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { IEducation } from "@/types/user-type";
+import { IEducation, IExperience } from "@/types/user-type";
 import { notifyError, notifyInfo } from "@/utils/toast";
 import { useEffect, useState } from "react";
 import SelectMonth from "../../dashboard/candidate/select-month";
@@ -8,72 +8,73 @@ import SelectYear from "../../dashboard/candidate/select-year";
 import {
   getCurrCandidate,
   updateEducation,
+  updateExperience,
 } from "@/redux/features/candidate/api";
 import { setCurrDashEducation } from "@/redux/features/candidate/dashboardSlice";
 // import { updateExistingEduSuccess } from "@/redux/features/candidate/dashboardSlice";
 
-const EditEducationBody = ({
-  educationProp,
+const EditExperienceBody = ({
+  experienceProp,
 }: {
-  educationProp: IEducation;
+  experienceProp: IExperience;
 }) => {
   const dispatch = useAppDispatch();
-  const { currCandidate, currDashEducation } = useAppSelector(
+  const { currCandidate, currDashExperience } = useAppSelector(
     (store) => store.candidate.candidateDashboard
   );
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
   // const user = currCandidate;
   // useEffect(() => {
-  //   // console.log(updatedEducationProp);
-  // }, [educationProp]);
+  //   // console.log(updatedexperienceProp);
+  // }, [experienceProp]);
 
-  // console.log(educationProp._id);
+  // console.log(experienceProp._id);
 
-  const [education, setEducation] = useState({
-    degree: "",
-    institute: "",
+  const [experience, setExperience] = useState({
+    title: "",
+    company: "",
     description: "",
   });
   // let start: string[] = [];
   // let end: string[] = [];
-  const start = educationProp?.startYear.split(" ");
-  const end = educationProp?.endYear.split(" ");
+  const start = experienceProp?.startYear.split(" ");
+  const end = experienceProp?.endYear.split(" ");
   const [startYear, setStartYear] = useState("");
   const [startMonth, setStartMonth] = useState("");
   const [endYear, setEndYear] = useState("");
   const [endMonth, setEndMonth] = useState("");
 
   useEffect(() => {
-    setEducation({
-      degree: educationProp.degree || "",
-      institute: educationProp.institute || "",
-      description: educationProp.description || "",
+    setExperience({
+      title: experienceProp.title || "",
+      company: experienceProp.company || "",
+      description: experienceProp.description || "",
     });
 
-    const start = educationProp.startYear?.split(" ");
-    const end = educationProp.endYear?.split(" ");
+    const start = experienceProp.startYear?.split(" ");
+    const end = experienceProp.endYear?.split(" ");
 
     setStartYear(start[1] || "");
     setStartMonth(start[0] || "");
     setEndYear(end[1] || "");
     setEndMonth(end[0] || "");
     // console.log(startMonth, startYear, endYear, endMonth);
-  }, [educationProp]);
+  }, [experienceProp]);
   const handleEducationChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setEducation({
-      ...education,
+    setExperience({
+      ...experience,
       [name]: value,
     });
   };
 
   const handleAddEducation = async () => {
     if (
-      !education.degree ||
-      !education.description ||
-      !education.institute ||
+      !experience.title ||
+      !experience.description ||
+      !experience.company ||
       !startYear ||
       startYear === "Start Year" ||
       !startMonth ||
@@ -91,26 +92,26 @@ const EditEducationBody = ({
       return;
     }
     const bodyObj = {
-      ...education,
+      ...experience,
       startYear: startMonth + " " + startYear,
       endYear: endMonth + " " + endYear,
     };
     console.log("bodyObj", bodyObj);
     //  await addEducation(dispatch, user._id, bodyObj);
     if (currCandidate) {
-      console.log(educationProp, "Education Prop");
-      await updateEducation(
+      console.log(experienceProp, "Experience Prop");
+      await updateExperience(
         dispatch,
         currCandidate?._id,
-        currDashEducation,
+        currDashExperience,
         bodyObj
       );
     } else {
       console.log("error");
     }
-    setEducation({
-      degree: "",
-      institute: "",
+    setExperience({
+      title: "",
+      company: "",
       description: "",
     });
     setStartYear("");
@@ -121,21 +122,21 @@ const EditEducationBody = ({
 
   return (
     <div className="accordion-body">
-      <p>{educationProp._id}</p>
+      <p>{experienceProp._id}</p>
       <div className="row">
         <div className="col-lg-2">
           <div className="dash-input-wrapper mb-30 md-mb-10">
-            <label htmlFor="degree">Degree*</label>
+            <label htmlFor="title">Title*</label>
           </div>
         </div>
         <div className="col-lg-10">
           <div className="dash-input-wrapper mb-30">
             <input
-              name="degree"
-              value={education.degree}
+              name="title"
+              value={experience.title}
               onChange={handleEducationChange}
               type="text"
-              placeholder="Bachelor's"
+              placeholder="SDE"
             />
           </div>
         </div>
@@ -143,17 +144,17 @@ const EditEducationBody = ({
       <div className="row">
         <div className="col-lg-2">
           <div className="dash-input-wrapper mb-30 md-mb-10">
-            <label htmlFor="institute">Institute*</label>
+            <label htmlFor="company">Company*</label>
           </div>
         </div>
         <div className="col-lg-10">
           <div className="dash-input-wrapper mb-30">
             <input
-              name="institute"
-              value={education.institute}
+              name="company"
+              value={experience.company}
               onChange={handleEducationChange}
               type="text"
-              placeholder="Oxford"
+              placeholder="Amazon"
             />
           </div>
         </div>
@@ -220,7 +221,7 @@ const EditEducationBody = ({
         <div className="col-lg-10">
           <div className="dash-input-wrapper mb-30">
             <textarea
-              value={education.description}
+              value={experience.description}
               name="description"
               onChange={handleEducationChange}
               className="size-lg"
@@ -243,4 +244,4 @@ const EditEducationBody = ({
   );
 };
 
-export default EditEducationBody;
+export default EditExperienceBody;
