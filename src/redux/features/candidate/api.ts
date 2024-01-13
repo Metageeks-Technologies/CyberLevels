@@ -364,7 +364,7 @@ export const uploadResume = async (
         onUploadProgress: (data) => {
           if (data.total)
             dispatch(
-              setResumeUploadProgress(Math.round((data.loaded / data.total) * 100))
+              setUploadProgress(Math.round((data.loaded / data.total) * 100))
             );
         },
       });
@@ -418,7 +418,7 @@ export const updateAvatar = async (
         onUploadProgress: (data) => {
           if (data.total)
             dispatch(
-              setPhotoUploadProgress(Math.round((data.loaded / data.total) * 100))
+              setUploadProgress(Math.round((data.loaded / data.total) * 100))
             );
         },
       });
