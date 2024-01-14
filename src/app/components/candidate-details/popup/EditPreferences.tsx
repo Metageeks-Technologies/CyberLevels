@@ -49,13 +49,13 @@ const EditPreferences = () => {
     currCandidate?.preferredLanguages || []
   );
   const [salary, setSalary] = useState({
-    min: currCandidate?.expectedSalary?.min || "",
-    max: currCandidate?.expectedSalary?.max || "",
+    min: currCandidate?.expectedSalary?.min || undefined,
+    max: currCandidate?.expectedSalary?.max || undefined,
 
-    period: currCandidate?.expectedSalary?.period || "",
+    period: currCandidate?.expectedSalary?.period || undefined,
     currency: currCandidate?.expectedSalary?.currency || undefined,
   });
-  console.log(prefLanguages, "Pref Languages");
+  // console.log(prefLanguages, "Pref Languages");
   useEffect(() => {
     if (language === "") {
       return;
@@ -97,6 +97,10 @@ const EditPreferences = () => {
     if(prefLanguages.length > 4){
         notifyInfo("Only 4 languages can be added to preferred languages")
         return;
+    }
+    if(salary.period === "Select Period" || !salary.period || !salary.currency || !salary.min || !salary.max || prefLanguages.length === 0 || location.length === 0){
+      notifyInfo("Fields marked with * cannot be empty");
+      return;
     }
     const preferences = {
       preferredLocations: location,
@@ -167,8 +171,7 @@ const EditPreferences = () => {
                     <div className="dash-input-wrapper mb-25">
                       <label htmlFor="city">Expected Salary</label>
                       <AutocompleteCurrency
-                        // selected={currency}
-                        selected={undefined} 
+                        selected={currency}
                         setSelected={setCurrency}
                         endPoint=""
                         suggestionsProp={currencies}
@@ -179,17 +182,18 @@ const EditPreferences = () => {
                     <div className="dash-input-wrapper mb-30 ">
                       <NiceSelect
                         options={[
-                          { value: "select period", label: "select period" },
+                          // { value: "select period", label: "select period" },
                           { value: "monthly", label: "monthly" },
                           { value: "yearly", label: "yearly" },
                           { value: "weekly", label: "weekly" },
                           { value: "By-weekly", label: "By-weekly" },
                           { value: "hourly", label: "hourly" },
                         ]}
-                        defaultCurrent={0}
+                        // defaultCurrent={0}
                         onChange={(item) =>
                           updateSalaryProperty("period", item)
                         }
+                        placeholder="Select Period"
                         name="period"
                       />
                     </div>
