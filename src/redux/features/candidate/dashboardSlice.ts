@@ -33,6 +33,10 @@ export interface ICandidateDashboard {
   currDashExperience: string;
   viewsOnCandidateProfile: ProfileView[];
   totalViews: number;
+  photoFile: File | null;
+  resumeFile: File | null;
+  photoUploadProgress: number;
+  resumeUploadProgress: number;
 }
 
 // Define the initial state using that type
@@ -54,6 +58,10 @@ const initialState: ICandidateDashboard = {
   currDashExperience: "",
   viewsOnCandidateProfile: [],
   totalViews: 0,
+  photoFile: null,
+  resumeFile: null,
+  photoUploadProgress: 0,
+  resumeUploadProgress: 0,
 };
 
 type IForGetSavedJobs = {
@@ -222,6 +230,18 @@ export const candidateDashboardSlice = createSlice({
     ) => {
       state.recommendedJobs = action.payload;
     },
+    setPhotoFile: (state, action: PayloadAction<File | null>) => {
+      state.photoFile = action.payload;
+    },
+    setResumeFile: (state, action: PayloadAction<File | null>) => {
+      state.resumeFile = action.payload;
+    },
+    setPhotoUploadProgress: (state, action: PayloadAction<number>) => {
+      state.photoUploadProgress = action.payload;
+    },
+    setResumeUploadProgress: (state, action: PayloadAction<number>) => {
+      state.resumeUploadProgress = action.payload;
+    },
   },
 });
 
@@ -251,6 +271,10 @@ export const {
   getCandidateProfileTotalViewsSuccess,
   updateExistingEduSuccess,
   updateExistingExpSuccess,
+  setPhotoFile,
+  setResumeFile,
+  setPhotoUploadProgress,
+  setResumeUploadProgress,
 } = candidateDashboardSlice.actions;
 
 export default candidateDashboardSlice.reducer;

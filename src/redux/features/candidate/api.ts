@@ -95,9 +95,6 @@ export const getCurrCandidate = async (dispatch: AppDispatch, id: string) => {
     // if (e.response?.status === 401) {
     //   await logoutAdmin(dispatch)
     // }
-    // if (e.response?.status === 401) {
-    //   await logoutAdmin(dispatch)
-    // }
     dispatch(requestFailDash(e.message));
   }
 };

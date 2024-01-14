@@ -19,12 +19,10 @@ import Softskills from "./resume/Softskills";
 import Experience from "./resume/Experience";
 import Education from "./resume/Education";
 import Certificate from "./resume/Certification";
-import setPhotoFile from "@/redux/features/candidate/dashboardSlice";
-import setPhotoUploadProgress from "@/redux/features/candidate/dashboardSlice";
-// import {
-//   setPhotoFile,
-//   setPhotoUploadProgress,
-// } from "@/redux/features/candidate/dashboardSlice";
+import {
+  setPhotoFile,
+  setPhotoUploadProgress,
+} from "@/redux/features/candidate/dashboardSlice";
 
 import SelfDeclaration from "./profile/SelfDecalration";
 import Preferences from "./profile/Preferences";
@@ -150,7 +148,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
           {/* Profile end */}
 
           {/* resume start */}
-          <UploadResume />
+          <UploadResume resume={user?.resumes} />
           {/* resume end */}
 
           <div className="bg-white card-box border-20 mt-40">

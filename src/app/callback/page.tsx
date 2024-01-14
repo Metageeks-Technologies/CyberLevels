@@ -50,8 +50,7 @@ const page = () => {
       const handleLogin = async () => {
         const isLoginSuccessful = await loginWithLn(dispatch, requestData);
 
-        if (isLoginSuccessful) router.push(`/`);
-        else router.push("/");
+        router.push(`/`);
       };
 
       handleLogin();
