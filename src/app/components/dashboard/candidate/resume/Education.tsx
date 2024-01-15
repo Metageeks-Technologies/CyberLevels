@@ -65,8 +65,8 @@ const Education = () => {
       institute: "",
       description: "",
     });
-    setStartYear("");
-    setEndYear("");
+    // setStartYear("");
+    // setEndYear("");
     setAllFieldsCheck(false);
   };
 
@@ -152,12 +152,16 @@ const Education = () => {
                           <SelectMonth
                             setMonth={setStartMonth}
                             firstInput="Start Month"
+                            placeholder="Start Month"
+                            // default={{value:startMonth,label:startMonth}}
                           />
                         </div>
                         <div className="col-sm-3">
                           <SelectYear
                             setYear={setStartYear}
                             firstInput="Start Year"
+                            placeholder="Start Year"
+                            // default={{value:startYear,label:startYear}}
                           />
                         </div>
 
@@ -165,12 +169,16 @@ const Education = () => {
                           <SelectMonth
                             setMonth={setEndMonth}
                             firstInput="End Month"
+                            placeholder="End Month"
+                            // default={{value:endMonth,label:endMonth}}
                           />
                         </div>
                         <div className="col-sm-3">
                           <SelectYear
                             setYear={setEndYear}
                             firstInput="End Year"
+                            placeholder="End Year"
+                            // default={{value:endYear,label:endYear}}
                           />
                         </div>
                       </div>

@@ -55,10 +55,10 @@ const Experience = () => {
       company: "",
       description: "",
     });
-    setStartYear("");
-    setEndYear("");
-    setStartMonth("");
-    setEndMonth("");
+    // setStartYear("");
+    // setEndYear("");
+    // setStartMonth("");
+    // setEndMonth("");
     setAllFieldsCheck(false);
   };
 
@@ -145,24 +145,28 @@ const Experience = () => {
                           <SelectYear
                             setYear={setStartYear}
                             firstInput="Start Year"
+                            placeholder="Start Year"
                           />
                         </div>
                         <div className="col-sm-3">
                           <SelectMonth
                             setMonth={setStartMonth}
                             firstInput="Start Month"
+                            placeholder="Start Month"
                           />
                         </div>
                         <div className="col-sm-3">
                           <SelectYear
                             setYear={setEndYear}
                             firstInput="End Year"
+                            placeholder="End Year"
                           />
                         </div>
                         <div className="col-sm-3">
                           <SelectMonth
                             setMonth={setEndMonth}
                             firstInput="End Month"
+                            placeholder="End Month"
                           />
                         </div>
                       </div>
