@@ -30,9 +30,9 @@ const EditEducationBody = ({
   // console.log(educationProp._id);
 
   const [education, setEducation] = useState({
-    degree: "",
-    institute: "",
-    description: "",
+    degree: educationProp.degree || "",
+    institute: educationProp.institute || "",
+    description: educationProp.description || "",
   });
   // let start: string[] = [];
   // let end: string[] = [];
@@ -57,6 +57,7 @@ const EditEducationBody = ({
     setStartMonth(start[0] || "");
     setEndYear(end[1] || "");
     setEndMonth(end[0] || "");
+    console.log(startMonth, startYear, endYear, endMonth);
     // console.log(startMonth, startYear, endYear, endMonth);
   }, [educationProp]);
   const handleEducationChange = (
@@ -115,13 +116,13 @@ const EditEducationBody = ({
     });
     // setStartYear("");
     // setEndYear("");
-    getCurrCandidate(dispatch,currUser as string);
+    await getCurrCandidate(dispatch,currUser as string);
   };
-  // console.log(startMonth, startYear, endYear, endMonth);
+  
 
   return (
     <div className="accordion-body">
-      <p>{educationProp._id}</p>
+      {/* <p>{educationProp._id}</p> */}
       <div className="row">
         <div className="col-lg-2">
           <div className="dash-input-wrapper mb-30 md-mb-10">

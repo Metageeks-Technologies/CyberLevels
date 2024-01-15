@@ -22,7 +22,7 @@ const Experience = () => {
   const [startMonth, setStartMonth] = useState("");
   const [endYear, setEndYear] = useState("");
   const [endMonth, setEndMonth] = useState("");
-  const [allFieldsCheck,setAllFieldsCheck] = useState(false);
+  const [allFieldsCheck, setAllFieldsCheck] = useState(false);
 
   const handleExperienceChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -32,7 +32,19 @@ const Experience = () => {
       ...experience,
       [name]: value,
     });
-    if(!experience.title || !experience.company || !experience.description || !startYear || startYear ==="Start Year" || !startMonth || startMonth ==="Start Month" || !endYear || endYear ==="End Year" || !endMonth || endMonth ==="End Month"){
+    if (
+      !experience.title ||
+      !experience.company ||
+      !experience.description ||
+      !startYear ||
+      startYear === "Start Year" ||
+      !startMonth ||
+      startMonth === "Start Month" ||
+      !endYear ||
+      endYear === "End Year" ||
+      !endMonth ||
+      endMonth === "End Month"
+    ) {
       // notifyInfo("Please Complete fields marked with *");
       return;
     }
@@ -40,14 +52,26 @@ const Experience = () => {
   };
 
   const handleAddExperience = async () => {
-    if(!experience.title || !experience.company || !experience.description || !startYear || startYear ==="Start Year" || !startMonth || startMonth ==="Start Month" || !endYear || endYear ==="End Year" || !endMonth || endMonth ==="End Month"){
+    if (
+      !experience.title ||
+      !experience.company ||
+      !experience.description ||
+      !startYear ||
+      startYear === "Start Year" ||
+      !startMonth ||
+      startMonth === "Start Month" ||
+      !endYear ||
+      endYear === "End Year" ||
+      !endMonth ||
+      endMonth === "End Month"
+    ) {
       notifyInfo("Please Complete fields marked with *");
       return;
     }
     const bodyObj = {
       ...experience,
-      startYear: startMonth+ " "+ startYear,
-      endYear:endMonth + " "+ endYear,
+      startYear: startMonth + " " + startYear,
+      endYear: endMonth + " " + endYear,
     };
     await addExperience(dispatch, user?._id || "", bodyObj);
     setExperience({
@@ -55,10 +79,10 @@ const Experience = () => {
       company: "",
       description: "",
     });
-    // setStartYear("");
-    // setEndYear("");
-    // setStartMonth("");
-    // setEndMonth("");
+    setStartYear("");
+    setEndYear("");
+    setStartMonth("");
+    setEndMonth("");
     setAllFieldsCheck(false);
   };
 
@@ -143,6 +167,7 @@ const Experience = () => {
                       <div className="row">
                         <div className="col-sm-3">
                           <SelectYear
+                            default={{ value: startYear, label: startYear }}
                             setYear={setStartYear}
                             firstInput="Start Year"
                             placeholder="Start Year"
@@ -150,6 +175,7 @@ const Experience = () => {
                         </div>
                         <div className="col-sm-3">
                           <SelectMonth
+                            default={{ value: startMonth, label: startMonth }}
                             setMonth={setStartMonth}
                             firstInput="Start Month"
                             placeholder="Start Month"
@@ -157,6 +183,7 @@ const Experience = () => {
                         </div>
                         <div className="col-sm-3">
                           <SelectYear
+                            default={{ value: endYear, label: endYear }}
                             setYear={setEndYear}
                             firstInput="End Year"
                             placeholder="End Year"
@@ -164,6 +191,7 @@ const Experience = () => {
                         </div>
                         <div className="col-sm-3">
                           <SelectMonth
+                            default={{ value: endMonth, label: endMonth }}
                             setMonth={setEndMonth}
                             firstInput="End Month"
                             placeholder="End Month"
@@ -193,31 +221,31 @@ const Experience = () => {
                       </div>
                     </div>
                   </div>
-                  {allFieldsCheck === true ? 
-                  <button
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseOneA"
-                    aria-expanded="false"
-                    aria-controls="collapseOne"
-                    onClick={handleAddExperience}
-                    className="dash-btn-two tran3s me-3 mb-15"
-                  >
-                    Save
-                  </button>
-                  :
-                  <button
-                    type="button"
-                    // data-bs-toggle="collapse"
-                    // data-bs-target="#collapseOneA"
-                    // aria-expanded="false"
-                    // aria-controls="collapseOne"
-                    onClick={handleAddExperience}
-                    className="dash-btn-two tran3s me-3 mb-15"
-                  >
-                    Save
-                  </button>
-                  }
+                  {allFieldsCheck === true ? (
+                    <button
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseOneA"
+                      aria-expanded="false"
+                      aria-controls="collapseOne"
+                      onClick={handleAddExperience}
+                      className="dash-btn-two tran3s me-3 mb-15"
+                    >
+                      Save
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      // data-bs-toggle="collapse"
+                      // data-bs-target="#collapseOneA"
+                      // aria-expanded="false"
+                      // aria-controls="collapseOne"
+                      onClick={handleAddExperience}
+                      className="dash-btn-two tran3s me-3 mb-15"
+                    >
+                      Save
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

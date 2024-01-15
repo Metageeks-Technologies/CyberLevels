@@ -122,7 +122,7 @@ const EditExperienceBody = ({
 
   return (
     <div className="accordion-body">
-      <p>{experienceProp._id}</p>
+      {/* <p>{experienceProp._id}</p> */}
       <div className="row">
         <div className="col-lg-2">
           <div className="dash-input-wrapper mb-30 md-mb-10">

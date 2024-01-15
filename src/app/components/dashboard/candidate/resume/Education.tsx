@@ -27,7 +27,7 @@ const Education = () => {
   const [startMonth, setStartMonth] = useState("");
   const [endYear, setEndYear] = useState("");
   const [endMonth, setEndMonth] = useState("");
-  const [allFieldsCheck,setAllFieldsCheck] = useState(false);
+  const [allFieldsCheck, setAllFieldsCheck] = useState(false);
   const handleEducationChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -36,15 +36,38 @@ const Education = () => {
       ...education,
       [name]: value,
     });
-    if(!education.degree || !education.description || !education.institute || !startYear || startYear ==="Start Year" || !startMonth || startMonth ==="Start Month" || !endYear || endYear ==="End Year" || !endMonth || endMonth ==="End Month"){
-      
+    if (
+      !education.degree ||
+      !education.description ||
+      !education.institute ||
+      !startYear ||
+      startYear === "Start Year" ||
+      !startMonth ||
+      startMonth === "Start Month" ||
+      !endYear ||
+      endYear === "End Year" ||
+      !endMonth ||
+      endMonth === "End Month"
+    ) {
       return;
     }
     setAllFieldsCheck(true);
-    console.log(allFieldsCheck,"Validator");
+    console.log(allFieldsCheck, "Validator");
   };
   const handleAddEducation = async () => {
-    if(!education.degree || !education.description || !education.institute || !startYear || startYear ==="Start Year" || !startMonth || startMonth ==="Start Month" || !endYear || endYear ==="End Year" || !endMonth || endMonth ==="End Month"){
+    if (
+      !education.degree ||
+      !education.description ||
+      !education.institute ||
+      !startYear ||
+      startYear === "Start Year" ||
+      !startMonth ||
+      startMonth === "Start Month" ||
+      !endYear ||
+      endYear === "End Year" ||
+      !endMonth ||
+      endMonth === "End Month"
+    ) {
       notifyInfo("Please complete fields marked with *");
       return;
     }
@@ -65,8 +88,10 @@ const Education = () => {
       institute: "",
       description: "",
     });
-    // setStartYear("");
-    // setEndYear("");
+    setStartYear("");
+    setEndYear("");
+    setStartMonth("");
+    setEndMonth("");
     setAllFieldsCheck(false);
   };
 
@@ -150,6 +175,7 @@ const Education = () => {
                       <div className="row">
                         <div className="col-sm-3">
                           <SelectMonth
+                            default={{ value: startMonth, label: startMonth }}
                             setMonth={setStartMonth}
                             firstInput="Start Month"
                             placeholder="Start Month"
@@ -158,6 +184,7 @@ const Education = () => {
                         </div>
                         <div className="col-sm-3">
                           <SelectYear
+                            default={{ value: startYear, label: startYear }}
                             setYear={setStartYear}
                             firstInput="Start Year"
                             placeholder="Start Year"
@@ -167,6 +194,7 @@ const Education = () => {
 
                         <div className="col-sm-3">
                           <SelectMonth
+                            default={{ value: endMonth, label: endMonth }}
                             setMonth={setEndMonth}
                             firstInput="End Month"
                             placeholder="End Month"
@@ -175,6 +203,7 @@ const Education = () => {
                         </div>
                         <div className="col-sm-3">
                           <SelectYear
+                            default={{ value: endYear, label: endYear }}
                             setYear={setEndYear}
                             firstInput="End Year"
                             placeholder="End Year"
@@ -202,31 +231,31 @@ const Education = () => {
                       </div>
                     </div>
                   </div>
-                  {allFieldsCheck === true ? 
-                  <button
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseOne"
-                    aria-expanded="false"
-                    aria-controls="collapseOne"
-                    onClick={handleAddEducation}
-                    className="dash-btn-two tran3s me-3 mb-15"
-                  >
-                    Save
-                  </button>
-                  :
-                  <button
-                    type="button"
-                    // data-bs-toggle="collapse"
-                    // data-bs-target="#collapseOne"
-                    // aria-expanded="false"
-                    // aria-controls="collapseOne"
-                    onClick={handleAddEducation}
-                    className="dash-btn-two tran3s me-3 mb-15"
-                  >
-                    Save
-                  </button>
-                  }
+                  {allFieldsCheck === true ? (
+                    <button
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseOne"
+                      aria-expanded="false"
+                      aria-controls="collapseOne"
+                      onClick={handleAddEducation}
+                      className="dash-btn-two tran3s me-3 mb-15"
+                    >
+                      Save
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      // data-bs-toggle="collapse"
+                      // data-bs-target="#collapseOne"
+                      // aria-expanded="false"
+                      // aria-controls="collapseOne"
+                      onClick={handleAddEducation}
+                      className="dash-btn-two tran3s me-3 mb-15"
+                    >
+                      Save
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
