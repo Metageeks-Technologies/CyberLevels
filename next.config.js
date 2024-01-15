@@ -20,6 +20,11 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname:
+          "https://cyberlevels-public-assests01.s3.ap-south-1.amazonaws.com",
+      },
+      {
+        protocol: "https",
         hostname: "media.licdn.com",
       },
       {
@@ -31,9 +36,9 @@ const nextConfig = {
         hostname: "media.istockphoto.com",
       },
       {
-        protocol:"https",
-        hostname:"lh3.googleusercontent.com"
-      }
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
     ],
   },
 };
