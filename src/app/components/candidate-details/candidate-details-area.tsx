@@ -61,7 +61,7 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
                       <div className="inner-card border-style mb-60 lg-mb-50">
                         <h3 className="title">Work Experience</h3>
                         {/* WorkExperience */}
-                        <WorkExperience experience={candidate.experience} />
+                        <WorkExperience />
                         {/* WorkExperience */}
                       </div>
                     )}
