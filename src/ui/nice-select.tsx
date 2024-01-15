@@ -33,6 +33,7 @@ const NiceSelect = ({
   const [current, setCurrent] = useState(defaultCurrent?options[defaultCurrent]:undefined);
   const onClose = useCallback(() => {
     setOpen(false);
+    // setCurrent(undefined);
   }, []);
   const ref = useRef(null);
 

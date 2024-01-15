@@ -35,9 +35,14 @@ const EditCertificate = ({ certificates }: { certificates: string[] }) => {
   const addCertificate = () => {
     if (certificateInput.trim() !== "") {
       // Update the state with the new certificate
+      
       setCertificates([..._certificates, certificateInput]);
       // Clear the input field
       setCertificateInput("");
+    }
+    else{
+      notifyInfo("Blank field cannot be added");
+
     }
   };
 
@@ -114,19 +119,7 @@ const EditCertificate = ({ certificates }: { certificates: string[] }) => {
                   </div>
 
                   <div className="button-group d-inline-flex align-items-center mt-30">
-                    {_certificates.length === 0 ? (
-                      <button
-                        onClick={() => {
-                          handleSave();
-                        }}
-                        className="dash-btn-two tran3s me-3"
-                        type="button"
-                        // data-bs-dismiss="modal"
-                        // aria-label="Close"
-                      >
-                        Save
-                      </button>
-                    ) : (
+                    
                       <button
                         onClick={() => {
                           handleSave();
@@ -138,7 +131,7 @@ const EditCertificate = ({ certificates }: { certificates: string[] }) => {
                       >
                         Save
                       </button>
-                    )}
+                  
                     <button
                       className="dash-cancel-btn tran3s"
                       type="button"

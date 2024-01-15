@@ -38,10 +38,10 @@ const EditEducationBody = ({
   // let end: string[] = [];
   const start = educationProp?.startYear.split(" ");
   const end = educationProp?.endYear.split(" ");
-  const [startYear, setStartYear] = useState("");
-  const [startMonth, setStartMonth] = useState("");
-  const [endYear, setEndYear] = useState("");
-  const [endMonth, setEndMonth] = useState("");
+  const [startYear, setStartYear] = useState(start[1] || "");
+  const [startMonth, setStartMonth] = useState(start[0]||"");
+  const [endYear, setEndYear] = useState(end[1]||"");
+  const [endMonth, setEndMonth] = useState(end[0]||"");
 
   useEffect(() => {
     setEducation({
@@ -113,11 +113,11 @@ const EditEducationBody = ({
       institute: "",
       description: "",
     });
-    setStartYear("");
-    setEndYear("");
+    // setStartYear("");
+    // setEndYear("");
     getCurrCandidate(dispatch,currUser as string);
   };
-  console.log(startMonth, startYear, endYear, endMonth);
+  // console.log(startMonth, startYear, endYear, endMonth);
 
   return (
     <div className="accordion-body">
@@ -169,8 +169,8 @@ const EditEducationBody = ({
             <div className="col-sm-6">
               <SelectMonth
                 default={{
-                  value: start[0],
-                  label: start[0],
+                  value: startMonth,
+                  label: startMonth,
                 }}
                 setMonth={setStartMonth}
                 firstInput="Start Month"
@@ -178,7 +178,7 @@ const EditEducationBody = ({
             </div>
             <div className="col-sm-6">
               <SelectYear
-                default={{ value: start[1], label: start[1] }}
+                default={{ value: startYear, label: startYear }}
                 setYear={setStartYear}
                 firstInput="Start Year"
               />
@@ -196,14 +196,14 @@ const EditEducationBody = ({
           <div className="row">
             <div className="col-sm-6">
               <SelectMonth
-                default={{ value: end[0], label: end[0] }}
+                default={{ value: endMonth, label: endMonth }}
                 setMonth={setEndMonth}
                 firstInput="End Month"
               />
             </div>
             <div className="col-sm-6">
               <SelectYear
-                default={{ value: end[1], label: end[1] }}
+                default={{ value: endYear, label: endYear }}
                 setYear={setEndYear}
                 firstInput="End Year"
               />
