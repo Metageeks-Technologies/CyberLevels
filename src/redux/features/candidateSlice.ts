@@ -55,6 +55,7 @@ export const userSlice = createSlice({
             state.userRole = ""
             state.error = null,
                 state.whoIsTryingToLoginWithLn = ""
+                state.whoIsTryingToLoginWithGoogle=""
         },
         logoutUserFail: (state, action: PayloadAction<string>) => {
             state.loading = false;
@@ -62,9 +63,11 @@ export const userSlice = createSlice({
         },
         setLoggerWithLn: (state, action: PayloadAction<string>) => {
             state.whoIsTryingToLoginWithLn = action.payload
+            state.whoIsTryingToLoginWithGoogle = ""
         },
         setLoggerWithGoogle: (state, action:PayloadAction<string>) => {
             state.whoIsTryingToLoginWithGoogle = action.payload;
+            state.whoIsTryingToLoginWithLn = ""
         },
         updateUserSuccess: (state, action: PayloadAction<myUser>) => {
             state.user = action.payload;

@@ -68,9 +68,11 @@ export const userSlice = createSlice({
         },
         setLoggerWithLn: (state, action: PayloadAction<string>) => {
             state.whoIsTryingToLoginWithLn = action.payload
+            state.whoIsTryingToLoginWithGoogle = ""
         },
         setLoggerWithGoogle: (state,action: PayloadAction<string>) => {
             state.whoIsTryingToLoginWithGoogle = action.payload;
+            state.whoIsTryingToLoginWithLn = ""
         }
 
     },

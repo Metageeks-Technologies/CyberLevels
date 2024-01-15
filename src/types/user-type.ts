@@ -71,6 +71,7 @@ export interface ICandidate {
     skills: string[],
     softSkills: string[],
     certificate: string[],
+    provider:string;
     experience: IExperience[],
     education: IEducation[],
     socialSites: ISocial,
@@ -116,6 +117,7 @@ export interface IEmployer {
     isEmailVerified: boolean;
     firstName: string;
     lastName: string;
+    provider:string;
     avatar: string;
     phoneNumber: string,
     company: {
