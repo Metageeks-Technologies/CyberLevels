@@ -56,7 +56,7 @@ const Experience = () => {
 
   useEffect(() => {
     if (
-      checkValidDescription(experience.description) ||
+      checkValidDescription(experience.description,50) ||
       experience.description.trim().length === 0
     ) {
       setValidDescription(true);
@@ -278,7 +278,7 @@ const Experience = () => {
                       {!validDescription && (
                         <p style={{ color: "red" }}>
                           description must include{" "}
-                          {experience.description.trim().length}/200
+                          {experience.description.trim().length}/50
                         </p>
                       )}
                     </div>

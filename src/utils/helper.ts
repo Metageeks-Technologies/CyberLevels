@@ -79,8 +79,8 @@ export const isValidUrl = (url: string) => {
   return urlRegex.test(url);
 };
 
-export const checkValidDescription = (desc: string) => {
-  if (desc.trim().length >= 200) {
+export const checkValidDescription = (desc: string,limit:number) => {
+  if (desc.trim().length >= limit) {
     return true;
   } else {
     return false;

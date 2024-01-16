@@ -95,7 +95,7 @@ const EditEducationBody = ({
   }, [startYear, startMonth, endMonth, endYear]);
   useEffect(() => {
     if (
-      checkValidDescription(education.description) ||
+      checkValidDescription(education.description,50) ||
       education.description.trim().length === 0
     ) {
       setValidDescription(true);
@@ -304,7 +304,7 @@ const EditEducationBody = ({
         </div>
         {!validDescription && (
           <p style={{ color: "red" }}>
-            description must include {education.description.trim().length}/200
+            description must include {education.description.trim().length}/50
           </p>
         )}
       </div>

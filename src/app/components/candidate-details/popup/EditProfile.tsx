@@ -74,7 +74,7 @@ const EditProfile = () => {
     }
   }, [form.experienceInYears]);
   useEffect(() => {
-    if (checkValidDescription(form.bio)) {
+    if (checkValidDescription(form.bio,200)) {
       setValidDescription(true);
     } else {
       setValidDescription(false);
