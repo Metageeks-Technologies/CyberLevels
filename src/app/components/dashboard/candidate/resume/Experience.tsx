@@ -1,12 +1,13 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SelectMonth from "../select-month";
 import SelectYear from "../select-year";
 import { addExperience } from "@/redux/features/candidate/api";
 import WorkExperience from "@/app/components/candidate-details/work-experience";
 import { notifyInfo } from "@/utils/toast";
 import EditExperience from "@/app/components/candidate-details/popup/EditExperience";
+import { checkValidDateTimeLine, checkValidDescription } from "@/utils/helper";
 const Experience = () => {
   const dispatch = useAppDispatch();
   const { currCandidate, loading } = useAppSelector(
@@ -22,8 +23,67 @@ const Experience = () => {
   const [startMonth, setStartMonth] = useState("");
   const [endYear, setEndYear] = useState("");
   const [endMonth, setEndMonth] = useState("");
+  const [checkValidDate, setCheckValidDate] = useState(true);
   const [allFieldsCheck, setAllFieldsCheck] = useState(false);
+  const [validDescription, setValidDescription] = useState(true);
+  useEffect(() => {
+    if (
+      startYear &&
+      endYear &&
+      startMonth &&
+      endMonth &&
+      startYear !== "Start Year" &&
+      startMonth !== "Start Month" &&
+      endYear !== "End Year" &&
+      endMonth !== "End Month" &&
+      experience.title &&
+      experience.company &&
+      experience.description
+    ) {
+      setAllFieldsCheck(true);
+    } else {
+      setAllFieldsCheck(false);
+    }
+  }, [
+    startYear,
+    endYear,
+    startMonth,
+    endMonth,
+    experience.title,
+    experience.company,
+    experience.description,
+  ]);
 
+  useEffect(() => {
+    if (
+      checkValidDescription(experience.description) ||
+      experience.description.trim().length === 0
+    ) {
+      setValidDescription(true);
+    } else {
+      setValidDescription(false);
+    }
+  }, [experience.description]);
+  useEffect(() => {
+    if (
+      !startMonth ||
+      !startYear ||
+      !endMonth ||
+      !endYear ||
+      (startYear === "Start Year" &&
+        startMonth === "Start Month" &&
+        endYear === "End Year" &&
+        endMonth === "End Month") ||
+      checkValidDateTimeLine(
+        startMonth + " " + startYear,
+        endMonth + " " + endYear
+      )
+    ) {
+      setCheckValidDate(true);
+    } else {
+      setCheckValidDate(false);
+    }
+  }, [startYear, startMonth, endMonth, endYear]);
   const handleExperienceChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -32,23 +92,6 @@ const Experience = () => {
       ...experience,
       [name]: value,
     });
-    if (
-      !experience.title ||
-      !experience.company ||
-      !experience.description ||
-      !startYear ||
-      startYear === "Start Year" ||
-      !startMonth ||
-      startMonth === "Start Month" ||
-      !endYear ||
-      endYear === "End Year" ||
-      !endMonth ||
-      endMonth === "End Month"
-    ) {
-      // notifyInfo("Please Complete fields marked with *");
-      return;
-    }
-    setAllFieldsCheck(true);
   };
 
   const handleAddExperience = async () => {
@@ -68,11 +111,20 @@ const Experience = () => {
       notifyInfo("Please Complete fields marked with *");
       return;
     }
+    if (!validDescription) {
+      notifyInfo("please complete description");
+      return;
+    }
     const bodyObj = {
       ...experience,
       startYear: startMonth + " " + startYear,
       endYear: endMonth + " " + endYear,
     };
+    if (new Date(bodyObj.startYear) > new Date(bodyObj.endYear)) {
+      notifyInfo("Start date cannot be greater than end date");
+      return;
+    }
+
     await addExperience(dispatch, user?._id || "", bodyObj);
     setExperience({
       title: "",
@@ -83,7 +135,6 @@ const Experience = () => {
     setEndYear("");
     setStartMonth("");
     setEndMonth("");
-    setAllFieldsCheck(false);
   };
 
   return (
@@ -197,6 +248,11 @@ const Experience = () => {
                             placeholder="End Month"
                           />
                         </div>
+                        {!checkValidDate && (
+                          <p style={{ color: "red" }}>
+                            Start date cannot be greater that end date
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div className="col-lg-10">
@@ -219,9 +275,15 @@ const Experience = () => {
                           placeholder="Morbi ornare ipsum sed sem condimentum, et pulvinar tortor luctus. Suspendisse condimentum lorem ut elementum aliquam et pulvinar tortor luctus."
                         ></textarea>
                       </div>
+                      {!validDescription && (
+                        <p style={{ color: "red" }}>
+                          description must include{" "}
+                          {experience.description.trim().length}/200
+                        </p>
+                      )}
                     </div>
                   </div>
-                  {allFieldsCheck === true ? (
+                  {allFieldsCheck && checkValidDate && validDescription ? (
                     <button
                       type="button"
                       data-bs-toggle="collapse"

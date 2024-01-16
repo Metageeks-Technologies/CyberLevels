@@ -10,6 +10,7 @@ import {
   updateEducation,
 } from "@/redux/features/candidate/api";
 import { setCurrDashEducation } from "@/redux/features/candidate/dashboardSlice";
+import { checkValidDateTimeLine, checkValidDescription } from "@/utils/helper";
 // import { updateExistingEduSuccess } from "@/redux/features/candidate/dashboardSlice";
 
 const EditEducationBody = ({
@@ -39,9 +40,69 @@ const EditEducationBody = ({
   const start = educationProp?.startYear.split(" ");
   const end = educationProp?.endYear.split(" ");
   const [startYear, setStartYear] = useState(start[1] || "");
-  const [startMonth, setStartMonth] = useState(start[0]||"");
-  const [endYear, setEndYear] = useState(end[1]||"");
-  const [endMonth, setEndMonth] = useState(end[0]||"");
+  const [startMonth, setStartMonth] = useState(start[0] || "");
+  const [endYear, setEndYear] = useState(end[1] || "");
+  const [endMonth, setEndMonth] = useState(end[0] || "");
+  const [checkValidDate, setCheckValidDate] = useState(true);
+  const [allFieldsCheck, setAllFieldsCheck] = useState(false);
+  const [validDescription, setValidDescription] = useState(true);
+  useEffect(() => {
+    if (
+      startYear &&
+      endYear &&
+      startMonth &&
+      endMonth &&
+      startYear !== "Start Year" &&
+      startMonth !== "Start Month" &&
+      endYear !== "End Year" &&
+      endMonth !== "End Month" &&
+      education.degree &&
+      education.institute &&
+      education.description
+    ) {
+      setAllFieldsCheck(true);
+    } else {
+      setAllFieldsCheck(false);
+    }
+  }, [
+    startYear,
+    endYear,
+    startMonth,
+    endMonth,
+    education.degree,
+    education.institute,
+    education.description,
+  ]);
+  useEffect(() => {
+    if (
+      !startMonth ||
+      !startYear ||
+      !endMonth ||
+      !endYear ||
+      (startYear === "Start Year" &&
+        startMonth === "Start Month" &&
+        endYear === "End Year" &&
+        endMonth === "End Month") ||
+      checkValidDateTimeLine(
+        startMonth + " " + startYear,
+        endMonth + " " + endYear
+      )
+    ) {
+      setCheckValidDate(true);
+    } else {
+      setCheckValidDate(false);
+    }
+  }, [startYear, startMonth, endMonth, endYear]);
+  useEffect(() => {
+    if (
+      checkValidDescription(education.description) ||
+      education.description.trim().length === 0
+    ) {
+      setValidDescription(true);
+    } else {
+      setValidDescription(false);
+    }
+  }, [education.description]);
 
   useEffect(() => {
     setEducation({
@@ -87,6 +148,10 @@ const EditEducationBody = ({
       notifyInfo("Please complete fields marked with *");
       return;
     }
+    if (!validDescription) {
+      notifyInfo("please complete description");
+      return;
+    }
     if (!currCandidate) {
       notifyError("! unauthenticated user");
       return;
@@ -97,6 +162,10 @@ const EditEducationBody = ({
       endYear: endMonth + " " + endYear,
     };
     console.log("bodyObj", bodyObj);
+    if (new Date(bodyObj.startYear) > new Date(bodyObj.endYear)) {
+      notifyInfo("Start date cannot be greater than end date");
+      return;
+    }
     //  await addEducation(dispatch, user._id, bodyObj);
     if (currCandidate) {
       console.log(educationProp, "Education Prop");
@@ -116,9 +185,8 @@ const EditEducationBody = ({
     });
     // setStartYear("");
     // setEndYear("");
-    await getCurrCandidate(dispatch,currUser as string);
+    await getCurrCandidate(dispatch, currUser as string);
   };
-  
 
   return (
     <div className="accordion-body">
@@ -209,6 +277,11 @@ const EditEducationBody = ({
                 firstInput="End Year"
               />
             </div>
+            {!checkValidDate && (
+              <p style={{ color: "red" }}>
+                Start date cannot be greater that end date
+              </p>
+            )}
           </div>
         </div>
       </div>
@@ -229,17 +302,35 @@ const EditEducationBody = ({
             ></textarea>
           </div>
         </div>
+        {!validDescription && (
+          <p style={{ color: "red" }}>
+            description must include {education.description.trim().length}/200
+          </p>
+        )}
       </div>
-      <button
-        onClick={handleAddEducation}
-        type="button"
-        // className="btn-close"
-        data-bs-dismiss="modal"
-        aria-label="Close"
-        className="dash-btn-two tran3s me-3 mb-15"
-      >
-        Save
-      </button>
+      {allFieldsCheck && checkValidDate && validDescription ? (
+        <button
+          onClick={handleAddEducation}
+          type="button"
+          // className="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          className="dash-btn-two tran3s me-3 mb-15"
+        >
+          Save
+        </button>
+      ) : (
+        <button
+          onClick={handleAddEducation}
+          type="button"
+          // className="btn-close"
+          // data-bs-dismiss="modal"
+          // aria-label="Close"
+          className="dash-btn-two tran3s me-3 mb-15"
+        >
+          Save
+        </button>
+      )}
     </div>
   );
 };

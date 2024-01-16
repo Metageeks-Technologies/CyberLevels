@@ -6,30 +6,31 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { Value } from "sass";
 import { notifyError, notifyInfo, notifySuccess } from "@/utils/toast";
 import AutocompletePosition from "@/ui/autoCompletePosistion";
-import { getCurrCandidate, updateCurrCandidate } from "@/redux/features/candidate/api";
+import {
+  getCurrCandidate,
+  updateCurrCandidate,
+} from "@/redux/features/candidate/api";
 import LocationAutoComplete from "@/ui/locationAutoComplete";
 import NiceSelect from "@/ui/nice-select";
 import AutocompleteCurrency from "@/ui/autoCompleteCurrency";
 import { Currency } from "@/redux/features/currencyProvider/slice";
 import { getAllLanguages } from "@/redux/features/languageProvider/api";
 import { getAllCurrencies } from "@/redux/features/currencyProvider/api";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
+import { isValidSalaryNumber } from "@/utils/helper";
 
 const EditPreferences = () => {
   const dispatch = useAppDispatch();
   const { currCandidate, loading } = useAppSelector(
     (state) => state.candidate.candidateDashboard
   );
-  const { currUser } = useAppSelector(
-    (s) => s.persistedReducer.user
-  );
+  const { currUser } = useAppSelector((s) => s.persistedReducer.user);
   const { currencies } = useAppSelector((state) => state.currency);
   const { languages } = useAppSelector((state) => state.language);
   useEffect(() => {
     getAllLanguages(dispatch);
     getAllCurrencies(dispatch);
-    getCurrCandidate(dispatch,currUser as string);
-    
+    getCurrCandidate(dispatch, currUser as string);
   }, []);
   //   const user = currCandidate;
 
@@ -39,7 +40,6 @@ const EditPreferences = () => {
   const [currency, setCurrency] = useState<Currency | undefined>(
     currCandidate?.expectedSalary?.currency || undefined
   );
- 
 
   const [language, setLanguage] = useState("");
   const [location, setLocation] = useState<string[]>(
@@ -55,6 +55,28 @@ const EditPreferences = () => {
     period: currCandidate?.expectedSalary?.period || undefined,
     currency: currCandidate?.expectedSalary?.currency || undefined,
   });
+  const [validSalary, setValidSalary] = useState(true);
+  const [allFieldsCheck, setAllFieldsCheck] = useState(false);
+
+  useEffect(() => {
+    if (salary.min && salary.max && salary.currency && salary.period) {
+      setAllFieldsCheck(true);
+    } else {
+      setAllFieldsCheck(false);
+    }
+  }, [salary, prefLanguages, location]);
+
+  useEffect(() => {
+    if (
+      !salary.min ||
+      !salary.max ||
+      isValidSalaryNumber(salary?.min, salary?.max)
+    ) {
+      setValidSalary(true);
+    } else {
+      setValidSalary(false);
+    }
+  }, [salary.min, salary.max]);
   // console.log(prefLanguages, "Pref Languages");
   useEffect(() => {
     if (language === "") {
@@ -90,16 +112,30 @@ const EditPreferences = () => {
     );
   };
   const handleSave = async () => {
-    if(location.length > 6){
-        notifyInfo("Only 6 locations can be added to preferred locations")
-        return;
+    if (location.length > 6) {
+      notifyInfo("Only 6 locations can be added to preferred locations");
+      return;
     }
-    if(prefLanguages.length > 4){
-        notifyInfo("Only 4 languages can be added to preferred languages")
-        return;
+    if (prefLanguages.length > 4) {
+      notifyInfo("Only 4 languages can be added to preferred languages");
+      return;
     }
-    if(salary.period === "Select Period" || !salary.period || !salary.currency || !salary.min || !salary.max || prefLanguages.length === 0 || location.length === 0){
+    if (
+      salary.period === "Select Period" ||
+      !salary.period ||
+      !salary.currency ||
+      !salary.min ||
+      !salary.max
+    ) {
       notifyInfo("Fields marked with * cannot be empty");
+      return;
+    }
+    if (!validSalary) {
+      notifyInfo("Enter valid minimum and maximum salary");
+      return;
+    }
+    if (!allFieldsCheck) {
+      notifyInfo("Complete expected salary fields");
       return;
     }
     const preferences = {
@@ -118,34 +154,6 @@ const EditPreferences = () => {
       } else notifyError("something went wrong! try again");
     }
   };
-  //   const handleSelfDeclarationChange = (
-  //     item: { value: string; label: string },
-  //     name: string
-  //   ) => {
-  //     setSelfDeclaration({
-  //       ...selfDeclaration,
-  //       [name]: item.value,
-  //     });
-  //   };
-
-  //   const handleSave = async () => {
-  //     // validation
-  //     if (!selfDeclaration.gender || !selfDeclaration.race) {
-  //       notifyInfo("field with marked * can't be empty");
-  //       return;
-  //     }
-
-  //     if (currCandidate) {
-  //       const isUpdated = await updateCurrCandidate(dispatch, currCandidate._id, {
-  //         selfDeclaration,
-  //       });
-
-  //       if (isUpdated) {
-  //         notifySuccess("Location updated updated successfully");
-  //       } else notifyError("something went wrong try again");
-  //     }
-  //   };
-  //   console.log(selfDeclaration);
 
   return (
     <>
@@ -175,7 +183,8 @@ const EditPreferences = () => {
                         setSelected={setCurrency}
                         endPoint=""
                         suggestionsProp={currencies}
-                        placeholder="Select Currency"                      />
+                        placeholder="Select Currency"
+                      />
                     </div>
                   </div>
                   <div className="col-md-3">
@@ -193,6 +202,7 @@ const EditPreferences = () => {
                         onChange={(item) =>
                           updateSalaryProperty("period", item)
                         }
+                        // defaultCurrent={0}
                         placeholder="Select Period"
                         name="period"
                       />
@@ -201,7 +211,7 @@ const EditPreferences = () => {
                   <div className="col-md-3">
                     <div className="dash-input-wrapper mb-30">
                       <input
-                        type="text"
+                        type="number"
                         name="min"
                         value={salary.min}
                         onChange={(e) =>
@@ -217,7 +227,7 @@ const EditPreferences = () => {
                   <div className="col-md-3">
                     <div className="dash-input-wrapper mb-30">
                       <input
-                        type="text"
+                        type="number"
                         name="max"
                         value={salary.max}
                         onChange={(e) =>
@@ -230,7 +240,11 @@ const EditPreferences = () => {
                       />
                     </div>
                   </div>
-
+                  {!validSalary && (
+                    <p style={{ color: "red" }}>
+                      Enter valid minimum and maximum salary
+                    </p>
+                  )}
                   <div className="col-12">
                     <div className="dash-input-wrapper mb-25">
                       <label htmlFor="">Preferred Job Locations</label>
@@ -248,13 +262,25 @@ const EditPreferences = () => {
                           <button
                             key={value}
                             onClick={() => removeLocation(value)}
-                            style={{alignItems:"center",display:"flex", justifyContent:"around"}}
+                            style={{
+                              alignItems: "center",
+                              display: "flex",
+                              justifyContent: "around",
+                            }}
                           >
-                           <div>
-                              
-                              {value} 
-                              </div>
-                              <div> <CloseIcon style={{ fontSize: 12,marginLeft:4 , marginBottom:2, cursor: 'pointer',color: '#888'  }}/> </div>
+                            <div>{value}</div>
+                            <div>
+                              {" "}
+                              <CloseIcon
+                                style={{
+                                  fontSize: 12,
+                                  marginLeft: 4,
+                                  marginBottom: 2,
+                                  cursor: "pointer",
+                                  color: "#888",
+                                }}
+                              />{" "}
+                            </div>
                           </button>
                         ))}
                       </div>
@@ -278,13 +304,25 @@ const EditPreferences = () => {
                           <button
                             key={value}
                             onClick={() => removeprefLanguages(value)}
-                            style={{alignItems:"center",display:"flex", justifyContent:"around"}}
+                            style={{
+                              alignItems: "center",
+                              display: "flex",
+                              justifyContent: "around",
+                            }}
                           >
+                            <div>{value}</div>
                             <div>
-                              
-                            {value} 
+                              {" "}
+                              <CloseIcon
+                                style={{
+                                  fontSize: 12,
+                                  marginLeft: 4,
+                                  marginBottom: 2,
+                                  cursor: "pointer",
+                                  color: "#888",
+                                }}
+                              />{" "}
                             </div>
-                            <div> <CloseIcon style={{ fontSize: 12,marginLeft:4 , marginBottom:2, cursor: 'pointer',color: '#888'  }}/> </div>
                           </button>
                         ))}
                       </div>
@@ -293,15 +331,27 @@ const EditPreferences = () => {
                 </div>
 
                 <div className="button-group d-inline-flex align-items-center mt-30">
-                  <button
-                    onClick={handleSave}
-                    className="dash-btn-two tran3s me-3"
-                    type="button"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    Save
-                  </button>
+                  {validSalary && allFieldsCheck ? (
+                    <button
+                      onClick={handleSave}
+                      className="dash-btn-two tran3s me-3"
+                      type="button"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      Save
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleSave}
+                      className="dash-btn-two tran3s me-3"
+                      type="button"
+                      // data-bs-dismiss="modal"
+                      // aria-label="Close"
+                    >
+                      Save
+                    </button>
+                  )}
                   <button
                     className="dash-cancel-btn tran3s"
                     type="button"

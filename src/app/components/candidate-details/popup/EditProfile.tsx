@@ -1,10 +1,11 @@
 "use client";
 import "react-phone-number-input/style.css";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { notifyError, notifyInfo, notifySuccess } from "@/utils/toast";
 import { updateCurrCandidate } from "@/redux/features/candidate/api";
+import { checkValidDescription, isPureString } from "@/utils/helper";
 
 const EditProfile = () => {
   const { currCandidate, loading } = useAppSelector(
@@ -14,6 +15,13 @@ const EditProfile = () => {
   const user = currCandidate;
 
   const [value, setValue] = useState(user?.phoneNumber);
+  const [phoneValidState, setPhoneValidState] = useState(true);
+  const [firstNameValidState, setFirstNameValidState] = useState(true);
+  const [lastNameValidState, setLastNameValidState] = useState(true);
+  const [experienceInYearsValidState, setExperienceInYearsValidState] =
+    useState(true);
+  const [allFieldsCheck, setAllFieldsCheck] = useState(false);
+  const [validDescription, setValidDescription] = useState(true);
 
   const [form, setForm] = useState({
     firstName: user?.firstName || "",
@@ -23,14 +31,82 @@ const EditProfile = () => {
     experienceInYears: user?.experienceInYears || 0,
   });
 
+  useEffect(() => {
+    if (
+      form.firstName &&
+      form.lastName &&
+      form.experienceInYears &&
+      form.bio &&
+      form.phoneNumber
+    ) {
+      setAllFieldsCheck(true);
+    } else {
+      setAllFieldsCheck(false);
+    }
+  }, [form]);
+  useEffect(() => {
+    if (!isValidPhoneNumber(value || "")) {
+      setPhoneValidState(false);
+    } else {
+      setPhoneValidState(true);
+    }
+  }, [value]);
+  useEffect(() => {
+    if (!isPureString(form.firstName || "")) {
+      setFirstNameValidState(false);
+    } else {
+      setFirstNameValidState(true);
+    }
+  }, [form.firstName]);
+  useEffect(() => {
+    // const isValidFirstName = /^[A-Za-z]+$/.test(form.lastName);
+    if (!isPureString(form.lastName || "")) {
+      setLastNameValidState(false);
+    } else {
+      setLastNameValidState(true);
+    }
+  }, [form.lastName]);
+  useEffect(() => {
+    if (form.experienceInYears >= 0 && form.experienceInYears <= 70) {
+      setExperienceInYearsValidState(true);
+    } else {
+      setExperienceInYearsValidState(false);
+    }
+  }, [form.experienceInYears]);
+  useEffect(() => {
+    if (checkValidDescription(form.bio)) {
+      setValidDescription(true);
+    } else {
+      setValidDescription(false);
+    }
+  }, [form.bio]);
+
   const handleSave = async () => {
     // validation
-    if (!form.firstName || !form.lastName || !form.bio || !value || !form.experienceInYears) {
+    if (!firstNameValidState || !lastNameValidState || !phoneValidState) {
+      notifyInfo("please check input fields again");
+      return;
+    }
+    if (
+      !form.firstName ||
+      !form.lastName ||
+      !form.bio ||
+      !value ||
+      !form.experienceInYears
+    ) {
       notifyInfo("Felid with * can't be empty");
       return;
     }
     if (!isValidPhoneNumber(value)) {
       notifyInfo("Enter a valid phone number");
+      return;
+    }
+    if (!experienceInYearsValidState) {
+      notifyInfo("Please enter experience between 0 and 70");
+      return;
+    }
+    if (!validDescription) {
+      notifyInfo("Please enter 200 character long description");
       return;
     }
 
@@ -50,6 +126,7 @@ const EditProfile = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
+
     setForm({
       ...form,
       [name]: value,
@@ -85,6 +162,11 @@ const EditProfile = () => {
                       value={form.firstName}
                       placeholder="James"
                     />
+                    {!firstNameValidState && (
+                      <p style={{ color: "red" }}>
+                        Do not include symbol or number
+                      </p>
+                    )}
                   </div>
                   <div className="dash-input-wrapper mb-30">
                     <label htmlFor="lastName">Last Name*</label>
@@ -95,6 +177,11 @@ const EditProfile = () => {
                       value={form.lastName}
                       placeholder="brown"
                     />
+                    {!lastNameValidState && (
+                      <p style={{ color: "red" }}>
+                        Do not include symbol or number
+                      </p>
+                    )}
                   </div>
 
                   <div className="dash-input-wrapper mb-30">
@@ -111,6 +198,9 @@ const EditProfile = () => {
                       value={value}
                       onChange={(value: any) => setValue(value)}
                     />
+                    {!phoneValidState && (
+                      <p style={{ color: "red" }}>Enter Valid Phone Number</p>
+                    )}
                     {/* <input type="text" placeholder="Brower" /> */}
                   </div>
                   <div className="dash-input-wrapper mb-30">
@@ -123,6 +213,11 @@ const EditProfile = () => {
                       placeholder="Enter your experience in years"
                     />
                   </div>
+                  {!experienceInYearsValidState && (
+                    <p style={{ color: "red" }}>
+                      Please enter experience between 0 and 70
+                    </p>
+                  )}
                   <div className="dash-input-wrapper">
                     <label htmlFor="bio">Bio*</label>
                     <textarea
@@ -133,17 +228,40 @@ const EditProfile = () => {
                       onChange={handleInputChange}
                     ></textarea>
                   </div>
+                  {!validDescription && (
+                    <p style={{ color: "red" }}>
+                      Description must have {form.bio.trim().length}/200
+                      characters
+                    </p>
+                  )}
                 </div>
                 <div className="button-group d-inline-flex align-items-center mt-30">
-                  <button
-                    onClick={handleSave}
-                    className="dash-btn-two tran3s me-3"
-                    type="button"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    Save
-                  </button>
+                  {!allFieldsCheck ||
+                  !firstNameValidState ||
+                  !lastNameValidState ||
+                  !phoneValidState ||
+                  !experienceInYearsValidState ||
+                  !validDescription ? (
+                    <button
+                      onClick={handleSave}
+                      className="dash-btn-two tran3s me-3"
+                      type="button"
+                      // data-bs-dismiss="modal"
+                      // aria-label="Close"
+                    >
+                      Save
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleSave}
+                      className="dash-btn-two tran3s me-3"
+                      type="button"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      Save
+                    </button>
+                  )}
                   <button
                     className="dash-cancel-btn tran3s"
                     type="button"

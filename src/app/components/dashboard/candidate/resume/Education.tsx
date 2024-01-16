@@ -7,6 +7,7 @@ import { addEducation } from "@/redux/features/candidate/api";
 import { notifyError, notifyInfo } from "@/utils/toast";
 import SelectMonth from "../select-month";
 import EditEducation from "@/app/components/candidate-details/popup/EditEducation";
+import { checkValidDateTimeLine, checkValidDescription } from "@/utils/helper";
 
 const Education = () => {
   const { currCandidate, loading, currDashEducation } = useAppSelector(
@@ -27,7 +28,66 @@ const Education = () => {
   const [startMonth, setStartMonth] = useState("");
   const [endYear, setEndYear] = useState("");
   const [endMonth, setEndMonth] = useState("");
+  const [checkValidDate, setCheckValidDate] = useState(true);
   const [allFieldsCheck, setAllFieldsCheck] = useState(false);
+  const [validDescription, setValidDescription] = useState(true);
+  useEffect(() => {
+    if (
+      startYear &&
+      endYear &&
+      startMonth &&
+      endMonth &&
+      startYear !== "Start Year" &&
+      startMonth !== "Start Month" &&
+      endYear !== "End Year" &&
+      endMonth !== "End Month" &&
+      education.degree &&
+      education.institute &&
+      education.description
+    ) {
+      setAllFieldsCheck(true);
+    } else {
+      setAllFieldsCheck(false);
+    }
+  }, [
+    startYear,
+    endYear,
+    startMonth,
+    endMonth,
+    education.degree,
+    education.institute,
+    education.description,
+  ]);
+  useEffect(() => {
+    if (
+      !startMonth ||
+      !startYear ||
+      !endMonth ||
+      !endYear ||
+      (startYear === "Start Year" &&
+        startMonth === "Start Month" &&
+        endYear === "End Year" &&
+        endMonth === "End Month") ||
+      checkValidDateTimeLine(
+        startMonth + " " + startYear,
+        endMonth + " " + endYear
+      )
+    ) {
+      setCheckValidDate(true);
+    } else {
+      setCheckValidDate(false);
+    }
+  }, [startYear, startMonth, endMonth, endYear]);
+  useEffect(() => {
+    if (
+      checkValidDescription(education.description) ||
+      education.description.trim().length === 0
+    ) {
+      setValidDescription(true);
+    } else {
+      setValidDescription(false);
+    }
+  }, [education.description]);
   const handleEducationChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -51,8 +111,8 @@ const Education = () => {
     ) {
       return;
     }
-    setAllFieldsCheck(true);
-    console.log(allFieldsCheck, "Validator");
+    // setAllFieldsCheck(true);
+    // console.log(allFieldsCheck, "Validator");
   };
   const handleAddEducation = async () => {
     if (
@@ -71,6 +131,10 @@ const Education = () => {
       notifyInfo("Please complete fields marked with *");
       return;
     }
+    if (!validDescription) {
+      notifyInfo("please complete description");
+      return;
+    }
 
     if (!user) {
       notifyError("! unauthenticated user");
@@ -81,6 +145,10 @@ const Education = () => {
       startYear: startMonth + " " + startYear,
       endYear: endMonth + " " + endYear,
     };
+    if (new Date(bodyObj.startYear) > new Date(bodyObj.endYear)) {
+      notifyInfo("Start date cannot be greater than end date");
+      return;
+    }
     console.log(bodyObj);
     await addEducation(dispatch, user._id, bodyObj);
     setEducation({
@@ -92,7 +160,7 @@ const Education = () => {
     setEndYear("");
     setStartMonth("");
     setEndMonth("");
-    setAllFieldsCheck(false);
+    // setAllFieldsCheck(false);
   };
 
   return (
@@ -210,6 +278,11 @@ const Education = () => {
                             // default={{value:endYear,label:endYear}}
                           />
                         </div>
+                        {!checkValidDate && (
+                          <p style={{ color: "red" }}>
+                            Start date cannot be greater that end date
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -230,8 +303,14 @@ const Education = () => {
                         ></textarea>
                       </div>
                     </div>
+                    {!validDescription && (
+                      <p style={{ color: "red" }}>
+                        description must include{" "}
+                        {education.description.trim().length}/200
+                      </p>
+                    )}
                   </div>
-                  {allFieldsCheck === true ? (
+                  {allFieldsCheck && checkValidDate && validDescription ? (
                     <button
                       type="button"
                       data-bs-toggle="collapse"
