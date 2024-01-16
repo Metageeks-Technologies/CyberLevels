@@ -128,6 +128,7 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                     onChange={(item) => handleJobs(item)}
                     name="Search Jobs"
                     isScroll={true}
+                    placeholder="Select job..."
                   />
                 </div>
               </div>

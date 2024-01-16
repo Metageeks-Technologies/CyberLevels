@@ -50,7 +50,7 @@ function AutocompletePosition({ selected, setSelected, endPoint }: Props) {
           <div className="">
             <Combobox.Input
               className=""
-              placeholder="type title"
+              placeholder="Company Name"
               displayValue={() => selected.name}
               onChange={(event) => setQuery(event.target.value)}
             />

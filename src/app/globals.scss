@@ -634,3 +634,24 @@ div[data-preview] p {
   width: auto;
   height: auto;
 }
+
+.pt-6 {
+  padding-top: 2.5rem !important;
+}
+
+.pb-5 {
+  padding-bottom: 2.2rem !important;
+}
+
+.mt-5 {
+  margin-top: 2rem !important;
+}
+
+.placeholder {
+  display: inline-block;
+  min-height: 1em;
+  vertical-align: middle;
+  cursor: text;
+  background-color: transparent;
+  opacity: 0.5;
+}

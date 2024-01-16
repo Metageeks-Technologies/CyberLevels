@@ -33,6 +33,7 @@ const SelectRound = ({ setRound, firstInput }: Props) => {
         defaultCurrent={0}
         onChange={(item) => handleRound(item)}
         name="Year"
+        placeholder="select"
       />
     </div>
   );

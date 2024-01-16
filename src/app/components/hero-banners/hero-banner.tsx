@@ -18,13 +18,13 @@ const HeroBanner = () => {
           <div className="row">
             <div className="col-lg-6">
               <h1 className="wow fadeInUp" data-wow-delay="0.3s">
-                Find & Hire <span>Top 3% of expert on cyberlevels.</span>
+                Discover. Apply. <span>Hire. </span>
               </h1>
               <p
                 className="text-lg text-white mt-40 md-mt-30 mb-50 md-mb-30 wow fadeInUp"
                 data-wow-delay="0.4s"
               >
-                We delivered blazing fast & striking work solution
+              Your Cybersecurity job search made simple with AI.
               </p>
             </div>
           </div>
@@ -57,7 +57,7 @@ const HeroBanner = () => {
               </div>
             </div>
           </div>
-
+          <div className="pt-6">
           <div className="img-box">
             <Image src={shape_1} alt="shape" className="lazy-img shapes" />
             <Image
@@ -65,8 +65,9 @@ const HeroBanner = () => {
               height={785}
               src={main_img}
               alt="main-img"
-              className="lazy-img main-img w-100"
+              className="lazy-img main-img w-100 "
             />
+          </div>
           </div>
         </div>
       </div>

@@ -35,6 +35,7 @@ const SelectYear = ({ setYear, firstInput, default: defaultOption }: Props) => {
         defaultCurrent={def}
         onChange={(item) => handleYear(item)}
         name="Year"
+        placeholder="Year"
       />
     </div>
   );

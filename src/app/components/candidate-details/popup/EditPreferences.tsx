@@ -193,7 +193,7 @@ const EditPreferences = () => {
                         onChange={(item) =>
                           updateSalaryProperty("period", item)
                         }
-                        placeholder="Select Period"
+                        placeholder="Period"
                         name="period"
                       />
                     </div>

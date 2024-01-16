@@ -51,6 +51,7 @@ const SelectMonth = ({
         defaultCurrent={def}
         onChange={(item) => handleYear(item)}
         name="Year"
+        placeholder="Month"
       />
     </div>
   );

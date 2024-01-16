@@ -25,6 +25,7 @@ const TeamSizeSelect = ({ setSelected }: Props) => {
       defaultCurrent={0}
       onChange={(item) => handleState(item)}
       name="State"
+      placeholder="Size"
     />
   );
 };
