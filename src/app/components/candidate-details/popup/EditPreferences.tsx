@@ -32,6 +32,21 @@ const EditPreferences = () => {
     getAllCurrencies(dispatch);
     getCurrCandidate(dispatch, currUser as string);
   }, []);
+  const options:any = [
+    // { value: "select period", label: "select period" },
+    { value: "monthly", label: "monthly" },
+    { value: "yearly", label: "yearly" },
+    { value: "weekly", label: "weekly" },
+    { value: "By-weekly", label: "By-weekly" },
+    { value: "hourly", label: "hourly" },
+  ]
+
+  const [defaultPeriod, setDefaultPeriod] = useState(undefined)
+  const findDefaultPeriod = () => {
+    const def = options.findIndex((option:any) => option.value === currCandidate?.expectedSalary?.period);
+    console.log(def,"period index")
+    setDefaultPeriod(def);
+  }
   //   const user = currCandidate;
 
   //   const [gender, setGender] = useState(user?.location?.city);
@@ -68,6 +83,7 @@ const EditPreferences = () => {
     });
     setLocation(currCandidate?.preferredLanguages || []);
     setPrefLanguages(currCandidate?.preferredLanguages || []);
+    findDefaultPeriod();
   }, [currCandidate]);
 
   useEffect(() => {
@@ -164,6 +180,7 @@ const EditPreferences = () => {
       if (isUpdated) {
         notifySuccess("Preferences updated successfully");
       } else notifyError("something went wrong! try again");
+
     }
   };
 
@@ -202,15 +219,8 @@ const EditPreferences = () => {
                   <div className="col-md-3">
                     <div className="dash-input-wrapper mb-30 ">
                       <NiceSelect
-                        options={[
-                          // { value: "select period", label: "select period" },
-                          { value: "monthly", label: "monthly" },
-                          { value: "yearly", label: "yearly" },
-                          { value: "weekly", label: "weekly" },
-                          { value: "By-weekly", label: "By-weekly" },
-                          { value: "hourly", label: "hourly" },
-                        ]}
-                        // defaultCurrent={0}
+                        options={options}
+                        defaultCurrent={defaultPeriod}
                         onChange={(item) =>
                           updateSalaryProperty("period", item)
                         }

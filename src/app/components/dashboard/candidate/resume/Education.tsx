@@ -80,7 +80,7 @@ const Education = () => {
   }, [startYear, startMonth, endMonth, endYear]);
   useEffect(() => {
     if (
-      checkValidDescription(education.description,50) ||
+      checkValidDescription(education.description, 50) ||
       education.description.trim().length === 0
     ) {
       setValidDescription(true);
@@ -211,7 +211,10 @@ const Education = () => {
                           onChange={handleEducationChange}
                           type="text"
                           placeholder="Bachelor's"
-                          style={{borderColor:!education.degree?"red":"", borderRadius:!education.degree?"5px":""}}
+                          style={{
+                            borderColor: !education.degree ? "red" : "",
+                            borderRadius: !education.degree ? "5px" : "",
+                          }}
                         />
                       </div>
                     </div>
@@ -230,7 +233,10 @@ const Education = () => {
                           onChange={handleEducationChange}
                           type="text"
                           placeholder="Oxford"
-                          style={{borderColor:!education.institute?"red":"", borderRadius:!education.institute?"5px":""}}
+                          style={{
+                            borderColor: !education.institute ? "red" : "",
+                            borderRadius: !education.institute ? "5px" : "",
+                          }}
                         />
                       </div>
                     </div>
@@ -280,6 +286,12 @@ const Education = () => {
                             // default={{value:endYear,label:endYear}}
                           />
                         </div>
+                        {(!startMonth ||
+                          !startYear ||
+                          !endMonth ||
+                          !endYear) && (
+                          <p style={{ color: "red" }}>Enter Valid Date</p>
+                        )}
                         {!checkValidDate && (
                           <p style={{ color: "red" }}>
                             Start date cannot be greater that end date
@@ -302,7 +314,10 @@ const Education = () => {
                           onChange={handleEducationChange}
                           className="size-lg"
                           placeholder="Morbi ornare ipsum sed sem condimentum, et pulvinar tortor luctus. Suspendisse condimentum lorem ut elementum aliquam et pulvinar tortor luctus."
-                          style={{borderColor:!education.description?"red":"", borderRadius:!education.description?"5px":""}}
+                          style={{
+                            borderColor: !education.description ? "red" : "",
+                            borderRadius: !education.description ? "5px" : "",
+                          }}
                         ></textarea>
                       </div>
                     </div>

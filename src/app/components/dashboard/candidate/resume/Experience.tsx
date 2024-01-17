@@ -250,6 +250,9 @@ const Experience = () => {
                             placeholder="End Month"
                           />
                         </div>
+                        {(!startMonth || !startYear || !endMonth || !endYear) &&  <p style={{ color: "red" }}>
+                            Enter Valid Date
+                          </p>}
                         {!checkValidDate && (
                           <p style={{ color: "red" }}>
                             Start date cannot be greater that end date
