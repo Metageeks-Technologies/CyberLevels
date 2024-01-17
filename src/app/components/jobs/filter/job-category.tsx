@@ -46,7 +46,7 @@ const JobCategory = () => {
       </ul>
       <div
         onClick={() => setIsShowMore((prevState) => !prevState)}
-        className="more-btn"
+        className="more-btn text-black"
       >
         <i className="bi bi-dash"></i> Show {isShowMore ? "Less" : "More"}
       </div>

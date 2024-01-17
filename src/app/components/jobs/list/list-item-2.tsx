@@ -9,6 +9,10 @@ import { notifyWarn } from "@/utils/toast";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import ProfileCompleteModal from "../../model/completeProfile";
+import { setProfileCompleteModel } from "@/redux/features/model/slice";
+import { setSubscriptionModel } from "@/redux/features/model/slice";
+import SubscriptionModal from "../../model/subscriptionModel";
 
 const ListItemTwo = ({ item }: { item: IJobPost }) => {
   const { savedJobsPage, loading } = useAppSelector(
@@ -18,20 +22,24 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
     (state) => state.persistedReducer.user
   );
   const router = useRouter();
-  const {currCandidate} = useAppSelector((state)=> state.candidate.candidateDashboard)
+  const { currCandidate } = useAppSelector(
+    (state) => state.candidate.candidateDashboard
+  );
+  const { profileCompleteModel, subscriptionModel } = useAppSelector(
+    (state) => state.model
+  );
   const dispatch = useAppDispatch();
   const isActive = item?.isSaved || false;
   const handleSaveJob = (jobPostId: string) => {
     if (!isActive) {
-      if(currCandidate?.isProfileCompleted === true){
+      if (currCandidate?.isProfileCompleted === true || true) {
         saveJob(dispatch, {
           jobPostId,
           candidateId: currUser,
           page: savedJobsPage,
         });
-
-      }else{
-        notifyWarn("Please complete your profile.")
+      } else {
+        // dispatch(setProfileCompleteModel(true));
       }
     } else {
       removeSavedJob(dispatch, {
@@ -42,13 +50,13 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
     }
   };
   const handleViewClick = (id: string) => {
-    if(currCandidate?.isProfileCompleted === true){
+    if (currCandidate?.isProfileCompleted === true) {
       // registerJobPostView(dispatch, id);
       router.push(`/job-details-v1/${id}`);
-
-    }
-    else{
-      notifyWarn("Please complete your profile.")
+    } else {
+      // dispatch(setProfileCompleteModel(true));
+      dispatch(setSubscriptionModel(true));
+      // notifyWarn("Please complete your profile.");
     }
   };
   const handleSubscribePopup = () => {};
@@ -202,6 +210,8 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
       </div>
       {/* login modal start */}
       <LoginModal />
+      {profileCompleteModel ? <ProfileCompleteModal /> : null}
+      {subscriptionModel ? <SubscriptionModal /> : null}
       {/* login modal end */}
     </>
   );

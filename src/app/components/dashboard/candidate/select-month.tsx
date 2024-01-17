@@ -5,14 +5,14 @@ interface Props {
   firstInput: string;
   setMonth: React.Dispatch<React.SetStateAction<string>>;
   default?: { value: string; label: string };
-  placeholder?:string;
+  placeholder?: string;
 }
 
 const SelectMonth = ({
   default: defaultOption,
   setMonth,
   firstInput,
-  placeholder
+  placeholder,
 }: Props) => {
   const handleYear = (item: { value: string; label: string }) => {
     setMonth(item.value);
@@ -53,7 +53,7 @@ const SelectMonth = ({
         defaultCurrent={def}
         onChange={(item) => handleYear(item)}
         name="Year"
-        placeholder={placeholder}
+        placeholder="Month"
       />
     </div>
   );

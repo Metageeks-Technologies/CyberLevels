@@ -67,7 +67,7 @@ const Profile = () => {
         <div className="dash-input-wrapper mb-30 col-5">
           <label htmlFor="">Gender</label>
           <div className="d-flex align-items-center position-relative">
-            <input type="text" value={user?.gender} readOnly />
+            <input type="text" placeholder="select" value={user?.gender} readOnly />
           </div>
         </div>
         <div className="dash-input-wrapper w-100 ">

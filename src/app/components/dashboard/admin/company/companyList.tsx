@@ -51,7 +51,7 @@ const CompanyList = () => {
               <div className="">
                 <div className="upper-filter d-flex justify-content-between align-items-center mb-20">
                   <div className="total-job-found">
-                    All <span className="text-dark fw-500">{"28"}</span>{" "}
+                    All <span className="text-dark fw-500">{totalCompany}</span>{" "}
                     candidates found
                   </div>
                 </div>

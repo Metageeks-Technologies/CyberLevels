@@ -56,7 +56,14 @@ const NiceSelect = ({
       onClick={() => setOpen((prev) => !prev)}
       ref={ref}
     >
-      <span className="current">{current?.label || placeholder}</span>
+      <span className="current">
+        {/* {current?.label || placeholder} */}
+        {current ? (
+        <span className="current">{current.label}</span>
+      ) : (
+        <span className="placeholder">{placeholder}</span>
+      )}
+        </span>
       <ul
         className={`list ${isScroll && "add_Scroll_to_nice_select"}`}
         role="menubar"

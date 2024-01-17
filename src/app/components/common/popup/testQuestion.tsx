@@ -18,7 +18,7 @@ const QuestionModal = ({
   );
 
   const dispatch = useAppDispatch;
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   const [from, setForm] = useState({
     testScore: 0,
     appliedWithResume: "",
@@ -60,7 +60,7 @@ const QuestionModal = ({
                 </div>
               )}
               {step === 2 && currCandidate && (
-                <div className="_resume mt-5 mt-3 ">
+                <div className="_resume mt-5  ">
                   <SelectResume
                     resumes={currCandidate.resumes}
                     setForm={setForm}
@@ -69,7 +69,7 @@ const QuestionModal = ({
                 </div>
               )}
               {step === 3 && currCandidate && (
-                <div className="_resume mt-5 mt-3 ">
+                <div className="_resume mt-5  ">
                   <Suggestion
                     setStep={setStep}
                     resumeId={from.appliedWithResume}
