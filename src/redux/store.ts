@@ -20,10 +20,12 @@ import subscriptionSlice from './features/subscription/slice';
 import adminSlice from './features/admin/slice'; import emailTemplateSlice from './features/emailTemplate/slice';
 import smtpConfigSlice from './features/smtpConfig/slice';
 import blogSlice from './features/admin/blogSlice';
+import modelSlice from './features/model/slice';
 
 const rootReducer = combineReducers({
   user: userSlice
 })
+
 
 const candidate = combineReducers({
   candidateList: candidateSlice,
@@ -62,7 +64,8 @@ export const store = configureStore({
     admin: adminSlice,
     emailTemplate: emailTemplateSlice,
     smtpConfig: smtpConfigSlice,
-    blog: blogSlice
+    blog: blogSlice,
+    model: modelSlice
   },
 
 })

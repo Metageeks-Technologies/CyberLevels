@@ -12,12 +12,17 @@ const page = () => {
   const dispatch = useAppDispatch();
   const { whoIsTryingToLoginWithLn, whoIsTryingToLoginWithGoogle, loading } =
     useAppSelector((state) => state.persistedReducer.user);
-console.log("LinkedIn",whoIsTryingToLoginWithLn,"Google",whoIsTryingToLoginWithGoogle);
+  console.log(
+    "LinkedIn",
+    whoIsTryingToLoginWithLn,
+    "Google",
+    whoIsTryingToLoginWithGoogle
+  );
   const urlParams = new URLSearchParams(window.location.search);
   const state = urlParams.get("state");
   if ((!whoIsTryingToLoginWithLn && !whoIsTryingToLoginWithGoogle) || !state) {
-    console.log(state)
-    console.log(whoIsTryingToLoginWithGoogle)
+    // console.log(state);
+    // console.log(whoIsTryingToLoginWithGoogle);
     alert(
       "There is change in browser,please complete the login process with one browser only"
     );
@@ -50,7 +55,10 @@ console.log("LinkedIn",whoIsTryingToLoginWithLn,"Google",whoIsTryingToLoginWithG
       const handleLogin = async () => {
         const isLoginSuccessful = await loginWithLn(dispatch, requestData);
 
-        router.push(`/`);
+        if (isLoginSuccessful && whoIsTryingToLoginWithLn === "candidate") {
+          console.log("from callback", isLoginSuccessful);
+          router.push(`/job-list-v1#find-jobs`);
+        } else router.push("/");
       };
 
       handleLogin();
@@ -80,8 +88,10 @@ console.log("LinkedIn",whoIsTryingToLoginWithLn,"Google",whoIsTryingToLoginWithG
       const handleLogin = async () => {
         const isLoginSuccessful = await loginWithGoogle(dispatch, requestData);
 
-        if (isLoginSuccessful) router.push(`/`);
-        else router.push("/");
+        if (isLoginSuccessful && whoIsTryingToLoginWithGoogle === "candidate") {
+          // console.log("from callback", isLoginSuccessful);
+          router.push(`/job-list-v1#find-jobs`);
+        } else router.push("/");
       };
 
       handleLogin();
