@@ -42,6 +42,7 @@ const SelectGender = ({
         defaultCurrent={def}
         onChange={(item) => handleYear(item)}
         name="Year"
+        placeholder="Select"
       />
     </div>
   );

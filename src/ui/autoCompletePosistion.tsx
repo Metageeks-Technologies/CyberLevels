@@ -16,7 +16,7 @@ function AutocompletePosition({
   setSelected,
   endPoint,
   suggestionsProp=[],
-  placeholder="type title",
+  placeholder="Job Title",
 }: Props) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);

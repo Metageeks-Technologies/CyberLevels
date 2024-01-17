@@ -222,7 +222,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
         <div className="bg-white card-box border-20">
           <h4 className="dash-title-three">Job Details</h4>
 
-          <div className="row align-items-end">
+          <div className="row ">
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
                 <label htmlFor="lastName">Company*</label>
@@ -268,6 +268,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   defaultCurrent={0}
                   onChange={(item) => handleJobType(item)}
                   name="Job Type"
+                  placeholder="Job type"
                 />
                 <div className="skill-input-data d-flex align-items-center flex-wrap">
                   {jobType.map((value) => (
@@ -289,6 +290,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   defaultCurrent={0}
                   onChange={(item) => handleWorkMode(item)}
                   name="work mode"
+                  placeholder="work mode"
                 />
                 <div className="skill-input-data d-flex align-items-center flex-wrap">
                   {workMode.map((value) => (
@@ -326,6 +328,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                     },
                     { value: "To Be Discussed", label: "To Be Discussed" },
                   ]}
+                  placeholder="select joining"
                   defaultCurrent={0}
                   onChange={(item) => handleJoining(item)}
                   name="Job Type"
@@ -359,10 +362,11 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   defaultCurrent={0}
                   onChange={(item) => updateSalaryProperty("period", item)}
                   name="period"
+                  placeholder="select period"
                 />
               </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-md-3 mt-5">
               <div className="dash-input-wrapper mb-30">
                 {/* <NiceSelect
                   options={[
@@ -383,7 +387,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                 />
               </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-md-3 mt-5">
               <div className="dash-input-wrapper mb-30">
                 <input
                   type="text"
@@ -394,7 +398,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                 />
               </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-md-3 mt-5">
               <div className="dash-input-wrapper mb-30">
                 <input
                   type="text"
@@ -440,7 +444,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
           </div>
 
           {/* employ experience start */}
-          <div className="row align-items-end">
+          <div className="row ">
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
                 <label htmlFor="">Experience*</label>
@@ -453,6 +457,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   defaultCurrent={0}
                   onChange={(item) => handleExperience(item)}
                   name="Experience"
+                  placeholder="Experience"
                 />
                 <div className="skill-input-data d-flex align-items-center flex-wrap">
                   {experience.map((value) => (
