@@ -11,6 +11,7 @@ import {
   updateExperience,
 } from "@/redux/features/candidate/api";
 import { setCurrDashEducation } from "@/redux/features/candidate/dashboardSlice";
+import { checkValidDateTimeLine, checkValidDescription } from "@/utils/helper";
 // import { updateExistingEduSuccess } from "@/redux/features/candidate/dashboardSlice";
 
 const EditExperienceBody = ({
@@ -43,7 +44,66 @@ const EditExperienceBody = ({
   const [startMonth, setStartMonth] = useState("");
   const [endYear, setEndYear] = useState("");
   const [endMonth, setEndMonth] = useState("");
-
+  const [checkValidDate, setCheckValidDate] = useState(true);
+  const [allFieldsCheck, setAllFieldsCheck] = useState(false);
+  const [validDescription, setValidDescription] = useState(true);
+  useEffect(() => {
+    if (
+      startYear &&
+      endYear &&
+      startMonth &&
+      endMonth &&
+      startYear !== "Start Year" &&
+      startMonth !== "Start Month" &&
+      endYear !== "End Year" &&
+      endMonth !== "End Month" &&
+      experience.title &&
+      experience.company &&
+      experience.description
+    ) {
+      setAllFieldsCheck(true);
+    } else {
+      setAllFieldsCheck(false);
+    }
+  }, [
+    startYear,
+    endYear,
+    startMonth,
+    endMonth,
+    experience.title,
+    experience.company,
+    experience.description,
+  ]);
+  useEffect(() => {
+    if (
+      checkValidDescription(experience.description,50) ||
+      experience.description.trim().length === 0
+    ) {
+      setValidDescription(true);
+    } else {
+      setValidDescription(false);
+    }
+  }, [experience.description]);
+  useEffect(() => {
+    if (
+      !startMonth ||
+      !startYear ||
+      !endMonth ||
+      !endYear ||
+      (startYear === "Start Year" &&
+        startMonth === "Start Month" &&
+        endYear === "End Year" &&
+        endMonth === "End Month") ||
+      checkValidDateTimeLine(
+        startMonth + " " + startYear,
+        endMonth + " " + endYear
+      )
+    ) {
+      setCheckValidDate(true);
+    } else {
+      setCheckValidDate(false);
+    }
+  }, [startYear, startMonth, endMonth, endYear]);
   useEffect(() => {
     setExperience({
       title: experienceProp.title || "",
@@ -96,6 +156,14 @@ const EditExperienceBody = ({
       startYear: startMonth + " " + startYear,
       endYear: endMonth + " " + endYear,
     };
+    if (!checkValidDate) {
+      notifyInfo("Start date cannot be greater than end date");
+      return;
+    }
+    if (!validDescription) {
+      notifyInfo("Please complete description");
+      return;
+    }
     console.log("bodyObj", bodyObj);
     //  await addEducation(dispatch, user._id, bodyObj);
     if (currCandidate) {
@@ -116,13 +184,13 @@ const EditExperienceBody = ({
     });
     setStartYear("");
     setEndYear("");
-    getCurrCandidate(dispatch,currUser as string);
+    getCurrCandidate(dispatch, currUser as string);
   };
   console.log(startMonth, startYear, endYear, endMonth);
 
   return (
     <div className="accordion-body">
-      <p>{experienceProp._id}</p>
+      {/* <p>{experienceProp._id}</p> */}
       <div className="row">
         <div className="col-lg-2">
           <div className="dash-input-wrapper mb-30 md-mb-10">
@@ -209,6 +277,11 @@ const EditExperienceBody = ({
                 firstInput="End Year"
               />
             </div>
+            {!checkValidDate && (
+              <p style={{ color: "red" }}>
+                Start date cannot be greater that end date
+              </p>
+            )}
           </div>
         </div>
       </div>
@@ -229,17 +302,35 @@ const EditExperienceBody = ({
             ></textarea>
           </div>
         </div>
+        {!validDescription && (
+          <p style={{ color: "red" }}>
+            description must include {experience.description.trim().length}/50
+          </p>
+        )}
       </div>
-      <button
-        onClick={handleAddEducation}
-        type="button"
-        // className="btn-close"
-        data-bs-dismiss="modal"
-        aria-label="Close"
-        className="dash-btn-two tran3s me-3 mb-15"
-      >
-        Save
-      </button>
+      {allFieldsCheck && checkValidDate && validDescription ? (
+        <button
+          onClick={handleAddEducation}
+          type="button"
+          // className="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          className="dash-btn-two tran3s me-3 mb-15"
+        >
+          Save
+        </button>
+      ) : (
+        <button
+          onClick={handleAddEducation}
+          type="button"
+          // className="btn-close"
+          // data-bs-dismiss="modal"
+          // aria-label="Close"
+          className="dash-btn-two tran3s me-3 mb-15"
+        >
+          Save
+        </button>
+      )}
     </div>
   );
 };

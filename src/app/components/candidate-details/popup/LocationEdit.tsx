@@ -1,7 +1,7 @@
 "use client";
 import "react-phone-number-input/style.css";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { Value } from "sass";
 import { notifyError, notifyInfo, notifySuccess } from "@/utils/toast";
@@ -17,7 +17,15 @@ const EditLocation = () => {
 
   const [city, setCity] = useState(user?.location?.city);
   const [country, setCountry] = useState(user?.location?.country);
-
+  const [allFieldsCheck, setAllFieldsCheck] = useState(false);
+  useEffect(()=>{
+    if(city && country){
+      setAllFieldsCheck(true);
+    }
+    else{
+      setAllFieldsCheck(false);
+    }
+  },[city,country])
   const handleSave = async () => {
     const location = {
       city,
@@ -89,6 +97,7 @@ const EditLocation = () => {
                   </div>
                 </div>
                 <div className="button-group d-inline-flex align-items-center mt-30">
+                  {allFieldsCheck ? 
                   <button
                     onClick={handleSave}
                     className="dash-btn-two tran3s me-3"
@@ -98,6 +107,17 @@ const EditLocation = () => {
                   >
                     Save
                   </button>
+                  :
+                  <button
+                    onClick={handleSave}
+                    className="dash-btn-two tran3s me-3"
+                    type="button"
+                    // data-bs-dismiss="modal"
+                    // aria-label="Close"
+                  >
+                    Save
+                  </button>
+                  }
                   <button
                     className="dash-cancel-btn tran3s"
                     type="button"

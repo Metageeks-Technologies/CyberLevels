@@ -7,6 +7,7 @@ import { addEducation } from "@/redux/features/candidate/api";
 import { notifyError, notifyInfo } from "@/utils/toast";
 import SelectMonth from "../select-month";
 import EditEducation from "@/app/components/candidate-details/popup/EditEducation";
+import { checkValidDateTimeLine, checkValidDescription } from "@/utils/helper";
 
 const Education = () => {
   const { currCandidate, loading, currDashEducation } = useAppSelector(
@@ -27,7 +28,66 @@ const Education = () => {
   const [startMonth, setStartMonth] = useState("");
   const [endYear, setEndYear] = useState("");
   const [endMonth, setEndMonth] = useState("");
-  const [allFieldsCheck,setAllFieldsCheck] = useState(false);
+  const [checkValidDate, setCheckValidDate] = useState(true);
+  const [allFieldsCheck, setAllFieldsCheck] = useState(false);
+  const [validDescription, setValidDescription] = useState(true);
+  useEffect(() => {
+    if (
+      startYear &&
+      endYear &&
+      startMonth &&
+      endMonth &&
+      startYear !== "Start Year" &&
+      startMonth !== "Start Month" &&
+      endYear !== "End Year" &&
+      endMonth !== "End Month" &&
+      education.degree &&
+      education.institute &&
+      education.description
+    ) {
+      setAllFieldsCheck(true);
+    } else {
+      setAllFieldsCheck(false);
+    }
+  }, [
+    startYear,
+    endYear,
+    startMonth,
+    endMonth,
+    education.degree,
+    education.institute,
+    education.description,
+  ]);
+  useEffect(() => {
+    if (
+      !startMonth ||
+      !startYear ||
+      !endMonth ||
+      !endYear ||
+      (startYear === "Start Year" &&
+        startMonth === "Start Month" &&
+        endYear === "End Year" &&
+        endMonth === "End Month") ||
+      checkValidDateTimeLine(
+        startMonth + " " + startYear,
+        endMonth + " " + endYear
+      )
+    ) {
+      setCheckValidDate(true);
+    } else {
+      setCheckValidDate(false);
+    }
+  }, [startYear, startMonth, endMonth, endYear]);
+  useEffect(() => {
+    if (
+      checkValidDescription(education.description,50) ||
+      education.description.trim().length === 0
+    ) {
+      setValidDescription(true);
+    } else {
+      setValidDescription(false);
+    }
+  }, [education.description]);
   const handleEducationChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -36,16 +96,43 @@ const Education = () => {
       ...education,
       [name]: value,
     });
-    if(!education.degree || !education.description || !education.institute || !startYear || startYear ==="Start Year" || !startMonth || startMonth ==="Start Month" || !endYear || endYear ==="End Year" || !endMonth || endMonth ==="End Month"){
-      
+    if (
+      !education.degree ||
+      !education.description ||
+      !education.institute ||
+      !startYear ||
+      startYear === "Start Year" ||
+      !startMonth ||
+      startMonth === "Start Month" ||
+      !endYear ||
+      endYear === "End Year" ||
+      !endMonth ||
+      endMonth === "End Month"
+    ) {
       return;
     }
-    setAllFieldsCheck(true);
-    console.log(allFieldsCheck,"Validator");
+    // setAllFieldsCheck(true);
+    // console.log(allFieldsCheck, "Validator");
   };
   const handleAddEducation = async () => {
-    if(!education.degree || !education.description || !education.institute || !startYear || startYear ==="Start Year" || !startMonth || startMonth ==="Start Month" || !endYear || endYear ==="End Year" || !endMonth || endMonth ==="End Month"){
+    if (
+      !education.degree ||
+      !education.description ||
+      !education.institute ||
+      !startYear ||
+      startYear === "Start Year" ||
+      !startMonth ||
+      startMonth === "Start Month" ||
+      !endYear ||
+      endYear === "End Year" ||
+      !endMonth ||
+      endMonth === "End Month"
+    ) {
       notifyInfo("Please complete fields marked with *");
+      return;
+    }
+    if (!validDescription) {
+      notifyInfo("please complete description");
       return;
     }
 
@@ -58,6 +145,10 @@ const Education = () => {
       startYear: startMonth + " " + startYear,
       endYear: endMonth + " " + endYear,
     };
+    if (new Date(bodyObj.startYear) > new Date(bodyObj.endYear)) {
+      notifyInfo("Start date cannot be greater than end date");
+      return;
+    }
     console.log(bodyObj);
     await addEducation(dispatch, user._id, bodyObj);
     setEducation({
@@ -65,9 +156,11 @@ const Education = () => {
       institute: "",
       description: "",
     });
-    // setStartYear("");
-    // setEndYear("");
-    setAllFieldsCheck(false);
+    setStartYear("");
+    setEndYear("");
+    setStartMonth("");
+    setEndMonth("");
+    // setAllFieldsCheck(false);
   };
 
   return (
@@ -150,6 +243,7 @@ const Education = () => {
                       <div className="row">
                         <div className="col-sm-3">
                           <SelectMonth
+                            default={{ value: startMonth, label: startMonth }}
                             setMonth={setStartMonth}
                             firstInput="Start Month"
                             placeholder="Start Month"
@@ -158,6 +252,7 @@ const Education = () => {
                         </div>
                         <div className="col-sm-3">
                           <SelectYear
+                            default={{ value: startYear, label: startYear }}
                             setYear={setStartYear}
                             firstInput="Start Year"
                             placeholder="Start Year"
@@ -167,6 +262,7 @@ const Education = () => {
 
                         <div className="col-sm-3">
                           <SelectMonth
+                            default={{ value: endMonth, label: endMonth }}
                             setMonth={setEndMonth}
                             firstInput="End Month"
                             placeholder="End Month"
@@ -175,12 +271,18 @@ const Education = () => {
                         </div>
                         <div className="col-sm-3">
                           <SelectYear
+                            default={{ value: endYear, label: endYear }}
                             setYear={setEndYear}
                             firstInput="End Year"
                             placeholder="End Year"
                             // default={{value:endYear,label:endYear}}
                           />
                         </div>
+                        {!checkValidDate && (
+                          <p style={{ color: "red" }}>
+                            Start date cannot be greater that end date
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -201,32 +303,38 @@ const Education = () => {
                         ></textarea>
                       </div>
                     </div>
+                    {!validDescription && (
+                      <p style={{ color: "red" }}>
+                        description must include{" "}
+                        {education.description.trim().length}/50
+                      </p>
+                    )}
                   </div>
-                  {allFieldsCheck === true ? 
-                  <button
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseOne"
-                    aria-expanded="false"
-                    aria-controls="collapseOne"
-                    onClick={handleAddEducation}
-                    className="dash-btn-two tran3s me-3 mb-15"
-                  >
-                    Save
-                  </button>
-                  :
-                  <button
-                    type="button"
-                    // data-bs-toggle="collapse"
-                    // data-bs-target="#collapseOne"
-                    // aria-expanded="false"
-                    // aria-controls="collapseOne"
-                    onClick={handleAddEducation}
-                    className="dash-btn-two tran3s me-3 mb-15"
-                  >
-                    Save
-                  </button>
-                  }
+                  {allFieldsCheck && checkValidDate && validDescription ? (
+                    <button
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseOne"
+                      aria-expanded="false"
+                      aria-controls="collapseOne"
+                      onClick={handleAddEducation}
+                      className="dash-btn-two tran3s me-3 mb-15"
+                    >
+                      Save
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      // data-bs-toggle="collapse"
+                      // data-bs-target="#collapseOne"
+                      // aria-expanded="false"
+                      // aria-controls="collapseOne"
+                      onClick={handleAddEducation}
+                      className="dash-btn-two tran3s me-3 mb-15"
+                    >
+                      Save
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

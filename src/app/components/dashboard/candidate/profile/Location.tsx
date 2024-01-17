@@ -37,7 +37,7 @@ const Location = () => {
               <label htmlFor="city">City*</label>
               <input
                 type="text"
-                placeholder="Toronto"
+                placeholder="eg. Toronto"
                 value={user?.location?.city}
                 readOnly
               />
@@ -48,7 +48,7 @@ const Location = () => {
               <label htmlFor="">Country*</label>
               <input
                 type="text"
-                placeholder="Canada"
+                placeholder="eg. Canada"
                 value={user?.location?.country}
                 readOnly
               />

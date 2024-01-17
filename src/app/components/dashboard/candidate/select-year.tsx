@@ -30,7 +30,7 @@ const SelectYear = ({
   if (defaultOption) {
     // console.log(defaultOption);
     def = options.findIndex((option) => option.value === defaultOption.value);
-    // console.log(def);
+    // console.log(def,"Default option");
   }
 
   return (

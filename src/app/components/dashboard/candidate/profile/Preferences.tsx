@@ -40,9 +40,11 @@ const Preferences = () => {
               <input
                 type="text"
                 placeholder="Currency"
-                value={ user?.expectedSalary?.currency
-                  ? `${user.expectedSalary.currency.symbol} ${user.expectedSalary.currency.name}`
-                  : undefined}
+                value={
+                  user?.expectedSalary?.currency
+                    ? `${user.expectedSalary.currency.symbol} ${user.expectedSalary.currency.name}`
+                    : undefined
+                }
                 readOnly
               />
             </div>
@@ -83,7 +85,11 @@ const Preferences = () => {
                 Preferred Job Locations
               </label>
               <div
-                style={{ marginTop: "10px", display: "flex", flexDirection: "row" }}
+                style={{
+                  marginTop: "10px",
+                  display: "flex",
+                  flexDirection: "row",
+                }}
                 className="skill-input-data align-items-center flex-wrap"
               >
                 {user?.preferredLocations?.map((value) => (
@@ -101,7 +107,11 @@ const Preferences = () => {
             <div className="dash-input-wrapper mb-25">
               <label htmlFor="">Preferred Languages</label>
               <div
-                style={{ marginTop: "10px", display: "flex", flexDirection: "row" }}
+                style={{
+                  marginTop: "10px",
+                  display: "flex",
+                  flexDirection: "row",
+                }}
                 className="skill-input-data align-items-center flex-wrap"
               >
                 {user?.preferredLanguages?.map((value) => (
