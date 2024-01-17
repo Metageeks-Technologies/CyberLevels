@@ -57,6 +57,18 @@ const EditPreferences = () => {
   });
   const [validSalary, setValidSalary] = useState(true);
   const [allFieldsCheck, setAllFieldsCheck] = useState(false);
+  useEffect(() => {
+    setCurrency(currCandidate?.expectedSalary?.currency || undefined);
+    setSalary({
+      min: currCandidate?.expectedSalary?.min || undefined,
+      max: currCandidate?.expectedSalary?.max || undefined,
+
+      period: currCandidate?.expectedSalary?.period || undefined,
+      currency: currCandidate?.expectedSalary?.currency || undefined,
+    });
+    setLocation(currCandidate?.preferredLanguages || []);
+    setPrefLanguages(currCandidate?.preferredLanguages || []);
+  }, [currCandidate]);
 
   useEffect(() => {
     if (salary.min && salary.max && salary.currency && salary.period) {
@@ -70,7 +82,7 @@ const EditPreferences = () => {
     if (
       !salary.min ||
       !salary.max ||
-      isValidSalaryNumber(salary?.min, salary?.max)
+      isValidSalaryNumber(salary?.min.toString(), salary?.max.toString())
     ) {
       setValidSalary(true);
     } else {
@@ -240,6 +252,14 @@ const EditPreferences = () => {
                       />
                     </div>
                   </div>
+                  {(!salary.min ||
+                    !salary.max ||
+                    !salary.currency ||
+                    !salary.period) && (
+                    <p style={{ color: "red" }}>
+                      Expected salary cannot be empty
+                    </p>
+                  )}
                   {!validSalary && (
                     <p style={{ color: "red" }}>
                       Enter valid minimum and maximum salary

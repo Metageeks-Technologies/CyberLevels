@@ -205,6 +205,7 @@ const EditEducationBody = ({
               onChange={handleEducationChange}
               type="text"
               placeholder="Bachelor's"
+              style={{borderColor:!education.degree?"red":"", borderRadius:!education.degree?"5px":""}}
             />
           </div>
         </div>
@@ -223,6 +224,7 @@ const EditEducationBody = ({
               onChange={handleEducationChange}
               type="text"
               placeholder="Oxford"
+              style={{borderColor:!education.institute?"red":"", borderRadius:!education.institute?"5px":""}}
             />
           </div>
         </div>
@@ -299,6 +301,7 @@ const EditEducationBody = ({
               onChange={handleEducationChange}
               className="size-lg"
               placeholder="Morbi ornare ipsum sed sem condimentum, et pulvinar tortor luctus. Suspendisse condimentum lorem ut elementum aliquam et pulvinar tortor luctus."
+              style={{borderColor:!education.description?"red":"", borderRadius:!education.description?"5px":""}}
             ></textarea>
           </div>
         </div>

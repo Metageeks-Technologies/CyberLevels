@@ -186,6 +186,7 @@ const Experience = () => {
                           onChange={handleExperienceChange}
                           type="text"
                           placeholder="Lead Security Manager "
+                          style={{borderColor:!experience.title?"red":"", borderRadius:!experience.title?"5px":""}}
                         />
                       </div>
                     </div>
@@ -204,6 +205,7 @@ const Experience = () => {
                           onChange={handleExperienceChange}
                           type="text"
                           placeholder="Amazon Inc"
+                          style={{borderColor:!experience.company?"red":"", borderRadius:!experience.company?"5px":""}}
                         />
                       </div>
                     </div>
@@ -273,6 +275,7 @@ const Experience = () => {
                           onChange={handleExperienceChange}
                           className="size-lg"
                           placeholder="Morbi ornare ipsum sed sem condimentum, et pulvinar tortor luctus. Suspendisse condimentum lorem ut elementum aliquam et pulvinar tortor luctus."
+                          style={{borderColor:!experience.description?"red":"", borderRadius:!experience.description?"5px":""}}
                         ></textarea>
                       </div>
                       {!validDescription && (

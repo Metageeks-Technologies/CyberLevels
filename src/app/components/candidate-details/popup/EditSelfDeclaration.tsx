@@ -16,38 +16,40 @@ const EditSelfDeclaration = () => {
   const dispatch = useAppDispatch();
   const user = currCandidate;
 
-//   const [gender, setGender] = useState(user?.location?.city);
-//   const [race, setRace] = useState(user?.location?.country);
-//   const [ethnicity, setEthnicity] = useState(user?.location?.country);
-    const [selfDeclaration, setSelfDeclaration] = useState({
-        gender:user?.selfDeclaration?.gender||undefined,
-        race:user?.selfDeclaration?.race||undefined,
-    });
-    const [allFieldsCheck, setAllFieldsCheck] = useState(false)
-    useEffect(() => {
-      if(selfDeclaration.gender && selfDeclaration.race){
-        setAllFieldsCheck(true);
-      }else{
-        setAllFieldsCheck(false);
-      }
-    },[selfDeclaration])
-    const handleSelfDeclarationChange = (item:{value:string,label:string},name:string) => {
-        setSelfDeclaration({
-            ...selfDeclaration,
-            [name] : item.value,
-        })
+  //   const [gender, setGender] = useState(user?.location?.city);
+  //   const [race, setRace] = useState(user?.location?.country);
+  //   const [ethnicity, setEthnicity] = useState(user?.location?.country);
+  const [selfDeclaration, setSelfDeclaration] = useState({
+    gender: user?.selfDeclaration?.gender || undefined,
+    race: user?.selfDeclaration?.race || undefined,
+  });
+  // useEffect(() => {
+  //   setSelfDeclaration({
+  //     gender: user?.selfDeclaration?.gender || undefined,
+  //     race: user?.selfDeclaration?.race || undefined,
+  //   });
+  // }, [currCandidate]);
+  const [allFieldsCheck, setAllFieldsCheck] = useState(false);
+  useEffect(() => {
+    if (selfDeclaration.gender && selfDeclaration.race) {
+      setAllFieldsCheck(true);
+    } else {
+      setAllFieldsCheck(false);
     }
-
-
-
+  }, [selfDeclaration]);
+  const handleSelfDeclarationChange = (
+    item: { value: string; label: string },
+    name: string
+  ) => {
+    setSelfDeclaration({
+      ...selfDeclaration,
+      [name]: item.value,
+    });
+  };
 
   const handleSave = async () => {
-    
     // validation
-    if (
-      !selfDeclaration.gender ||
-      !selfDeclaration.race
-    ) {
+    if (!selfDeclaration.gender || !selfDeclaration.race) {
       notifyInfo("field with marked * can't be empty");
       return;
     }
@@ -61,7 +63,7 @@ const EditSelfDeclaration = () => {
         notifySuccess("Self Declaration updated successfully");
       } else notifyError("something went wrong try again");
     }
-    setSelfDeclaration({gender:undefined,race:undefined})
+    setSelfDeclaration({ gender: undefined, race: undefined });
   };
   console.log(selfDeclaration);
 
@@ -93,10 +95,15 @@ const EditSelfDeclaration = () => {
                           { value: "Male", label: "Male" },
                           { value: "Female", label: "Female" },
                           { value: "Other", label: "Other" },
-                          {value:"Prefer not to reveal",label:"Prefer not to reveal"}
+                          {
+                            value: "Prefer not to reveal",
+                            label: "Prefer not to reveal",
+                          },
                         ]}
                         defaultCurrent={0}
-                        onChange={(item) => handleSelfDeclarationChange(item,"gender")}
+                        onChange={(item) =>
+                          handleSelfDeclarationChange(item, "gender")
+                        }
                         name="gender"
                         placeholder="Gender"
                         cls="bg-white"
@@ -109,44 +116,54 @@ const EditSelfDeclaration = () => {
                       <NiceSelect
                         options={[
                           { value: "White", label: "White" },
-                          { value: "Black or African American", label: "Black or African American" },
-                          { value: "American Indian or Alaska Native", label: "American Indian or Alaska Native" },
+                          {
+                            value: "Black or African American",
+                            label: "Black or African American",
+                          },
+                          {
+                            value: "American Indian or Alaska Native",
+                            label: "American Indian or Alaska Native",
+                          },
                           { value: "Asian", label: "Asian" },
-                          { value: "Native Hawaiian or Other Pacific Islander", label: "Native Hawaiian or Other Pacific Islander" },
+                          {
+                            value: "Native Hawaiian or Other Pacific Islander",
+                            label: "Native Hawaiian or Other Pacific Islander",
+                          },
                         ]}
                         defaultCurrent={0}
-                        onChange={(item) => handleSelfDeclarationChange(item,"race")}
+                        onChange={(item) =>
+                          handleSelfDeclarationChange(item, "race")
+                        }
                         name="race"
                         placeholder="Race"
                         cls="bg-white"
                       />
                     </div>
                   </div>
-                  
                 </div>
 
                 <div className="button-group d-inline-flex align-items-center mt-30">
-                  {allFieldsCheck? 
-                  <button
-                    onClick={handleSave}
-                    className="dash-btn-two tran3s me-3"
-                    type="button"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    Save
-                  </button>
-                  :
-                  <button
-                    onClick={handleSave}
-                    className="dash-btn-two tran3s me-3"
-                    type="button"
-                    // data-bs-dismiss="modal"
-                    // aria-label="Close"
-                  >
-                    Save
-                  </button>
-                  }
+                  {allFieldsCheck ? (
+                    <button
+                      onClick={handleSave}
+                      className="dash-btn-two tran3s me-3"
+                      type="button"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      Save
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleSave}
+                      className="dash-btn-two tran3s me-3"
+                      type="button"
+                      // data-bs-dismiss="modal"
+                      // aria-label="Close"
+                    >
+                      Save
+                    </button>
+                  )}
                   <button
                     className="dash-cancel-btn tran3s"
                     type="button"

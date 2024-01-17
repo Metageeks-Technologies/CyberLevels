@@ -96,11 +96,16 @@ export const isPureString = (s:string) => {
   }
 }
 
-export const isValidSalaryNumber = (n1:number,n2:number) => {
-  if(n1<0){
+export const isValidSalaryNumber = (n1:string,n2:string) => {
+  let num1 = parseInt(n1);
+  let num2 = parseInt(n2);
+  if(num1<0){
     return false;
   }
-  else if(n1>n2){
+  else if(num2<0){
+    return false;
+  }
+  else if(num1>num2){
     return false;
   }else{
     return true;

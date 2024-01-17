@@ -184,7 +184,7 @@ const EditExperienceBody = ({
     });
     setStartYear("");
     setEndYear("");
-    getCurrCandidate(dispatch, currUser as string);
+    await getCurrCandidate(dispatch, currUser as string);
   };
   console.log(startMonth, startYear, endYear, endMonth);
 
@@ -205,6 +205,7 @@ const EditExperienceBody = ({
               onChange={handleEducationChange}
               type="text"
               placeholder="SDE"
+              style={{borderColor:!experience.title?"red":"", borderRadius:!experience.title?"5px":""}}
             />
           </div>
         </div>
@@ -223,6 +224,7 @@ const EditExperienceBody = ({
               onChange={handleEducationChange}
               type="text"
               placeholder="Amazon"
+              style={{borderColor:!experience.company?"red":"", borderRadius:!experience.company?"5px":""}}
             />
           </div>
         </div>
@@ -299,6 +301,7 @@ const EditExperienceBody = ({
               onChange={handleEducationChange}
               className="size-lg"
               placeholder="Morbi ornare ipsum sed sem condimentum, et pulvinar tortor luctus. Suspendisse condimentum lorem ut elementum aliquam et pulvinar tortor luctus."
+              style={{borderColor:!experience.description?"red":"", borderRadius:!experience.description?"5px":""}}
             ></textarea>
           </div>
         </div>
