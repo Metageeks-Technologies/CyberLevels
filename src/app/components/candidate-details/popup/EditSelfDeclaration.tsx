@@ -61,6 +61,7 @@ const EditSelfDeclaration = () => {
         notifySuccess("Self Declaration updated successfully");
       } else notifyError("something went wrong try again");
     }
+    setSelfDeclaration({gender:undefined,race:undefined})
   };
   console.log(selfDeclaration);
 

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
@@ -27,6 +27,9 @@ function AddressForm({
   const handleQueryChange = (value: string) => {
     setQuery(value);
   };
+  useEffect(() => {
+    setQuery(selected||"");
+  },[selected])
 
   const handleSelect = async (address: any) => {
     try {

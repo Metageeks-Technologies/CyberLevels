@@ -121,7 +121,7 @@ const EditSocial = () => {
                         />
                       </div>
                     </div>
-                        {!validLinkedIn && <p style={{ color:'red' }}>Enter a valid url</p>}
+                        {!validLinkedIn && <p style={{ color:'red',marginTop:'-50px' }}>Enter a valid url</p>}
                     <div className="dash-input-wrapper mb-30 w-100">
                       <label htmlFor="lastName">Twitter</label>
                       <div className="d-flex  align-items-center position-relative">
@@ -134,7 +134,7 @@ const EditSocial = () => {
                         />
                       </div>
                     </div>
-                    {!validTwitter && <p style={{ color:'red' }}>Enter a valid url</p>}
+                    {!validTwitter && <p style={{ color:'red',marginTop:'-50px' }}>Enter a valid url</p>}
                     <div className="dash-input-wrapper mb-30 w-100">
                       <label htmlFor="">Github</label>
                       <div className="d-flex align-items-center position-relative">
@@ -147,7 +147,7 @@ const EditSocial = () => {
                         />
                       </div>
                     </div>
-                    {!validGithub && <p style={{ color:'red' }}>Enter a valid url</p>}
+                    {!validGithub && <p style={{ color:'red',marginTop:'-50px' }}>Enter a valid url</p>}
                     <div className="dash-input-wrapper mb-30 w-100">
                       <label htmlFor="">WebSite</label>
                       <input
@@ -159,7 +159,7 @@ const EditSocial = () => {
                       />
                     </div>
                   </div>
-                  {!validWebsite && <p style={{ color:'red' }}>Enter a valid url</p>}
+                  {!validWebsite && <p style={{ color:'red',marginTop:'-50px' }}>Enter a valid url</p>}
                   <div className="button-group d-inline-flex align-items-center mt-30">
                     {(validLinkedIn && validTwitter && validGithub && validWebsite) ? 
                     <button

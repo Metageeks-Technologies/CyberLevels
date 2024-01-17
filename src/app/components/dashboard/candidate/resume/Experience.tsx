@@ -120,7 +120,7 @@ const Experience = () => {
       startYear: startMonth + " " + startYear,
       endYear: endMonth + " " + endYear,
     };
-    if (new Date(bodyObj.startYear) > new Date(bodyObj.endYear)) {
+    if (!checkValidDate) {
       notifyInfo("Start date cannot be greater than end date");
       return;
     }
