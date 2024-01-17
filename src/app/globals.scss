@@ -635,6 +635,23 @@ div[data-preview] p {
   height: auto;
 }
 
+.homeimg{
+  padding-top: 2.5rem !important;
+}
+
+.companysalary-front{
+  margin-top: 2rem !important;
+}
+
+
+.placeholderNew {
+  display: inline-block;
+  min-height: 1em;
+  vertical-align: middle;
+  cursor: text;
+  background-color: transparent;
+  opacity: 0.5;
+}
 .validation-border {
   border-color: red;
   border-radius:5px;

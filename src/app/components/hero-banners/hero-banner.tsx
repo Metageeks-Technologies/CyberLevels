@@ -57,7 +57,7 @@ const HeroBanner = () => {
               </div>
             </div>
           </div>
-          <div className="pt-6">
+          <div className="homeimg">
           <div className="img-box">
             <Image src={shape_1} alt="shape" className="lazy-img shapes" />
             <Image

@@ -61,7 +61,7 @@ const NiceSelect = ({
         {current ? (
         <span className="current">{current.label}</span>
       ) : (
-        <span className="placeholder">{placeholder}</span>
+        <span className="placeholderNew">{placeholder}</span>
       )}
         </span>
       <ul

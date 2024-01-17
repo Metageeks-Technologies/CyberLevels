@@ -366,7 +366,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                 />
               </div>
             </div>
-            <div className="col-md-3 mt-5">
+            <div className="col-md-3 companysalary-front">
               <div className="dash-input-wrapper mb-30">
                 {/* <NiceSelect
                   options={[
@@ -387,7 +387,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                 />
               </div>
             </div>
-            <div className="col-md-3 mt-5">
+            <div className="col-md-3 companysalary-front">
               <div className="dash-input-wrapper mb-30">
                 <input
                   type="text"
@@ -398,7 +398,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                 />
               </div>
             </div>
-            <div className="col-md-3 mt-5">
+            <div className="col-md-3 companysalary-front">
               <div className="dash-input-wrapper mb-30">
                 <input
                   type="text"
