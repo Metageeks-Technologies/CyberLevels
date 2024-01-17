@@ -9,6 +9,8 @@ import FilterArea from "../filter/filter-area";
 import JobGridItem from "../grid/job-grid-item";
 import ListItemTwo from "./list-item-2";
 import Loader from "@/ui/loader";
+import { setSubscriptionModel } from "@/redux/features/model/slice";
+import SubscriptionModal from "../../model/subscriptionModel";
 
 const JobListThree = ({
   itemsPerPage,
@@ -38,8 +40,22 @@ const JobListThree = ({
     console.log(values);
   };
 
+  const { subscriptionModel } = useAppSelector(
+    (state) => state.model
+  );
+  const [modalShown, setModalShown] = useState(false);
+
   useEffect(() => {
     getJObPosts(dispatch, filterState, page, currUser ? currUser : "");
+    if (!modalShown) {
+      const timeoutId = setTimeout(() => {
+        dispatch(setSubscriptionModel(true));
+        setModalShown(true); // Update the state to indicate that the modal has been shown
+      }, 2000);
+
+      // Clean up the timeout to avoid memory leaks
+      return () => clearTimeout(timeoutId);
+    }
   }, [
     location,
     jobCategory,
@@ -58,6 +74,8 @@ const JobListThree = ({
   };
 
   return (
+    <>
+    {subscriptionModel ? <SubscriptionModal /> : null}
     <section
       id="find-jobs"
       className="job-listing-three pt-110 lg-pt-80 pb-160 xl-pb-150 lg-pb-80"
@@ -187,6 +205,7 @@ const JobListThree = ({
         </div>
       </div>
     </section>
+    </>
   );
 };
 

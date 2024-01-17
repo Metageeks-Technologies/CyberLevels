@@ -32,14 +32,14 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
   const isActive = item?.isSaved || false;
   const handleSaveJob = (jobPostId: string) => {
     if (!isActive) {
-      if (currCandidate?.isProfileCompleted === true || true) {
+      if (currCandidate?.isProfileCompleted === true) {
         saveJob(dispatch, {
           jobPostId,
           candidateId: currUser,
           page: savedJobsPage,
         });
       } else {
-        // dispatch(setProfileCompleteModel(true));
+        dispatch(setProfileCompleteModel(true));
       }
     } else {
       removeSavedJob(dispatch, {
@@ -54,8 +54,8 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
       // registerJobPostView(dispatch, id);
       router.push(`/job-details-v1/${id}`);
     } else {
-      // dispatch(setProfileCompleteModel(true));
-      dispatch(setSubscriptionModel(true));
+      dispatch(setProfileCompleteModel(true));
+      // dispatch(setSubscriptionModel(true));
       // notifyWarn("Please complete your profile.");
     }
   };

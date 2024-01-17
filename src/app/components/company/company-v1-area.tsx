@@ -8,6 +8,9 @@ import { useEffect, useState } from "react";
 import CompanyGridItem from "./company-grid-item";
 import CompanyListItem from "./company-list-item";
 import CompanyV1Filter from "./filter/company-v1-filter";
+import { setSubscriptionModel } from "@/redux/features/model/slice";
+import SubscriptionModal from "../model/subscriptionModel";
+
 
 const CompanyV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
   const dispatch = useAppDispatch();
@@ -20,18 +23,37 @@ const CompanyV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
 
   const [jobType, setJobType] = useState<string>(style_2 ? "list" : "grid");
 
+  const { subscriptionModel } = useAppSelector(
+    (state) => state.model
+  );
+  const [modalShown, setModalShown] = useState(false);
+
   useEffect(() => {
+    // dispatch(setSubscriptionModel(true));
     getCompanies(dispatch, filterState, page, currUser ? currUser : "");
+
+    if (!modalShown) {
+      const timeoutId = setTimeout(() => {
+        dispatch(setSubscriptionModel(true));
+        setModalShown(true); // Update the state to indicate that the modal has been shown
+      }, 2000);
+
+      // Clean up the timeout to avoid memory leaks
+      return () => clearTimeout(timeoutId);
+    }
+
   }, [name, teamSize, page]);
 
   const handlePageClick = (event: { selected: number }) => {
     dispatch(setPage(event.selected + 1));
   };
   return (
+    <>
+    {subscriptionModel ? <SubscriptionModal /> : null}
     <section className="company-profiles pt-110 lg-pt-80 pb-160 xl-pb-150 lg-pb-80">
       <div className="container">
         <div className="row">
-          <div className="col-xl-3 col-lg-4">
+          <div className="col-xl-3 col-lg-4">          
             <button
               type="button"
               className="filter-btn w-100 pt-2 pb-2 h-auto fw-500 tran3s d-lg-none mb-40"
@@ -156,6 +178,7 @@ const CompanyV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
         </div>
       </div>
     </section>
+    </>
   );
 };
 

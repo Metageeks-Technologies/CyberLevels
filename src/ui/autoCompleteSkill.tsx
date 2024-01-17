@@ -82,7 +82,7 @@ function AutocompleteSkill({ skills, setSkills }: Props) {
                 className="skill-add btn-one position-absolute px-3 py-1"
                 style={{
                   zIndex: 10,
-                  top: "12%",
+                  top: "50%",
                   right: "5%",
                   transform: "translateY(-50%)",
                 }}
