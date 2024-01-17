@@ -1,22 +1,30 @@
 "use client";
 import { updateCurrCandidate } from "@/redux/features/candidate/api";
 import AutocompleteSkill from "@/ui/autoCompleteSkill";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { notifyError, notifyInfo, notifySuccess } from "@/utils/toast";
 
 const EditSkill = ({ skills }: { skills: string[] }) => {
   const dispatch = useAppDispatch();
-  const [_skills, setSkills] = useState(skills);
-  const handleRemove = (skill: string) => {
-    setSkills((prev) => prev.filter((val) => val !== skill));
-  };
   const { currCandidate } = useAppSelector(
     (s) => s.candidate.candidateDashboard
   );
+  const user = currCandidate;
+  const [_skills, setSkills] = useState<string[]>(user?.skills||[]);
+  // const [lastUserSkills,setLastUserSkills] = useState<string[]>(user?.skills||[]);
+  const handleRemove = (skill: string) => {
+    setSkills((prev) => prev.filter((val) => val !== skill));
+  };
+  // useEffect(() => {
+  //   if (!lastUserSkills || _skills !== lastUserSkills) {
+  //     setSkills(user?.skills || []);
+  //     setLastUserSkills(user?.skills || []);
+  //   }
+  // }, [skills]);
   const handleSave = async () => {
     if (currCandidate) {
-      if(skills.length === 0){
+      if(_skills.length === 0){
         notifyInfo("Skills should not be empty.");
         return;
       }

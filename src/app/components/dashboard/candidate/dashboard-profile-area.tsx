@@ -98,7 +98,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
                 {!file && (
                   <div className=" upload-btn position-relative tran3s ms-4 me-3">
                     <DropZone
-                    setFile={handlePhotoChange}
+                      setFile={handlePhotoChange}
                       text={
                         user?.avatar
                           ? "Update profile photo"

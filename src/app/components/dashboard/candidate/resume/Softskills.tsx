@@ -36,7 +36,7 @@ const Softskills = ({ skills }: { skills: string[] }) => {
           </ul>
         </div>
       </div>
-      <EditSoftSkill skills={skills} />
+      <EditSoftSkill />
     </>
   );
 };

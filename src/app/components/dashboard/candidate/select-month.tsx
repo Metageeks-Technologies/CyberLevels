@@ -5,12 +5,14 @@ interface Props {
   firstInput: string;
   setMonth: React.Dispatch<React.SetStateAction<string>>;
   default?: { value: string; label: string };
+  placeholder?: string;
 }
 
 const SelectMonth = ({
   default: defaultOption,
   setMonth,
   firstInput,
+  placeholder,
 }: Props) => {
   const handleYear = (item: { value: string; label: string }) => {
     setMonth(item.value);

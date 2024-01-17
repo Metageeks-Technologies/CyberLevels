@@ -1,21 +1,25 @@
 "use client";
 import { updateCurrCandidate } from "@/redux/features/candidate/api";
 // import AutocompleteSkill from "@/ui/autoCompleteSkill";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { notifyError, notifyInfo, notifySuccess } from "@/utils/toast";
 // import AutocompleteSoftSkill from "@/ui/autoCompleteSoftSkill";
 import AutocompleteSkill from "@/ui/autoCompleteSkill";
 
-const EditSoftSkill = ({ skills }: { skills: string[] }) => {
+const EditSoftSkill = () => {
   const dispatch = useAppDispatch();
-  const [_skills, setSkills] = useState<string[]>(skills || []);
-  const handleRemove = (skill: string) => {
-    setSkills((prev) => prev.filter((val) => val !== skill));
-  };
   const { currCandidate } = useAppSelector(
     (s) => s.candidate.candidateDashboard
   );
+  const user = currCandidate;
+  const [_skills, setSkills] = useState<string[]>(user?.softSkills || []);
+  const handleRemove = (skill: string) => {
+    setSkills((prev) => prev.filter((val) => val !== skill));
+  };
+  // useEffect(() => {
+  //   setSkills(skills)
+  // },[])
   const handleSave = async () => {
     if (currCandidate) {
       if(_skills.length === 0){

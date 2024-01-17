@@ -1,6 +1,6 @@
 "use client";
 import { getDate } from "@/utils/helper";
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { useClickAway } from "react-use";
 
 type Option = {
@@ -31,8 +31,12 @@ const NiceSelect = ({
   // console.log(defaultCurrent, "from defalt current");
   const [open, setOpen] = useState(false);
   const [current, setCurrent] = useState(defaultCurrent?options[defaultCurrent]:undefined);
+  useEffect(() => {
+    setCurrent(defaultCurrent?options[defaultCurrent]:undefined);
+  },[defaultCurrent])
   const onClose = useCallback(() => {
     setOpen(false);
+    // setCurrent(undefined);
   }, []);
   const ref = useRef(null);
 

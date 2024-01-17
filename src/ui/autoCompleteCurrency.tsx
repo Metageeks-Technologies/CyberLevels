@@ -18,7 +18,7 @@ function AutocompletePosition({ selected, setSelected, endPoint,suggestionsProp,
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<Currency[]>([]);
 
-  //   console.log(selected);
+    console.log(selected);
 
   useEffect(() => {
     // console.log(query.length);
@@ -90,6 +90,7 @@ function AutocompletePosition({ selected, setSelected, endPoint,suggestionsProp,
                               active ? "text-white" : "text-teal-600"
                             }`}
                           >
+                            
                             {/* <CheckIcon className="h-5 w-5" aria-hidden="true" /> */}
                           </span>
                         ) : null}

@@ -1,9 +1,10 @@
 "use client";
 import { updateCurrCandidate } from "@/redux/features/candidate/api";
 import AutocompleteSkill from "@/ui/autoCompleteSkill";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { notifyError, notifyInfo, notifySuccess } from "@/utils/toast";
+import { isValidUrl } from "@/utils/helper";
 
 const EditSocial = () => {
   const { currCandidate, loading } = useAppSelector(
@@ -17,6 +18,44 @@ const EditSocial = () => {
     github: currCandidate?.socialSites.github || "",
     website: currCandidate?.socialSites.website || "",
   });
+  // const [allFieldsCheck, setAllFieldsCheck] = useState(false);
+  const [validLinkedIn, setValidLinkedIn] = useState(true);
+  const [validGithub, setValidGithub] = useState(true);
+  const [validTwitter, setValidTwitter] = useState(true);
+  const [validWebsite, setValidWebsite] = useState(true);
+  useEffect(() => {
+    if(socialSites.linkedIn==="" || isValidUrl(socialSites.linkedIn)){
+      setValidLinkedIn(true);
+    }
+    else{
+      setValidLinkedIn(false);
+    }
+  },[socialSites.linkedIn])
+  useEffect(() => {
+    if(socialSites.github === "" || isValidUrl(socialSites.github)){
+      setValidGithub(true);
+    }
+    else{
+      setValidGithub(false);
+    }
+  },[socialSites.github])
+  useEffect(() => {
+    if(isValidUrl(socialSites.twitter) || socialSites.twitter===""){
+      setValidTwitter(true);
+    }
+    else{
+      setValidTwitter(false);
+    }
+  },[socialSites.twitter])
+  useEffect(() => {
+    if(socialSites.website==="" || isValidUrl(socialSites.website)){
+      setValidWebsite(true);
+    }
+    else{
+      setValidWebsite(false);
+    }
+  },[socialSites.website])
+  
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -28,22 +67,12 @@ const EditSocial = () => {
     });
   };
 
-  const isValidUrl = (url: string) => {
-    if (url === "") {
-      return true;
-    }
-    const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
-
-    return urlRegex.test(url);
-  };
+  
 
   const handleSave = async () => {
     // validation
     if (
-      !isValidUrl(socialSites.linkedIn) ||
-      !isValidUrl(socialSites.twitter) ||
-      !isValidUrl(socialSites.github) ||
-      !isValidUrl(socialSites.website)
+      (socialSites.linkedIn && !isValidUrl(socialSites.linkedIn))||(socialSites.twitter && !isValidUrl(socialSites.twitter))||(socialSites.github && !isValidUrl(socialSites.github))||(socialSites.website && !isValidUrl(socialSites.website))
     ) {
       notifyInfo("Please enter a valid url");
       return;
@@ -92,6 +121,7 @@ const EditSocial = () => {
                         />
                       </div>
                     </div>
+                        {!validLinkedIn && <p style={{ color:'red' }}>Enter a valid url</p>}
                     <div className="dash-input-wrapper mb-30 w-100">
                       <label htmlFor="lastName">Twitter</label>
                       <div className="d-flex  align-items-center position-relative">
@@ -104,6 +134,7 @@ const EditSocial = () => {
                         />
                       </div>
                     </div>
+                    {!validTwitter && <p style={{ color:'red' }}>Enter a valid url</p>}
                     <div className="dash-input-wrapper mb-30 w-100">
                       <label htmlFor="">Github</label>
                       <div className="d-flex align-items-center position-relative">
@@ -116,6 +147,7 @@ const EditSocial = () => {
                         />
                       </div>
                     </div>
+                    {!validGithub && <p style={{ color:'red' }}>Enter a valid url</p>}
                     <div className="dash-input-wrapper mb-30 w-100">
                       <label htmlFor="">WebSite</label>
                       <input
@@ -127,7 +159,9 @@ const EditSocial = () => {
                       />
                     </div>
                   </div>
+                  {!validWebsite && <p style={{ color:'red' }}>Enter a valid url</p>}
                   <div className="button-group d-inline-flex align-items-center mt-30">
+                    {(validLinkedIn && validTwitter && validGithub && validWebsite) ? 
                     <button
                       onClick={handleSave}
                       className="dash-btn-two tran3s me-3"
@@ -137,6 +171,17 @@ const EditSocial = () => {
                     >
                       Save
                     </button>
+                    :
+                    <button
+                      onClick={handleSave}
+                      className="dash-btn-two tran3s me-3"
+                      type="button"
+                      // data-bs-dismiss="modal"
+                      // aria-label="Close"
+                    >
+                      Save
+                    </button>
+                    }
                     <button
                       className="dash-cancel-btn tran3s"
                       type="button"
