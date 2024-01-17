@@ -33,6 +33,7 @@ const EditProfile = () => {
     experienceInYears: user?.experienceInYears || "",
   });
   useEffect(() => {
+    setValue(user?.phoneNumber)
     setForm({
       firstName: user?.firstName || "",
     lastName: user?.lastName || "",
