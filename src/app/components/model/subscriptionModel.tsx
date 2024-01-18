@@ -89,8 +89,8 @@ const SubscriptionModal = () => {
 
   return (
     <div
-      style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
-      className={`modal-backdrop  fade ${subscriptionModel ? "show" : ""}`}
+      style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}
+      className={`modal-backdrop  fade ${subscriptionModel ? "show opacity-100" : ""}`}
       onClick={handleClose}
     >
       <div
