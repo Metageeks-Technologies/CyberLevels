@@ -41,12 +41,8 @@ const EditPreferences = () => {
     { value: "hourly", label: "hourly" },
   ]
 
-  const [defaultPeriod, setDefaultPeriod] = useState(undefined)
-  const findDefaultPeriod = () => {
-    const def = options.findIndex((option:any) => option.value === currCandidate?.expectedSalary?.period);
-    console.log(def,"period index")
-    setDefaultPeriod(def);
-  }
+  const [defaultPeriod, setDefaultPeriod] = useState(0)
+  
   //   const user = currCandidate;
 
   //   const [gender, setGender] = useState(user?.location?.city);
@@ -73,6 +69,11 @@ const EditPreferences = () => {
   const [validSalary, setValidSalary] = useState(true);
   const [allFieldsCheck, setAllFieldsCheck] = useState(false);
   useEffect(() => {
+    const findDefaultPeriod = () => {
+      const def = options.findIndex((option:any) => option.value === currCandidate?.expectedSalary?.period);
+      console.log(def,"period index")
+      setDefaultPeriod(def);
+    }
     setCurrency(currCandidate?.expectedSalary?.currency || undefined);
     setSalary({
       min: currCandidate?.expectedSalary?.min || undefined,
@@ -81,7 +82,7 @@ const EditPreferences = () => {
       period: currCandidate?.expectedSalary?.period || undefined,
       currency: currCandidate?.expectedSalary?.currency || undefined,
     });
-    setLocation(currCandidate?.preferredLanguages || []);
+    setLocation(currCandidate?.preferredLocations || []);
     setPrefLanguages(currCandidate?.preferredLanguages || []);
     findDefaultPeriod();
   }, [currCandidate]);
