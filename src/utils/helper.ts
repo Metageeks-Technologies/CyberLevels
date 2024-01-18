@@ -80,7 +80,7 @@ export const isValidUrl = (url: string) => {
 };
 
 export const checkValidDescription = (desc: string,limit:number) => {
-  if (desc.trim().length >= limit) {
+  if (desc.trim().length >= limit || desc.trim().length === 0) {
     return true;
   } else {
     return false;
@@ -109,5 +109,36 @@ export const isValidSalaryNumber = (n1:string,n2:string) => {
     return false;
   }else{
     return true;
+  }
+}
+
+export const isFundingAmount = (s:string) => {
+  const isValidFund = /^\d+(\.\d+)?[MBT]$/i.test(s);
+  if(isValidFund || s===""){
+    return true;
+  }
+  else{
+    return false;
+  }
+
+}
+
+export const isPureNumber = (num:string) => {
+  const isNumber = /^\d+(\.\d+)?$/.test(num);
+  if(isNumber || num===""){
+    return true;
+  }else{
+    return false;
+  }
+
+
+}
+
+export const isBetween = (num:string,min:number,max:number) => {
+  if( (parseInt(num)>=min && parseInt(num)<=max) || num===""){
+    return true;
+  }
+  else{
+    return false;
   }
 }
