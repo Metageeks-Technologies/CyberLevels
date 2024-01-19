@@ -9,9 +9,15 @@ interface Props {
     React.SetStateAction<{ name: string; companyId: string }>
   >;
   endPoint: string;
+  employerId?: string | undefined;
 }
 
-function AutocompletePosition({ selected, setSelected, endPoint }: Props) {
+function AutocompletePosition({
+  selected,
+  setSelected,
+  endPoint,
+  employerId = "",
+}: Props) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
@@ -23,11 +29,19 @@ function AutocompletePosition({ selected, setSelected, endPoint }: Props) {
     const callApi = async () => {
       try {
         if (query.length >= 3) {
-          const { data } = await instance.get(
-            `${endPoint}/search?query=${query}`
-          );
-          console.log(data);
-          setSuggestions(data);
+          if (employerId !== "") {
+            const { data } = await instance.get(
+              `${endPoint}/search?query=${query}&employerId=${employerId}`
+            );
+            setSuggestions(data);
+            console.log(data);
+          } else {
+            const { data } = await instance.get(
+              `${endPoint}/search?query=${query}`
+            );
+            setSuggestions(data);
+            console.log(data);
+          }
         }
       } catch (error) {
         console.log(error);

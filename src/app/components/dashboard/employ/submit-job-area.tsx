@@ -259,6 +259,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   selected={company}
                   setSelected={setCompany}
                   endPoint="companyName"
+                  employerId={currEmployer?._id}
                 />
               </div>
             </div>
