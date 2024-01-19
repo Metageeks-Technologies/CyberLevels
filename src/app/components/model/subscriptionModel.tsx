@@ -89,8 +89,8 @@ const SubscriptionModal = () => {
 
   return (
     <div
-      style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
-      className={`modal-backdrop  fade ${subscriptionModel ? "show" : ""}`}
+      style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}
+      className={`modal-backdrop  fade ${subscriptionModel ? "show opacity-100" : ""}`}
       onClick={handleClose}
     >
       <div
@@ -142,7 +142,7 @@ const SubscriptionModal = () => {
                             <div className="popular-badge">popular</div>
                           )}
                           <div className="popular-badge">
-                            {subscription.hasOwnProperty("_id") &&
+                            {subscription?.hasOwnProperty("_id") &&
                             subscription._id === sub._id
                               ? "Current"
                               : null}
@@ -164,7 +164,7 @@ const SubscriptionModal = () => {
                             onClick={(e) => checkoutHandler(e, sub)}
                             className="get-plan-btn tran3s w-100 mt-30 mx-auto "
                           >
-                            {subscription.hasOwnProperty("_id") &&
+                            {subscription?.hasOwnProperty("_id") &&
                             subscription._id === sub._id
                               ? "Current Plan"
                               : "Choose Plan"}

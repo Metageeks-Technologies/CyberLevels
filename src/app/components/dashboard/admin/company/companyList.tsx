@@ -5,7 +5,7 @@ import CandidateListItem from "../user/utils/candidateList";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { getCandidates } from "@/redux/features/candidate/api";
 import Pagination from "@/ui/pagination";
-import { setPage } from "@/redux/features/candidate/slice";
+import { setPage } from "@/redux/features/admin/slice";
 import Loader from "@/ui/loader";
 import { getAllCandidate, getAllCompany } from "@/redux/features/admin/api";
 import CompanyListItem from "./companyListItem";

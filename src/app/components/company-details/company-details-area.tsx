@@ -3,16 +3,29 @@ import logo from "@/assets/images/logo/media_37.png";
 import { getCompanyDetails } from "@/redux/features/company/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import Funding from "./Funding";
 import CompanyReviews from "./company-reviews";
+import { setSubscriptionModel } from "@/redux/features/model/slice";
+import SubscriptionModal from "../model/subscriptionModel";
 
 const CompanyDetailsArea = ({ id }: { id: string }) => {
   const dispatch = useAppDispatch();
   const { company } = useAppSelector((state) => state.company.companyList);
 
+  const { subscriptionModel } = useAppSelector(
+    (state) => state.model
+  );
+  const [modalShown, setModalShown] = useState(false);
+
   useEffect(() => {
     getCompanyDetails(dispatch, id);
+    const timeoutId = setTimeout(() => {
+      dispatch(setSubscriptionModel(true));
+      setModalShown(true);
+    }, 2000);
+    // Clean up the timeout to avoid memory leaks
+    return () => clearTimeout(timeoutId);
   }, [id]);
 
   let date = new Date();
@@ -23,6 +36,7 @@ const CompanyDetailsArea = ({ id }: { id: string }) => {
 
   return (
     <>
+    {subscriptionModel ? <SubscriptionModal /> : null}
       {company && (
         <section className="company-details candidates-profile-details pt-110 lg-pt-80 pb-160 xl-pb-150 lg-pb-80">
           <div className="container">

@@ -86,6 +86,9 @@ export const adminSlice = createSlice({
         getCurrAdminSuccess: (state, action: PayloadAction<IAdmin>) => {
             state.currAdmin = action.payload;
         },
+        setPage: (state, action: PayloadAction<number>) => {
+            state.pageFCom = action.payload;
+        }
     },
 })
 
@@ -95,7 +98,8 @@ export const {
     getCandidateSuccess,
     getEmployerSuccess,
     getCompanySuccess,
-    getCurrAdminSuccess
+    getCurrAdminSuccess,
+    setPage,
 
 } = adminSlice.actions
 
