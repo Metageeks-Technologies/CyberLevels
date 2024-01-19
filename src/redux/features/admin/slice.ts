@@ -88,6 +88,8 @@ export const adminSlice = createSlice({
         },
         setPage: (state, action: PayloadAction<number>) => {
             state.pageFCom = action.payload;
+            state.pageFC = action.payload;
+            state.pageFE = action.payload;
         }
     },
 })

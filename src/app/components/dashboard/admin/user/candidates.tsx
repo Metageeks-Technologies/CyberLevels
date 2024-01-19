@@ -5,7 +5,7 @@ import CandidateListItem from "./utils/candidateList";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { getCandidates } from "@/redux/features/candidate/api";
 import Pagination from "@/ui/pagination";
-import { setPage } from "@/redux/features/candidate/slice";
+import { setPage } from "@/redux/features/admin/slice";
 import Loader from "@/ui/loader";
 import { getAllCandidate } from "@/redux/features/admin/api";
 
@@ -50,7 +50,7 @@ const CandidateList = () => {
               <div className="">
                 <div className="upper-filter d-flex justify-content-between align-items-center mb-20">
                   <div className="total-job-found">
-                    All <span className="text-dark fw-500">{"28"}</span>{" "}
+                    All <span className="text-dark fw-500">{totalCandidate}</span>{" "}
                     candidates found
                   </div>
                   {/* <div className="d-flex align-items-center">

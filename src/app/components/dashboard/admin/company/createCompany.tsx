@@ -166,7 +166,7 @@ const CreateCompany = () => {
     // setFunding([]);
   };
   const handleFile = (file: File | null) => {
-    setFile(file);
+    dispatch(setFile(file));
   };
   return (
     <div>
@@ -176,7 +176,7 @@ const CreateCompany = () => {
           <Image
             width={50}
             height={50}
-            src={avatar}
+            src={file ? URL.createObjectURL(file) : avatar}
             // src={
             //   user?.avatar !== "none" || false
             //     ? (user?.avatar as string)

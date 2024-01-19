@@ -115,6 +115,7 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                     defaultCurrent={0}
                     onChange={(item) => handleJobs(item)}
                     name="Search Jobs"
+                    placeholder="Select"
                   />
                 </div>
               </div>
