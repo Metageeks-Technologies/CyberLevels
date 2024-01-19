@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { updateCurrCandidate } from "@/redux/features/candidate/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { notifyError, notifyInfo, notifySuccess } from "@/utils/toast";
@@ -13,7 +13,9 @@ const EditCertificate = ({ certificates }: { certificates: string[] }) => {
   const [_certificates, setCertificates] = useState<string[]>(
     certificates || []
   );
-
+  useEffect(() => {
+    setCertificates(certificates);
+  }, [currCandidate]);
   const [certificateInput, setCertificateInput] = useState("");
 
   const handleSave = async () => {
@@ -35,14 +37,12 @@ const EditCertificate = ({ certificates }: { certificates: string[] }) => {
   const addCertificate = () => {
     if (certificateInput.trim() !== "") {
       // Update the state with the new certificate
-      
+
       setCertificates([..._certificates, certificateInput]);
       // Clear the input field
       setCertificateInput("");
-    }
-    else{
+    } else {
       notifyInfo("Blank field cannot be added");
-
     }
   };
 
@@ -119,19 +119,18 @@ const EditCertificate = ({ certificates }: { certificates: string[] }) => {
                   </div>
 
                   <div className="button-group d-inline-flex align-items-center mt-30">
-                    
-                      <button
-                        onClick={() => {
-                          handleSave();
-                        }}
-                        className="dash-btn-two tran3s me-3"
-                        type="button"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        Save
-                      </button>
-                  
+                    <button
+                      onClick={() => {
+                        handleSave();
+                      }}
+                      className="dash-btn-two tran3s me-3"
+                      type="button"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      Save
+                    </button>
+
                     <button
                       className="dash-cancel-btn tran3s"
                       type="button"

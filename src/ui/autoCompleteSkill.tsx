@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import instance from "@/lib/axios";
 import { notifyError, notifyInfo } from "@/utils/toast";
-import { useAppDispatch } from "@/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 // import { cybersecuritySkills } from "@/data/skills";
 import { addCandidateSkillDB } from "@/redux/features/candidate/api";
 interface Props {
@@ -14,7 +14,9 @@ function AutocompleteSkill({ skills, setSkills }: Props) {
   const [selected, setSelected] = useState("");
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<any>([]);
-
+  const { currCandidate } = useAppSelector(
+    (state) => state.candidate.candidateDashboard
+  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -82,7 +84,7 @@ function AutocompleteSkill({ skills, setSkills }: Props) {
                 className="skill-add btn-one position-absolute px-3 py-1"
                 style={{
                   zIndex: 10,
-                  top: "50%",
+                  top: currCandidate?.role === "candidate" ? "50%" : "12%",
                   right: "5%",
                   transform: "translateY(-50%)",
                 }}

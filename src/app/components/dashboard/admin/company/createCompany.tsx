@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import avatar from "@/assets/dashboard/images/avatar_04.jpg";
 import DashboardHeader from "../../candidate/dashboard-header";
@@ -21,6 +21,7 @@ import AutocompleteBenefits from "@/ui/autoCompletebenefits";
 import Finance from "../show-finance";
 import { notifyInfo } from "@/utils/toast";
 import { setFile } from "@/redux/features/globalSlice";
+import { checkValidDescription, isFundingAmount, isPureString, isValidUrl } from "@/utils/helper";
 
 const CreateCompany = () => {
   const dispatch = useDispatch();
@@ -115,8 +116,75 @@ const CreateCompany = () => {
       [name]: value,
     });
   };
+  const [validForm,setValidForm] = useState({
+    // name: false,
+    // email: "",
+    // foundedDate: "",
+    founderName: true,
+    about: true,
+    category: true,
+    phoneNumber:true,
+    linkedIn: true,
+    twitter: true,
+    facebook: true,
+    website: true,
+    fundingAmount:true,
+  })
+  useEffect(() => {
+    if(isPureString(form.founderName)){
+      setValidForm({...validForm,founderName:true});
+    }else{
+      setValidForm({...validForm,founderName:false});
+    }
+   
+  },[form.founderName])
+  useEffect(() => {
+    if(isPureString(form.category)){
+      setValidForm({...validForm,category:true});
+    }
+    else{
+      setValidForm({...validForm,category:false});
+    }
+  },[form.category])
+  useEffect(() => {
+    if(value && isValidPhoneNumber(value.toString())){
+      setValidForm({...validForm,phoneNumber:true});
+    }else{
+      setValidForm({...validForm,phoneNumber:false});
+    }
+  },[value])
+
+  useEffect(() => {
+    if(checkValidDescription(form.about,100)){
+      setValidForm({...validForm,about:true});
+    }
+    else{
+      setValidForm({...validForm,about:false});
+    }
+  },[form.about])
+
+  useEffect(() => {
+    setValidForm({...validForm,linkedIn:isValidUrl(socialSites?.linkedIn)});
+  },[socialSites.linkedIn])
+  useEffect(() => {
+    setValidForm({...validForm,website:isValidUrl(socialSites?.website)});
+  },[socialSites.website])
+  useEffect(() => {
+    setValidForm({...validForm,twitter:isValidUrl(socialSites?.twitter)});
+  },[socialSites.twitter])
+  useEffect(() => {
+    setValidForm({...validForm,facebook:isValidUrl(socialSites?.facebook)});
+  },[socialSites.facebook])
+
+  useEffect(() => {
+    setValidForm({...validForm,fundingAmount:isFundingAmount(fundingInput.amount)})
+  },[fundingInput.amount])
 
   const handleSubmit = async () => {
+    if(form.about && form.name && form.category && form.email && form.foundedDate && form.founderName && value && teamSize && socialSites.website && location.locality && city && country){
+      notifyInfo("Please complete * marked fields.")
+      return;
+    }
     if (!file) {
       notifyInfo("please upload logo");
       return;
@@ -254,6 +322,7 @@ const CreateCompany = () => {
                 onChange={handleInputChange}
                 placeholder="Shiva shah"
               />
+              {!validForm.founderName && <p style={{color:"red"}}>Do not use symbols or numbers</p>}
             </div>
           </div>
           <div className="col-md-6">
@@ -271,6 +340,7 @@ const CreateCompany = () => {
                 value={value}
                 onChange={(value: any) => setValue(value)}
               />
+              {!validForm.phoneNumber && <p style={{color:"red"}}>Enter Valid Phone Number</p>}
             </div>
           </div>
           <div className="col-md-6">
@@ -283,7 +353,7 @@ const CreateCompany = () => {
                 type="text"
                 placeholder="Account, Finance, Marketing"
               />
-
+              {!validForm.category && <p style={{color:"red"}}>Enter Valid Category</p>}
               {/* <AutocompletePosition
                   selected={category}
                   setSelected={setCategory}
@@ -302,6 +372,7 @@ const CreateCompany = () => {
             placeholder="Write something interesting about you...."
           ></textarea>
           <div className="alert-text">Brief description for your company.</div>
+          {!validForm.about && <p style={{color:"red"}}>About must include {form.about.trim().length}/100 characters</p>}
         </div>
         {/* <button
             type="submit"
@@ -326,6 +397,7 @@ const CreateCompany = () => {
                 onChange={handleSocialSiteChange}
               />
             </div>
+            {!validForm.website && <p style={{color:"red"}}>Enter Valid URL</p>}
           </div>
           <div className="dash-input-wrapper mb-30 col-5">
             <label htmlFor="firstName">Linked In</label>
@@ -334,10 +406,11 @@ const CreateCompany = () => {
                 type="text"
                 name="linkedIn"
                 placeholder="https://www.LinkedIn.com"
-                value={socialSites.linkedIn}
+                value={socialSites?.linkedIn}
                 onChange={handleSocialSiteChange}
               />
             </div>
+              {!validForm.linkedIn && <p style={{color:"red"}}>Enter Valid URL</p>}
           </div>
           <div className="dash-input-wrapper mb-30 col-5">
             <label htmlFor="lastName">Twitter</label>
@@ -350,6 +423,7 @@ const CreateCompany = () => {
                 onChange={handleSocialSiteChange}
               />
             </div>
+            {!validForm.twitter && <p style={{color:"red"}}>Enter Valid URL</p>}
           </div>
 
           <div className="dash-input-wrapper mb-30 col-5">
@@ -363,6 +437,7 @@ const CreateCompany = () => {
                 onChange={handleSocialSiteChange}
               />
             </div>
+            {!validForm.facebook && <p style={{color:"red"}}>Enter Valid URL</p>}
           </div>
         </div>
       </div>
@@ -413,6 +488,7 @@ const CreateCompany = () => {
                         type="text"
                         placeholder="345M"
                       />
+                      {!validForm.fundingAmount && <p style={{color:"red"}}>Please Input number followed by M,B or T.</p>}
                     </div>
                   </div>
                 </div>
@@ -446,6 +522,7 @@ const CreateCompany = () => {
                         <SelectYear
                           setYear={setYearOfFunding}
                           firstInput="select"
+                          placeholder="Select Year"
                         />
                       </div>
                     </div>

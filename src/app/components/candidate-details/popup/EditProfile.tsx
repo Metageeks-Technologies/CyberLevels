@@ -20,16 +20,28 @@ const EditProfile = () => {
   const [lastNameValidState, setLastNameValidState] = useState(true);
   const [experienceInYearsValidState, setExperienceInYearsValidState] =
     useState(true);
+  // const [firstNameCheck,setFirstNameCheck] = useState(false);
   const [allFieldsCheck, setAllFieldsCheck] = useState(false);
   const [validDescription, setValidDescription] = useState(true);
+ 
 
   const [form, setForm] = useState({
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
     bio: user?.bio || "",
     phoneNumber: user?.phoneNumber || "",
-    experienceInYears: user?.experienceInYears || 0,
+    experienceInYears: user?.experienceInYears || "",
   });
+  useEffect(() => {
+    setValue(user?.phoneNumber)
+    setForm({
+      firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    bio: user?.bio || "",
+    phoneNumber: user?.phoneNumber || "",
+    experienceInYears: user?.experienceInYears || "",
+    })
+  },[currCandidate])
 
   useEffect(() => {
     if (
@@ -43,43 +55,45 @@ const EditProfile = () => {
     } else {
       setAllFieldsCheck(false);
     }
-  }, [form]);
+    // console.log(form.firstName,formCheck.firstName,"Hello");
+  }, [value, form.firstName, form.lastName, form.experienceInYears, form.bio]);
   useEffect(() => {
+    // Phone validation
     if (!isValidPhoneNumber(value || "")) {
       setPhoneValidState(false);
     } else {
       setPhoneValidState(true);
     }
-  }, [value]);
-  useEffect(() => {
+  
+    // First name validation
     if (!isPureString(form.firstName || "")) {
       setFirstNameValidState(false);
     } else {
       setFirstNameValidState(true);
     }
-  }, [form.firstName]);
-  useEffect(() => {
-    // const isValidFirstName = /^[A-Za-z]+$/.test(form.lastName);
+  
+    // Last name validation
     if (!isPureString(form.lastName || "")) {
       setLastNameValidState(false);
     } else {
       setLastNameValidState(true);
     }
-  }, [form.lastName]);
-  useEffect(() => {
-    if (form.experienceInYears >= 0 && form.experienceInYears <= 70) {
+  
+    // Experience in years validation
+    if (parseInt(form.experienceInYears as string) >= 0 && parseInt(form.experienceInYears as string)<= 70) {
       setExperienceInYearsValidState(true);
     } else {
       setExperienceInYearsValidState(false);
     }
-  }, [form.experienceInYears]);
-  useEffect(() => {
-    if (checkValidDescription(form.bio,200)) {
+  
+    // Bio validation
+    if (checkValidDescription(form.bio, 200)) {
       setValidDescription(true);
     } else {
       setValidDescription(false);
     }
-  }, [form.bio]);
+  }, [value, form.firstName, form.lastName, form.experienceInYears, form.bio]);
+  
 
   const handleSave = async () => {
     // validation
@@ -94,7 +108,8 @@ const EditProfile = () => {
       !value ||
       !form.experienceInYears
     ) {
-      notifyInfo("Felid with * can't be empty");
+      
+      notifyInfo("Field with * can't be empty");
       return;
     }
     if (!isValidPhoneNumber(value)) {
@@ -153,7 +168,7 @@ const EditProfile = () => {
 
               <div className="form-wrapper dash-input-wrapper m-auto w-100 ">
                 <div>
-                  <div className="dash-input-wrapper mb-30">
+                  <div className="dash-input-wrapper mb-30 ">
                     <label htmlFor="firstName">First Name*</label>
                     <input
                       type="text"
@@ -161,6 +176,8 @@ const EditProfile = () => {
                       onChange={handleInputChange}
                       value={form.firstName}
                       placeholder="James"
+                      style={{ borderColor: !form.firstName?"red":"", borderRadius: !form.firstName?"5px":"" }}
+                      // style={{borderColor:formCheck.firstName?"red":"",border:"1px"}}
                     />
                     {!firstNameValidState && (
                       <p style={{ color: "red" }}>
@@ -176,6 +193,7 @@ const EditProfile = () => {
                       onChange={handleInputChange}
                       value={form.lastName}
                       placeholder="brown"
+                      style={{ borderColor: !form.lastName?"red":"", borderRadius: !form.lastName?"5px":"" }}
                     />
                     {!lastNameValidState && (
                       <p style={{ color: "red" }}>
@@ -197,6 +215,7 @@ const EditProfile = () => {
                       placeholder="Enter phone number"
                       value={value}
                       onChange={(value: any) => setValue(value)}
+                      // style={{ borderColor: !value?"red":"", borderRadius: !value?"5px":"" }}
                     />
                     {!phoneValidState && (
                       <p style={{ color: "red" }}>Enter Valid Phone Number</p>
@@ -204,13 +223,14 @@ const EditProfile = () => {
                     {/* <input type="text" placeholder="Brower" /> */}
                   </div>
                   <div className="dash-input-wrapper mb-30">
-                    <label htmlFor="lastName">Years of experience*</label>
+                    <label htmlFor="experience in years">Years of experience*</label>
                     <input
                       type="number"
                       name="experienceInYears"
                       onChange={handleInputChange}
                       value={form.experienceInYears}
                       placeholder="Enter your experience in years"
+                      style={{ borderColor: form.experienceInYears===""?"red":"", borderRadius: form.experienceInYears===""?"5px":"" }}
                     />
                   </div>
                   {!experienceInYearsValidState && (
@@ -226,6 +246,7 @@ const EditProfile = () => {
                       value={form.bio}
                       name="bio"
                       onChange={handleInputChange}
+                      style={{ borderColor: !form.bio?"red":"", borderRadius: !form.bio?"5px":"" }}
                     ></textarea>
                   </div>
                   {!validDescription && (

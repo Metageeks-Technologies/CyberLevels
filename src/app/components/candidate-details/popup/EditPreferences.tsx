@@ -32,6 +32,17 @@ const EditPreferences = () => {
     getAllCurrencies(dispatch);
     getCurrCandidate(dispatch, currUser as string);
   }, []);
+  const options:any = [
+    // { value: "select period", label: "select period" },
+    { value: "monthly", label: "monthly" },
+    { value: "yearly", label: "yearly" },
+    { value: "weekly", label: "weekly" },
+    { value: "By-weekly", label: "By-weekly" },
+    { value: "hourly", label: "hourly" },
+  ]
+
+  const [defaultPeriod, setDefaultPeriod] = useState(0)
+  
   //   const user = currCandidate;
 
   //   const [gender, setGender] = useState(user?.location?.city);
@@ -57,6 +68,24 @@ const EditPreferences = () => {
   });
   const [validSalary, setValidSalary] = useState(true);
   const [allFieldsCheck, setAllFieldsCheck] = useState(false);
+  useEffect(() => {
+    const findDefaultPeriod = () => {
+      const def = options.findIndex((option:any) => option.value === currCandidate?.expectedSalary?.period);
+      console.log(def,"period index")
+      setDefaultPeriod(def);
+    }
+    setCurrency(currCandidate?.expectedSalary?.currency || undefined);
+    setSalary({
+      min: currCandidate?.expectedSalary?.min || undefined,
+      max: currCandidate?.expectedSalary?.max || undefined,
+
+      period: currCandidate?.expectedSalary?.period || undefined,
+      currency: currCandidate?.expectedSalary?.currency || undefined,
+    });
+    setLocation(currCandidate?.preferredLocations || []);
+    setPrefLanguages(currCandidate?.preferredLanguages || []);
+    findDefaultPeriod();
+  }, [currCandidate]);
 
   useEffect(() => {
     if (salary.min && salary.max && salary.currency && salary.period) {
@@ -70,7 +99,7 @@ const EditPreferences = () => {
     if (
       !salary.min ||
       !salary.max ||
-      isValidSalaryNumber(salary?.min, salary?.max)
+      isValidSalaryNumber(salary?.min.toString(), salary?.max.toString())
     ) {
       setValidSalary(true);
     } else {
@@ -152,6 +181,7 @@ const EditPreferences = () => {
       if (isUpdated) {
         notifySuccess("Preferences updated successfully");
       } else notifyError("something went wrong! try again");
+
     }
   };
 
@@ -190,15 +220,8 @@ const EditPreferences = () => {
                   <div className="col-md-3">
                     <div className="dash-input-wrapper mb-30 ">
                       <NiceSelect
-                        options={[
-                          // { value: "select period", label: "select period" },
-                          { value: "monthly", label: "monthly" },
-                          { value: "yearly", label: "yearly" },
-                          { value: "weekly", label: "weekly" },
-                          { value: "By-weekly", label: "By-weekly" },
-                          { value: "hourly", label: "hourly" },
-                        ]}
-                        // defaultCurrent={0}
+                        options={options}
+                        defaultCurrent={defaultPeriod}
                         onChange={(item) =>
                           updateSalaryProperty("period", item)
                         }
@@ -240,6 +263,14 @@ const EditPreferences = () => {
                       />
                     </div>
                   </div>
+                  {(!salary.min ||
+                    !salary.max ||
+                    !salary.currency ||
+                    !salary.period) && (
+                    <p style={{ color: "red" }}>
+                      Expected salary cannot be empty
+                    </p>
+                  )}
                   {!validSalary && (
                     <p style={{ color: "red" }}>
                       Enter valid minimum and maximum salary

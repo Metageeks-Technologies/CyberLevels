@@ -120,7 +120,7 @@ const Experience = () => {
       startYear: startMonth + " " + startYear,
       endYear: endMonth + " " + endYear,
     };
-    if (new Date(bodyObj.startYear) > new Date(bodyObj.endYear)) {
+    if (!checkValidDate) {
       notifyInfo("Start date cannot be greater than end date");
       return;
     }
@@ -186,6 +186,7 @@ const Experience = () => {
                           onChange={handleExperienceChange}
                           type="text"
                           placeholder="Lead Security Manager "
+                          style={{borderColor:!experience.title?"red":"", borderRadius:!experience.title?"5px":""}}
                         />
                       </div>
                     </div>
@@ -204,6 +205,7 @@ const Experience = () => {
                           onChange={handleExperienceChange}
                           type="text"
                           placeholder="Amazon Inc"
+                          style={{borderColor:!experience.company?"red":"", borderRadius:!experience.company?"5px":""}}
                         />
                       </div>
                     </div>
@@ -248,6 +250,9 @@ const Experience = () => {
                             placeholder="End Month"
                           />
                         </div>
+                        {(!startMonth || !startYear || !endMonth || !endYear) &&  <p style={{ color: "red" }}>
+                            Enter Valid Date
+                          </p>}
                         {!checkValidDate && (
                           <p style={{ color: "red" }}>
                             Start date cannot be greater that end date
@@ -273,6 +278,7 @@ const Experience = () => {
                           onChange={handleExperienceChange}
                           className="size-lg"
                           placeholder="Morbi ornare ipsum sed sem condimentum, et pulvinar tortor luctus. Suspendisse condimentum lorem ut elementum aliquam et pulvinar tortor luctus."
+                          style={{borderColor:!experience.description?"red":"", borderRadius:!experience.description?"5px":""}}
                         ></textarea>
                       </div>
                       {!validDescription && (

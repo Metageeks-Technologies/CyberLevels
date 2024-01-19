@@ -22,6 +22,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Currency } from "@/redux/features/currencyProvider/slice";
 import AutocompleteCurrency from "@/ui/autoCompleteCurrency";
+import { isBetween, isPureNumber, isValidSalaryNumber } from "@/utils/helper";
 
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -49,9 +50,9 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     isDisclosed: true,
     period: "",
     currency: {
-      abbreviation:"",
-      name:"",
-      symbol:""
+      abbreviation: "",
+      name: "",
+      symbol: "",
     },
   });
 
@@ -62,7 +63,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
 
   const updateSalaryProperty = (
     property: string,
-    item: { value: Currency|string; label: string }
+    item: { value: Currency | string; label: string }
   ) => {
     setSalary({
       ...salary,
@@ -89,7 +90,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     getAllCurrencies(dispatch);
   }, []);
   useEffect(() => {
-    const item:any = { value: currency, label: currency };
+    const item: any = { value: currency, label: currency };
     updateSalaryProperty("currency", item);
   }, [currency]);
 
@@ -102,14 +103,20 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   };
 
   const handleJobType = (item: { value: string; label: string }) => {
-    setJobType((prev) => [...prev, item.value]);
-    console.log(item.value);
+    if (!jobType.includes(item.value)) {
+      setJobType((prev) => [...prev, item.value]);
+      console.log(item.value);
+    }
     // setJobType("");
   };
   const handleWorkMode = (item: { value: string; label: string }) => {
-    setWorkMode((prev) => [...prev, item.value]);
-    console.log(item.value);
-    // setJobType("");
+    // Check if item.value is already present in workMode
+    if (!workMode.includes(item.value)) {
+      // If not present, add it to the array
+      setWorkMode((prev) => [...prev, item.value]);
+      console.log(item.value);
+      // setJobType("");
+    }
   };
   const handleJoining = (item: { value: string; label: string }) => {
     setJoiningTime(item.value);
@@ -124,11 +131,33 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const handleRemove = (skill: string) => {
     setBenefits((prev) => prev.filter((val) => val !== skill));
   };
+
+  const [validForm, setValidForm] = useState({
+    workHours: true,
+    salaryNumber: true,
+    priSkills: false,
+    secSkills: false,
+  });
   //onchange handle function for deadlineDate
   // const handleDate = (e:React.ChangeEvent<HTMLInputElement>)=>{
   //   const deadlineDate=e.target.value;
   //   setDeadlineDate(deadlineDate);
   // }
+  useEffect(() => {
+    setValidForm({
+      ...validForm,
+      workHours: isPureNumber(workHours) && isBetween(workHours, 10, 48),
+    });
+  }, [workHours]);
+  useEffect(() => {
+    setValidForm({
+      ...validForm,
+      salaryNumber: isValidSalaryNumber(salary.minimum, salary.maximum),
+    });
+  }, [salary.minimum, salary.maximum]);
+  useEffect(() => {
+    setValidForm({ ...validForm, priSkills: primarySkills.length !== 0 });
+  }, [primarySkills]);
 
   const bodyObj = {
     title: title,
@@ -337,13 +366,18 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
             </div>
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
-                <label htmlFor="">Work Hour</label>
+                <label htmlFor="">Work Hour per week</label>
                 <input
                   placeholder="Enter working hour"
                   name="workingHour"
                   value={workHours}
                   onChange={(e) => setWorkHours(e.target.value)}
                 />
+                {!validForm.workHours && (
+                  <p style={{ color: "red" }}>
+                    Please enter number between 10 and 48
+                  </p>
+                )}
               </div>
             </div>
 
@@ -410,7 +444,9 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
               </div>
             </div>
           </div>
-
+          {!validForm.salaryNumber && (
+            <p style={{ color: "red" }}>Invalid minimum maximum values</p>
+          )}
           <h4 className="dash-title-three pt-50 lg-pt-30">
             Skills & Experience
           </h4>
@@ -421,6 +457,9 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
               skills={primarySkills}
               setSkills={setPrimarySkills}
             />
+            {!validForm.priSkills && (
+              <p style={{ color: "red" }}>Primary skills cannot be empty</p>
+            )}
             {/* <input type="text" placeholder="Add Skills" /> */}
             <div className="skill-input-data d-flex align-items-center flex-wrap">
               {primarySkills.map((value) => (
@@ -435,6 +474,9 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
               skills={secondarySkills}
               setSkills={setSecondarySkills}
             />
+            {!validForm.priSkills && (
+              <p style={{ color: "red" }}>Secondary skills cannot be empty</p>
+            )}
             {/* <input type="text" placeholder="Add Skills" /> */}
             <div className="skill-input-data d-flex align-items-center flex-wrap">
               {secondarySkills.map((value) => (

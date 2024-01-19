@@ -18,6 +18,10 @@ const EditLocation = () => {
   const [city, setCity] = useState(user?.location?.city);
   const [country, setCountry] = useState(user?.location?.country);
   const [allFieldsCheck, setAllFieldsCheck] = useState(false);
+  useEffect(() => {
+    setCity(user?.location?.city);
+    setCountry(user?.location?.country);
+  },[currCandidate])
   useEffect(()=>{
     if(city && country){
       setAllFieldsCheck(true);
