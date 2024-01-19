@@ -17,9 +17,9 @@ const EditSoftSkill = () => {
   const handleRemove = (skill: string) => {
     setSkills((prev) => prev.filter((val) => val !== skill));
   };
-  // useEffect(() => {
-  //   setSkills(skills)
-  // },[])
+  useEffect(() => {
+    setSkills(user?.softSkills || [])
+  },[currCandidate])
   const handleSave = async () => {
     if (currCandidate) {
       if(_skills.length === 0){

@@ -16,6 +16,9 @@ const EditSkill = ({ skills }: { skills: string[] }) => {
   const handleRemove = (skill: string) => {
     setSkills((prev) => prev.filter((val) => val !== skill));
   };
+  useEffect(() => {
+    setSkills(user?.skills||[]);
+  },[currCandidate])
   // useEffect(() => {
   //   if (!lastUserSkills || _skills !== lastUserSkills) {
   //     setSkills(user?.skills || []);

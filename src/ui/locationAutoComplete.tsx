@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
@@ -27,6 +27,9 @@ function AddressForm({
   const handleQueryChange = (value: string) => {
     setQuery(value);
   };
+  useEffect(() => {
+    setQuery(selected || "");
+  }, [selected]);
 
   const handleSelect = async (address: any) => {
     try {
@@ -69,36 +72,37 @@ function AddressForm({
                 className: "location-search-input",
               })}
             />
-
-            <ul
-              className="_my_nice_select_options"
-              style={{
-                border: `${
-                  suggestions.length === 0
-                    ? "none"
-                    : "1px solid rgba(0, 0, 0, 0.05)"
-                }`,
-              }}
-            >
-              {loading && <div className="option">Loading...</div>}
-              {suggestions.map((suggestion) => {
-                const className = `option ${
-                  suggestion.active && "selected focus"
-                }`;
-                // const style = suggestion.active
-                //   ? { backgroundColor: "#fafafa", cursor: "pointer" }
-                //   : { backgroundColor: "#ffffff", cursor: "pointer" };
-                return (
-                  <li
-                    {...getSuggestionItemProps(suggestion, {
-                      className,
-                    })}
-                  >
-                    <span>{suggestion.description}</span>
-                  </li>
-                );
-              })}
-            </ul>
+            {suggestions.length !==0 && (
+              <ul
+                className="_my_nice_select_options"
+                style={{
+                  border: `${
+                    suggestions.length === 0
+                      ? "none"
+                      : "1px solid rgba(0, 0, 0, 0.05)"
+                  }`,
+                }}
+              >
+                {loading && <div className="option">Loading...</div>}
+                {suggestions.map((suggestion) => {
+                  const className = `option ${
+                    suggestion.active && "selected focus"
+                  }`;
+                  // const style = suggestion.active
+                  //   ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                  //   : { backgroundColor: "#ffffff", cursor: "pointer" };
+                  return (
+                    <li
+                      {...getSuggestionItemProps(suggestion, {
+                        className,
+                      })}
+                    >
+                      <span>{suggestion.description}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </div>
         )}
       </PlacesAutocomplete>
