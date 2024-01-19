@@ -14,7 +14,9 @@ function AutocompleteSkill({ skills, setSkills }: Props) {
   const [selected, setSelected] = useState("");
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<any>([]);
-  const {currCandidate } = useAppSelector((state) => state.candidate.candidateDashboard)
+  const { currCandidate } = useAppSelector(
+    (state) => state.candidate.candidateDashboard
+  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -82,7 +84,7 @@ function AutocompleteSkill({ skills, setSkills }: Props) {
                 className="skill-add btn-one position-absolute px-3 py-1"
                 style={{
                   zIndex: 10,
-                  top: currCandidate?.role==="candidate"?"50%":"12%",
+                  top: currCandidate?.role === "candidate" ? "50%" : "12%",
                   right: "5%",
                   transform: "translateY(-50%)",
                 }}

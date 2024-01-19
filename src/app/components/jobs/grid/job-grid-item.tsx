@@ -9,6 +9,9 @@ import LoginModal from "../../common/popup/login-modal";
 import { registerJobPostView } from "@/redux/features/jobPost/api";
 import { useRouter } from "next/navigation";
 import { notifyError, notifyWarn } from "@/utils/toast";
+import { setProfileCompleteModel } from "@/redux/features/model/slice";
+import ProfileCompleteModal from "../../model/completeProfile";
+
 
 const JobGridItem = ({
   item,
@@ -22,6 +25,9 @@ const JobGridItem = ({
   );
   const { isAuthenticated, currUser } = useAppSelector(
     (state) => state.persistedReducer.user
+  );
+  const { profileCompleteModel, subscriptionModel } = useAppSelector(
+    (state) => state.model
   );
   const {currCandidate} = useAppSelector((state)=> state.candidate.candidateDashboard)
   const router = useRouter();
@@ -37,7 +43,8 @@ const JobGridItem = ({
         });
 
       }else{
-        notifyWarn("Please complete your profile.")
+        // notifyWarn("Please complete your profile.")
+        dispatch(setProfileCompleteModel(true));
       }
     } else {
       removeSavedJob(dispatch, {
@@ -54,7 +61,8 @@ const JobGridItem = ({
 
     }
     else{
-      notifyWarn("Please complete your profile.")
+      // notifyWarn("Please complete your profile.")
+      dispatch(setProfileCompleteModel(true));
     }
   };
   const handleSubscribePopup = () => {};
@@ -228,6 +236,7 @@ const JobGridItem = ({
         </div>
       {/* login modal start */}
       <LoginModal />
+      {profileCompleteModel ? <ProfileCompleteModal /> : null}
       {/* login modal end */}
     </>
   );

@@ -12,6 +12,9 @@ import LoginModal from "../common/popup/login-modal";
 import { useRouter } from "next/navigation";
 import { notifyWarn } from "@/utils/toast";
 // item.isFav;
+import ProfileCompleteModal from "../model/completeProfile";
+import { setProfileCompleteModel } from "@/redux/features/model/slice";
+
 
 const CompanyListItem = ({ item }: { item: ICompany }) => {
   const { savedCompanyPage, loading } = useAppSelector(
@@ -19,6 +22,9 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
   );
   const { isAuthenticated, currUser } = useAppSelector(
     (state) => state.persistedReducer.user
+  );
+  const { profileCompleteModel, subscriptionModel } = useAppSelector(
+    (state) => state.model
   );
   const {currCandidate} = useAppSelector((state)=> state.candidate.candidateDashboard)
   const Router = useRouter()
@@ -35,7 +41,7 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
         });
 
       }else{
-        notifyWarn("Please Complete Your Profile");
+        dispatch(setProfileCompleteModel(true));
       }
     } else {
       removeSavedCompany(dispatch, {
@@ -50,7 +56,7 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
       Router.push(`/company-details/${item._id}`);
 
     }else{
-      notifyWarn("Please Complete Your Profile");
+      dispatch(setProfileCompleteModel(true));
     }
   }
   const handleSubscribePopup = () => {};
@@ -235,8 +241,8 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
       </div>
       {/* login modal start */}
       <LoginModal />
-
-      {/* login modal end */}
+      {profileCompleteModel ? <ProfileCompleteModal /> : null}
+       {/* login modal end */}
     </>
   );
 };

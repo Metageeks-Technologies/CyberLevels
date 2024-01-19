@@ -11,6 +11,10 @@ import team_img_1 from "@/assets/images/assets/img_42.png";
 import { useRouter } from "next/navigation";
 import { notifyWarn } from "@/utils/toast";
 // item.isFav
+import LoginModal from "../common/popup/login-modal";
+import ProfileCompleteModal from "../model/completeProfile";
+import { setProfileCompleteModel } from "@/redux/features/model/slice";
+
 
 const CompanyGridItem = ({ item }: { item: ICompany }) => {
   const { savedCompanyPage, loading } = useAppSelector(
@@ -18,6 +22,9 @@ const CompanyGridItem = ({ item }: { item: ICompany }) => {
   );
   const { isAuthenticated, currUser } = useAppSelector(
     (state) => state.persistedReducer.user
+  );
+  const { profileCompleteModel, subscriptionModel } = useAppSelector(
+    (state) => state.model
   );
   const { currCandidate } = useAppSelector(
     (state) => state.candidate.candidateDashboard
@@ -35,7 +42,7 @@ const CompanyGridItem = ({ item }: { item: ICompany }) => {
           page: savedCompanyPage,
         });
       } else {
-        notifyWarn("Please Complete Your Profile");
+        dispatch(setProfileCompleteModel(true));
       }
     } else {
       removeSavedCompany(dispatch, {
@@ -49,11 +56,12 @@ const CompanyGridItem = ({ item }: { item: ICompany }) => {
     if (currCandidate?.isProfileCompleted === true) {
       Router.push(`/company-details/${item._id}`);
     } else {
-      notifyWarn("Please Complete Your Profile");
+      dispatch(setProfileCompleteModel(true));
     }
   };
   const handleSubscribePopup = () => {};
   return (
+    <>
     <div className={`company-grid-layout ${isActive ? "favourite" : ""} mb-30`}>
       {isAuthenticated ? (
         <>
@@ -166,6 +174,11 @@ const CompanyGridItem = ({ item }: { item: ICompany }) => {
         </button>
       )}
     </div>
+    {/* login modal start */}
+    <LoginModal />
+      {profileCompleteModel ? <ProfileCompleteModal /> : null}      
+      {/* login modal end */}
+    </>
   );
 };
 

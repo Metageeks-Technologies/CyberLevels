@@ -36,11 +36,11 @@ const JobListThree = ({
   const handleSalary = (values: number[]) => {
     dispatch(setSalary(values[0]));
     console.log(values);
-  };
+  };  
 
   useEffect(() => {
     getJObPosts(dispatch, filterState, page, currUser ? currUser : "");
-  }, [
+    }, [
     location,
     jobCategory,
     jobType,
@@ -58,6 +58,7 @@ const JobListThree = ({
   };
 
   return (
+    <>    
     <section
       id="find-jobs"
       className="job-listing-three pt-110 lg-pt-80 pb-160 xl-pb-150 lg-pb-80"
@@ -187,6 +188,7 @@ const JobListThree = ({
         </div>
       </div>
     </section>
+    </>
   );
 };
 
