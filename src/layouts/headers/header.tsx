@@ -16,10 +16,12 @@ const Header = () => {
   const { isAuthenticated, userRole, avatar, name } = useAppSelector(
     (state) => state.persistedReducer.user
   );
+
   const dispatch = useAppDispatch();
   const handleLogout = async () => {
     await logoutAdmin(dispatch);
   };
+
   return (
     <>
       <header

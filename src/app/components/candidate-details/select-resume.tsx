@@ -5,8 +5,12 @@ import DropZone from "@/layouts/dropZone";
 // import Link from 'next/link';
 import { notifyError } from "@/utils/toast";
 import { deleteResume, uploadResume } from "@/redux/features/candidate/api";
-import { setFile, setUploadProgress } from "@/redux/features/globalSlice";
+import {
+  setResumeFile,
+  setResumeUploadProgress,
+} from "@/redux/features/candidate/dashboardSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import Link from "next/link";
 
 const SelectResume = ({
   resumes,
@@ -35,11 +39,13 @@ const SelectResume = ({
   };
 
   const router = useRouter();
-  const upload = () => {
-    router.push("/dashboard/candidate-dashboard/resume");
+  const navigateToResume = () => {
+    router.push("/dashboard/candidate-dashboard/profile#dash-resume");
   };
 
-  const { file, uploadProgress } = useAppSelector((s) => s.global);
+  const { resumeFile: file, resumeUploadProgress } = useAppSelector(
+    (s) => s.candidate.candidateDashboard
+  );
   const { currCandidate, loading } = useAppSelector(
     (store) => store.candidate.candidateDashboard
   );
@@ -49,8 +55,19 @@ const SelectResume = ({
       notifyError("please Login to upload your resume.");
       return;
     }
-    if (!file || file?.type !== "application/pdf") {
-      notifyError("Please upload Your resume as pdf.");
+    if (currCandidate.resumes.length == 3) {
+      notifyError(
+        "You can upload only 3 resumes, try to delete one of your resume and try again."
+      );
+      return;
+    }
+    const supportedFormat = [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ];
+    if (!file || !supportedFormat.includes(file.type)) {
+      notifyError("Please upload Your resume in supported format.");
       return;
     }
     const metaData = {
@@ -60,22 +77,22 @@ const SelectResume = ({
       candidateName: currCandidate.firstName + " " + currCandidate.lastName,
     };
     await uploadResume(dispatch, file, metaData);
-    dispatch(setFile(null));
-    dispatch(setUploadProgress(0));
+    dispatch(setResumeFile(null));
+    dispatch(setResumeUploadProgress(0));
   };
 
   const handleFile = (file: File | null) => {
-    setFile(file);
+    dispatch(setResumeFile(file));
   };
 
   return (
-    <div>
+    <div className=" w-100 ">
       <p className="mt-3 fw-medium mb-3 text-center ">
         Select your resume for this job post.
       </p>
       {resumes.length >= 1 ? (
         <div>
-          {resumes.slice(-3).map((resume) => (
+          {resumes.map((resume) => (
             <button
               onClick={() => handleClick(resume._id)}
               type="button"
@@ -89,33 +106,52 @@ const SelectResume = ({
 
           {!file && (
             <>
-              <div
-                style={{ cursor: "pointer" }}
-                className="btn-one  w-100 mt-25"
-              >
-                <DropZone
-                  setFile={handleFile}
-                  showIcon={false}
-                  style=""
-                  text={"Upload CV"}
-                />
+              <div className="btn-group d-flex mt-25 align-items-center justify-content-between  ">
+                <div style={{ cursor: "pointer" }} className="btn-one ">
+                  <DropZone
+                    setFile={handleFile}
+                    showIcon={false}
+                    style=""
+                    text={"Upload New"}
+                  />
+                </div>
+                <button
+                  onClick={navigateToResume}
+                  className="btn-six"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  {" "}
+                  Dashboard
+                </button>
               </div>
               <div className=" mt-3 ">
-                <small>Upload file .pdf</small>
+                <small>Upload file .pdf .doc .docx</small>
               </div>
             </>
           )}
 
-          {file && file.type === "application/pdf" && (
+          {file && (
             <>
               <p className="my-2">{file.name}</p>
-              <button
-                className="btn-one  w-100 mt-25"
-                type="button"
-                onClick={handleSubmit}
-              >
-                {uploadProgress !== 0 ? `${uploadProgress}% ` : "Save"}
-              </button>
+              <div className="btn-group">
+                <button
+                  disabled={resumeUploadProgress !== 0}
+                  className="btn-hover-underline  tran3s me-3 mt-3 mb-20"
+                  type="button"
+                  onClick={handleSubmit}
+                >
+                  {resumeUploadProgress !== 0
+                    ? `${resumeUploadProgress}% `
+                    : "Save"}
+                </button>
+                <button
+                  className="btn-hover-underline"
+                  onClick={() => dispatch(setResumeFile(null))}
+                >
+                  Cancel
+                </button>
+              </div>
             </>
           )}
 

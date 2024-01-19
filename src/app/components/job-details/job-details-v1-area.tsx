@@ -3,7 +3,7 @@ import type { ICompany } from "@/types/company";
 import type { IJobPost } from "@/types/jobPost-type";
 import Image from "next/image";
 import Link from "next/link";
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import QuestionModal from "../common/popup/testQuestion";
 async function getData() {
   const response = await fetch("/data.json");
@@ -43,18 +43,15 @@ const JobDetailsV1Area = ({
     (state) => state.jobApplication
   );
 
-  const { subscriptionModel } = useAppSelector(
-    (state) => state.model
-  );
+  const { subscriptionModel } = useAppSelector((state) => state.model);
 
-  useEffect(()=>{
+  useEffect(() => {
     const timeoutId = setTimeout(() => {
       dispatch(setSubscriptionModel(true));
-      
     }, 2000);
     // Clean up the timeout to avoid memory leaks
     return () => clearTimeout(timeoutId);
-  },[]);
+  }, []);
 
   // console.log(allJobAppByCandidate);
   const checkIsApplied = () => {
@@ -79,7 +76,7 @@ const JobDetailsV1Area = ({
   // missingSKills.push(...job.secondarySkills);
   return (
     <>
-    {subscriptionModel ? <SubscriptionModal /> : null}
+      {subscriptionModel ? <SubscriptionModal /> : null}
       <section className="job-details pt-100 lg-pt-80 pb-130 lg-pb-80">
         <div className="container">
           <div className="row">
@@ -120,7 +117,7 @@ const JobDetailsV1Area = ({
                     </div>
                   </div>
                   <div className="gap-3 ">
-                    {job.matchScore && (
+                    {job.matchScore != undefined && (
                       <div className="job-match">
                         <span
                           className={` ${
@@ -426,13 +423,12 @@ const JobDetailsV1Area = ({
           </div>
         </div>
       </section>
-      
+
       <div onClick={() => setSidebar(true)}>
         <ChatWithGpt />
       </div>
       {sidebar && <GptSidebar setSidebar={setSidebar} />}
       <QuestionModal question={job.testQuestions} jobId={job._id} />
-      
     </>
   );
 };
