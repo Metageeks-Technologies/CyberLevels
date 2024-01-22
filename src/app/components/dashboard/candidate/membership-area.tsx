@@ -11,6 +11,14 @@ declare global {
     Razorpay: any;
   }
 }
+
+const calculatePrice = (price: number, offer: number, isApplied: boolean) => {
+  if (!isApplied) {
+    return price;
+  }
+  const offerPrice = price - (price * offer) / 100;
+  return Math.ceil(offerPrice);
+};
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -73,6 +81,11 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
 
   const dispatch = useAppDispatch();
   const { employSub } = useAppSelector((s) => s.subscription);
+  const [isYearly, setIsYearly] = React.useState<boolean>(true);
+
+  const handleToggle = () => {
+    setIsYearly((prev) => !prev);
+  };
 
   useEffect(() => {
     getCandidateSub(dispatch);
@@ -109,6 +122,9 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                         subscription.subscriptionType}
                       )
                     </h4>
+                    <ul>
+                      {renderOfferingItems(subscription.offering as Offering)}
+                    </ul>
                     <p>You can anytime update the subscription plan.</p>
                   </div>
                 </div>
@@ -137,6 +153,23 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
               </div>
             </div>
 
+            <div className="d-flex justify-content-center ">
+              <div className="subscription-tab align-content-center py-2  d-flex gap-3 px-2">
+                <p
+                  onClick={handleToggle}
+                  className={`p-1 px-2 ${isYearly && "active"}`}
+                >
+                  Yearly (Save 20%)
+                </p>
+                <p
+                  onClick={handleToggle}
+                  className={`p-1 px-2 ${!isYearly && "active"}`}
+                >
+                  Monthly
+                </p>
+              </div>
+            </div>
+
             <section className="pricing-section">
               <div className="row justify-content-center">
                 {employSub.map((sub, index) => (
@@ -159,14 +192,35 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                         <sub title={sub.price.currency.name}>
                           {sub.price.currency.symbol}
                         </sub>{" "}
-                        {sub.price.amount}
+                        <span>
+                          {calculatePrice(sub.price.amount, 20, isYearly)}
+                        </span>
+                        {isYearly && sub.subscriptionType !== "free" && (
+                          <span className=" fs-2  ms-3  ">
+                            /{" "}
+                            <span
+                              style={{
+                                textDecoration: "line-through",
+                                textDecorationThickness: "2px",
+                                textUnderlineOffset: "1px",
+                              }}
+                            >
+                              &nbsp;{sub.price.amount}&nbsp;
+                            </span>
+                          </span>
+                        )}
                       </div>
                       <ul className="style-none">
                         {renderOfferingItems(sub.offering as Offering)}
                       </ul>
                       <button
+                        disabled={subscription._id === sub._id}
                         onClick={(e) => checkoutHandler(e, sub)}
-                        className="get-plan-btn tran3s w-100 mt-30 mx-auto "
+                        className={
+                          subscription._id === sub._id
+                            ? "get-plan-btn tran3s w-100 mt-30 mx-auto current-plan"
+                            : "get-plan-btn tran3s w-100 mt-30 mx-auto"
+                        }
                       >
                         {subscription.hasOwnProperty("_id") &&
                         subscription._id === sub._id

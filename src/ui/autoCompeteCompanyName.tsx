@@ -54,6 +54,21 @@ function AutocompletePosition({ selected, setSelected, endPoint }: Props) {
               displayValue={() => selected.name}
               onChange={(event) => setQuery(event.target.value)}
             />
+            {query.length >= 3 && (
+              <p
+                onClick={() => {}}
+                title="Add this skill if not found in the list"
+                className="skill-add btn-one position-absolute px-3 py-0"
+                style={{
+                  zIndex: 10,
+                  top: false ? "50%" : "12%",
+                  right: "5%",
+                  transform: "translateY(-50%)",
+                }}
+              >
+                Add
+              </p>
+            )}
           </div>
           <Transition
             as={Fragment}

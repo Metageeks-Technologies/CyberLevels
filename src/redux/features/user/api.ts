@@ -1,10 +1,11 @@
 import instance from "@/lib/axios";
 import { getUserFail, getUserStart, getUserSuccess, logoutUserFail, logoutUserSuccess } from "./slice"
+import { getCurrCandidateSuccess } from "@/redux/features/candidate/dashboardSlice"
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 
 
-export const loginWithGoogle = async(dispatch:AppDispatch, bodyObj:any) => {
+export const loginWithGoogle = async (dispatch: AppDispatch, bodyObj: any) => {
     const formData = new URLSearchParams(bodyObj).toString();
     const headers = {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -18,6 +19,9 @@ export const loginWithGoogle = async(dispatch:AppDispatch, bodyObj:any) => {
         );
         dispatch(getUserSuccess({ user: data.user._id, userRole: data.user.role, avatar: data.user.avatar, name: data.user.firstName }));
         // console.log(data);
+        if (data.user.role === "candidate") {
+            dispatch(getCurrCandidateSuccess(data.user))
+        }
         return true;
     } catch (error) {
         const e = error as AxiosError;
@@ -26,8 +30,6 @@ export const loginWithGoogle = async(dispatch:AppDispatch, bodyObj:any) => {
         return false;
     }
 }
-
-
 
 export const loginWithLn = async (dispatch: AppDispatch, bodyObj: any) => {
 
@@ -43,7 +45,9 @@ export const loginWithLn = async (dispatch: AppDispatch, bodyObj: any) => {
             { headers: headers }
         );
         dispatch(getUserSuccess({ user: data.user._id, userRole: data.user.role, avatar: data.user.avatar, name: data.user.firstName }));
-        // console.log(data);
+        if (data.user.role === "candidate") {
+            dispatch(getCurrCandidateSuccess(data.user))
+        }
         return true;
     } catch (error) {
         const e = error as AxiosError;

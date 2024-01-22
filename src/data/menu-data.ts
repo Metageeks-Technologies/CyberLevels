@@ -135,13 +135,13 @@ export const employ_menu_data: IMenuData[] = [
   //     {link:'/job-wishlist',title:'Job Wishlist'},
   //   ]
   // },
-  {
-    id: 2,
-    link: '/company-v2',
-    title: 'Companies',
-    sub_menus: [
-    ]
-  },
+  // {
+  //   id: 2,
+  //   link: '/company-v2',
+  //   title: 'Companies',
+  //   sub_menus: [
+  //   ]
+  // },
   // {
   //   id:3,
   //   link:'/candidates-v1',
@@ -193,11 +193,11 @@ export const employ_menu_data: IMenuData[] = [
       //   {link:'/blog-details',title:'Blog Details'},
     ]
   },
-  {
-    id: 5,
-    link: '/contact',
-    title: 'Contact'
-  },
+  // {
+  //   id: 5,
+  //   link: '/contact',
+  //   title: 'Contact'
+  // },
   // {
   //   id:6,
   //   link:'/dashboard/employer-dashboard',

@@ -29,7 +29,7 @@ const initialState: userState = {
     avatar: "none",
     whoIsTryingToLoginWithLn: "",
     name: "",
-    whoIsTryingToLoginWithGoogle:"",
+    whoIsTryingToLoginWithGoogle: "",
 }
 
 export const userSlice = createSlice({
@@ -49,8 +49,11 @@ export const userSlice = createSlice({
                 state.isAuthenticated = true;
             state.userRole = action.payload.userRole,
                 state.currUser = action.payload.user
-            state.error = null
-
+            state.error = null,
+                // state.whoIsTryingToLoginWithLn = "",
+                // state.whoIsTryingToLoginWithGoogle = "",
+                state.avatar = action.payload.avatar,
+                state.name = action.payload.name
         },
 
         logoutUserSuccess: (state, action: PayloadAction<null>) => {
@@ -60,17 +63,26 @@ export const userSlice = createSlice({
             state.userRole = ""
             state.error = null,
                 state.whoIsTryingToLoginWithLn = ""
-                state.whoIsTryingToLoginWithGoogle=""
+            state.whoIsTryingToLoginWithGoogle = ""
+            state.avatar = "",
+                state.name = ""
         },
         logoutUserFail: (state, action: PayloadAction<string>) => {
             state.loading = false;
-            state.error = action.payload
+            state.error = action.payload,
+                state.currUser = null;
+            state.isAuthenticated = false;
+            state.userRole = ""
+            state.whoIsTryingToLoginWithLn = ""
+            state.whoIsTryingToLoginWithGoogle = ""
+            state.avatar = "",
+                state.name = ""
         },
         setLoggerWithLn: (state, action: PayloadAction<string>) => {
             state.whoIsTryingToLoginWithLn = action.payload
             state.whoIsTryingToLoginWithGoogle = ""
         },
-        setLoggerWithGoogle: (state,action: PayloadAction<string>) => {
+        setLoggerWithGoogle: (state, action: PayloadAction<string>) => {
             state.whoIsTryingToLoginWithGoogle = action.payload;
             state.whoIsTryingToLoginWithLn = ""
         }
