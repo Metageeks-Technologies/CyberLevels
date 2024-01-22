@@ -21,6 +21,7 @@ import icon_2 from "@/assets/images/icon/icon_69.svg";
 import Pagination from "@/ui/pagination";
 
 import TextEditor1 from "./template/editor";
+import ActionDropdown from "./template/actionDropdown";
 
 import DOMPurify from "dompurify";
 type IProps = {
@@ -368,7 +369,8 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
 
         <div className="mt-3 row ">
           {templates?.map((template, index) => (
-            <div key={index} className="mt-3 me-3 bg-white p-3 border-20 row cursor-pointer"  onClick={() => handleTemplateNameClick(template)}>
+            <div key={index} className="mt-3 me-3 bg-white p-3 border-20 row " >
+              <div className="col-md-11 d-flex">
               <div className="col">
                 <button
                   className="  fw-medium  "
@@ -377,12 +379,24 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                   {template.templateName || `Template ${index}`}
                 </button>
               </div>
-              <div className="col">
-                Sub:{template.subject.slice(0, 8) + ".."}
+              <div className="col cursor-pointer" onClick={() => handleTemplateNameClick(template)}>
+                Sub:{template.subject.slice(0, 20) + ".."}
               </div>
-              <div className="col">
+              <div className="col cursor-pointer" onClick={() => handleTemplateNameClick(template)}>
                 {stripHtmlTags(template.body.slice(0, 20) + "...")}
               </div>
+              </div>
+              <div className="col-md-1 action-dots justify-content-end d-flex float-end ">
+                  <button
+                    className="action-btn dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <span></span>
+                  </button>
+                  <ActionDropdown />
+                </div>
               {selectedTemplate === template && (
                 <div className=" mt-3">
                   <div className=" email-format bg-white p-3 border-20">
@@ -547,6 +561,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                         selectedTemplate.body
                       )}
                     />
+                    
                   </div>
                 </div>
               )}
