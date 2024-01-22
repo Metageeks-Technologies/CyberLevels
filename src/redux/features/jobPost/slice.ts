@@ -24,6 +24,9 @@ export interface jobPstState {
     relatedJobs: IJobPost[];
     fileNamePc: string;
     allJobPostAdmin: IJobPost[];
+    pageForAdmin:number;
+    totalJobsForAdmin: number,
+    totalPagesForJobpostAdmin:number,
     viewsOnJobPost: JobPostView[];
     totalJobPostsForEmployer: number;
     jobPostForEmployerDashboard: IJobPost[];
@@ -50,6 +53,9 @@ const initialState: jobPstState = {
     relatedJobs: [],
     fileNamePc: "",
     allJobPostAdmin: [],
+    pageForAdmin:1,
+    totalJobsForAdmin:0,
+    totalPagesForJobpostAdmin:0,
     viewsOnJobPost: [],
     currentPageForJobPostEmployer: 1,
     totalJobPostPagesForEmployer: 1,
@@ -98,9 +104,17 @@ export const jobPostSlice = createSlice({
                 state.page = state.totalNumOfPage > 0 ? state.totalNumOfPage : 1;
             }
         },
-        getAllJobPostsSuccess: (state, action: PayloadAction<IJobPost[]>) => {
+        getAllJobPostsSuccess: (state, action: PayloadAction<any>) => {
             state.loading = false
-            state.allJobPostAdmin = action.payload;
+            state.allJobPostAdmin = action.payload.jobPost;
+            state.pageForAdmin = action.payload.page;
+            state.totalJobsForAdmin = action.payload.totalDocuments;
+            state.totalPagesForJobpostAdmin = action.payload.totalPages;
+            console.log(action.payload)
+            
+        },
+        setAdminPage:(state,action:PayloadAction<number>) => {
+            state.pageForAdmin = action.payload;
         },
         getJobPostsForEmployerSuccess: (state, action: PayloadAction<any>) => {
             state.loading = false
@@ -178,6 +192,7 @@ export const {
     getJobPostViewsSuccess,
     registerJobPostViewSuccess,
     setPageForJobPostEmployer,
+    setAdminPage,
     getJobPostForEmployerDashboardSuccess,
     getJobPostForEmployerNiceSelectSuccess,
     getJobPostForEmployerDashboardCardsSuccess,

@@ -1,5 +1,6 @@
 import React from "react";
 import ActionDropdown from "../candidate/action-dropdown-sabJobs";
+import { getDate } from "@/utils/helper";
 
 const EmployJobItem = ({
   title,
@@ -20,7 +21,7 @@ const EmployJobItem = ({
         <div className="job-name fw-500">{title}</div>
         <div className="info1">{info}</div>
       </td>
-      <td>{date}</td>
+      <td>{getDate(date)}</td>
       <td>{application} Applications</td>
       <td>
         <div className="job-status text-capitalize">{status}</div>
