@@ -352,8 +352,8 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
 
         <div className="mt-3 row ">
 
-          {currentTemplates.map((template, index) => (
-            <div key={index} className="mt-3 me-3 bg-white p-3 border-20 row">
+          {currentTemplates?.map((template, index) => (
+            <div key={index} className="mt-3 me-3 bg-white p-3 border-20 row cursor-pointer"  onClick={() => handleTemplateNameClick(template)}>
               <div className="col">
                 <button
                   className="  fw-medium  "
