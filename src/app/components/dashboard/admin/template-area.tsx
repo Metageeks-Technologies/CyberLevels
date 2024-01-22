@@ -7,7 +7,12 @@ import {
   updateTemplate as updateTemplateAction,
   deleteTemplate as deleteTemplateAction,
 } from "@/redux/features/emailTemplate/api";
-import { setPage,addEmailTemplateSuccess,  deleteEmailTemplateSuccess, updateEmailTemplateSuccess } from "@/redux/features/emailTemplate/slice";
+import {
+  setPage,
+  addEmailTemplateSuccess,
+  deleteEmailTemplateSuccess,
+  updateEmailTemplateSuccess,
+} from "@/redux/features/emailTemplate/slice";
 //setEmailTemplates,
 import Image from "next/image";
 import icon from "@/assets/images/icon/icon_50.svg";
@@ -17,13 +22,12 @@ import Pagination from "@/ui/pagination";
 
 import TextEditor1 from "./template/editor";
 
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-}
-
-type TemplateType = 'employer' | 'candidate';
+type TemplateType = "employer" | "candidate";
 
 interface Template {
   _id?: string | undefined;
@@ -36,10 +40,12 @@ interface Template {
 
 const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
   const dispatch = useAppDispatch();
-  const emailTemplates = useAppSelector((state) => state.emailTemplate.templates);
+  const emailTemplates = useAppSelector(
+    (state) => state.emailTemplate.templates
+  );
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
-  const [templateType, setTemplateType] = useState<string>('employer');
+  const [templateType, setTemplateType] = useState<string>("employer");
   const [employerTemplates, setEmployerTemplates] = useState<Template[]>([]);
   const [candidateTemplates, setCandidateTemplates] = useState<Template[]>([]);
 
@@ -48,7 +54,9 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
 
   const [showInputFields, setShowInputFields] = useState(false);
   const [templateName, setTemplateName] = useState<string>("");
-  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
+  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(
+    null
+  );
 
   const [templateIdCounter, setTemplateIdCounter] = useState<number>(1);
 
@@ -59,24 +67,21 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
   const [showModelProperties, setShowModelProperties] = useState(false);
 
   const stripHtmlTags = (htmlString: string) => {
-    const doc = new DOMParser().parseFromString(htmlString, 'text/html');
+    const doc = new DOMParser().parseFromString(htmlString, "text/html");
     return doc.body.textContent || "";
   };
-  
+
   const sanitizeHtml = (htmlString: string) => {
     return { __html: DOMPurify.sanitize(htmlString) };
   };
-  
-  const {templates,page,totalNumOfPage,totalTemplate}=useAppSelector((state)=>state.emailTemplate)
 
+  const { templates, page, totalNumOfPage, totalTemplate } = useAppSelector(
+    (state) => state.emailTemplate
+  );
 
-  useEffect(() => {    
-      
-      getTemplates(dispatch,{page:page,limit:8});
-      
-        
+  useEffect(() => {
+    getTemplates(dispatch, { page: page, limit: 8, templateType });
 
-   
     // const fetchData = async () => {
     //   try {
     //     const fetchedTemplates = await getTemplates(dispatch,{page:page,limit:4});
@@ -91,22 +96,24 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
     // };
 
     // fetchData();
-  }, [dispatch,page]);
-  const itemsPerPage=8;
+  }, [dispatch, page, candidateTemplates, employerTemplates, templateType]);
+  const itemsPerPage = 8;
   const handlePageClick = (event: { selected: number }) => {
     dispatch(setPage(event.selected + 1));
   };
-  
+
   const employerTemplate = templates.filter(
-    (template) => template.templateType === 'employer'
+    (template) => template.templateType === "employer"
   );
   const candidateTemplate = templates.filter(
-    (template) => template.templateType === 'candidate'
+    (template) => template.templateType === "candidate"
   );
 
   const handleTemplateNameClick = (template: Template) => {
     // console.log(template);
-    setSelectedTemplate((prevTemplate) => (prevTemplate === template ? null : template));
+    setSelectedTemplate((prevTemplate) =>
+      prevTemplate === template ? null : template
+    );
   };
   const handleTemplateName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTemplateName(e.target.value);
@@ -120,9 +127,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
     setIsEditing(false);
   };
 
-
   const handleToggle = (templateType: TemplateType) => {
-
     setIsCandidate((prev) => !prev);
     setTemplateType(templateType);
     setShowInputFields(false);
@@ -131,9 +136,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
     setSelectedTemplate(null);
   };
 
-
   const handleAddTemplate = async () => {
-
     const newTemplate: Template = {
       id: `${templateIdCounter}`,
       templateType,
@@ -152,17 +155,16 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
         console.log("Templates added successfully");
       }
 
-      if (templateType === 'employer') {
+      if (templateType === "employer") {
         setEmployerTemplates([...employerTemplates, newTemplate]);
-      } else if (templateType === 'candidate') {
+      } else if (templateType === "candidate") {
         setCandidateTemplates([...candidateTemplates, newTemplate]);
       }
 
-
       setSubject("");
-      console.log(body,"Rituj");
+      console.log(body, "Rituj");
       setBody("");
-      setTemplateName("")
+      setTemplateName("");
       setIsEditing(false);
       setTemplateType("");
       setShowInputFields(false);
@@ -170,8 +172,6 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
       console.error("Error adding template:", error);
     }
   };
-
-
 
   const handleEdit = (template: Template) => {
     setShowModelProperties(true);
@@ -183,8 +183,6 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
   };
 
   const handleUpdate = async () => {
-
-
     if (!selectedTemplate) {
       // Handle error, no template selected
       return;
@@ -197,27 +195,30 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
       body,
     };
     try {
-      const updatedEmailTemplate = await updateTemplateAction(dispatch, selectedTemplate._id, updatedTemplate);
+      const updatedEmailTemplate = await updateTemplateAction(
+        dispatch,
+        selectedTemplate._id,
+        updatedTemplate
+      );
       console.log(selectedTemplate);
       if (updatedEmailTemplate) {
         dispatch(updateEmailTemplateSuccess(updatedTemplate));
         console.log("Template updated successfully");
       }
 
-      if (templateType === 'employer') {
+      if (templateType === "employer") {
         setEmployerTemplates((prevTemplates) =>
           prevTemplates.map((template) =>
             template === selectedTemplate ? updatedTemplate : template
           )
         );
-      } else if (templateType === 'candidate') {
+      } else if (templateType === "candidate") {
         setCandidateTemplates((prevTemplates) =>
           prevTemplates.map((template) =>
             template === selectedTemplate ? updatedTemplate : template
           )
         );
       }
-
 
       setSubject("");
       setBody("");
@@ -233,29 +234,28 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
 
   const handleRemoveTemplate = async () => {
     if (selectedTemplate) {
-        try {
-          await deleteTemplateAction(dispatch, selectedTemplate._id);  //id
-          dispatch(deleteEmailTemplateSuccess(selectedTemplate.templateName));
-          if (templateType === 'employer') {
-            setEmployerTemplates((prevTemplates) =>
-              prevTemplates.filter((t) => t._id !== selectedTemplate._id)
-            );
-          } else if (templateType === 'candidate') {
-            setCandidateTemplates((prevTemplates) =>
-              prevTemplates.filter((t) => t._id !== selectedTemplate._id)
-            );
-          }
-          // Clear the selected template
-          setSelectedTemplate(null);
+      try {
+        await deleteTemplateAction(dispatch, selectedTemplate._id); //id
+        dispatch(deleteEmailTemplateSuccess(selectedTemplate.templateName));
+        if (templateType === "employer") {
+          setEmployerTemplates((prevTemplates) =>
+            prevTemplates.filter((t) => t._id !== selectedTemplate._id)
+          );
+        } else if (templateType === "candidate") {
+          setCandidateTemplates((prevTemplates) =>
+            prevTemplates.filter((t) => t._id !== selectedTemplate._id)
+          );
         }
-        catch (error) {
-          console.error("Error deleting template:", error);
-        }
-      
+        // Clear the selected template
+        setSelectedTemplate(null);
+      } catch (error) {
+        console.error("Error deleting template:", error);
+      }
     }
   };
 
-  const selectedTemplates = templateType === 'employer' ? employerTemplates : candidateTemplates;
+  const selectedTemplates =
+    templateType === "employer" ? employerTemplates : candidateTemplates;
 
   // const indexOfLastTemplate = currentPage * templatesPerPage;
   // const indexOfFirstTemplate = indexOfLastTemplate - templatesPerPage;
@@ -273,50 +273,43 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
     setShowModelProperties(false); // Toggle the visibility
   };
 
-
-  
-
-
-  return ( 
+  return (
     <div className="dashboard-body ">
       <div className="position-relative">
         <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
         <div className="d-flex justify-content-between align-items-center  ">
           <div className=" d-flex gap-3 py-4">
             <h2 className="main-title mb-0">Templates</h2>
-            <button className="btn-one justify-content-center"
+            <button
+              className="btn-one justify-content-center"
               type="button"
-              onClick={handleTemplateClick}>
+              onClick={handleTemplateClick}
+            >
               Add
-            </button>  
-           
-            
+            </button>
           </div>
 
           <div className="subscription-tab align-content-center py-2  d-flex px-2 ms-auto">
             <p
-              onClick={() => handleToggle('candidate')}
+              onClick={() => handleToggle("candidate")}
               className={`p-1 px-2 ${isCandidate && "active"}`}
             >
               Candidate
             </p>
             <p
-              onClick={() => handleToggle('employer')}
+              onClick={() => handleToggle("employer")}
               className={`p-1 px-2 ${!isCandidate && "active"}`}
             >
               Employer
             </p>
           </div>
-
         </div>
-
 
         {showInputFields && (
           <div className="bg-white card-box border-20">
             {/* Display input fields for subject and body */}
 
             <div className="bg-white card-box border-20">
-
               <div className="dash-input-wrapper">
                 <label htmlFor="templateName">TemplateName:</label>
                 <input
@@ -339,10 +332,9 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                 />
               </div>
 
-
               <div className="dash-input-wrapper">
                 <label htmlFor="body">Body:</label>
-                <TextEditor1 initialContent="" setContent={setBody}/>
+                <TextEditor1 initialContent="" setContent={setBody} />
                 {/* <TextEditor setContent={setBody}/> */}
                 {/* <textarea
                   id="body"
@@ -371,16 +363,14 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                 Save
               </button>
             )}
-
           </div>
         )}
 
-
-
         <div className="mt-3 row ">
-
-        {(templateType === 'employer' ? employerTemplate : candidateTemplate).map(
-          (template, index) => (
+          {(templateType === "employer"
+            ? employerTemplate
+            : candidateTemplate
+          ).map((template, index) => (
             <div key={index} className="mt-3 me-3 bg-white p-3 border-20 row">
               <div className="col">
                 <button
@@ -388,25 +378,21 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                   onClick={() => handleTemplateNameClick(template)}
                 >
                   {template.templateName || `Template ${index}`}
-
                 </button>
               </div>
               <div className="col">
-
-                Sub:{template.subject.slice(0, 8) + '..'}
+                Sub:{template.subject.slice(0, 8) + ".."}
               </div>
               <div className="col">
-
-              {stripHtmlTags(template.body.slice(0,20)+'...')}
-
+                {stripHtmlTags(template.body.slice(0, 20) + "...")}
               </div>
               {selectedTemplate === template && (
                 <div className=" mt-3">
                   <div className=" email-format bg-white p-3 border-20">
-
                     <div className="d-flex float-end">
                       <div>
-                        <button className="btn btn-secondary me-3 "
+                        <button
+                          className="btn btn-secondary me-3 "
                           onClick={() => handleEdit(selectedTemplate)}
                           // onClick={handleClick}
                           data-bs-toggle="modal"
@@ -415,34 +401,58 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                         >
                           Edit
                         </button>
-                        <div className="modal fade" id="EditModel" tabIndex={-1} aria-labelledby="smtpModelLabel" aria-hidden="true">
+                        <div
+                          className="modal fade"
+                          id="EditModel"
+                          tabIndex={-1}
+                          aria-labelledby="smtpModelLabel"
+                          aria-hidden="true"
+                        >
                           <div className="modal-dialog modal-fullscreen modal-dialog-centered">
                             <div className="user-data-form modal-content">
-                              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleClose}></button>
+                              <button
+                                type="button"
+                                className="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                                onClick={handleClose}
+                              ></button>
                               <div className="container subscription-model">
-                                <h2 className="fs-2 text-center mb-3">Edit Template</h2>
-                                {showModelProperties &&
+                                <h2 className="fs-2 text-center mb-3">
+                                  Edit Template
+                                </h2>
+                                {showModelProperties && (
                                   <div>
                                     <div className="dash-input-wrapper input">
-                                      <label htmlFor="updatedTemplateName">Template Name:</label>
+                                      <label htmlFor="updatedTemplateName">
+                                        Template Name:
+                                      </label>
                                       <input
                                         type="text"
                                         id="updatedTemplateName"
                                         value={templateName}
-                                        onChange={(e) => setTemplateName(e.target.value)}
+                                        onChange={(e) =>
+                                          setTemplateName(e.target.value)
+                                        }
                                       />
                                       <br />
-                                      <label htmlFor="updatedSubject">Subject:</label>
+                                      <label htmlFor="updatedSubject">
+                                        Subject:
+                                      </label>
                                       <input
                                         type="text"
                                         id="updatedSubject"
                                         value={subject}
-                                        onChange={(e) => setSubject(e.target.value)}
-                                        
+                                        onChange={(e) =>
+                                          setSubject(e.target.value)
+                                        }
                                       />
                                       <br />
                                       <label htmlFor="updatedBody">Body:</label>
-                                      <TextEditor1 initialContent={body} setContent={setBody}/>
+                                      <TextEditor1
+                                        initialContent={body}
+                                        setContent={setBody}
+                                      />
                                       {/* <TextEditor  setContent={setBody}/> */}
                                       {/* <textarea
                                         id="updatedBody"
@@ -451,21 +461,19 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                                         className="size-lg"
                                       /> */}
 
-                                    <div>
-                                      <button
-                                        className="d-flex dash-btn-two tran3s me-3 justify-content-center align-items-center mt-5 "
-                                        data-bs-dismiss="modal"
-                                        aria-label="Close"
-                                        onClick={handleUpdate}
+                                      <div>
+                                        <button
+                                          className="d-flex dash-btn-two tran3s me-3 justify-content-center align-items-center mt-5 "
+                                          data-bs-dismiss="modal"
+                                          aria-label="Close"
+                                          onClick={handleUpdate}
                                         >
-                                        Update
-                                      </button>
+                                          Update
+                                        </button>
+                                      </div>
                                     </div>
-                                        </div>
-
-
                                   </div>
-                                }
+                                )}
                               </div>
                             </div>
                           </div>
@@ -480,44 +488,73 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                         >
                           Delete
                         </button>
-                        <div className="modal fade" id="RemoveModel" tabIndex={-1} aria-labelledby="smtpModelLabel" aria-hidden="true">
+                        <div
+                          className="modal fade"
+                          id="RemoveModel"
+                          tabIndex={-1}
+                          aria-labelledby="smtpModelLabel"
+                          aria-hidden="true"
+                        >
                           <div className="modal-dialog modal-fullscreen modal-dialog-centered">
-                            <div className="user-data-form modal-content">  
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleClose}></button>                            
+                            <div className="user-data-form modal-content">
+                              <button
+                                type="button"
+                                className="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                                onClick={handleClose}
+                              ></button>
                               <div className="container subscription-model">
-                              <h2 className="fs-2 text-center mb-4">Remove Template</h2>
-                                <p className="mt-3 ms-4">Do you Want to delete the template...?</p>
-                              <div className="mt-3 justify-content-end d-flex float-end">
-                                      <button
-                                        className="btn btn-danger me-3 "
-                                        data-bs-dismiss="modal"
-                                        aria-label="Close"
-                                        onClick={handleRemoveTemplate}
-                                        >
-                                        Delete
-                                      </button>
-                                      <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close" onClick={handleClose}>Cancel</button>
-                                    </div>
+                                <h2 className="fs-2 text-center mb-4">
+                                  Remove Template
+                                </h2>
+                                <p className="mt-3 ms-4">
+                                  Do you Want to delete the template...?
+                                </p>
+                                <div className="mt-3 justify-content-end d-flex float-end">
+                                  <button
+                                    className="btn btn-danger me-3 "
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={handleRemoveTemplate}
+                                  >
+                                    Delete
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={handleClose}
+                                  >
+                                    Cancel
+                                  </button>
                                 </div>
-                                </div>
-                                </div>
-                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <h3>{selectedTemplate.templateName || `Template ${selectedTemplates.indexOf(selectedTemplate)}`}</h3>
+                    <h3>
+                      {selectedTemplate.templateName ||
+                        `Template ${selectedTemplates.indexOf(
+                          selectedTemplate
+                        )}`}
+                    </h3>
                     <p>
                       <strong>Subject:</strong> {selectedTemplate.subject}
                     </p>
-                    <p dangerouslySetInnerHTML={sanitizeHtml(selectedTemplate.body)} />
-
-
+                    <p
+                      dangerouslySetInnerHTML={sanitizeHtml(
+                        selectedTemplate.body
+                      )}
+                    />
                   </div>
-
                 </div>
               )}
             </div>
           ))}
-
 
           {/* <div className="dash-pagination d-flex justify-content-end mt-30">
             {currentPage > 1 && (
@@ -548,39 +585,31 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
               </button>
             )}
           </div> */}
-          
-                  <div className="pt-30 lg-pt-20 d-sm-flex align-items-center justify-content-between">
-                    <p className="m0 order-sm-last text-center text-sm-start xs-pb-20">
-                      Showing{" "}
-                      <span className="text-dark fw-500">
-                        {(page - 1) * itemsPerPage + 1}
-                      </span>{" "}
-                      to{" "}
-                      <span className="text-dark fw-500">
-                        {Math.min(page * itemsPerPage, totalTemplate)}
-                      </span>{" "}
-                      of{" "}
-                      <span className="text-dark fw-500">{totalTemplate}</span>
-                    </p>
 
-                    {totalTemplate > itemsPerPage && (
-                      <Pagination
-                        pageCount={totalNumOfPage}
-                        handlePageClick={handlePageClick}
-                        currPage={page}
-                      />
-                    )}
-                  </div>
-               
+          <div className="pt-30 lg-pt-20 d-sm-flex align-items-center justify-content-between">
+            <p className="m0 order-sm-last text-center text-sm-start xs-pb-20">
+              Showing{" "}
+              <span className="text-dark fw-500">
+                {(page - 1) * itemsPerPage + 1}
+              </span>{" "}
+              to{" "}
+              <span className="text-dark fw-500">
+                {Math.min(page * itemsPerPage, totalTemplate)}
+              </span>{" "}
+              of <span className="text-dark fw-500">{totalTemplate}</span>
+            </p>
 
-
+            {totalTemplate > itemsPerPage && (
+              <Pagination
+                pageCount={totalNumOfPage}
+                handlePageClick={handlePageClick}
+                currPage={page}
+              />
+            )}
+          </div>
         </div>
-
-
       </div>
     </div>
-    
-             
   );
 };
 

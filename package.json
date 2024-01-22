@@ -75,6 +75,7 @@
   "devDependencies": {
     "@types/bootstrap": "^5.2.10",
     "@types/circular-json": "^0.4.0",
+    "@types/dompurify": "^3.0.5",
     "@types/lodash": "^4.14.200",
     "@types/react-places-autocomplete": "^7.2.10"
   }
