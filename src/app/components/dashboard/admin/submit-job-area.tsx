@@ -28,7 +28,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const [title, setTitle] = useState("");
   const [jobCategory, setJobCategory] = useState("");
   const [jobType, setJobType] = useState<string[]>([]);
-  const [workMode, setWorkMode] = useState("");
+  const [workMode, setWorkMode] = useState<string[]>([]);
   const [experience, setExperience] = useState<string[]>([]);
   const [language, setLanguage] = useState("");
 
@@ -67,7 +67,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     // setJobType("");
   };
   const handleWorkMode = (item: { value: string; label: string }) => {
-    setWorkMode(item.value);
+    setWorkMode((prev) => [...prev, item.value]);
     console.log(item.value);
     // setJobType("");
   };
@@ -172,7 +172,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
             />
           </div>
 
-          <div className="row align-items-end">
+          <div className="row">
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
                 <label htmlFor="">Job Category</label>
@@ -196,6 +196,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   defaultCurrent={0}
                   onChange={(item) => handleJobType(item)}
                   name="Job Type"
+                  placeholder="Job type"
                 />
                 <div className="skill-input-data d-flex align-items-center flex-wrap">
                   {jobType.map((value) => (
@@ -217,7 +218,13 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   defaultCurrent={0}
                   onChange={(item) => handleWorkMode(item)}
                   name="work mode"
+                  placeholder="Work mode"
                 />
+                <div className="skill-input-data d-flex align-items-center flex-wrap">
+                  {workMode.map((value) => (
+                    <button key={value}>{value}</button>
+                  ))}
+                </div>
               </div>
             </div>
             <div className="col-md-6">
@@ -233,6 +240,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   defaultCurrent={0}
                   onChange={(item) => handleLanguage(item)}
                   name="Job Type"
+                  placeholder="Select"
                 />
               </div>
             </div>
@@ -249,7 +257,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                 />
               </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-md-3 companysalary-front">
               <div className="dash-input-wrapper mb-30">
                 <input
                   type="text"
@@ -295,7 +303,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
           </div>
 
           {/* employ experience start */}
-          <div className="row align-items-end">
+          <div className="row">
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
                 <label htmlFor="">Experience*</label>
@@ -308,6 +316,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   defaultCurrent={0}
                   onChange={(item) => handleExperience(item)}
                   name="Experience"
+                  placeholder="Experience"
                 />
                 <div className="skill-input-data d-flex align-items-center flex-wrap">
                   {experience.map((value) => (

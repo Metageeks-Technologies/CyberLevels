@@ -7,14 +7,17 @@ import {
   updateTemplate as updateTemplateAction,
   deleteTemplate as deleteTemplateAction,
 } from "@/redux/features/emailTemplate/api";
-import { addEmailTemplateSuccess, setEmailTemplates, deleteEmailTemplateSuccess, updateEmailTemplateSuccess } from "@/redux/features/emailTemplate/slice";
-
+import { setPage,addEmailTemplateSuccess,  deleteEmailTemplateSuccess, updateEmailTemplateSuccess } from "@/redux/features/emailTemplate/slice";
+//setEmailTemplates,
 import Image from "next/image";
 import icon from "@/assets/images/icon/icon_50.svg";
 import icon_2 from "@/assets/images/icon/icon_69.svg";
 
+import Pagination from "@/ui/pagination";
 
+import TextEditor1 from "./template/editor";
 
+import DOMPurify from 'dompurify';
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -49,34 +52,57 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
 
   const [templateIdCounter, setTemplateIdCounter] = useState<number>(1);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const templatesPerPage = 4;
-  const pagesToShow = 1;
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const templatesPerPage = 4;
+  // const pagesToShow = 1;
 
   const [showModelProperties, setShowModelProperties] = useState(false);
 
-
+  const stripHtmlTags = (htmlString: string) => {
+    const doc = new DOMParser().parseFromString(htmlString, 'text/html');
+    return doc.body.textContent || "";
+  };
   
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetchedTemplates = await getTemplates(dispatch);
-        if (fetchedTemplates) {
-          dispatch(setEmailTemplates(fetchedTemplates));
-          setEmployerTemplates(fetchedTemplates.filter((template: { templateType: string; }) => template.templateType === 'employer'));
-          setCandidateTemplates(fetchedTemplates.filter((template: { templateType: string; }) => template.templateType === 'candidate'));
-        }
-      } catch (error) {
-        console.error("Error fetching templates: ", error);
-      }
-    };
-
-    fetchData();
-  }, [dispatch]);
-
+  const sanitizeHtml = (htmlString: string) => {
+    return { __html: DOMPurify.sanitize(htmlString) };
+  };
   
+  const {templates,page,totalNumOfPage,totalTemplate}=useAppSelector((state)=>state.emailTemplate)
 
+
+  useEffect(() => {    
+      
+      getTemplates(dispatch,{page:page,limit:8});
+      
+        
+
+   
+    // const fetchData = async () => {
+    //   try {
+    //     const fetchedTemplates = await getTemplates(dispatch,{page:page,limit:4});
+    //     if (fetchedTemplates) {
+    //       dispatch(setEmailTemplates(fetchedTemplates));
+    //       setEmployerTemplates(fetchedTemplates.filter((template: { templateType: string; }) => template.templateType === 'employer'));
+    //       setCandidateTemplates(fetchedTemplates.filter((template: { templateType: string; }) => template.templateType === 'candidate'));
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching templates: ", error);
+    //   }
+    // };
+
+    // fetchData();
+  }, [dispatch,page]);
+  const itemsPerPage=8;
+  const handlePageClick = (event: { selected: number }) => {
+    dispatch(setPage(event.selected + 1));
+  };
+  
+  const employerTemplate = templates.filter(
+    (template) => template.templateType === 'employer'
+  );
+  const candidateTemplate = templates.filter(
+    (template) => template.templateType === 'candidate'
+  );
 
   const handleTemplateNameClick = (template: Template) => {
     // console.log(template);
@@ -134,6 +160,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
 
 
       setSubject("");
+      console.log(body,"Rituj");
       setBody("");
       setTemplateName("")
       setIsEditing(false);
@@ -206,18 +233,16 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
 
   const handleRemoveTemplate = async () => {
     if (selectedTemplate) {
-      const confirmDelete = window.confirm("Do you really want to delete this template?");
-      if (confirmDelete) {
         try {
           await deleteTemplateAction(dispatch, selectedTemplate._id);  //id
           dispatch(deleteEmailTemplateSuccess(selectedTemplate.templateName));
           if (templateType === 'employer') {
             setEmployerTemplates((prevTemplates) =>
-              prevTemplates.filter((t) => t.id !== selectedTemplate.id)
+              prevTemplates.filter((t) => t._id !== selectedTemplate._id)
             );
           } else if (templateType === 'candidate') {
             setCandidateTemplates((prevTemplates) =>
-              prevTemplates.filter((t) => t.id !== selectedTemplate.id)
+              prevTemplates.filter((t) => t._id !== selectedTemplate._id)
             );
           }
           // Clear the selected template
@@ -226,21 +251,21 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
         catch (error) {
           console.error("Error deleting template:", error);
         }
-      }
+      
     }
   };
 
   const selectedTemplates = templateType === 'employer' ? employerTemplates : candidateTemplates;
 
-  const indexOfLastTemplate = currentPage * templatesPerPage;
-  const indexOfFirstTemplate = indexOfLastTemplate - templatesPerPage;
-  const currentTemplates = selectedTemplates.slice(indexOfFirstTemplate, indexOfLastTemplate);
+  // const indexOfLastTemplate = currentPage * templatesPerPage;
+  // const indexOfFirstTemplate = indexOfLastTemplate - templatesPerPage;
+  // const currentTemplates = selectedTemplates.slice(indexOfFirstTemplate, indexOfLastTemplate);
 
-  const totalPages = Math.ceil(selectedTemplates.length / templatesPerPage);
+  // const totalPages = Math.ceil(selectedTemplates.length / templatesPerPage);
 
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
+  // const handlePageChange = (pageNumber: number) => {
+  //   setCurrentPage(pageNumber);
+  // };
   const handleClick = () => {
     setShowModelProperties(true); // Toggle the visibility
   };
@@ -317,13 +342,15 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
 
               <div className="dash-input-wrapper">
                 <label htmlFor="body">Body:</label>
-                <textarea
+                <TextEditor1 initialContent="" setContent={setBody}/>
+                {/* <TextEditor setContent={setBody}/> */}
+                {/* <textarea
                   id="body"
                   value={body}
                   onChange={(e) => setBody(e.target.value)}
                   placeholder="Type your message here..."
                   className="size-lg"
-                />
+                /> */}
               </div>
             </div>
 
@@ -352,8 +379,9 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
 
         <div className="mt-3 row ">
 
-          {currentTemplates?.map((template, index) => (
-            <div key={index} className="mt-3 me-3 bg-white p-3 border-20 row cursor-pointer"  onClick={() => handleTemplateNameClick(template)}>
+        {(templateType === 'employer' ? employerTemplate : candidateTemplate).map(
+          (template, index) => (
+            <div key={index} className="mt-3 me-3 bg-white p-3 border-20 row">
               <div className="col">
                 <button
                   className="  fw-medium  "
@@ -369,7 +397,8 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
               </div>
               <div className="col">
 
-                {template.body.slice(0, 20) + '...'}
+              {stripHtmlTags(template.body.slice(0,20)+'...')}
+
               </div>
               {selectedTemplate === template && (
                 <div className=" mt-3">
@@ -413,12 +442,14 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                                       />
                                       <br />
                                       <label htmlFor="updatedBody">Body:</label>
-                                      <textarea
+                                      <TextEditor1 initialContent={body} setContent={setBody}/>
+                                      {/* <TextEditor  setContent={setBody}/> */}
+                                      {/* <textarea
                                         id="updatedBody"
                                         value={body}
                                         onChange={(e) => setBody(e.target.value)}
                                         className="size-lg"
-                                      />
+                                      /> */}
 
                                     <div>
                                       <button
@@ -443,17 +474,42 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                       <div>
                         <button
                           className="btn btn-danger  "
-                          onClick={handleRemoveTemplate}
+                          data-bs-toggle="modal"
+                          data-bs-target="#RemoveModel"
+                          type="button"
                         >
-                          Remove
+                          Delete
                         </button>
+                        <div className="modal fade" id="RemoveModel" tabIndex={-1} aria-labelledby="smtpModelLabel" aria-hidden="true">
+                          <div className="modal-dialog modal-fullscreen modal-dialog-centered">
+                            <div className="user-data-form modal-content">  
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleClose}></button>                            
+                              <div className="container subscription-model">
+                              <h2 className="fs-2 text-center mb-4">Remove Template</h2>
+                                <p className="mt-3 ms-4">Do you Want to delete the template...?</p>
+                              <div className="mt-3 justify-content-end d-flex float-end">
+                                      <button
+                                        className="btn btn-danger me-3 "
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                        onClick={handleRemoveTemplate}
+                                        >
+                                        Delete
+                                      </button>
+                                      <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close" onClick={handleClose}>Cancel</button>
+                                    </div>
+                                </div>
+                                </div>
+                                </div>
+                                </div>
                       </div>
                     </div>
                     <h3>{selectedTemplate.templateName || `Template ${selectedTemplates.indexOf(selectedTemplate)}`}</h3>
                     <p>
                       <strong>Subject:</strong> {selectedTemplate.subject}
                     </p>
-                    <p>{selectedTemplate.body}</p>
+                    <p dangerouslySetInnerHTML={sanitizeHtml(selectedTemplate.body)} />
+
 
                   </div>
 
@@ -463,7 +519,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
           ))}
 
 
-          <div className="dash-pagination d-flex justify-content-end mt-30">
+          {/* <div className="dash-pagination d-flex justify-content-end mt-30">
             {currentPage > 1 && (
               <button
                 className=""
@@ -491,7 +547,31 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                 
               </button>
             )}
-          </div>
+          </div> */}
+          
+                  <div className="pt-30 lg-pt-20 d-sm-flex align-items-center justify-content-between">
+                    <p className="m0 order-sm-last text-center text-sm-start xs-pb-20">
+                      Showing{" "}
+                      <span className="text-dark fw-500">
+                        {(page - 1) * itemsPerPage + 1}
+                      </span>{" "}
+                      to{" "}
+                      <span className="text-dark fw-500">
+                        {Math.min(page * itemsPerPage, totalTemplate)}
+                      </span>{" "}
+                      of{" "}
+                      <span className="text-dark fw-500">{totalTemplate}</span>
+                    </p>
+
+                    {totalTemplate > itemsPerPage && (
+                      <Pagination
+                        pageCount={totalNumOfPage}
+                        handlePageClick={handlePageClick}
+                        currPage={page}
+                      />
+                    )}
+                  </div>
+               
 
 
         </div>

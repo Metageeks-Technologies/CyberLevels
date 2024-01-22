@@ -39,7 +39,8 @@ const UserList = ({ setIsOpenSidebar }: IProps) => {
               Employer
             </p>
           </div>
-          <div className="short-filter d-flex align-items-center dash-btn-one ">
+          <div className="short-filter d-flex align-items-center">
+          <div className="short-filter d-flex align-items-center dash-btn-one me-3 ">
             <button
               data-bs-toggle="modal"
               data-bs-target="#createEmployerModal"
@@ -48,9 +49,10 @@ const UserList = ({ setIsOpenSidebar }: IProps) => {
             >
               Create employer
             </button>
+          </div>
             <div className="text-dark fw-500 me-2">Short by:</div>
             <ShortSelect />
-          </div>
+            </div>
         </div>
 
         <div className="wrapper">

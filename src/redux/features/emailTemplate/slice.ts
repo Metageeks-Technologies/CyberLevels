@@ -6,18 +6,34 @@ export interface EmailTemplate{
     templateName: string;
     subject: string;
     body: string;
+    
+}
+type IForGetAllTemplates = {
+  templates: EmailTemplate[];
+  totalNumOfPage: number;
+  totalTemplate: number;
+  
 }
 
 export interface EmailTemplateState {
     templates: EmailTemplate[];
     loading: boolean;
     error: string;
+    page: number;
+    totalNumOfPage: number;
+    totalTemplate: number;
+    
+    
   }
   
   const initialState: EmailTemplateState = {
     templates: [],
     loading: false,
     error: "",
+    page:1,
+    totalNumOfPage:1,
+    totalTemplate:0,
+    
   };
 
   export const emailTemplateSlice = createSlice({
@@ -27,12 +43,16 @@ export interface EmailTemplateState {
       fetchEmailTemplateRequest: (state) => {
         state.loading = true;
       },
-      setEmailTemplates: (state, action: PayloadAction<EmailTemplate[]>) => {
-        state.templates = action.payload;
+      setEmailTemplates: (state, action: PayloadAction<IForGetAllTemplates>) => {
+        state.templates = action.payload.templates;
       },
-      fetchEmailTemplateSuccess: (state, action: PayloadAction<EmailTemplate[]>) => {
+      fetchEmailTemplateSuccess: (state, action: PayloadAction<IForGetAllTemplates>) => {
         state.loading = false;
-        state.templates = action.payload;
+        state.templates = action.payload.templates;
+        state.totalNumOfPage = action.payload.totalNumOfPage;
+        state.totalTemplate = action.payload.totalTemplate;
+        
+
       },
       addEmailTemplateSuccess: (state, action: PayloadAction<EmailTemplate>) =>{
         state.loading = false;
@@ -52,6 +72,9 @@ export interface EmailTemplateState {
         state.loading = false;
         state.error = action.payload;
       },
+      setPage: (state, action: PayloadAction<number>) => {
+        state.page = action.payload;
+    }
     },
   });
 
@@ -63,6 +86,7 @@ export interface EmailTemplateState {
     deleteEmailTemplateSuccess,
     fetchEmailTemplateError,
     setEmailTemplates,
+    setPage,
   } = emailTemplateSlice.actions;
 
   export default emailTemplateSlice.reducer;

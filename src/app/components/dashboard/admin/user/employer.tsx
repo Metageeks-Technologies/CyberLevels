@@ -1,6 +1,6 @@
 "use client";
 import { getAllCandidate, getAllEmployer } from "@/redux/features/admin/api";
-import { setPage } from "@/redux/features/candidate/slice";
+import { setPage } from "@/redux/features/admin/slice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import Loader from "@/ui/loader";
 import Pagination from "@/ui/pagination";
@@ -46,8 +46,8 @@ const EmployerList = () => {
               <div className="">
                 <div className="upper-filter d-flex justify-content-between align-items-center mb-20">
                   <div className="total-job-found">
-                    All <span className="text-dark fw-500">{"28"}</span>{" "}
-                    candidates found
+                    All <span className="text-dark fw-500">{totalEmployer}</span>{" "}
+                    employers found
                   </div>
                 </div>
 

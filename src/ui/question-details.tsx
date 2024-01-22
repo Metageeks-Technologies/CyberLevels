@@ -106,13 +106,13 @@ export default function Example({
     }>
   >;
 }) {
-  const questions = text.split("\\n\\n");
+  const questions = text?.split("\\n\\n");
 
   const [userAnswer, setUserAnswer] = useState<string[]>(
-    new Array(questions.length).fill("")
+    new Array(questions?.length).fill("")
   );
   const [answer, setAnswer] = useState<string[]>(
-    new Array(questions.length).fill("")
+    new Array(questions?.length).fill("")
   );
   const [isSaved, setSaved] = useState(false);
   const [isAnsweredAll, setAnsweredAll] = useState(true);
