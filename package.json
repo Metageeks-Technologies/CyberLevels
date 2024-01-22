@@ -34,6 +34,7 @@
     "bootstrap": "^5.3.2",
     "chart.js": "^4.4.1",
     "circular-json": "^0.5.9",
+    "dompurify": "^3.0.8",
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.4",
     "faker": "^6.6.6",

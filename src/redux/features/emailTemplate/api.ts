@@ -12,12 +12,12 @@ interface Template {
     body: string;
   }
 
-export const getTemplates = async (dispatch: AppDispatch) => {
+export const getTemplates = async (dispatch: AppDispatch,bodyObj:any) => {
   dispatch(fetchEmailTemplateRequest());
   try {
-    const { data } = await instance.get("/emailTemplate");
-    dispatch(fetchEmailTemplateSuccess(data));
-    return data;
+    const { data } = await instance.get("/emailTemplate",{params:bodyObj});
+    dispatch(fetchEmailTemplateSuccess({templates: data.result,totalNumOfPage: data.totalNumOfPage,totalTemplate: data.totalTemplate}));
+    
   } catch (error) {
     const e = error as AxiosError;
     dispatch(fetchEmailTemplateError(e.message));
