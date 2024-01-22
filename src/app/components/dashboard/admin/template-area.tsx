@@ -368,7 +368,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
 
         <div className="mt-3 row ">
           {templates?.map((template, index) => (
-            <div key={index} className="mt-3 me-3 bg-white p-3 border-20 row cursor-pointer"  onClick={() => handleTemplateNameClick(template)}>
+            <div key={index} className="mt-3 me-3 bg-white p-3 border-20 row " >
               <div className="col">
                 <button
                   className="  fw-medium  "
@@ -377,10 +377,10 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                   {template.templateName || `Template ${index}`}
                 </button>
               </div>
-              <div className="col">
+              <div className="col cursor-pointer" onClick={() => handleTemplateNameClick(template)}>
                 Sub:{template.subject.slice(0, 8) + ".."}
               </div>
-              <div className="col">
+              <div className="col cursor-pointer" onClick={() => handleTemplateNameClick(template)}>
                 {stripHtmlTags(template.body.slice(0, 20) + "...")}
               </div>
               {selectedTemplate === template && (
