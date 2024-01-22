@@ -24,6 +24,7 @@ import TextEditor1 from "./template/editor";
 import ActionDropdown from "./template/actionDropdown";
 
 import DOMPurify from "dompurify";
+import { notifyError, notifySuccess } from "@/utils/toast";
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -163,14 +164,16 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
       }
 
       setSubject("");
-      console.log(body, "Rituj");
+      // console.log(body, "Rituj");
       setBody("");
       setTemplateName("");
       setIsEditing(false);
-      setTemplateType("");
+      // setTemplateType("");
       setShowInputFields(false);
+      notifySuccess("Template added Successfully");
     } catch (error) {
       console.error("Error adding template:", error);
+      notifyError("Error in adding template");
     }
   };
 
@@ -228,8 +231,10 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
       // setShowInputFields(false);
       setShowModelProperties(false);
       // setSelectedTemplate(null);
+      notifySuccess("Template updated successfully");
     } catch (error) {
       console.error("Error updating template:", error);
+      notifyError("Error while saving template")
     }
   };
 

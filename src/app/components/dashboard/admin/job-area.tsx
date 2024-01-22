@@ -1,13 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DashboardHeader from "../candidate/dashboard-header";
 import EmployJobItem from "./job-item";
 import EmployShortSelect from "./short-select";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { getAllJobPosts } from "@/redux/features/jobPost/api";
+import Pagination from "@/ui/pagination";
+import { setAdminPage } from "@/redux/features/jobPost/slice";
 
-// props type 
+// props type
 type IProps = {
-  setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>
-}
-const EmployJobArea = ({setIsOpenSidebar}:IProps) => {
+  setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
+};
+const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
+  const dispatch = useAppDispatch();
+  const {currUser} = useAppSelector((state) => state.persistedReducer.user)
+  const {
+    allJobPostAdmin,
+    pageForAdmin,
+    totalJobsForAdmin,
+    totalPagesForJobpostAdmin,
+  } = useAppSelector((state) => state.jobPost);
+  const [jobViewState,setJobViewState] = useState('all');
+  useEffect(() => {
+    if(jobViewState==="all"){
+      getAllJobPosts(dispatch, pageForAdmin);
+      
+    }else{
+      getAllJobPosts(dispatch, pageForAdmin,currUser!);
+
+    }
+  }, [pageForAdmin,jobViewState]);
+  const handlePageClick = (event: { selected: number }) => {
+    dispatch(setAdminPage(event.selected + 1));
+  };
   return (
     <div className="dashboard-body">
       <div className="position-relative">
@@ -30,6 +55,7 @@ const EmployJobArea = ({setIsOpenSidebar}:IProps) => {
                 type="button"
                 role="tab"
                 aria-selected="true"
+                onClick={() => setJobViewState("all")}
               >
                 All
               </button>
@@ -40,8 +66,9 @@ const EmployJobArea = ({setIsOpenSidebar}:IProps) => {
                 type="button"
                 role="tab"
                 aria-selected="false"
+                onClick={() => setJobViewState("my")}
               >
-                New
+                My Jobs
               </button>
             </div>
             <div className="short-filter d-flex align-items-center ms-auto">
@@ -66,15 +93,20 @@ const EmployJobArea = ({setIsOpenSidebar}:IProps) => {
                     </tr>
                   </thead>
                   <tbody className="border-0">
-                    <EmployJobItem
-                      title="Brand & Producr Designer"
-                      info="Fulltime . Spain"
-                      application="130"
-                      date="05 Jun, 2023"
-                      status="active"
-                    />
+                    {allJobPostAdmin.map((job, index) => {
+                      return(
 
-                    <EmployJobItem
+                        <EmployJobItem
+                        title={job.title}
+                        info={`${job.jobType} . ${job.location}`}
+                        application={job.candidates.length.toString()}
+                        date={job.createdAt}
+                        status={job.status}
+                        />
+                        )
+                    })}
+
+                    {/* <EmployJobItem
                       title="Marketing Specialist"
                       info="Part-time . Uk"
                       application="20"
@@ -96,10 +128,11 @@ const EmployJobArea = ({setIsOpenSidebar}:IProps) => {
                       application="70"
                       date="14 Feb, 2023"
                       status="active"
-                    />
+                    /> */}
                   </tbody>
                 </table>
               </div>
+              
             </div>
             <div className="tab-pane fade" id="a2" role="tabpanel">
               <div className="table-responsive">
@@ -114,15 +147,21 @@ const EmployJobArea = ({setIsOpenSidebar}:IProps) => {
                     </tr>
                   </thead>
                   <tbody className="border-0">
-                    <EmployJobItem
-                      title="Marketing Specialist"
-                      info="Part-time . Uk"
-                      application="20"
-                      date="13 Aug, 2023"
-                      status="pending"
-                    />
+                    
+                  {allJobPostAdmin.map((job, index) => {
+                      return(
 
-                    <EmployJobItem
+                        <EmployJobItem
+                        title={job.title}
+                        info={`${job.jobType} . ${job.location}`}
+                        application={job.candidates.length.toString()}
+                        date={job.createdAt}
+                        status={job.status}
+                        />
+                        )
+                    })}
+
+                    {/* <EmployJobItem
                       title="Brand & Producr Designer"
                       info="Fulltime . Spain"
                       application="130"
@@ -144,7 +183,7 @@ const EmployJobArea = ({setIsOpenSidebar}:IProps) => {
                       application="278"
                       date="27 Sep, 2023"
                       status="expired"
-                    />
+                    /> */}
                   </tbody>
                 </table>
               </div>
@@ -152,30 +191,9 @@ const EmployJobArea = ({setIsOpenSidebar}:IProps) => {
           </div>
         </div>
 
-        <div className="dash-pagination d-flex justify-content-end mt-30">
-          <ul className="style-none d-flex align-items-center">
-            <li>
-              <a href="#" className="active">
-                1
-              </a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">3</a>
-            </li>
-            <li>..</li>
-            <li>
-              <a href="#">7</a>
-            </li>
-            <li>
-              <a href="#">
-                <i className="bi bi-chevron-right"></i>
-              </a>
-            </li>
-          </ul>
-        </div>
+        {totalJobsForAdmin > 8 && 
+              <Pagination handlePageClick={handlePageClick} pageCount={totalPagesForJobpostAdmin} currPage={pageForAdmin} />
+            }
       </div>
     </div>
   );
