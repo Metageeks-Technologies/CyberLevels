@@ -3,6 +3,7 @@ import { getUserFail, getUserStart, getUserSuccess, logoutUserFail, logoutUserSu
 import { getCurrCandidateSuccess } from "@/redux/features/candidate/dashboardSlice"
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
+import { notifyError, notifySuccess } from "@/utils/toast";
 
 
 export const loginWithGoogle = async (dispatch: AppDispatch, bodyObj: any) => {
@@ -84,11 +85,14 @@ export const logoutAdmin = async (dispatch: AppDispatch) => {
             // { withCredentials: true }
         );
         dispatch(logoutUserSuccess(null));
+        notifySuccess("Logout Successfully")
         return true;
     } catch (error) {
         const e = error as AxiosError;
         dispatch(logoutUserFail(e.message));
+        notifyError("Logout Failed")
         // console.log(error);
+
         return false
     }
 }
