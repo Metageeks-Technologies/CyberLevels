@@ -33,7 +33,7 @@ type IProps = {
 type TemplateType = "employer" | "candidate";
 
 interface Template {
-  _id?: string ;
+  _id?: string;
   id: string;
   templateType: string;
   templateName: string;
@@ -114,7 +114,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
   );
   // const {login,signup,paymentSuccess} =  useAppSelector((state) => state.emailTemplate);
   // useEffect(() => {
-    
+
   // },[templates])
   const handleTemplateNameClick = (template: Template) => {
     // console.log(template);
@@ -380,8 +380,28 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
         <div className="mt-3 row ">
           {templates?.map((template, index) => (
             <div key={index} className="mt-3 me-3 bg-white p-3 border-20 row ">
-              <p>{template.beingUsedFor}</p>
-              <div className="col-md-11 d-flex">
+              {template.beingUsedFor && template.beingUsedFor !== "" && (
+                <div
+                  className="mb-2"
+                >
+                  <span
+                   style={{
+                    backgroundColor: "#31795A",
+                    color: "white",
+                    font: "inherit",
+                    fontFamily: "inherit",
+                    padding:"1px 4px",
+                    borderRadius: "10px",
+                    
+                    
+                  }}
+                  >
+                  {template.beingUsedFor}
+
+                  </span>
+                </div>
+              )}
+              <div className="col-md-11 d-flex ">
                 <div className="col">
                   <button
                     className="  fw-medium  "
@@ -404,20 +424,19 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                 </div>
               </div>
               <div className="col-md-1 action-dots justify-content-end d-flex float-end ">
-                {/* <button
+                <button
                   className="action-btn dropdown-toggle"
                   type="button"
-                  // data-bs-toggle="dropdown"
-                  // aria-expanded="false"
-                > */}
-                  <span>
-                    <SelectBeingUsedFor
-                      default={template.beingUsedFor!}
-                      placeholder="use for"
-                      template={template}
-                    />
-                  </span>
-                {/* </button> */}
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                <span>
+                  <ActionDropdown
+                    Template={template}
+                    // templateId={template._id!}
+                  />
+                </span>
+                </button>
               </div>
               {selectedTemplate === template && (
                 <div className=" mt-3">
@@ -594,9 +613,9 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
               <button
                 className=""
                 onClick={() => handlePageChange(currentPage - 1)}
-              >
+                >
                 <Image src={icon_2} className="me-2" alt="icon" />
-              </button>
+                </button>
             )}
             {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
               <button
