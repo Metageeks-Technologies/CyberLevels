@@ -1,5 +1,5 @@
 import instance from "@/lib/axios";
-import { getEmployerSuccess, getSavedCandidatesSuccess, requestFailDash, requestStartDash, updateAvatarSuccess, updateCurrEmployerSuccess } from "./dashboardSlice";
+import { getEmployerSuccess, requestSuccessDash, getSavedCandidatesSuccess, requestFailDash, requestStartDash, updateAvatarSuccess, updateCurrEmployerSuccess } from "./dashboardSlice";
 import axios, { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { notifyError, notifySuccess } from "@/utils/toast";
@@ -71,7 +71,7 @@ export const saveCandidate = async (dispatch: AppDispatch, bodyObj: any) => {
     dispatch(requestStartDash());
     try {
         const { data } = await instance.post(`/employer/savedCandidate`, bodyObj);
-        dispatch(getSavedCandidatesSuccess({ savedCandidates: data.savedCandidates, totalNumOfPage: data.totalNumOfPage, totalCandidate: data.totalSavedCandidate, itemsPerPage:data.itemsPerPage }))
+        dispatch(getSavedCandidatesSuccess({ savedCandidates: data.savedCandidates, totalNumOfPage: data.totalNumOfPage, totalCandidate: data.totalSavedCandidate, itemsPerPage: data.itemsPerPage }))
         dispatch(toggleIsSaved(bodyObj.candidateId))
         notifySuccess("Candidate Saved Successfully")
     } catch (error) {
@@ -89,7 +89,7 @@ export const removeCandidate = async (dispatch: AppDispatch, bodyObj: any) => {
     dispatch(requestStartDash());
     try {
         const { data } = await instance.delete(`/employer/savedCandidate?employerId=${employerId}&candidateId=${candidateId}&page=${page}`);
-        dispatch(getSavedCandidatesSuccess({ savedCandidates: data.savedCandidates, totalNumOfPage: data.totalNumOfPage, totalCandidate: data.totalSavedCandidate, itemsPerPage:data.itemsPerPage }))
+        dispatch(getSavedCandidatesSuccess({ savedCandidates: data.savedCandidates, totalNumOfPage: data.totalNumOfPage, totalCandidate: data.totalSavedCandidate, itemsPerPage: data.itemsPerPage }))
         dispatch(toggleIsSaved(bodyObj.candidateId))
         notifySuccess("Candidate removed from Saved Candidates")
     } catch (error) {
@@ -132,4 +132,48 @@ export const addNotificationToCandidate = async (dispatch: AppDispatch, bodyObj:
         const e = error as AxiosError;
         dispatch(requestFailDash(e.message))
     }
-} 
+}
+
+export const addPositionToDB = async (
+    dispatch: AppDispatch,
+    title: string
+) => {
+    dispatch(requestStartDash());
+    try {
+        const { data } = await instance.post(
+            `/jobTitle/add`, { positionName: title }
+        );
+        console.log(data);
+        dispatch(requestSuccessDash())
+        notifySuccess("Position added successfully");
+        return true;
+    } catch (error) {
+        // console.log(error);
+        const e = error as any;
+        dispatch(requestFailDash(e.response?.data.message));
+        notifyError(e.response?.data.message);
+        return false;
+    }
+};
+
+export const addJobCategoryToDB = async (
+    dispatch: AppDispatch,
+    title: string
+) => {
+    dispatch(requestStartDash());
+    try {
+        const { data } = await instance.post(
+            `/jobCategory/add`, { categoryName: title }
+        );
+        // console.log(data);
+        dispatch(requestSuccessDash())
+        notifySuccess("Job category added successfully");
+        return true;
+    } catch (error) {
+        // console.log(error);
+        const e = error as any;
+        dispatch(requestFailDash(e.response?.data.message));
+        notifyError(e.response?.data.message);
+        return false;
+    }
+};

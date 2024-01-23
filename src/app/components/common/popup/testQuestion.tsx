@@ -17,6 +17,8 @@ const QuestionModal = ({
     (s) => s.candidate.candidateDashboard
   );
 
+  console.log(question);
+
   const dispatch = useAppDispatch;
   const [step, setStep] = useState(1);
   const [from, setForm] = useState({

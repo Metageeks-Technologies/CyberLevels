@@ -2,26 +2,31 @@ import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import { Combobox, Transition } from "@headlessui/react";
 import instance from "@/lib/axios";
-
+import { addPositionToDB } from "@/redux/features/employer/api";
+import { useAppDispatch } from "@/redux/hook";
+import { notifySuccess, notifyError } from "@/utils/toast";
 interface Props {
   selected: string;
   setSelected: React.Dispatch<React.SetStateAction<string>>;
   endPoint: string;
   suggestionsProp?: string[];
   placeholder?: string;
+  showAdd?: boolean;
 }
 
 function AutocompletePosition({
   selected,
   setSelected,
   endPoint,
-  suggestionsProp=[],
-  placeholder="Job Title",
+  suggestionsProp = [],
+  placeholder = "Job Title",
+  showAdd = false,
 }: Props) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [languages, setLanguages] = useState<string[]>([]);
 
+  const dispatch = useAppDispatch();
   useEffect(() => {
     // console.log(query.length);
 
@@ -47,6 +52,11 @@ function AutocompletePosition({
     };
     callApi();
   }, [query]);
+
+  const handleAdd = async () => {
+    await addPositionToDB(dispatch, query);
+    setSelected(query);
+  };
   return (
     <div className="nice-select" style={{ border: "none", padding: "0" }}>
       <Combobox value={selected} onChange={setSelected}>
@@ -58,6 +68,21 @@ function AutocompletePosition({
               displayValue={() => selected}
               onChange={(event) => setQuery(event.target.value)}
             />
+            {query.length >= 3 && showAdd && (
+              <p
+                onClick={handleAdd}
+                title="Create A new company if not found"
+                className="skill-add btn-one position-absolute px-3 py-0"
+                style={{
+                  zIndex: 10,
+                  top: false ? "50%" : "12%",
+                  right: "5%",
+                  transform: "translateY(-50%)",
+                }}
+              >
+                Add
+              </p>
+            )}
           </div>
           <Transition
             as={Fragment}
@@ -67,10 +92,12 @@ function AutocompletePosition({
             afterLeave={() => setQuery("")}
           >
             <Combobox.Options className="_my_nice_select_options _my_nice_select_options_extended">
-              {suggestions.length === 0 && query !== "" && languages.length === 0? (
+              {suggestions.length === 0 &&
+              query !== "" &&
+              languages.length === 0 ? (
                 <div className=" px-4">Nothing found.</div>
-                ) : (
-                (languages.length > 0  )? languages.map((language:string,id:number)=>(
+              ) : languages.length > 0 ? (
+                languages.map((language: string, id: number) => (
                   <Combobox.Option
                     key={id}
                     className={({ active }) =>
@@ -100,8 +127,9 @@ function AutocompletePosition({
                       </>
                     )}
                   </Combobox.Option>
-                )) : 
-                (suggestions.length !== 0 && query !== "")? suggestions.map((person: any) => (
+                ))
+              ) : suggestions.length !== 0 && query !== "" ? (
+                suggestions.map((person: any) => (
                   <Combobox.Option
                     key={person._id}
                     className={({ active }) =>
@@ -131,8 +159,8 @@ function AutocompletePosition({
                       </>
                     )}
                   </Combobox.Option>
-                )): null)
-              }
+                ))
+              ) : null}
             </Combobox.Options>
           </Transition>
         </div>

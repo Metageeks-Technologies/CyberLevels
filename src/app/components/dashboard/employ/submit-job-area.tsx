@@ -2,6 +2,7 @@
 import { addJobPost } from "@/redux/features/jobPost/api";
 import { RootState } from "@/redux/store";
 import AutocompletePosition from "@/ui/autoCompletePosistion";
+import AutocompleteCategory from "@/ui/autoCompleteCategory";
 import AutocompleteSkill from "@/ui/autoCompleteSkill";
 import NiceSelect from "@/ui/nice-select";
 import { MagicWand } from "@phosphor-icons/react";
@@ -182,7 +183,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   };
 
   const handleSubmit = async () => {
-    // console.log(bodyObj);
+    console.log(bodyObj);
 
     await addJobPost(dispatch, bodyObj);
     // setTitle("");
@@ -270,6 +271,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   selected={title}
                   setSelected={setTitle}
                   endPoint="jobTitle"
+                  showAdd={true}
                 />
               </div>
             </div>
@@ -277,7 +279,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
             <div className="col-md-6">
               <div className="dash-input-wrapper mb-30">
                 <label htmlFor="">Job Category</label>
-                <AutocompletePosition
+                <AutocompleteCategory
                   selected={jobCategory}
                   setSelected={setJobCategory}
                   endPoint="jobCategory"

@@ -3,6 +3,7 @@ import { getUserFail, getUserStart, getUserSuccess, logoutUserFail, logoutUserSu
 import { getCurrCandidateSuccess } from "@/redux/features/candidate/dashboardSlice"
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
+import { getEmployerSuccess } from "../employer/dashboardSlice";
 import { notifyError, notifySuccess } from "@/utils/toast";
 
 
@@ -22,6 +23,9 @@ export const loginWithGoogle = async (dispatch: AppDispatch, bodyObj: any) => {
         // console.log(data);
         if (data.user.role === "candidate") {
             dispatch(getCurrCandidateSuccess(data.user))
+        }
+        else if (data.user.role === "employer") {
+            dispatch(getEmployerSuccess(data.user))
         }
         return true;
     } catch (error) {
@@ -48,6 +52,9 @@ export const loginWithLn = async (dispatch: AppDispatch, bodyObj: any) => {
         dispatch(getUserSuccess({ user: data.user._id, userRole: data.user.role, avatar: data.user.avatar, name: data.user.firstName }));
         if (data.user.role === "candidate") {
             dispatch(getCurrCandidateSuccess(data.user))
+        }
+        else if (data.user.role === "employer") {
+            dispatch(getEmployerSuccess(data.user))
         }
         return true;
     } catch (error) {
