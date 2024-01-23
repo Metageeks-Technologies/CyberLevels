@@ -8,7 +8,7 @@ import { MagicWand } from "@phosphor-icons/react";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import DashboardHeader from "../candidate/dashboard-header";
-import { useAppDispatch } from "@/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import Loader from "@/ui/loader";
 import LocationAutoComplete from "@/ui/locationAutoComplete";
 import MultipleChoiceQuestion from "@/ui/question";
@@ -24,6 +24,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const { loading, gptLoading } = useSelector(
     (state: RootState) => state.jobPost
   );
+  const {currUser} = useAppSelector((state) => state.persistedReducer.user)
 
   const [title, setTitle] = useState("");
   const [jobCategory, setJobCategory] = useState("");
@@ -92,6 +93,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     testQuestions: questionWithAI ? questionWithAI : "",
     description,
     benefits: benefits,
+    employerId:currUser,
   };
 
   const handleSubmit = async () => {

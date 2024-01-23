@@ -1,11 +1,13 @@
 import { PayloadAction,createSlice } from "@reduxjs/toolkit";
 
 export interface EmailTemplate{
-    id: string;
+    _id?: string;
+    id:string;
     templateType: string;
     templateName: string;
     subject: string;
     body: string;
+    beingUsedFor?:string
     
 }
 type IForGetAllTemplates = {
@@ -22,6 +24,9 @@ export interface EmailTemplateState {
     page: number;
     totalNumOfPage: number;
     totalTemplate: number;
+    login:string;
+    signup:string;
+    paymentSuccess:string;
     
     
   }
@@ -33,6 +38,9 @@ export interface EmailTemplateState {
     page:1,
     totalNumOfPage:1,
     totalTemplate:0,
+    login:"",
+    signup:"",
+    paymentSuccess:"",
     
   };
 
@@ -74,6 +82,22 @@ export interface EmailTemplateState {
       },
       setPage: (state, action: PayloadAction<number>) => {
         state.page = action.payload;
+    },
+    setBeingUsedFor: (state,action:PayloadAction<any>) => {
+      if(action.payload.usedFor === "login"){
+        state.login = action.payload.id;
+      }
+      if(action.payload.usedFor === "signup"){
+        state.signup = action.payload.id;
+      }
+      if(action.payload.usedFor === "paymentSuccess"){
+        state.paymentSuccess = action.payload.id;
+      }
+    },
+    fetchTemplateUsedFor:(state) => {
+      state.login = state.login;
+      state.signup= state.signup;
+      state.paymentSuccess = state.paymentSuccess;
     }
     },
   });
@@ -87,6 +111,8 @@ export interface EmailTemplateState {
     fetchEmailTemplateError,
     setEmailTemplates,
     setPage,
+    setBeingUsedFor,
+    fetchTemplateUsedFor,
   } = emailTemplateSlice.actions;
 
   export default emailTemplateSlice.reducer;

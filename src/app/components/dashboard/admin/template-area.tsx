@@ -25,6 +25,7 @@ import ActionDropdown from "./template/actionDropdown";
 
 import DOMPurify from "dompurify";
 import { notifyError, notifySuccess } from "@/utils/toast";
+import SelectBeingUsedFor from "./template/BeingUsedFor";
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -32,12 +33,13 @@ type IProps = {
 type TemplateType = "employer" | "candidate";
 
 interface Template {
-  _id?: string | undefined;
+  _id?: string ;
   id: string;
   templateType: string;
   templateName: string;
   subject: string;
   body: string;
+  beingUsedFor?: string;
 }
 
 const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
@@ -110,7 +112,10 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
   const candidateTemplate = templates.filter(
     (template) => template.templateType === "candidate"
   );
-
+  // const {login,signup,paymentSuccess} =  useAppSelector((state) => state.emailTemplate);
+  // useEffect(() => {
+    
+  // },[templates])
   const handleTemplateNameClick = (template: Template) => {
     // console.log(template);
     setSelectedTemplate((prevTemplate) =>
@@ -234,7 +239,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
       notifySuccess("Template updated successfully");
     } catch (error) {
       console.error("Error updating template:", error);
-      notifyError("Error while saving template")
+      notifyError("Error while saving template");
     }
   };
 
@@ -374,34 +379,46 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
 
         <div className="mt-3 row ">
           {templates?.map((template, index) => (
-            <div key={index} className="mt-3 me-3 bg-white p-3 border-20 row " >
+            <div key={index} className="mt-3 me-3 bg-white p-3 border-20 row ">
+              <p>{template.beingUsedFor}</p>
               <div className="col-md-11 d-flex">
-              <div className="col">
-                <button
-                  className="  fw-medium  "
+                <div className="col">
+                  <button
+                    className="  fw-medium  "
+                    onClick={() => handleTemplateNameClick(template)}
+                  >
+                    {template.templateName || `Template ${index}`}
+                  </button>
+                </div>
+                <div
+                  className="col cursor-pointer"
                   onClick={() => handleTemplateNameClick(template)}
                 >
-                  {template.templateName || `Template ${index}`}
-                </button>
-              </div>
-              <div className="col cursor-pointer" onClick={() => handleTemplateNameClick(template)}>
-                Sub:{template.subject.slice(0, 20) + ".."}
-              </div>
-              <div className="col cursor-pointer" onClick={() => handleTemplateNameClick(template)}>
-                {stripHtmlTags(template.body.slice(0, 20) + "...")}
-              </div>
+                  Sub:{template.subject.slice(0, 20) + ".."}
+                </div>
+                <div
+                  className="col cursor-pointer"
+                  onClick={() => handleTemplateNameClick(template)}
+                >
+                  {stripHtmlTags(template.body.slice(0, 20) + "...")}
+                </div>
               </div>
               <div className="col-md-1 action-dots justify-content-end d-flex float-end ">
-                  <button
-                    className="action-btn dropdown-toggle"
-                    type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <span></span>
-                  </button>
-                  <ActionDropdown />
-                </div>
+                {/* <button
+                  className="action-btn dropdown-toggle"
+                  type="button"
+                  // data-bs-toggle="dropdown"
+                  // aria-expanded="false"
+                > */}
+                  <span>
+                    <SelectBeingUsedFor
+                      default={template.beingUsedFor!}
+                      placeholder="use for"
+                      template={template}
+                    />
+                  </span>
+                {/* </button> */}
+              </div>
               {selectedTemplate === template && (
                 <div className=" mt-3">
                   <div className=" email-format bg-white p-3 border-20">
@@ -566,7 +583,6 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                         selectedTemplate.body
                       )}
                     />
-                    
                   </div>
                 </div>
               )}

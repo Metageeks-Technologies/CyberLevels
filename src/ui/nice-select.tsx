@@ -33,6 +33,7 @@ const NiceSelect = ({
   const [current, setCurrent] = useState(defaultCurrent?options[defaultCurrent]:undefined);
   useEffect(() => {
     setCurrent(defaultCurrent?options[defaultCurrent]:undefined);
+    // console.log(defaultCurrent)
   },[defaultCurrent])
   const onClose = useCallback(() => {
     setOpen(false);
@@ -43,7 +44,10 @@ const NiceSelect = ({
   useClickAway(ref, onClose);
 
   const currentHandler = (item: { value: string; label: string }) => {
-    setCurrent(item);
+    if(name !== "Being Used For"){
+      setCurrent(item);
+
+    }
     onChange(item);
     onClose();
   };

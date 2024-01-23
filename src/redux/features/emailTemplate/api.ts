@@ -1,7 +1,7 @@
 import instance from "@/lib/axios";
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
-import { fetchEmailTemplateError,fetchEmailTemplateRequest,fetchEmailTemplateSuccess,addEmailTemplateSuccess,deleteEmailTemplateSuccess,updateEmailTemplateSuccess } from "./slice";
+import { fetchEmailTemplateError,fetchEmailTemplateRequest,fetchEmailTemplateSuccess,addEmailTemplateSuccess,deleteEmailTemplateSuccess,updateEmailTemplateSuccess, setBeingUsedFor } from "./slice";
 import { notifyError } from "@/utils/toast";
 
 interface Template {
@@ -61,4 +61,14 @@ export const deleteTemplate = async (dispatch: AppDispatch, id: string | undefin
   }
 };
 
+export const updateBeingUsedFor = async (dispatch:AppDispatch, id:string, usedFor:string) => {
+  try {
+    const {data} = await instance.patch(`/emailTemplate/updateuse/${id}?use=${usedFor}`);
+    dispatch(setBeingUsedFor({id,usedFor}))
+
+  } catch (error) {
+    const e = error as AxiosError;
+    dispatch(fetchEmailTemplateError(e.message));
+  }
+}
 // Additional functions can be added based on your requirements.
