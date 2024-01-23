@@ -48,6 +48,7 @@ const CreateCompany = () => {
   };
 
   const { currEmployer } = useAppSelector((s) => s.employer);
+  const {currAdmin}=useAppSelector((s) => s.admin);
 
   const [benefits, setBenefits] = useState<string[]>([]);
   const [funding, setFunding] = useState<IFunding[]>([]);
@@ -184,15 +185,19 @@ const CreateCompany = () => {
   },[fundingInput.amount])
 
   const handleSubmit = async () => {
-    if(form.about && form.name && form.category && form.email && form.foundedDate && form.founderName && value && teamSize && socialSites.website && location.locality && city && country){
-      notifyInfo("Please complete * marked fields.")
+    // if(form.about && form.name && form.category && form.email && form.foundedDate && form.founderName && value && teamSize && socialSites.website && location.locality && city && country){
+    //   notifyInfo("Please complete * marked fields.")
+    //   return;
+    // }
+    if (!form.about || !form.name || !form.category || !form.email || !form.foundedDate || !form.founderName || !value || !teamSize || !socialSites.website || !location.locality || !city || !country) {
+      notifyInfo("Please complete * marked fields.");
       return;
     }
     if (!file) {
       notifyInfo("please upload logo");
       return;
     }
-    if (!currEmployer) {
+    if (!currAdmin && !currEmployer) {
       notifyInfo("please login to create a company");
       return;
     }
@@ -201,14 +206,15 @@ const CreateCompany = () => {
       city: city,
       country: country,
     };
-
+    const createdBy = currAdmin ? currAdmin?._id : currEmployer?._id;
     const bodyObj = {
       ...form,
       contactNumber: value,
       location: [ILocation],
       teamSize,
       socialSites,
-      createdBy: currEmployer._id,
+      // createdBy: currEmployer._id,
+      createdBy,
       benefits,
       funding,
     };
@@ -312,6 +318,7 @@ const CreateCompany = () => {
                 value={form.foundedDate}
                 onChange={handleInputChange}
                 type="date"
+                placeholder="DD-MM-yyyy"
               />
             </div>
           </div>
