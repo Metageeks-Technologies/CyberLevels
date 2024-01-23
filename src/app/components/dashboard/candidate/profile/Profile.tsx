@@ -12,7 +12,7 @@ const Profile = () => {
     <>
       <div className="d-flex flex-wrap gap-3 justify-content-between     ">
         <div className="dash-input-wrapper mb-30 col-5">
-          <label htmlFor="firstName">First Name</label>
+          <label htmlFor="firstName">First Name*</label>
           <div className="d-flex align-items-center position-relative">
             <input
               type="text"
@@ -23,7 +23,7 @@ const Profile = () => {
           </div>
         </div>
         <div className="dash-input-wrapper mb-30 col-5">
-          <label htmlFor="lastName">Last Name</label>
+          <label htmlFor="lastName">Last Name*</label>
           <div className="d-flex  align-items-center position-relative">
             <input
               type="text"
@@ -34,7 +34,7 @@ const Profile = () => {
           </div>
         </div>
         <div className="dash-input-wrapper mb-30 col-5">
-          <label htmlFor="">Email</label>
+          <label htmlFor="">Email*</label>
           <div className="d-flex align-items-center position-relative">
             <input type="text" value={user?.email} readOnly />
           </div>
