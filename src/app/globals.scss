@@ -635,14 +635,13 @@ div[data-preview] p {
   height: auto;
 }
 
-.homeimg{
+.homeimg {
   padding-top: 2.5rem !important;
 }
 
-.companysalary-front{
+.companysalary-front {
   margin-top: 2rem !important;
 }
-
 
 .placeholderNew {
   display: inline-block;
@@ -654,5 +653,10 @@ div[data-preview] p {
 }
 .validation-border {
   border-color: red;
-  border-radius:5px;
+  border-radius: 5px;
+}
+
+.current-plan {
+  background-color: #e4e9e7 !important;
+  color: black !important;
 }

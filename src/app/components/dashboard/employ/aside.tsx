@@ -71,6 +71,13 @@ const nav_data: {
     title: "Submit Job",
   },
   {
+    id: 8,
+    icon: nav_2,
+    icon_active: nav_2_active,
+    link: "/dashboard/employer-dashboard/profile",
+    title: "Profile",
+  },
+  {
     id: 6,
     icon: nav_6,
     icon_active: nav_6_active,
@@ -110,7 +117,7 @@ const EmployAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
             </button>
           </div>
           <div className="user-data">
-            <div className="user-avatar online position-relative rounded-circle">
+            <div className="user-avatar mx-auto position-relative rounded-circle">
               <Image
                 src={
                   user?.avatar !== "none" ? (user?.avatar as string) : avatar
@@ -118,58 +125,23 @@ const EmployAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
                 width={50}
                 height={50}
                 alt="avatar"
-                className="lazy-img"
+                className="lazy-img user-img"
                 style={{ height: "auto" }}
               />
             </div>
-            <div className="user-name-data">
-              <button
-                className="user-name dropdown-toggle"
-                type="button"
-                id="profile-dropdown"
-                data-bs-toggle="dropdown"
-                data-bs-auto-close="outside"
-                aria-expanded="false"
-              >
-                {`${user?.firstName} ${user?.lastName}`}
-              </button>
-              <ul className="dropdown-menu" aria-labelledby="profile-dropdown">
-                <li>
-                  <Link
-                    className="dropdown-item d-flex align-items-center"
-                    href="/dashboard/employer-dashboard/profile"
-                  >
-                    <Image
-                      src={profile_icon_1}
-                      alt="icon"
-                      className="lazy-img"
-                    />
-                    <span className="ms-2 ps-1">Profile</span>
-                  </Link>
-                </li>
-                <li>
-                  <LogoutButton />
-                </li>
-                {/* <li>
-                  <a
-                    className="dropdown-item d-flex align-items-center"
-                    href="#"
-                  >
-                    <Image
-                      src={profile_icon_3}
-                      alt="icon"
-                      className="lazy-img"
-                    />
-                    <span className="ms-2 ps-1">Notification</span>
-                  </a>
-                </li> */}
-              </ul>
+            <div className="user-name-data user-name">
+              <p className="text-capitalize d-flex justify-content-center ">
+                {user?.firstName} {user?.lastName}
+              </p>
             </div>
           </div>
           <nav className="dasboard-main-nav">
             <ul className="style-none">
               {nav_data.map((m) => {
                 const isActive = pathname === m.link;
+                // const isActive =
+                //   pathname !== "/dashboard/employer-dashboard" &&
+                //   pathname.startsWith(m.link);
                 return (
                   <li key={m.id} onClick={() => setIsOpenSidebar(false)}>
                     <Link

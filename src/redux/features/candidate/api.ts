@@ -86,15 +86,14 @@ export const getCurrCandidate = async (dispatch: AppDispatch, id: string) => {
   dispatch(requestStartDash());
   try {
     const { data } = await instance(`/candidate/auth/${id}`);
-    console.log("from the currCandidste", data);
 
     dispatch(getCurrCandidateSuccess(data.candidate));
   } catch (error) {
     const e = error as AxiosError;
     console.log(e);
-    // if (e.response?.status === 401) {
-    //   await logoutAdmin(dispatch)
-    // }
+    if (id && e.response?.status === 401) {
+      await logoutAdmin(dispatch);
+    }
     dispatch(requestFailDash(e.message));
   }
 };
@@ -134,7 +133,7 @@ export const addEducation = async (
     notifyError("Something went wrong try again");
   }
 };
-export const updateEducation = async(dispatch: AppDispatch,id:string,eduId:string,bodyObj:any) => {
+export const updateEducation = async (dispatch: AppDispatch, id: string, eduId: string, bodyObj: any) => {
   try {
     const { data } = await instance.patch(
       `/candidate/updateEdu/${id}/${eduId}`,
@@ -169,7 +168,7 @@ export const addExperience = async (
     notifyError("Something went wrong try again");
   }
 };
-export const updateExperience = async(dispatch:AppDispatch,id:string,expId:string,bodyObj:any) => {
+export const updateExperience = async (dispatch: AppDispatch, id: string, expId: string, bodyObj: any) => {
   dispatch(requestStartDash());
   try {
     const { data } = await instance.patch(

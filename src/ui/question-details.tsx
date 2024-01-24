@@ -106,7 +106,8 @@ export default function Example({
     }>
   >;
 }) {
-  const questions = text?.split("\\n\\n");
+  console.log(text, "text is here");
+  const questions = text.split("\\n\\n");
 
   const [userAnswer, setUserAnswer] = useState<string[]>(
     new Array(questions?.length).fill("")

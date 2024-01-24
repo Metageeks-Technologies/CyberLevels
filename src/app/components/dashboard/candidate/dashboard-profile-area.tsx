@@ -185,7 +185,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
           </div>
 
           <Location />
-          <SelfDeclaration />
+          {/* <SelfDeclaration /> */}
           <Preferences />
         </div>
       </div>

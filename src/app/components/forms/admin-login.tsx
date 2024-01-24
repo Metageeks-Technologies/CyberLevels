@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { adminLogin } from "@/redux/features/user/api";
 import { useAppSelector } from "@/redux/hook";
 import Loader from "@/ui/loader";
+import { notifyError } from "@/utils/toast";
 
 // form data type
 type IFormData = {
@@ -61,9 +62,17 @@ const RegisterForm = ({ role }: { role: string }) => {
   } = useForm<IFormData>({ resolver });
   // on submit
   const onSubmit = async (formData: IFormData) => {
-    const isAdminLoggedIn = await adminLogin(dispatch, formData);
-    if (isAdminLoggedIn) {
+    // const isAdminLoggedIn = await adminLogin(dispatch, formData);
+    // if (isAdminLoggedIn) {
+
+    // }
+    // reset();
+    try {
+      await adminLogin(dispatch, formData);
       router.push("/dashboard/admin-dashboard");
+    } catch (error) {
+      notifyError("error while login try again");
+      console.log(error);
     }
     reset();
   };

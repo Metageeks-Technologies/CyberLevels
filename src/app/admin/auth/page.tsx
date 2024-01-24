@@ -1,10 +1,9 @@
-import React from "react";
-import { Metadata } from "next";
+import CompanyBreadcrumb from "@/app/components/common/common-breadcrumb";
+import AdminRegisterArea from "@/app/components/register/register-admin";
+import FooterOne from "@/layouts/footers/footer-one";
 import Header from "@/layouts/headers/header";
 import Wrapper from "@/layouts/wrapper";
-import CompanyBreadcrumb from "@/app/components/common/common-breadcrumb";
-import FooterOne from "@/layouts/footers/footer-one";
-import AdminRegisterArea from "@/app/components/register/register-admin";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Admin Auth",
