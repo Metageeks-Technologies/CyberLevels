@@ -180,7 +180,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     description,
     benefits: benefits,
     deadlineDate,
-    employerId:currUser,
+    // employerId:currUser,
   };
 
   const handleSubmit = async () => {
