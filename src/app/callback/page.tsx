@@ -10,8 +10,13 @@ import { useEffect } from "react";
 const page = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { whoIsTryingToLoginWithLn, whoIsTryingToLoginWithGoogle, loading } =
-    useAppSelector((state) => state.persistedReducer.user);
+  const {
+    whoIsTryingToLoginWithLn,
+    whoIsTryingToLoginWithGoogle,
+    loading,
+    currUser,
+    isAuthenticated,
+  } = useAppSelector((state) => state.persistedReducer.user);
   console.log(
     "LinkedIn",
     whoIsTryingToLoginWithLn,
@@ -27,6 +32,11 @@ const page = () => {
       "There is change in browser,please complete the login process with one browser only"
     );
   }
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.back();
+    }
+  }, []);
 
   useEffect(() => {
     if (whoIsTryingToLoginWithLn && state) {

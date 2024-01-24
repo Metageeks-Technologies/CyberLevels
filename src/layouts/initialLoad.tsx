@@ -14,12 +14,14 @@ const initialLoad = ({ children }: { children: React.ReactNode }) => {
   const { currUser, userRole, isAuthenticated } = useAppSelector(
     (s) => s.persistedReducer.user
   );
+  const pathName = usePathname();
   const { socket } = useAppSelector((s) => s.global);
   const socketUrl = process.env.NEXT_PUBLIC_SOCKET_ENDPOINT;
+  console.log(pathName);
 
   useEffect(() => {
     // getCurr user
-    if (currUser && isAuthenticated) {
+    if (currUser && isAuthenticated && pathName !== "/callback") {
       if (userRole === "candidate") getCurrCandidate(dispatch, currUser);
       else if (userRole === "employer") getCurrEmployer(dispatch, currUser);
       else if (userRole === "admin") getCurrAdmin(dispatch, currUser);

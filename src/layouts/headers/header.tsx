@@ -16,10 +16,12 @@ const Header = () => {
   const { isAuthenticated, userRole, avatar, name } = useAppSelector(
     (state) => state.persistedReducer.user
   );
+
   const dispatch = useAppDispatch();
   const handleLogout = async () => {
     await logoutAdmin(dispatch);
   };
+
   return (
     <>
       <header
@@ -75,10 +77,10 @@ const Header = () => {
                         alt="avatar"
                         width={50}
                         height={50}
-                        className="lazy-img "
+                        className="lazy-img rounded-circle ms-3"
                         style={{ height: "auto" }}
                       />
-                      <span>{name}</span>
+                      {/* <span className="login-btn-one ms-3">{name}</span> */}
                     </li>
                   )}
                   {userRole && userRole !== "candidate" && (

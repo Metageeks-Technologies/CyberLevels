@@ -74,7 +74,7 @@ const UploadResume = ({
   return (
     <>
       {/* <h2 className="main-title">My Resume</h2> */}
-      <div className="bg-white card-box border-20 mt-40 ">
+      <div id="dash-resume" className="bg-white card-box border-20 mt-40 ">
         <h4 className="dash-title-three">Resume</h4>
         <div className="dash-input-wrapper mb-20">
           <label htmlFor=""> Attachment*</label>

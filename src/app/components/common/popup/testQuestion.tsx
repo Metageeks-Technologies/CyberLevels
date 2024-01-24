@@ -17,6 +17,8 @@ const QuestionModal = ({
     (s) => s.candidate.candidateDashboard
   );
 
+  console.log(question);
+
   const dispatch = useAppDispatch;
   const [step, setStep] = useState(1);
   const [from, setForm] = useState({
@@ -41,7 +43,7 @@ const QuestionModal = ({
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
-            <div className="form-wrapper m-auto">
+            <div className="form-wrapper m-auto w-100 ">
               <div className="text-center">
                 <h2 className=" mb-3 ">Step-{step}</h2>
               </div>

@@ -11,7 +11,7 @@ export interface ICandidateDashboard {
     page: number,
     totalNumOfPage: number,
     totalCandidate: number,
-    itemsPerPage:number,
+    itemsPerPage: number,
 }
 
 // Define the initial state using that type
@@ -23,14 +23,14 @@ const initialState: ICandidateDashboard = {
     totalNumOfPage: 1,
     totalCandidate: 0,
     savedCandidates: [],
-    itemsPerPage:0,
+    itemsPerPage: 0,
 };
 
 type IForGetSavedCandidate = {
     savedCandidates: ICandidate[]
     totalNumOfPage: number,
     totalCandidate: number,
-    itemsPerPage:number
+    itemsPerPage: number
 }
 
 export const candidateDashboardSlice = createSlice({
@@ -39,6 +39,9 @@ export const candidateDashboardSlice = createSlice({
     reducers: {
         requestStartDash: (state) => {
             state.loading = true;
+        },
+        requestSuccessDash: (state) => {
+            state.loading = false;
         },
         requestFailDash: (state, action: PayloadAction<string>) => {
             state.loading = false,
@@ -77,6 +80,7 @@ export const {
     requestStartDash,
     getSavedCandidatesSuccess,
     setPage,
+    requestSuccessDash,
     updateAvatarSuccess
 } = candidateDashboardSlice.actions;
 

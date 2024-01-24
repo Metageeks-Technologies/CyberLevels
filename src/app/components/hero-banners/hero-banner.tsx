@@ -24,7 +24,7 @@ const HeroBanner = () => {
                 className="text-lg text-white mt-40 md-mt-30 mb-50 md-mb-30 wow fadeInUp"
                 data-wow-delay="0.4s"
               >
-              Your Cybersecurity job search made simple with AI.
+                Your Cybersecurity job search made simple with AI.
               </p>
             </div>
           </div>
@@ -57,17 +57,17 @@ const HeroBanner = () => {
               </div>
             </div>
           </div>
-          <div className="homeimg">
-          <div className="img-box">
-            <Image src={shape_1} alt="shape" className="lazy-img shapes" />
-            <Image
-              width={606}
-              height={785}
-              src={main_img}
-              alt="main-img"
-              className="lazy-img main-img w-100 "
-            />
-          </div>
+          <div style={{ marginTop: "100px" }} className="homeimg mt-5 ">
+            <div className="img-box">
+              <Image src={shape_1} alt="shape" className="lazy-img shapes" />
+              <Image
+                width={500}
+                height={500}
+                src={main_img}
+                alt="main-img"
+                className="lazy-img main-img w-100 "
+              />
+            </div>
           </div>
         </div>
       </div>
