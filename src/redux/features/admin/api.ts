@@ -46,12 +46,12 @@ export const getAllEmployer = async (dispatch: AppDispatch, bodyObj: any) => {
     }
 }
 
-export const getAllCompany = async (dispatch: AppDispatch, bodyObj: any) => {
+export const getAllCompany = async (dispatch: AppDispatch, bodyObj: any,id:string="") => {
 
     dispatch(requestStart());
     try {
 
-        const { data } = await instance.get("/admin/company", { params: bodyObj });
+        const { data } = await instance.get(`/admin/company/${id}`, { params: bodyObj });
         dispatch(getCompanySuccess({ companyFA: data.result, totalCompany: data.totalCompany, totalNumOfPageFCom: data.totalNumOfPage }));
 
     } catch (error) {

@@ -18,8 +18,11 @@ const CompanyList = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    getAllCompany(dispatch, { page: pageFCom, limit: 8 });
-  }, [pageFCom]);
+    
+    if (currUser) {
+        getAllCompany(dispatch, { page: pageFCom, limit: 8 }, currUser);
+    }
+}, [pageFCom, currUser]);
   const itemsPerPage = 8;
 
   const handlePageClick = (event: { selected: number }) => {
@@ -52,7 +55,7 @@ const CompanyList = () => {
                 <div className="upper-filter d-flex justify-content-between align-items-center mb-20">
                   <div className="total-job-found">
                     All <span className="text-dark fw-500">{totalCompany}</span>{" "}
-                    candidates found
+                    companies found
                   </div>
                 </div>
 
