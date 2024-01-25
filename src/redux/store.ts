@@ -21,6 +21,7 @@ import adminSlice from './features/admin/slice'; import emailTemplateSlice from 
 import smtpConfigSlice from './features/smtpConfig/slice';
 import blogSlice from './features/admin/blogSlice';
 import modelSlice from './features/model/slice';
+import employerJobPostFilterSlice from './features/employer/employerJobPostFilterSlice';
 
 const rootReducer = combineReducers({
   user: userSlice
@@ -65,7 +66,8 @@ export const store = configureStore({
     emailTemplate: emailTemplateSlice,
     smtpConfig: smtpConfigSlice,
     blog: blogSlice,
-    model: modelSlice
+    model: modelSlice,
+    emplyerJobPostFilter: employerJobPostFilterSlice,
   },
 
 })

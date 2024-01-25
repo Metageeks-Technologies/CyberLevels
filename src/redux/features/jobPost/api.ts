@@ -61,11 +61,13 @@ export const addJobPost = async (dispatch: AppDispatch, bodyObj: any) => {
     }
 }
 
-export const getJobPostsForEmployer = async (dispatch: AppDispatch, id: string, page: number) => {
-
+export const getJobPostsForEmployer = async (dispatch: AppDispatch, id: string, page: number,filterState:any) => {
+    
+    const {company:{companyId},status,jobCode,title} = filterState;
     dispatch(requestStart());
+
     try {
-        const { data } = await instance(`jobPost/employer/${id}?page=${page}`);
+        const { data } = await instance(`jobPost/employer/${id}?page=${page}&companyId=${companyId}&status=${status}&jobCode=${jobCode}&title=${title}`);
         dispatch(getJobPostsForEmployerSuccess({ jobPostsForEmployer: data.jobPosts, totalJobPostPagesForEmployer: data.totalPages, currentPageForJobPostEmployer: data.currentPage, pageSizeForJobPostEmployer: data.pageSize, totalJobPostsForEmployer: data.totalCount }));
     } catch (error) {
         console.log(error);

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardHeader from "../candidate/dashboard-header";
 import EmployJobItem from "./job-item";
 import EmployShortSelect from "./short-select";
@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { setPageForJobPostEmployer } from "@/redux/features/jobPost/slice";
 import Pagination from "@/ui/pagination";
 import { getJobPostsForEmployer } from "@/redux/features/jobPost/api";
+import EmployerJobFilterModal from "../../common/popup/employerJobFilterModal";
 
 // props type
 type IProps = {
@@ -16,24 +17,39 @@ type IProps = {
 };
 const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
   const dispatch = useAppDispatch();
-
+  const filterState = useAppSelector((state) => state.emplyerJobPostFilter);
+  const { status, company:{companyId}, jobCode, title } = filterState;
   const {
     jobPostsForEmployer,
     currentPageForJobPostEmployer,
     totalJobPostPagesForEmployer,
     totalJobPostsForEmployer,
-    pageSizeForJobPostEmployer
+    pageSizeForJobPostEmployer,
   } = useAppSelector((state) => state.jobPost);
-  const {currEmployer} = useAppSelector((state)=> state.employer)
+  const { currEmployer } = useAppSelector((state) => state.employer);
   const handlePageClick = (event: { selected: number }) => {
     console.log("from pagination", event.selected);
     dispatch(setPageForJobPostEmployer(event.selected + 1));
   };
+  const [value,setValue] = useState<number[]>([]);
 
   useEffect(() => {
-    if(currEmployer)
-    getJobPostsForEmployer(dispatch,currEmployer._id,currentPageForJobPostEmployer)
-  },[currentPageForJobPostEmployer,currEmployer])
+    if (currEmployer)
+      getJobPostsForEmployer(
+        dispatch,
+        currEmployer._id,
+        currentPageForJobPostEmployer,
+        filterState
+      );
+      console.log(companyId)
+  }, [
+    currentPageForJobPostEmployer,
+    currEmployer,
+    status,
+    companyId,
+    jobCode,
+    title,
+  ]);
   return (
     <div className="dashboard-body">
       <div className="position-relative">
@@ -195,7 +211,13 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
             </li>
           </ul>
         </div> */}
+
       </div>
+      <EmployerJobFilterModal 
+      // maxPrice={0}
+      //   priceValue={[0,20]}
+      //   setPriceValue={setValue} 
+      />
     </div>
   );
 };

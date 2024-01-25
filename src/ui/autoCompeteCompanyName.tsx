@@ -11,6 +11,8 @@ interface Props {
   >;
   endPoint: string;
   employerId?: string | undefined;
+  top?:boolean
+  showCreate?:boolean
 }
 
 function AutocompletePosition({
@@ -18,6 +20,8 @@ function AutocompletePosition({
   setSelected,
   endPoint,
   employerId = "",
+  top=false,
+  showCreate=true,
 }: Props) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -46,6 +50,12 @@ function AutocompletePosition({
             console.log(data);
           }
         }
+        if (query.length === 0) {
+          setSelected({
+            name: "",
+            companyId: "",
+          });
+        }
       } catch (error) {
         console.log(error);
       }
@@ -71,7 +81,7 @@ function AutocompletePosition({
               displayValue={() => selected.name}
               onChange={(event) => setQuery(event.target.value)}
             />
-            {query.length >= 3 && (
+            {query.length >= 3 && showCreate && (
               <p
                 onClick={() => {
                   router.push("/dashboard/employer-dashboard/company");
@@ -80,12 +90,12 @@ function AutocompletePosition({
                 className="skill-add btn-one position-absolute px-3 py-0"
                 style={{
                   zIndex: 10,
-                  top: false ? "50%" : "12%",
+                  top: top ? "50%" : "12%",
                   right: "5%",
                   transform: "translateY(-50%)",
                 }}
               >
-                Crate
+                Create
               </p>
             )}
           </div>
