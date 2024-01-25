@@ -70,6 +70,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
               <EmployShortSelect />
             </div>
           </div> */}
+          
           </div>
 
           <div className="bg-white card-box border-20">
