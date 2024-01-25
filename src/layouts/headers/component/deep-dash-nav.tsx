@@ -19,7 +19,16 @@ const DeepMenus = () => {
           );
         })}
       </ul>
-      ;
+      <button
+        type="button"
+        className="filter-btn fw-500 tran3s me-3"
+        data-bs-toggle="modal"
+        data-bs-target="#myJobPostForEmployerFilter"
+      >
+        <i className="bi bi-funnel"></i>
+        Filter
+      </button>
+      
     </>
   );
 };

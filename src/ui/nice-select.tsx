@@ -6,7 +6,7 @@ import { useClickAway } from "react-use";
 type Option = {
   value: string;
   label: string;
-  date?:string
+  date?: string;
 };
 
 type IPropType = {
@@ -30,11 +30,13 @@ const NiceSelect = ({
 }: IPropType) => {
   // console.log(defaultCurrent, "from defalt current");
   const [open, setOpen] = useState(false);
-  const [current, setCurrent] = useState(defaultCurrent?options[defaultCurrent]:undefined);
+  const [current, setCurrent] = useState(
+    defaultCurrent!==undefined ? options[defaultCurrent] : undefined
+  );
   useEffect(() => {
-    setCurrent(defaultCurrent?options[defaultCurrent]:undefined);
-    // console.log(defaultCurrent)
-  },[defaultCurrent])
+    setCurrent(defaultCurrent!==undefined ? options[defaultCurrent] : undefined);
+    console.log(defaultCurrent)
+  }, [defaultCurrent]);
   const onClose = useCallback(() => {
     setOpen(false);
     // setCurrent(undefined);
@@ -44,10 +46,8 @@ const NiceSelect = ({
   useClickAway(ref, onClose);
 
   const currentHandler = (item: { value: string; label: string }) => {
-    if(name !== "Being Used For"){
-      setCurrent(item);
+    setCurrent(item);
 
-    }
     onChange(item);
     onClose();
   };
@@ -63,11 +63,11 @@ const NiceSelect = ({
       <span className="current">
         {/* {current?.label || placeholder} */}
         {current ? (
-        <span className="current">{current.label}</span>
-      ) : (
-        <span className="placeholderNew">{placeholder}</span>
-      )}
-        </span>
+          <span className="current">{current.label}</span>
+        ) : (
+          <span className="placeholderNew">{placeholder}</span>
+        )}
+      </span>
       <ul
         className={`list ${isScroll && "add_Scroll_to_nice_select"}`}
         role="menubar"
@@ -83,7 +83,7 @@ const NiceSelect = ({
             role="menuitem"
             onClick={() => currentHandler(item)}
           >
-           {item.label} {item.date && `(${getDate(item.date.split('T')[0])})`}
+            {item.label} {item.date && `(${getDate(item.date.split("T")[0])})`}
           </li>
         ))}
       </ul>
