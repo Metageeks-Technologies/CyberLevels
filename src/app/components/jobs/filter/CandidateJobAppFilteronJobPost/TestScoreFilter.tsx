@@ -23,7 +23,7 @@ const TestScoreFilter = () => {
   };
   return (
     <div className="filter-block pb-50 lg-pb-20">
-      <div className="filter-title fw-500 text-dark">Job Code</div>
+      <div className="filter-title fw-500 text-dark">Test Score</div>
       <form className="input-box position-relative">
         <input
           onChange={handleSearch}
