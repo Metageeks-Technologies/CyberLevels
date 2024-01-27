@@ -44,4 +44,5 @@ export interface IJobPost {
     isSaved?: boolean,
     matchScore?: number;
     views?: JobPostView[]
+    jobCode:string
 }

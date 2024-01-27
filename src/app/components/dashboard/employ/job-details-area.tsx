@@ -9,6 +9,7 @@ import FeedbackModal from "../../common/popup/feedback";
 import Link from "next/link";
 import { useAppSelector } from "@/redux/hook";
 import JobLetterModal from "../../common/popup/jobLetterModer";
+import CandidateFilterByJobApp from "../../common/popup/candidateFilterByJobApp";
 
 // props type
 type IProps = {
@@ -70,7 +71,15 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
               <EmployShortSelect />
             </div>
           </div> */}
-          
+            <button
+              type="button"
+              className="filter-btn fw-500 tran3s me-3"
+              data-bs-toggle="modal"
+              data-bs-target="#candidateFilterForJobApp"
+            >
+              <i className="bi bi-funnel"></i>
+              Filter
+            </button>
           </div>
 
           <div className="bg-white card-box border-20">
@@ -95,31 +104,31 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                     <tbody className="border-0">
                       {jobApp?.map((app) => {
                         const createdAt = getDate(app.createdAt);
-
+                        console.log(jobApp,"Check Error")
                         if (typeof app.candidate !== "string") {
                           return (
                             <>
                               <EmployJobItem
-                                title={`${app.candidate.firstName} ${app.candidate.lastName}`}
+                                title={`${app.candidate?.firstName} ${app.candidate?.lastName}`}
                                 info={`${
-                                  app.candidate.location?.city || "Delhi"
+                                  app.candidate?.location?.city || "Delhi"
                                 }`}
                                 tesScore={String(app.testScore) || "89%"}
                                 date={createdAt}
                                 status={
-                                  app.candidate.experienceInShort || "expert"
+                                  app.candidate?.experienceInShort || "expert"
                                 }
-                                id={app.candidate._id}
+                                id={app.candidate?._id}
                                 appId={app._id}
                                 isFeedbackAsked={app.isFeedbackAsked}
-                                resumes={app.candidate.resumes}
+                                resumes={app.candidate?.resumes}
                                 resumeId={app.appliedWithResume}
                               />
                               <JobLetterModal
                                 candidateName={
-                                  app.candidate.firstName +
+                                  app.candidate?.firstName +
                                   " " +
-                                  app.candidate.lastName
+                                  app.candidate?.lastName
                                 }
                                 text={app.jobLetter}
                               />
@@ -137,6 +146,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
       </div>
       <ChatModal />
       <FeedbackModal />
+      <CandidateFilterByJobApp />
     </>
   );
 };

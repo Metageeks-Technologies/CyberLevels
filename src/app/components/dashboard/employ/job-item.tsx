@@ -10,6 +10,7 @@ const EmployJobItem = ({
   status,
   updatedAt,
   id,
+  jobCode
 }: {
   title: string;
   info: string;
@@ -18,12 +19,13 @@ const EmployJobItem = ({
   status: string | number;
   updatedAt?: string;
   id: string;
+  jobCode:string
 }) => {
   return (
     <tr className={`${status}`}>
       <td>
         <div className="job-name fw-500">
-          <Link href={`/dashboard/employer-dashboard/jobs/${id}`}>{title}</Link>
+          <Link href={`/dashboard/employer-dashboard/jobs/${id}`}>{`${title} (${jobCode})`}</Link>
         </div>
         <div className="info1">{info}</div>
       </td>

@@ -121,6 +121,7 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                           date={createdAt}
                           status={job.status}
                           id={job._id}
+                          jobCode={job.jobCode}
                         />
                       );
                     })}

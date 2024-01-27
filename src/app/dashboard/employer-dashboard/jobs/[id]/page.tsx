@@ -13,10 +13,13 @@ const EmployDashboardJobsPage = ({ params }: { params: { id: string } }) => {
   const { allJobAppByJobPostWithCandidate, loading } = useAppSelector(
     (state) => state.jobApplication
   );
+  const filterState = useAppSelector((state) => state.employerCandidateByJobAppFilter);
+  const {candidateName,testScore,status,matchPercent} = filterState
 
   useEffect(() => {
-    getallJobAppByJobPostWithCandidate(dispatch, params.id);
-  }, []);
+    getallJobAppByJobPostWithCandidate(dispatch, params.id,filterState);
+    console.log(allJobAppByJobPostWithCandidate)
+  }, [candidateName,testScore,status,matchPercent]);
   return (
     <Wrapper>
       <div className="main-page-wrapper">
