@@ -171,7 +171,7 @@ const JobGridItem = ({
             onClick={() => handleViewClick(item._id)}
             className="title fw-500 tran3s"
           >
-            {item.title}
+            {`${item.title?.slice(0, 20)} ${item.title?.length > 20 ? ".." : ""}(${item.jobCode})`}
           </div>
         </div>
         <div className="job-salary">
