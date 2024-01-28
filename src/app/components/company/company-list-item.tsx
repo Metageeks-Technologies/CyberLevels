@@ -15,9 +15,8 @@ import { notifyWarn } from "@/utils/toast";
 import ProfileCompleteModal from "../model/completeProfile";
 import { setProfileCompleteModel } from "@/redux/features/model/slice";
 
-
 const CompanyListItem = ({ item }: { item: ICompany }) => {
-  const { savedCompanyPage, loading } = useAppSelector(
+  const { savedCompanyPage, loading, totalSavedCompany } = useAppSelector(
     (state) => state.candidate.candidateDashboard
   );
   const { isAuthenticated, currUser } = useAppSelector(
@@ -26,21 +25,26 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
   const { profileCompleteModel, subscriptionModel } = useAppSelector(
     (state) => state.model
   );
-  const {currCandidate} = useAppSelector((state)=> state.candidate.candidateDashboard)
-  const Router = useRouter()
+  const { currCandidate } = useAppSelector(
+    (state) => state.candidate.candidateDashboard
+  );
+  const Router = useRouter();
 
   const dispatch = useAppDispatch();
   const isActive = item?.isSaved || false;
   const handleSaveCompany = (companyId: string) => {
     if (!isActive) {
-      if(currCandidate?.isProfileCompleted === true){
+      if (currCandidate?.isProfileCompleted === true) {
+        if (totalSavedCompany >= 10) {
+          notifyWarn("You can save upto 10 companies");
+          return;
+        }
         saveCompany(dispatch, {
           companyId,
           candidateId: currUser,
           page: savedCompanyPage,
         });
-
-      }else{
+      } else {
         dispatch(setProfileCompleteModel(true));
       }
     } else {
@@ -52,52 +56,51 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
     }
   };
   const handleViewClick = () => {
-    if(currCandidate?.isProfileCompleted === true){
+    if (currCandidate?.isProfileCompleted === true) {
       Router.push(`/company-details/${item._id}`);
-
-    }else{
+    } else {
       dispatch(setProfileCompleteModel(true));
     }
-  }
+  };
   const handleSubscribePopup = () => {};
   return (
     <>
       <div
         className={`company-list-layout ${isActive ? "favourite" : ""} mb-20`}
-        >
+      >
         {isAuthenticated ? (
-        <div className="row justify-content-between align-items-center ">
-          <div className="col-xl-5">
-            <div className="d-flex align-items-xl-center">
-              <div
-                onClick = {() => handleViewClick()}
-                className="company-logo rounded-circle cursor-pointer"
-              >
-                <Image
-                  // src={item.logo}
-                  src={team_img_1}
-                  alt="image"
-                  className="lazy-img rounded-circle"
-                />
-              </div>
-              <div className="company-data">
-                <h5 className="m0">
-                  <div
-                    onClick = {() => handleViewClick()}
-                    className="company-name tran3s cursor-pointer"
-                  >
-                    {item.name}
-                  </div>
-                </h5>
-                <p>
-                  {item.location?.[0].city} {item.location?.[0].country}
-                </p>
+          <div className="row justify-content-between align-items-center ">
+            <div className="col-xl-5">
+              <div className="d-flex align-items-xl-center">
+                <div
+                  onClick={() => handleViewClick()}
+                  className="company-logo rounded-circle cursor-pointer"
+                >
+                  <Image
+                    // src={item.logo}
+                    src={team_img_1}
+                    alt="image"
+                    className="lazy-img rounded-circle"
+                  />
+                </div>
+                <div className="company-data">
+                  <h5 className="m0">
+                    <div
+                      onClick={() => handleViewClick()}
+                      className="company-name tran3s cursor-pointer"
+                    >
+                      {item.name}
+                    </div>
+                  </h5>
+                  <p>
+                    {item.location?.[0].city} {item.location?.[0].country}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="col-xl-4 col-md-8">
-            <div className="d-flex align-items-center ps-xxl-5 lg-mt-20">
-              {/* <div className="d-flex align-items-center">
+            <div className="col-xl-4 col-md-8">
+              <div className="d-flex align-items-center ps-xxl-5 lg-mt-20">
+                {/* <div className="d-flex align-items-center">
               <Image
                 src={team_img_1}
                 alt="team_img"
@@ -118,76 +121,72 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
                 Team Size
               </div>
             </div> */}
+              </div>
             </div>
-          </div>
-          <div className="col-xl-3 col-md-4">
-            <div className="btn-group d-flex align-items-center justify-content-md-end lg-mt-20">
+            <div className="col-xl-3 col-md-4">
+              <div className="btn-group d-flex align-items-center justify-content-md-end lg-mt-20">
                 <div
-                  
                   className="open-job-btn text-center fw-500 tran3s me-2 cursor-pointer"
                   onClick={() => handleViewClick()}
                 >
                   {/* {item.vacancy} open job */}
                   {item.jobOpenings} open job
                 </div>
-                
 
-              <button
-                type="button"
-                disabled={loading}
-                onClick={() => handleSaveCompany(item._id)}
-                className={`save-btn text-center rounded-circle tran3s me-3 cursor-pointer ${
-                  isActive ? "active" : ""
-                }`}
-                title={`${isActive ? "Remove Company" : "Save Company"}`}
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={() => handleSaveCompany(item._id)}
+                  className={`save-btn text-center rounded-circle tran3s me-3 cursor-pointer ${
+                    isActive ? "active" : ""
+                  }`}
+                  title={`${isActive ? "Remove Company" : "Save Company"}`}
                 >
-                <i className="bi bi-bookmark-dash"></i>
-              </button>
+                  <i className="bi bi-bookmark-dash"></i>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-          ) : (
-            <div
-                  data-bs-toggle="modal"
-                  data-bs-target="#loginModal"
-                  // type="button"
-                  // className="apply-btn text-center tran3s"
-                  onClick={handleSubscribePopup}
-                  >
-                    
-
-                  <div className="row justify-content-between align-items-center ">
-          <div className="col-xl-5">
-            <div className="d-flex align-items-xl-center">
-              <div
-                // onClick = {() => handleViewClick()}
-                className="company-logo rounded-circle cursor-pointer"
-              >
-                <Image
-                  // src={item.logo}
-                  src={team_img_1}
-                  alt="image"
-                  className="lazy-img rounded-circle"
-                />
-              </div>
-              <div className="company-data">
-                <h5 className="m0">
+        ) : (
+          <div
+            data-bs-toggle="modal"
+            data-bs-target="#loginModal"
+            // type="button"
+            // className="apply-btn text-center tran3s"
+            onClick={handleSubscribePopup}
+          >
+            <div className="row justify-content-between align-items-center ">
+              <div className="col-xl-5">
+                <div className="d-flex align-items-xl-center">
                   <div
                     // onClick = {() => handleViewClick()}
-                    className="company-name tran3s cursor-pointer"
+                    className="company-logo rounded-circle cursor-pointer"
                   >
-                    {item.name}
+                    <Image
+                      // src={item.logo}
+                      src={team_img_1}
+                      alt="image"
+                      className="lazy-img rounded-circle"
+                    />
                   </div>
-                </h5>
-                <p>
-                  {item.location?.[0].city} {item.location?.[0].country}
-                </p>
+                  <div className="company-data">
+                    <h5 className="m0">
+                      <div
+                        // onClick = {() => handleViewClick()}
+                        className="company-name tran3s cursor-pointer"
+                      >
+                        {item.name}
+                      </div>
+                    </h5>
+                    <p>
+                      {item.location?.[0].city} {item.location?.[0].country}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="col-xl-4 col-md-8">
-            <div className="d-flex align-items-center ps-xxl-5 lg-mt-20">
-              {/* <div className="d-flex align-items-center">
+              <div className="col-xl-4 col-md-8">
+                <div className="d-flex align-items-center ps-xxl-5 lg-mt-20">
+                  {/* <div className="d-flex align-items-center">
               <Image
                 src={team_img_1}
                 alt="team_img"
@@ -208,41 +207,36 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
                 Team Size
               </div>
             </div> */}
-            </div>
-          </div>
-          <div className="col-xl-3 col-md-4">
-            <div className="btn-group d-flex align-items-center justify-content-md-end lg-mt-20">
-                <div
-                  
-                  className="open-job-btn text-center fw-500 tran3s me-2 cursor-pointer"
-                >
-                  {/* {item.vacancy} open job */}
-                  {item.jobOpenings} open job
                 </div>
-                
+              </div>
+              <div className="col-xl-3 col-md-4">
+                <div className="btn-group d-flex align-items-center justify-content-md-end lg-mt-20">
+                  <div className="open-job-btn text-center fw-500 tran3s me-2 cursor-pointer">
+                    {/* {item.vacancy} open job */}
+                    {item.jobOpenings} open job
+                  </div>
 
-              <button
-                type="button"
-                disabled={loading}
-                // onClick={() => handleSaveCompany(item._id)}
-                className={`save-btn text-center rounded-circle tran3s me-3 cursor-pointer ${
-                  isActive ? "active" : ""
-                }`}
-                title={`${isActive ? "Remove Company" : "Save Company"}`}
-                >
-                <i className="bi bi-bookmark-dash"></i>
-              </button>
-         
+                  <button
+                    type="button"
+                    disabled={loading}
+                    // onClick={() => handleSaveCompany(item._id)}
+                    className={`save-btn text-center rounded-circle tran3s me-3 cursor-pointer ${
+                      isActive ? "active" : ""
+                    }`}
+                    title={`${isActive ? "Remove Company" : "Save Company"}`}
+                  >
+                    <i className="bi bi-bookmark-dash"></i>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-                </div>
-          )}
+        )}
       </div>
       {/* login modal start */}
       <LoginModal />
       {profileCompleteModel ? <ProfileCompleteModal /> : null}
-       {/* login modal end */}
+      {/* login modal end */}
     </>
   );
 };

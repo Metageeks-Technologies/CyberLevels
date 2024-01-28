@@ -20,7 +20,7 @@ const JobListOnePage = () => {
         {/* header end */}
 
         {/* search breadcrumb start */}
-        <JobBreadcrumb />
+        {/* <JobBreadcrumb /> */}
         {/* search breadcrumb end */}
 
         {/* job list three start */}

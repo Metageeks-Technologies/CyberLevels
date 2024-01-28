@@ -38,7 +38,11 @@ function NotificationItem({
       <div className="flex-fill ps-2">
         {/* <h6>You have {main} new mails</h6> */}
         <h6>
-          <Link onClick={() => handleClick(id)} href={redirectUrl || "#"}>
+          <Link
+            className="text-wrap"
+            onClick={() => handleClick(id)}
+            href={redirectUrl || "#"}
+          >
             {main}
           </Link>
         </h6>
@@ -120,19 +124,28 @@ const DashboardHeader = ({ setIsOpenSidebar }: IProps) => {
             <li>
               <h4>Notification</h4>
               <ul className="style-none notify-list">
-                {unreadNotification?.map((n, index) => {
-                  return (
-                    <NotificationItem
-                      key={n._id}
-                      icon={notify_icon_2}
-                      main={n.message}
-                      time={n.timestamp}
-                      isUnread={n.isRead}
-                      redirectUrl={n.redirectUrl}
-                      id={n._id}
-                    />
-                  );
-                })}
+                {unreadNotification && unreadNotification.length > 0 ? (
+                  unreadNotification.map((n, index) => {
+                    return (
+                      <NotificationItem
+                        key={n._id}
+                        icon={notify_icon_2}
+                        main={n.message}
+                        time={n.timestamp}
+                        isUnread={n.isRead}
+                        redirectUrl={n.redirectUrl}
+                        id={n._id}
+                      />
+                    );
+                  })
+                ) : (
+                  <p className="d-flex align-items-center ">
+                    <span>No notification found</span>
+                    <span>
+                      <i className="bi bi-2x bi-exclamation-circle ms-3 mt-1"></i>
+                    </span>
+                  </p>
+                )}
               </ul>
             </li>
           </ul>
