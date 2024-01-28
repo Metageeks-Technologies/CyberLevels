@@ -12,7 +12,7 @@ import { SalaryRangeSlider } from "../../jobs/filter/job-prices";
 import SearchTitleFilter from "../../jobs/filter/my-jobpost-filter-employer/search-title-filter";
 import SearchJobCodeFilter from "../../jobs/filter/my-jobpost-filter-employer/search-jobcode-filter";
 import FilterStatus from "../../jobs/filter/my-jobpost-filter-employer/filter-status-area";
-import { resetFilter } from "@/redux/features/employer/employerJobPostFilterSlice";
+import { resetFilter } from "@/redux/features/jobApp/filter-candidates-by-jobapp/candidateFilterByJobPostSlice";
 import JobCompany from "../../jobs/filter/my-jobpost-filter-employer/companyIdfilter";
 import SearchCandidateNameFilter from "../../jobs/filter/CandidateJobAppFilteronJobPost/search-candidate-name-filter";
 import TestScoreFilter from "../../jobs/filter/CandidateJobAppFilteronJobPost/TestScoreFilter";
