@@ -18,8 +18,11 @@ const CompanyList = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    getAllCompany(dispatch, { page: pageFCom, limit: 8 });
-  }, [pageFCom]);
+    
+    if (currUser) {
+        getAllCompany(dispatch, { page: pageFCom, limit: 8 }, currUser);
+    }
+}, [pageFCom, currUser]);
   const itemsPerPage = 8;
 
   const handlePageClick = (event: { selected: number }) => {
