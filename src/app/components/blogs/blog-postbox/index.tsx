@@ -17,7 +17,7 @@ const BlogPostboxArea = () => {
     getAllBlog(dispatch, {});
   }, []);
   return (
-    <section className="blog-section pt-100 lg-pt-80 pb-120 lg-pb-80">
+    <section className="blog-section pt-160 lg-pt-80 pb-120 lg-pb-80">
       <div className="container">
         <div className="row">
           <div className="col-xxl-11 m-auto">
