@@ -18,8 +18,7 @@ const DeepMenus = () => {
             </li>
           );
         })}
-      </ul>
-      ;
+      </ul>      
     </>
   );
 };

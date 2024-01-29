@@ -138,7 +138,12 @@ const EmployAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
           <nav className="dasboard-main-nav">
             <ul className="style-none">
               {nav_data.map((m) => {
-                const isActive = pathname === m.link;
+                // const isActive = 
+                // pathname === m.link || pathname.startsWith(`${m.link}/`);
+                const isActive =
+                 pathname.startsWith(m.link) && // Check if the current URL starts with the link
+                    (m.link === "/dashboard/employer-dashboard" ? pathname === m.link // If the link is the dashboard, check for strict equality
+                        : true); 
                 // const isActive =
                 //   pathname !== "/dashboard/employer-dashboard" &&
                 //   pathname.startsWith(m.link);
