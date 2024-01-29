@@ -33,6 +33,7 @@ export interface ICompanyForAdmin {
     logo: string;
     teamSize: string;
     location: ILocation[];
+    name:string;
 }
 
 export interface IBlogComment {
