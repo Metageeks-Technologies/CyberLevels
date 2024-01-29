@@ -73,6 +73,9 @@ const JobDetailsV1Area = ({
   const missingSKills = job?.primarySkills.filter((val) => {
     return !currCandidate?.skills.includes(val);
   });
+  const secMissingSKills = job?.secondarySkills.filter((val) => {
+    return !currCandidate?.skills.includes(val);
+  });
   // missingSKills.push(...job.secondarySkills);
   return (
     <>
@@ -82,7 +85,7 @@ const JobDetailsV1Area = ({
           <div className="row">
             <div className="col-xxl-9 col-xl-8">
               <div className="details-post-data hello me-xxl-5 pe-xxl-4">
-                <div className="d-flex justify-content-between align-items-end  ">
+                <div className="d-flex justify-content-between  ">
                   <div className="">
                     <div className="post-date">
                       {readableString} by
@@ -140,8 +143,33 @@ const JobDetailsV1Area = ({
                               <div>
                                 Your profile is missing these key skills:
                               </div>
+                              <div className=" fw-medium mt-3 ">
+                                Primary Skills:
+                                </div>
                               <ul className="p-0  gap-2 mt-2 flex-wrap  d-flex shadow-none ">
                                 {missingSKills.map((skill, index) => (
+                                  <li
+                                    className="website-btn d-flex justify-content-center gap-1 "
+                                    key={index}
+                                  >
+                                    <span>
+                                      <i className="bi bi-x-circle"></i>
+                                    </span>
+                                    {skill}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                        <div>
+                        {secMissingSKills.length > 0 && (
+                            <div className="">
+                              <div className="fw-medium">
+                                Secondary Skills:
+                              </div>
+                              <ul className="p-0  gap-2 mt-2 flex-wrap  d-flex shadow-none ">
+                                {secMissingSKills.map((skill, index) => (
                                   <li
                                     className="website-btn d-flex justify-content-center gap-1 "
                                     key={index}
