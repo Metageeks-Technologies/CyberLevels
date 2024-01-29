@@ -25,6 +25,7 @@ const Header = () => {
   return (
     <>
       <header
+        // style={{ backgroundColor: "#244034" }}
         className={`theme-main-menu menu-overlay menu-style-one sticky-menu ${
           sticky ? "fixed" : ""
         }`}

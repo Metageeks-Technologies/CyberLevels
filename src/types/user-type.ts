@@ -71,11 +71,11 @@ export interface ICandidate {
     skills: string[],
     softSkills: string[],
     certificate: string[],
-    provider:string;
+    provider: string;
     experience: IExperience[],
     education: IEducation[],
     socialSites: ISocial,
-    experienceInYears:number,
+    experienceInYears: number,
     expectedSalary: {
         currency: {
             abbreviation: string;
@@ -83,16 +83,18 @@ export interface ICandidate {
             symbol: string;
         },
         min: number,
-        max:number,
+        max: number,
         period: string
     },
     selfDeclaration: {
-        gender:string,
-        race:string
+        gender: string,
+        race: string
     },
-    preferredLocations:string[],
-    preferredLanguages:string[],
+    preferredLocations: string[],
+    preferredLanguages: string[],
     isProfileCompleted: boolean,
+    savedJobs: string[];
+    savedCompanies: string[];
     gender: "male" | "female" | "others";
     location: ILocation,
     testScore: number,
@@ -117,7 +119,7 @@ export interface IEmployer {
     isEmailVerified: boolean;
     firstName: string;
     lastName: string;
-    provider:string;
+    provider: string;
     avatar: string;
     phoneNumber: string,
     company: {
