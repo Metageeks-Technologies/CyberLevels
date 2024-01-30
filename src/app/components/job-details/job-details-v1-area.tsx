@@ -99,20 +99,22 @@ const JobDetailsV1Area = ({
                         <li>
                           <a
                             target="_blank"
-                            href={`https://twitter.com/intent/tweet?text=${""}&url=${URL}`}
+                            // href={`https://twitter.com/intent/tweet?text=${""}&url=${URL}`}
+                            href={company?.socialSites?.twitter}
                             className="d-flex align-items-center justify-content-center"
                           >
-                            <i className="bi bi-linkedin"></i>
+                            <i className="bi bi-twitter"></i>
                             <span>Twitter</span>
                           </a>
                         </li>
                         <li>
                           <a
                             target="_blank"
-                            href={`https://www.linkedin.com/sharing/share-offsite/?url=${URL}`}
+                            // href={`https://www.linkedin.com/sharing/share-offsite/?url=${URL}`}
+                            href={company?.socialSites?.linkedIn}
                             className="d-flex align-items-center justify-content-center"
                           >
-                            <i className="bi bi-twitter"></i>
+                            <i className="bi bi-linkedin"></i>
                             <span>LinkedIn</span>
                           </a>
                         </li>
@@ -138,11 +140,12 @@ const JobDetailsV1Area = ({
                           match with your profile.
                         </span>
                         <div>
-                          {missingSKills.length > 0 && (
-                            <div className="">
-                              <div>
+                        <div>
                                 Your profile is missing these key skills:
                               </div>
+                          {missingSKills.length > 0 && (
+                            <div className="">
+                              
                               <div className=" fw-medium mt-3 ">
                                 Primary Skills:
                                 </div>
@@ -165,7 +168,7 @@ const JobDetailsV1Area = ({
                         <div>
                         {secMissingSKills.length > 0 && (
                             <div className="">
-                              <div className="fw-medium">
+                              <div className="fw-medium mt-3">
                                 Secondary Skills:
                               </div>
                               <ul className="p-0  gap-2 mt-2 flex-wrap  d-flex shadow-none ">

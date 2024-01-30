@@ -53,7 +53,7 @@ const CompanyDetailsArea = ({ id }: { id: string }) => {
                   </div>
                   <div className="text-center">
                     <a
-                      href="#"
+                      href={company?.socialSites?.website}
                       className="website-btn-two tran3s"
                       target="_blank"
                     >
@@ -96,16 +96,16 @@ const CompanyDetailsArea = ({ id }: { id: string }) => {
                       <li className="col-12">
                         <span>Social: </span>
                         <div>
-                          <a href="#" className="me-3">
+                          <a href={company?.socialSites?.facebook} className="me-3">
                             <i className="bi bi-facebook"></i>
                           </a>
-                          <a href="#" className="me-3">
+                          <a href={company?.socialSites?.linkedIn} className="me-3">
                             <i className="bi bi-instagram"></i>
                           </a>
-                          <a href="#" className="me-3">
+                          <a href={company?.socialSites?.twitter} className="me-3">
                             <i className="bi bi-twitter"></i>
                           </a>
-                          <a href="#">
+                          <a href={company?.socialSites?.linkedIn}>
                             <i className="bi bi-linkedin"></i>
                           </a>
                         </div>
