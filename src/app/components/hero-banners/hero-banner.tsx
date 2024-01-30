@@ -14,7 +14,7 @@ const HeroBanner = () => {
   return (
     <div className="hero-banner-one position-relative">
       <div className="container">
-        <div className="position-relative pt-200 md-pt-150 pb-150 xl-pb-120 md-pb-80">
+        <div className="position-relative pt-200 md-pt-150 pb-225 xl-pb-120 md-pb-80">
           <div className="row">
             <div className="col-lg-6">
               <h1 className="wow fadeInUp" data-wow-delay="0.3s">

@@ -233,8 +233,8 @@ const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
                         </div>
                         <div className="job-title">
                           <h6 className="mb-5">
-                            <Link href={`/job-details-v1/${app.jobPost._id}`}>
-                              {app.jobPost.title}
+                            <Link href={`/job-details-v1/${app.jobPost?._id}`}>
+                              {app.jobPost?.title}
                             </Link>
                           </h6>
                           <div className="meta">

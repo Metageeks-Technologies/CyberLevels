@@ -29,10 +29,11 @@ export interface ICompany {
     about: string;
     benefits: string[];
     jobPosts: string[];
-    socialSites: {linkedIn: string,
+    socialSites: {
+        linkedIn: string,
         twitter: string,
         website: string,
-        facebook: string
+        facebook: string,
     };
     jobOpenings: number;
 }
