@@ -8,9 +8,10 @@ import { addCandidateSkillDB } from "@/redux/features/candidate/api";
 interface Props {
   skills: string[];
   setSkills: React.Dispatch<React.SetStateAction<string[]>>;
+  top?:boolean
 }
 // { selected, setSelected }: Props
-function AutocompleteSkill({ skills, setSkills }: Props) {
+function AutocompleteSkill({ skills, setSkills,top }: Props) {
   const [selected, setSelected] = useState("");
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<any>([]);
@@ -84,7 +85,7 @@ function AutocompleteSkill({ skills, setSkills }: Props) {
                 className="skill-add btn-one position-absolute px-3 py-1"
                 style={{
                   zIndex: 10,
-                  top: currCandidate?.role === "candidate" ? "50%" : "12%",
+                  top: top  ? "50%" : "12%",
                   right: "5%",
                   transform: "translateY(-50%)",
                 }}

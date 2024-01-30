@@ -9,7 +9,7 @@ const TextEditor = ({
   setText: React.Dispatch<any>;
 }) => {
   let dynamicContent = "";
-  console.log("text ", text);
+  // console.log("text ", text);
   if (text) {
     dynamicContent = "<div>";
     const sections = text.split("\n\n");

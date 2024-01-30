@@ -17,6 +17,7 @@
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.3.4",
     "@mui/icons-material": "^5.15.4",
+    "@mui/material-next": "^6.0.0-alpha.119",
     "@phosphor-icons/react": "^2.0.13",
     "@popperjs/core": "^2.11.8",
     "@reduxjs/toolkit": "^1.9.5",

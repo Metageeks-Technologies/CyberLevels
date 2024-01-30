@@ -18,7 +18,7 @@ function AutocompletePosition({ selected, setSelected, endPoint,suggestionsProp,
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<Currency[]>([]);
 
-    console.log(selected);
+    // console.log(selected);
 
   useEffect(() => {
     // console.log(query.length);
@@ -36,7 +36,7 @@ function AutocompletePosition({ selected, setSelected, endPoint,suggestionsProp,
       }
     };
     callApi();
-    console.log(suggestions)
+    // console.log(suggestions)
   }, [query]);
   return (
     <div className="nice-select" style={{ border: "none", padding: "0" }}>

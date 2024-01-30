@@ -6,6 +6,7 @@ import EmployJobDetailsArea from "@/app/components/dashboard/employ/job-details-
 import { getallJobAppByJobPostWithCandidate } from "@/redux/features/jobApp/api";
 import { useAppSelector } from "@/redux/hook";
 import { useDispatch } from "react-redux";
+import { resetFilter } from "@/redux/features/jobApp/filter-candidates-by-jobapp/candidateFilterByJobPostSlice";
 
 const EmployDashboardJobsPage = ({ params }: { params: { id: string } }) => {
   const [isOpenSidebar, setIsOpenSidebar] = useState<boolean>(false);
@@ -13,10 +14,16 @@ const EmployDashboardJobsPage = ({ params }: { params: { id: string } }) => {
   const { allJobAppByJobPostWithCandidate, loading } = useAppSelector(
     (state) => state.jobApplication
   );
+  const filterState = useAppSelector((state) => state.employerCandidateByJobAppFilter);
+  const {candidateName,testScore,status,matchPercent} = filterState
 
   useEffect(() => {
-    getallJobAppByJobPostWithCandidate(dispatch, params.id);
-  }, []);
+    getallJobAppByJobPostWithCandidate(dispatch, params.id,filterState);
+    console.log(allJobAppByJobPostWithCandidate)
+  }, [candidateName,testScore,status,matchPercent]);
+  useEffect(() => {
+    dispatch(resetFilter())
+  },[])
   return (
     <Wrapper>
       <div className="main-page-wrapper">

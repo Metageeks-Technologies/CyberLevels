@@ -28,7 +28,7 @@ const EmployJobItem = ({
   resumes: IResume[];
   resumeId: string;
 }) => {
-  const appliedResume = resumes.find((resume) => resume._id === resumeId);
+  const appliedResume = resumes?.find((resume) => resume?._id === resumeId);
   return (
     <tr className={`${status}`}>
       <td>
@@ -47,8 +47,12 @@ const EmployJobItem = ({
       <td>
         <div className=" d-flex ">
           <ResumeDownloadButton
-            fileName={appliedResume?.name || resumes[0].name}
-            s3Key={appliedResume?.s3Key || resumes[0].s3Key}
+            fileName={
+              appliedResume?.name || (resumes?.length ? resumes[0].name : "")
+            }
+            s3Key={
+              appliedResume?.s3Key || (resumes?.length ? resumes[0].s3Key : "")
+            }
           />
           <FileArrowDown size={24} color="black" />
         </div>

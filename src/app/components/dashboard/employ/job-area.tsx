@@ -115,12 +115,14 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
 
                       return (
                         <EmployJobItem
+                          // job= {job}
                           title={job.title}
                           info={`${job.preferredExperience} . ${job.jobType[0]}`}
-                          application="130"
+                          application={`${job.candidates.length}`}
                           date={createdAt}
                           status={job.status}
                           id={job._id}
+                          jobCode={job.jobCode}
                         />
                       );
                     })}

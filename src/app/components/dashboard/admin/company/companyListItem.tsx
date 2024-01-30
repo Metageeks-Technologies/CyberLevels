@@ -59,7 +59,7 @@ const CompanyListItem = ({
                 <div className="position-relative">
                   <h4 className="candidate-name mb-0">
                     <Link href="/candidate-profile-v2" className="tran3s">
-                      {item.founderName}
+                      {item.name}
                     </Link>
                   </h4>
                 </div>
