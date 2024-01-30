@@ -18,7 +18,8 @@ export interface IJobPost {
     preferredLanguage: string;
     primarySkills: string[];
     secondarySkills: string[];
-    joiningTime: String,
+    joiningTime: string,
+    deadlineDate:Date,
     salary: {
         minimum: number;
         maximum: number;
@@ -33,7 +34,8 @@ export interface IJobPost {
     preferredExperience: string[];
     workHours: string;
     preferredQualification: string;
-    companyId: string | ICompany;
+    companyId:ICompany | string ;
+    companyName:string;
     employerId: string | IEmployer;
     candidates: string[];
     status: "active" | "expired",

@@ -8,9 +8,14 @@ import view from "@/assets/dashboard/images/icon/icon_18.svg";
 import share from "@/assets/dashboard/images/icon/icon_19.svg";
 import edit from "@/assets/dashboard/images/icon/icon_20.svg";
 import Link from "next/link";
+import { setCurrEditJobPost } from "@/redux/features/employer/dashboardSlice";
 // const  enum: ['Received', 'Under Review', 'Shortlisted', "Not Selected"]
 
 const ActionDropdown = ({ id }: { id: string }) => {
+  const dispatch = useAppDispatch();
+  const handleClick = () => {
+    dispatch(setCurrEditJobPost(id));
+  }
   return (
     <ul className="dropdown-menu dropdown-menu-end">
       <li>
@@ -22,9 +27,10 @@ const ActionDropdown = ({ id }: { id: string }) => {
         <Image src={share} alt="icon" className="lazy-img" /> Share
       </Link>
       <li>
-        <Link href={"#"} className="dropdown-item" type="button">
+        <button className="dropdown-item" type="button" data-bs-toggle="modal"
+        data-bs-target="#editJobPostByEmployer" onClick={handleClick}>
           <Image src={edit} alt="icon" className="lazy-img" /> Edit
-        </Link>
+        </button>
       </li>
     </ul>
   );

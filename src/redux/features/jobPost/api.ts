@@ -1,5 +1,5 @@
 import instance from "@/lib/axios";
-import { getJobPostsSuccess, requestFail, requestStart, requestSuccess, submitJobPostSuccess, getJobPostsForEmployerSuccess, askGptStart, askGptSuccess, askGptEnd, getRelatedJobsSuccess, setFileNamePc, getAllJobPostsSuccess, getJobPostViewsSuccess, registerJobPostViewSuccess, getJobPostForEmployerDashboardSuccess, getJobPostForEmployerNiceSelectSuccess, getJobPostForEmployerDashboardCardsSuccess } from "./slice"
+import { getJobPostsSuccess, requestFail, requestStart, requestSuccess, submitJobPostSuccess, getJobPostsForEmployerSuccess, askGptStart, askGptSuccess, askGptEnd, getRelatedJobsSuccess, setFileNamePc, getAllJobPostsSuccess, getJobPostViewsSuccess, registerJobPostViewSuccess, getJobPostForEmployerDashboardSuccess, getJobPostForEmployerNiceSelectSuccess, getJobPostForEmployerDashboardCardsSuccess, updateJobPostSuccess } from "./slice"
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { IFilterState } from "../filterJobPostSlice";
@@ -51,7 +51,7 @@ export const addJobPost = async (dispatch: AppDispatch, bodyObj: any) => {
     try {
         const { data } = await instance.post("/jobPost/add", bodyObj);
         dispatch(submitJobPostSuccess(data.job));
-        notifySuccess("Job Posted Successfully")
+        notifySuccess("Job Posted Successfully");
     } catch (error) {
         const e = error as AxiosError;
         const response = e.response as any;
@@ -59,6 +59,21 @@ export const addJobPost = async (dispatch: AppDispatch, bodyObj: any) => {
         dispatch(requestFail(e.message));
         notifyError(msg);
     }
+}
+export const updateJobPost = async (dispatch:AppDispatch,bodyObj:any) => {
+dispatch(requestStart());
+try {
+    const {data} = await instance.patch("/jobPost/add",bodyObj);
+    dispatch(updateJobPostSuccess(data.job))
+    notifySuccess("Job Post Updated Successfully");
+} catch (error) {
+    const e = error as AxiosError;
+        const response = e.response as any;
+        const msg = response.data.message;
+        dispatch(requestFail(e.message));
+        notifyError(msg);
+    
+}
 }
 
 export const getJobPostsForEmployer = async (dispatch: AppDispatch, id: string, page: number,filterState:any) => {

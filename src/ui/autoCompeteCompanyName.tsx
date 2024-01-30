@@ -13,6 +13,7 @@ interface Props {
   employerId?: string | undefined;
   top?:boolean
   showCreate?:boolean
+  disabled?:boolean
 }
 
 function AutocompletePosition({
@@ -22,6 +23,7 @@ function AutocompletePosition({
   employerId = "",
   top=false,
   showCreate=true,
+  disabled=false,
 }: Props) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -72,6 +74,7 @@ function AutocompletePosition({
             companyId: selectedOption ? selectedOption.person._id : "",
           });
         }}
+        disabled={disabled}
       >
         <div className="">
           <div className="">

@@ -12,6 +12,7 @@ export interface ICandidateDashboard {
     totalNumOfPage: number,
     totalCandidate: number,
     itemsPerPage: number,
+    currEditJobPost:string,
 }
 
 // Define the initial state using that type
@@ -24,6 +25,7 @@ const initialState: ICandidateDashboard = {
     totalCandidate: 0,
     savedCandidates: [],
     itemsPerPage: 0,
+    currEditJobPost:"",
 };
 
 type IForGetSavedCandidate = {
@@ -69,6 +71,9 @@ export const candidateDashboardSlice = createSlice({
         },
         setPage: (state, action: PayloadAction<number>) => {
             state.page = action.payload;
+        },
+        setCurrEditJobPost: (state,action:PayloadAction<string>) => {
+            state.currEditJobPost = action.payload;
         }
     },
 });
@@ -81,7 +86,8 @@ export const {
     getSavedCandidatesSuccess,
     setPage,
     requestSuccessDash,
-    updateAvatarSuccess
+    updateAvatarSuccess,
+    setCurrEditJobPost
 } = candidateDashboardSlice.actions;
 
 export default candidateDashboardSlice.reducer;

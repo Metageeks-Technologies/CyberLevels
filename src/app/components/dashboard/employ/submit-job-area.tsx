@@ -24,6 +24,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Currency } from "@/redux/features/currencyProvider/slice";
 import AutocompleteCurrency from "@/ui/autoCompleteCurrency";
 import { isBetween, isPureNumber, isValidSalaryNumber } from "@/utils/helper";
+import { notifyInfo } from "@/utils/toast";
 
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -136,8 +137,8 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const [validForm, setValidForm] = useState({
     workHours: true,
     salaryNumber: true,
-    priSkills: false,
-    secSkills: false,
+    priSkills: true,
+    secSkills: true,
   });
   //onchange handle function for deadlineDate
   // const handleDate = (e:React.ChangeEvent<HTMLInputElement>)=>{
@@ -157,8 +158,13 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     });
   }, [salary.minimum, salary.maximum]);
   useEffect(() => {
-    setValidForm({ ...validForm, priSkills: primarySkills.length !== 0 });
+    if(primarySkills.length !== 0)
+    setValidForm({ ...validForm, priSkills: true });
   }, [primarySkills]);
+  useEffect(() => {
+    if(secondarySkills.length !== 0)
+    setValidForm({ ...validForm, secSkills: true });
+  }, [secondarySkills]);
 
   const bodyObj = {
     title: title,
@@ -174,7 +180,8 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     joiningTime: joiningTime,
     preferredQualification: education,
     workHours: workHours,
-    companyId: company.companyId,
+    companyId: "65b874905f98ef5f42996216",
+    companyName:"Rockstar",
     employerId: currEmployer?._id,
     testQuestions: questionWithAI ? questionWithAI : "",
     description,
@@ -183,6 +190,22 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   };
 
   const handleSubmit = async () => {
+    if(primarySkills.length === 0){
+      setValidForm({ ...validForm, priSkills: false });
+      notifyInfo("Primary skills can't be empty")
+      return;
+    }else{
+      setValidForm({ ...validForm, priSkills: true });
+    }
+    if(secondarySkills.length === 0){
+      setValidForm({ ...validForm, secSkills: false });
+      notifyInfo("Secondary skills can't be empty")
+      return;
+    }
+    else{
+      setValidForm({ ...validForm, secSkills: true });
+    }
+
     console.log(bodyObj);
 
     await addJobPost(dispatch, bodyObj);
@@ -477,7 +500,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
               skills={secondarySkills}
               setSkills={setSecondarySkills}
             />
-            {!validForm.priSkills && (
+            {!validForm.secSkills && (
               <p style={{ color: "red" }}>Secondary skills cannot be empty</p>
             )}
             {/* <input type="text" placeholder="Add Skills" /> */}

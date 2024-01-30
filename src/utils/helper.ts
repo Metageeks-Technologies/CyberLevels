@@ -88,7 +88,8 @@ export const checkValidDescription = (desc: string,limit:number) => {
 };
 
 export const isPureString = (s:string) => {
-  const isValidString = /^[A-Za-z]+$/.test(s);
+  const isValidString = /^[A-Za-z ]+$/.test(s);
+  
   if(isValidString || s===""){
     return true;
   }else{

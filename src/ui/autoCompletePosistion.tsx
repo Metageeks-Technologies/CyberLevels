@@ -12,6 +12,7 @@ interface Props {
   suggestionsProp?: string[];
   placeholder?: string;
   showAdd?: boolean;
+  disabled?:boolean;
 }
 
 function AutocompletePosition({
@@ -21,6 +22,7 @@ function AutocompletePosition({
   suggestionsProp = [],
   placeholder = "Job Title",
   showAdd = false,
+  disabled = false,
 }: Props) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -59,7 +61,7 @@ function AutocompletePosition({
   };
   return (
     <div className="nice-select" style={{ border: "none", padding: "0" }}>
-      <Combobox value={selected} onChange={setSelected}>
+      <Combobox value={selected} onChange={setSelected} disabled={disabled}>
         <div className="">
           <div className="">
             <Combobox.Input

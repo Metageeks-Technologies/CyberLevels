@@ -95,6 +95,19 @@ export const jobPostSlice = createSlice({
             state.loading = false;
             state.jobPost = action.payload;
         },
+        updateJobPostSuccess :(state, action:PayloadAction<IJobPost>) => {
+            state.loading = false;
+            state.jobPostsForEmployer = state.jobPostsForEmployer.map((jobp) => {
+                if (jobp._id === action.payload._id) {
+                  // Replace the matching job post with the updated job post
+                  return action.payload;/* your updated job post here */;
+                } else {
+                  // Keep the job post unchanged if it doesn't match the _id in action.payload
+                  return jobp;
+                }
+            }
+            )
+        },
         getJobPostsSuccess: (state, action: PayloadAction<IForGetAllJobPost>) => {
             state.loading = false
             state.allJobPost = action.payload.allJobPost;
@@ -196,6 +209,7 @@ export const {
     getJobPostForEmployerDashboardSuccess,
     getJobPostForEmployerNiceSelectSuccess,
     getJobPostForEmployerDashboardCardsSuccess,
+    updateJobPostSuccess,
 } = jobPostSlice.actions
 
 export default jobPostSlice.reducer;
