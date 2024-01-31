@@ -23,7 +23,12 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Currency } from "@/redux/features/currencyProvider/slice";
 import AutocompleteCurrency from "@/ui/autoCompleteCurrency";
-import { isBetween, isPureNumber, isValidSalaryNumber } from "@/utils/helper";
+import {
+  isBetween,
+  isPureNumber,
+  isPureString,
+  isValidSalaryNumber,
+} from "@/utils/helper";
 import { notifyInfo } from "@/utils/toast";
 
 type IProps = {
@@ -135,10 +140,18 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   };
 
   const [validForm, setValidForm] = useState({
+    companyId: true,
+    title: true,
     workHours: true,
     salaryNumber: true,
     priSkills: true,
     secSkills: true,
+    jobCategory: true,
+    jobType: true,
+    workMode: true,
+    experience: true,
+    location: true,
+    deadlineDate: true,
   });
   //onchange handle function for deadlineDate
   // const handleDate = (e:React.ChangeEvent<HTMLInputElement>)=>{
@@ -158,13 +171,38 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     });
   }, [salary.minimum, salary.maximum]);
   useEffect(() => {
-    if(primarySkills.length !== 0)
-    setValidForm({ ...validForm, priSkills: true });
+    if (primarySkills.length !== 0)
+      setValidForm({ ...validForm, priSkills: true });
   }, [primarySkills]);
   useEffect(() => {
-    if(secondarySkills.length !== 0)
-    setValidForm({ ...validForm, secSkills: true });
+    if (secondarySkills.length !== 0)
+      setValidForm({ ...validForm, secSkills: true });
   }, [secondarySkills]);
+  useEffect(() => {
+    setValidForm({ ...validForm, jobCategory: isPureString(jobCategory) });
+  }, [jobCategory]);
+  useEffect(() => {
+    if (jobType.length !== 0) setValidForm({ ...validForm, jobType: true });
+  }, [jobType]);
+  useEffect(() => {
+    if (workMode.length !== 0) setValidForm({ ...validForm, workMode: true });
+  }, [workMode]);
+  useEffect(() => {
+    if (experience.length !== 0)
+      setValidForm({ ...validForm, experience: true });
+  }, [experience]);
+  useEffect(() => {
+    if (location.length !== 0) setValidForm({ ...validForm, location: true });
+  }, [location]);
+  useEffect(() => {
+    if (company.companyId !== "")
+      setValidForm({ ...validForm, companyId: true });
+  }, [company.companyId]);
+  useEffect(() => {
+    if (title !== "") {
+      setValidForm({ ...validForm, title: true });
+    }
+  }, [title]);
 
   const bodyObj = {
     title: title,
@@ -181,7 +219,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     preferredQualification: education,
     workHours: workHours,
     companyId: company?.companyId,
-    companyName:company?.name,
+    companyName: company?.name,
     employerId: currEmployer?._id,
     testQuestions: questionWithAI ? questionWithAI : "",
     description,
@@ -190,20 +228,59 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   };
 
   const handleSubmit = async () => {
-    if(primarySkills.length === 0){
-      setValidForm({ ...validForm, priSkills: false });
-      notifyInfo("Primary skills can't be empty")
+    if (
+      primarySkills.length === 0 ||
+      secondarySkills.length === 0 ||
+      jobType.length === 0 ||
+      workMode.length === 0 ||
+      experience.length === 0 ||
+      location.length === 0 ||
+      company.companyId === "" ||
+      title === ""
+    ) {
+      setValidForm({
+        ...validForm,
+        priSkills: !(primarySkills.length === 0),
+        secSkills: !(secondarySkills.length === 0),
+        jobType: !(jobType.length === 0),
+        workMode: !(workMode.length === 0),
+        experience: experience.length !== 0,
+        location: location.length !== 0,
+        companyId: company.companyId !== "",
+        title: title !== "",
+      });
+      notifyInfo("check all fields again");
       return;
-    }else{
-      setValidForm({ ...validForm, priSkills: true });
     }
-    if(secondarySkills.length === 0){
-      setValidForm({ ...validForm, secSkills: false });
-      notifyInfo("Secondary skills can't be empty")
+
+    // console.log(bodyObj);
+    if (
+      !validForm.priSkills ||
+      !validForm.secSkills ||
+      !validForm.salaryNumber ||
+      !validForm.workHours
+    ) {
+      notifyInfo("please correct input value");
       return;
     }
-    else{
-      setValidForm({ ...validForm, secSkills: true });
+    if (
+      !bodyObj.deadlineDate ||
+      !bodyObj.description ||
+      !bodyObj.jobCategory ||
+      !bodyObj.jobType ||
+      !bodyObj.joiningTime ||
+      !bodyObj.location ||
+      !bodyObj.preferredExperience ||
+      !bodyObj.preferredLanguage ||
+      !bodyObj.primarySkills ||
+      !bodyObj.salary ||
+      !bodyObj.secondarySkills ||
+      !bodyObj.workHours ||
+      !bodyObj.workMode ||
+      !bodyObj.companyId
+    ) {
+      notifyInfo("mandatory fields should be filled");
+      return;
     }
 
     console.log(bodyObj);
@@ -285,6 +362,9 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   endPoint="companyName"
                   employerId={currEmployer?._id}
                 />
+                {!validForm.companyId && (
+                  <p style={{ color: "red" }}>Please Enter Valid Company</p>
+                )}
               </div>
             </div>
             <div className="col-md-6">
@@ -297,6 +377,9 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   endPoint="jobTitle"
                   showAdd={true}
                 />
+                {!validForm.title && (
+                  <p style={{ color: "red" }}>Please Enter Valid Job Title</p>
+                )}
               </div>
             </div>
 
@@ -308,6 +391,9 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   setSelected={setJobCategory}
                   endPoint="jobCategory"
                 />
+                {!validForm.jobCategory && (
+                  <p style={{ color: "red" }}>Please input valid category</p>
+                )}
               </div>
             </div>
             <div className="col-md-6">
@@ -325,6 +411,9 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   name="Job Type"
                   placeholder="Job type"
                 />
+                {!validForm.jobType && (
+                  <p style={{ color: "red" }}>Please Mention Job Type</p>
+                )}
                 <div className="skill-input-data d-flex align-items-center flex-wrap">
                   {jobType.map((value) => (
                     <button key={value}>{value}</button>
@@ -347,6 +436,9 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   name="work mode"
                   placeholder="work mode"
                 />
+                {!validForm.workMode && (
+                  <p style={{ color: "red" }}>select valid Work Mode</p>
+                )}
                 <div className="skill-input-data d-flex align-items-center flex-wrap">
                   {workMode.map((value) => (
                     <button key={value}>{value}</button>
@@ -527,6 +619,11 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   name="Experience"
                   placeholder="Experience"
                 />
+                {!validForm.experience && (
+                  <p style={{ color: "red" }}>
+                    Select valid preferred experience
+                  </p>
+                )}
                 <div className="skill-input-data d-flex align-items-center flex-wrap">
                   {experience.map((value) => (
                     <button key={value}>{value}</button>
@@ -543,6 +640,11 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   label="location"
                   isMultiple={true}
                 />
+                {!validForm.location && (
+                  <p style={{ color: "red" }}>
+                    Please enter preferred Location
+                  </p>
+                )}
                 <div
                   style={{ marginTop: "10px" }}
                   className="skill-input-data d-flex align-items-center flex-wrap "
@@ -576,6 +678,9 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
                   onChange={(date: Date | null) => setDeadlineDate(date)}
                   dateFormat="dd/MM/yyyy"
                 />
+                {!validForm.deadlineDate && (
+                  <p style={{ color: "red" }}>select a Valid deadline date</p>
+                )}
               </div>
             </div>
           </div>

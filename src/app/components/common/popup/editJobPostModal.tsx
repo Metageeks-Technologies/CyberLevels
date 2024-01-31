@@ -25,7 +25,12 @@ import MultipleChoiceQuestion from "@/ui/question";
 import { IJobPost } from "@/types/jobPost-type";
 import NiceSelectDefaultValue from "../../dashboard/employ/NiceSelectDefaultValue";
 import { notifyInfo } from "@/utils/toast";
-import { isBetween, isPureNumber, isPureString, isValidSalaryNumber } from "@/utils/helper";
+import {
+  isBetween,
+  isPureNumber,
+  isPureString,
+  isValidSalaryNumber,
+} from "@/utils/helper";
 import { boolean } from "yup";
 
 const EditJobPostModal = () => {
@@ -79,7 +84,10 @@ const EditJobPostModal = () => {
       },
     }
   );
-  const [company, setCompany] = useState<any>({name:currJob?.companyName,companyId:currJob?.companyId});
+  const [company, setCompany] = useState<any>({
+    name: currJob?.companyName,
+    companyId: currJob?.companyId,
+  });
   const [primarySkills, setPrimarySkills] = useState<string[]>(
     currJob?.primarySkills || []
   );
@@ -126,7 +134,7 @@ const EditJobPostModal = () => {
         },
       }
     );
-    setCompany({name:currJob?.companyName,companyId:currJob?.companyId});
+    setCompany({ name: currJob?.companyName, companyId: currJob?.companyId });
     // console.log(company)
     setPrimarySkills(currJob?.primarySkills || []);
     setSecondarySkills(currJob?.secondarySkills || []);
@@ -147,12 +155,12 @@ const EditJobPostModal = () => {
     salaryNumber: true,
     priSkills: true,
     secSkills: true,
-    jobCategory:true,
-    jobType:true,
-    workMode:true,
-    experience:true,
-    location:true,
-    deadlineDate:true,
+    jobCategory: true,
+    jobType: true,
+    workMode: true,
+    experience: true,
+    location: true,
+    deadlineDate: true,
   });
 
   useEffect(() => {
@@ -164,37 +172,36 @@ const EditJobPostModal = () => {
   useEffect(() => {
     setValidForm({
       ...validForm,
-      salaryNumber: isValidSalaryNumber(salary.minimum as string, salary.maximum as string),
+      salaryNumber: isValidSalaryNumber(
+        salary.minimum as string,
+        salary.maximum as string
+      ),
     });
   }, [salary.minimum, salary.maximum]);
   useEffect(() => {
-    if(primarySkills.length !== 0)
-    setValidForm({ ...validForm, priSkills: true });
+    if (primarySkills.length !== 0)
+      setValidForm({ ...validForm, priSkills: true });
   }, [primarySkills]);
   useEffect(() => {
-    if(secondarySkills.length !== 0)
-    setValidForm({ ...validForm, secSkills: true });
+    if (secondarySkills.length !== 0)
+      setValidForm({ ...validForm, secSkills: true });
   }, [secondarySkills]);
   useEffect(() => {
-    setValidForm({ ...validForm,jobCategory:isPureString(jobCategory)});
-  },[jobCategory]);
+    setValidForm({ ...validForm, jobCategory: isPureString(jobCategory) });
+  }, [jobCategory]);
   useEffect(() => {
-    if(jobType.length !== 0)
-    setValidForm({ ...validForm, jobType: true });
+    if (jobType.length !== 0) setValidForm({ ...validForm, jobType: true });
   }, [jobType]);
   useEffect(() => {
-    if(workMode.length !== 0)
-    setValidForm({ ...validForm, workMode: true });
+    if (workMode.length !== 0) setValidForm({ ...validForm, workMode: true });
   }, [workMode]);
-useEffect(() => {
-    if(experience.length !== 0)
-    setValidForm({ ...validForm, experience: true });
+  useEffect(() => {
+    if (experience.length !== 0)
+      setValidForm({ ...validForm, experience: true });
   }, [experience]);
-useEffect(() => {
-    if(location.length !== 0)
-    setValidForm({ ...validForm, location: true });
+  useEffect(() => {
+    if (location.length !== 0) setValidForm({ ...validForm, location: true });
   }, [location]);
-
 
   const updateSalaryProperty = (
     property: string,
@@ -317,19 +324,52 @@ useEffect(() => {
   };
   // console.log(id)
   const handleSubmit = async () => {
-    if(primarySkills.length === 0 || secondarySkills.length === 0 || jobType.length === 0 || workMode.length === 0 || experience.length === 0 || location.length === 0){
-      setValidForm({ ...validForm, priSkills: !(primarySkills.length===0),secSkills: !(secondarySkills.length === 0), jobType: !(jobType.length===0), workMode: !(workMode.length===0), experience:experience.length !== 0, location:location.length !== 0});
-      notifyInfo("check all fields again")
+    if (
+      primarySkills.length === 0 ||
+      secondarySkills.length === 0 ||
+      jobType.length === 0 ||
+      workMode.length === 0 ||
+      experience.length === 0 ||
+      location.length === 0
+    ) {
+      setValidForm({
+        ...validForm,
+        priSkills: !(primarySkills.length === 0),
+        secSkills: !(secondarySkills.length === 0),
+        jobType: !(jobType.length === 0),
+        workMode: !(workMode.length === 0),
+        experience: experience.length !== 0,
+        location: location.length !== 0,
+      });
+      notifyInfo("check all fields again");
       return;
     }
-    
-   
+
     // console.log(bodyObj);
-    if(!validForm.priSkills || !validForm.secSkills || !validForm.salaryNumber || !validForm.workHours){
+    if (
+      !validForm.priSkills ||
+      !validForm.secSkills ||
+      !validForm.salaryNumber ||
+      !validForm.workHours
+    ) {
       notifyInfo("please correct input value");
       return;
     }
-    if(!bodyObj.deadlineDate || !bodyObj.description || !bodyObj.jobCategory || !bodyObj.jobType || !bodyObj.joiningTime || !bodyObj.location || !bodyObj.preferredExperience || !bodyObj.preferredLanguage || !bodyObj.primarySkills || !bodyObj.salary || !bodyObj.secondarySkills || !bodyObj.workHours || !bodyObj.workMode){
+    if (
+      !bodyObj.deadlineDate ||
+      !bodyObj.description ||
+      !bodyObj.jobCategory ||
+      !bodyObj.jobType ||
+      !bodyObj.joiningTime ||
+      !bodyObj.location ||
+      !bodyObj.preferredExperience ||
+      !bodyObj.preferredLanguage ||
+      !bodyObj.primarySkills ||
+      !bodyObj.salary ||
+      !bodyObj.secondarySkills ||
+      !bodyObj.workHours ||
+      !bodyObj.workMode
+    ) {
       notifyInfo("mandatory fields should be filled");
       return;
     }
@@ -378,7 +418,7 @@ useEffect(() => {
             ></button>
             <div className="position-relative">
               <div className="main-title fw-500 text-dark ps-4 pe-4 pt-15 pb-15 border-bottom">
-                Edit Job 
+                Edit Job
               </div>
               <div className="pt-25 pb-30 ps-4 pe-4">
                 <div className="row ">
@@ -415,7 +455,11 @@ useEffect(() => {
                         setSelected={setJobCategory}
                         endPoint="jobCategory"
                       />
-                      {!validForm.jobCategory && <p style={{ color: "red" }}>Please input valid category</p>}
+                      {!validForm.jobCategory && (
+                        <p style={{ color: "red" }}>
+                          Please input valid category
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -436,7 +480,9 @@ useEffect(() => {
                         name="Job Type"
                         placeholder="Job type"
                       />
-                      {!validForm.jobType && <p style={{ color: "red" }}>Please Mention Job Type</p>}
+                      {!validForm.jobType && (
+                        <p style={{ color: "red" }}>Please Mention Job Type</p>
+                      )}
                       <div className="skill-input-data d-flex align-items-center flex-wrap">
                         {jobType.map((value) => (
                           <button
@@ -464,7 +510,9 @@ useEffect(() => {
                         name="work mode"
                         placeholder="work mode"
                       />
-                      {!validForm.workMode && <p style={{ color: "red" }}>select valid Work Mode</p>}
+                      {!validForm.workMode && (
+                        <p style={{ color: "red" }}>select valid Work Mode</p>
+                      )}
                       <div className="skill-input-data d-flex align-items-center flex-wrap">
                         {workMode.map((value) => (
                           <button
@@ -672,7 +720,11 @@ useEffect(() => {
                         name="Experience"
                         placeholder="Experience"
                       />
-                      {!validForm.experience && <p style={{ color: "red" }}>Select valid preferred experience</p>}
+                      {!validForm.experience && (
+                        <p style={{ color: "red" }}>
+                          Select valid preferred experience
+                        </p>
+                      )}
                       <div className="skill-input-data d-flex align-items-center flex-wrap">
                         {experience.map((value) => (
                           <button
@@ -694,6 +746,11 @@ useEffect(() => {
                         label="location"
                         isMultiple={true}
                       />
+                      {!validForm.location && (
+                        <p style={{ color: "red" }}>
+                          Please enter preferred Location
+                        </p>
+                      )}
                       <div
                         style={{ marginTop: "10px" }}
                         className="skill-input-data d-flex align-items-center flex-wrap "
@@ -732,7 +789,11 @@ useEffect(() => {
                         onChange={(date: Date | null) => setDeadlineDate(date)}
                         dateFormat="dd/MM/yyyy"
                       />
-                      {!validForm.deadlineDate && <p style={{ color: "red" }}>select a Valid deadline date</p>}
+                      {!validForm.deadlineDate && (
+                        <p style={{ color: "red" }}>
+                          select a Valid deadline date
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -815,8 +876,8 @@ useEffect(() => {
                     type={"submit"}
                     onClick={handleSubmit}
                     className="dash-btn-two tran3s me-3"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
+                    // data-bs-dismiss="modal"
+                    // aria-label="Close"
                   >
                     {loading ? <Loader /> : "Save"}
                   </button>
