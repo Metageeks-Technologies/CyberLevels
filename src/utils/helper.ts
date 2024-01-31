@@ -79,67 +79,63 @@ export const isValidUrl = (url: string) => {
   return urlRegex.test(url);
 };
 
-export const checkValidDescription = (desc: string,limit:number) => {
-  if (desc.trim().length >= limit || desc.trim().length === 0) {
+export const checkValidDescription = (desc: string, limit: number) => {
+  // Remove leading and trailing whitespaces and calculate the length without spaces
+  const descLengthWithoutSpaces = desc.trim().replace(/\s+/g, "").length;
+  
+  if (descLengthWithoutSpaces >= limit || descLengthWithoutSpaces === 0) {
+    return true; // Return true if the condition is met
+  } else {
+    return false; // Return false otherwise
+  }
+};
+
+export const isPureString = (s: string) => {
+  const isValidString = /^[A-Za-z ]+$/.test(s);
+
+  if (isValidString || s === "") {
     return true;
   } else {
     return false;
   }
 };
 
-export const isPureString = (s:string) => {
-  const isValidString = /^[A-Za-z ]+$/.test(s);
-  
-  if(isValidString || s===""){
-    return true;
-  }else{
-    return false;
-  }
-}
-
-export const isValidSalaryNumber = (n1:string,n2:string) => {
+export const isValidSalaryNumber = (n1: string, n2: string) => {
   let num1 = parseInt(n1);
   let num2 = parseInt(n2);
-  if(num1<0){
+  if (num1 < 0) {
     return false;
-  }
-  else if(num2<0){
+  } else if (num2 < 0) {
     return false;
-  }
-  else if(num1>num2){
+  } else if (num1 > num2) {
     return false;
-  }else{
+  } else {
     return true;
   }
-}
+};
 
-export const isFundingAmount = (s:string) => {
+export const isFundingAmount = (s: string) => {
   const isValidFund = /^\d+(\.\d+)?[MBT]$/i.test(s);
-  if(isValidFund || s===""){
+  if (isValidFund || s === "") {
     return true;
-  }
-  else{
+  } else {
     return false;
   }
+};
 
-}
-
-export const isPureNumber = (num:string) => {
+export const isPureNumber = (num: string) => {
   const isNumber = /^\d+(\.\d+)?$/.test(num);
-  if(isNumber || num===""){
+  if (isNumber || num === "") {
     return true;
-  }else{
+  } else {
     return false;
   }
+};
 
-
-}
-
-export const isBetween = (num:string,min:number,max:number) => {
-  if( (parseInt(num)>=min && parseInt(num)<=max) || num===""){
+export const isBetween = (num: string, min: number, max: number) => {
+  if ((parseInt(num) >= min && parseInt(num) <= max) || num === "") {
     return true;
-  }
-  else{
+  } else {
     return false;
   }
-}
+};

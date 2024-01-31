@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DashboardHeader from "../candidate/dashboard-header";
 import EmployJobItem from "./job-itmes-for-detals";
 import EmployShortSelect from "./short-select";
@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useAppSelector } from "@/redux/hook";
 import JobLetterModal from "../../common/popup/jobLetterModer";
 import CandidateFilterByJobApp from "../../common/popup/candidateFilterByJobApp";
+import { IJobPost } from "@/types/jobPost-type";
 
 // props type
 type IProps = {
@@ -19,7 +20,13 @@ type IProps = {
 };
 const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
   const { jobPostsForEmployer } = useAppSelector((state) => state.jobPost);
-  const currJobPost = jobPostsForEmployer.find((job) => job._id === jobPostId);
+  const [currJobPost, setCurrJobPost] = useState<IJobPost|null>();
+
+  useEffect(() => {
+    const foundJobPost = jobPostsForEmployer.find((job) => job._id === jobPostId);
+    setCurrJobPost(foundJobPost);
+  }, [jobPostsForEmployer, jobPostId]);
+
   return (
     <>
       <div className="dashboard-body">
@@ -101,10 +108,11 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
+                    
                     <tbody className="border-0">
                       {jobApp?.map((app) => {
                         const createdAt = getDate(app.createdAt);
-                        console.log(jobApp,"Check Error")
+                        console.log(jobApp, "Check Error");
                         if (typeof app.candidate !== "string") {
                           return (
                             <>
@@ -138,6 +146,22 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                       })}
                     </tbody>
                   </table>
+                    {jobApp?.length === 0 && (
+                      <p
+                        style={{
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          fontSize: "1.5em",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          color: "#888",
+                        }}
+                      >
+                        No candidates to Show
+                      </p>
+                    )}
                 </div>
               </div>
             </div>
