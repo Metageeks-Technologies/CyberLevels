@@ -80,13 +80,7 @@ const nav_data: {
     link: "/dashboard/admin-dashboard/submit-job",
     title: "Submit Job",
   },
-  {
-    id: 6,
-    icon: nav_6,
-    icon_active: nav_6_active,
-    link: "/dashboard/admin-dashboard/saved-candidate",
-    title: "Saved Candidate",
-  },
+
   {
     id: 7,
     icon: nav_9,
