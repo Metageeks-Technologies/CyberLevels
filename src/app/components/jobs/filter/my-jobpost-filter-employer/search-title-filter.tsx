@@ -14,7 +14,7 @@ const SearchTitleFilter = () => {
   };
   return (
     <div className="filter-block pb-50 lg-pb-20">
-      <div className="filter-title fw-500 text-dark">Keyword or Title</div>
+      <div className="filter-title fw-500 text-dark">Title</div>
       <form className="input-box position-relative">
         <input
           onChange={handleSearch}
