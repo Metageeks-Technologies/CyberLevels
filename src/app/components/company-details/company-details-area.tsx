@@ -53,7 +53,7 @@ const CompanyDetailsArea = ({ id }: { id: string }) => {
                   </div>
                   <div className="text-center">
                     <a
-                      href="#"
+                      href={company?.socialSites?.website}
                       className="website-btn-two tran3s"
                       target="_blank"
                     >
@@ -96,28 +96,28 @@ const CompanyDetailsArea = ({ id }: { id: string }) => {
                       <li className="col-12">
                         <span>Social: </span>
                         <div>
-                          <a href="#" className="me-3">
+                          <a href={company?.socialSites?.facebook} className="me-3">
                             <i className="bi bi-facebook"></i>
                           </a>
-                          <a href="#" className="me-3">
+                          <a href={company?.socialSites?.linkedIn} className="me-3">
                             <i className="bi bi-instagram"></i>
                           </a>
-                          <a href="#" className="me-3">
+                          <a href={company?.socialSites?.twitter} className="me-3">
                             <i className="bi bi-twitter"></i>
                           </a>
-                          <a href="#">
+                          <a href={company?.socialSites?.linkedIn}>
                             <i className="bi bi-linkedin"></i>
                           </a>
                         </div>
                       </li>
                     </ul>
 
-                    <a
+                    {/* <a
                       href="#"
                       className="btn-ten fw-500 text-white w-100 text-center tran3s mt-25"
                     >
                       Send Message
-                    </a>
+                    </a> */}
                   </div>
                 </div>
               </div>
@@ -125,32 +125,7 @@ const CompanyDetailsArea = ({ id }: { id: string }) => {
                 <div className="card-box details-post-data me-xxl-5 pe-xxl-4">
                   <h3>Overview</h3>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Mauris vitae ultricies leo integer malesuada nunc
-                    vel risus commodo. Vulputate odio ut enim blandit. Nibh
-                    ipsum consequat nisl vel pretium lectus quam.
-                  </p>
-                  <p>
-                    {" "}
-                    Nulla at volutpat diam ut. Lobortis feugiat vivamus at augue
-                    eget arcu. Urna condimentum mattis pellentesque id nibh
-                    tortor id aliquet. Dignissim cras tincidunt lobortis
-                    feugiat. Est sit amet facilisis magna etiam tempor. Eu augue
-                    ut lectus arcu bibendum at varius vel pharetra. Vel
-                    facilisis volutpat est velit egestas dui id. Ut pharetra sit
-                    amet aliquam. Elit at imperdiet dui accumsan sit amet nulla
-                    facilisi morbi. Tellus in metus vulputate eu scelerisque
-                    felis imperdiet proin. Magna fringilla urna porttitor
-                    rhoncus. Et odio pellentesque diam volutpat. Congue eu
-                    consequat ac felis donec et odio pellentesque diam. Accumsan
-                    in nisl nisi scelerisque eu ultrices vitae auctor eu.{" "}
-                  </p>
-                  <p>
-                    Felis eget velit aliquet sagittis id. Massa placerat duis
-                    ultricies lacus sed turpis tincidunt id. Vel eros donec ac
-                    odio tempor orci dapibus ultrices. Ipsum consequat nisl vel
-                    pretium lectus quam. Dignissim sodales ut eu sem.{" "}
+                    {company?.about}
                   </p>
                   {/* <h3>Intro</h3> */}
                   {/* <div className="video-post d-flex align-items-center justify-content-center mb-50">

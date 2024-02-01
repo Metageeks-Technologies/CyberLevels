@@ -22,14 +22,22 @@ const Header = () => {
     await logoutAdmin(dispatch);
   };
 
+  
+
   return (
     <>
       <header
-        // style={{ backgroundColor: "#244034" }}
+        style={{ backgroundColor: "#244034" }}
         className={`theme-main-menu menu-overlay menu-style-one sticky-menu ${
           sticky ? "fixed" : ""
         }`}
       >
+      {/* <header
+        style={{ backgroundColor: "#244034", height: `${sticky ? "80px" : "100px"}` }}
+        className={`theme-main-menu menu-overlay menu-style-one sticky-menu ${
+          sticky ? "fixed" : "static"
+        }`}
+      > */}
         <div className="inner-content position-relative">
           <div className="top-header">
             <div className="d-flex align-items-center">

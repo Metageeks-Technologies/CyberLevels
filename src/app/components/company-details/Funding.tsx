@@ -13,7 +13,7 @@ const Funding = ({ funding }: Props) => {
           <div className="numb fw-500 rounded-circle d-flex align-items-center justify-content-center">
             {index + 1}
           </div>
-          <div className="text_1 fw-500"> $ {obj.amount} M</div>
+          <div className="text_1 fw-500"> $ {obj.amount}</div>
           <h4>{obj.round}</h4>
           <p>
             Funded by {obj.fundedBy} in {obj.yearOfFunding}.

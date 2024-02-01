@@ -20,10 +20,10 @@ const BlogV1Page = () => {
         {/* header end */}
 
         {/*breadcrumb start */}
-        <CompanyBreadcrumb
+        {/* <CompanyBreadcrumb
           title="Blog"
           subtitle="Read our blog from top talents"
-        />
+        /> */}
         {/*breadcrumb end */}
 
         {/* blog v1 start */}
