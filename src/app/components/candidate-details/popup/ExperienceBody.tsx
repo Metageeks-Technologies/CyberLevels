@@ -40,13 +40,20 @@ const EditExperienceBody = ({
   // let end: string[] = [];
   const start = experienceProp?.startYear.split(" ");
   const end = experienceProp?.endYear.split(" ");
-  const [startYear, setStartYear] = useState("");
-  const [startMonth, setStartMonth] = useState("");
-  const [endYear, setEndYear] = useState("");
-  const [endMonth, setEndMonth] = useState("");
+  const [startYear, setStartYear] = useState(
+    experienceProp?.startYear.split(" ")[1]
+  );
+  const [startMonth, setStartMonth] = useState(
+    experienceProp?.startYear.split(" ")[0]
+  );
+  const [endYear, setEndYear] = useState(experienceProp?.endYear.split(" ")[1]);
+  const [endMonth, setEndMonth] = useState(
+    experienceProp?.endYear.split(" ")[0]
+  );
   const [checkValidDate, setCheckValidDate] = useState(true);
   const [allFieldsCheck, setAllFieldsCheck] = useState(false);
   const [validDescription, setValidDescription] = useState(true);
+  const [presentWork, setPresentWork] = useState(experienceProp?.present);
   useEffect(() => {
     if (
       startYear &&
@@ -113,7 +120,7 @@ const EditExperienceBody = ({
 
     const start = experienceProp.startYear?.split(" ");
     const end = experienceProp.endYear?.split(" ");
-
+    setPresentWork(experienceProp?.present)
     setStartYear(start[1] || "");
     setStartMonth(start[0] || "");
     setEndYear(end[1] || "");
@@ -129,6 +136,22 @@ const EditExperienceBody = ({
       [name]: value,
     });
   };
+  const handlePresentChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setPresentWork((prev) => !prev);
+  };
+  useEffect(() => {
+    setEndMonth(presentWork ? "Present" : "");
+    setEndYear(presentWork ? "Present" : "");
+  }, [presentWork]);
+  // useEffect(() => {
+  //   if (endYear === "Present" || endMonth === "Present") {
+  //     setPresentWork(true);
+  //   } else {
+  //     setPresentWork(false);
+  //   }
+  // }, [endMonth, endYear]);
 
   const handleAddEducation = async () => {
     if (
@@ -155,6 +178,7 @@ const EditExperienceBody = ({
       ...experience,
       startYear: startMonth + " " + startYear,
       endYear: endMonth + " " + endYear,
+      present:presentWork
     };
     if (!checkValidDate) {
       notifyInfo("Start date cannot be greater than end date");
@@ -264,36 +288,56 @@ const EditExperienceBody = ({
         </div>
       </div>
       <div className="row">
-        <div className="col-lg-2">
-          <div className="dash-input-wrapper mb-30 md-mb-10">
-            <label htmlFor="">End Date*</label>
-          </div>
-        </div>
-        <div className="col-lg-10">
-          <div className="row">
-            <div className="col-sm-6">
-              <SelectMonth
-                default={{ value: end[0], label: end[0] }}
-                setMonth={setEndMonth}
-                firstInput="End Month"
-              />
+        {!presentWork && (
+          <>
+            <div className="col-lg-2">
+              <div className="dash-input-wrapper mb-30 md-mb-10">
+                <label htmlFor="">End Date*</label>
+              </div>
             </div>
-            <div className="col-sm-6">
-              <SelectYear
-                default={{ value: end[1], label: end[1] }}
-                setYear={setEndYear}
-                firstInput="End Year"
-              />
+            <div className="col-lg-10">
+              <div className="row">
+                <div className="col-sm-6">
+                  <SelectMonth
+                    default={{ value: end[0], label: end[0] }}
+                    setMonth={setEndMonth}
+                    firstInput="End Month"
+                  />
+                </div>
+                <div className="col-sm-6">
+                  <SelectYear
+                    default={{ value: end[1], label: end[1] }}
+                    setYear={setEndYear}
+                    firstInput="End Year"
+                  />
+                </div>
+
+                {(!startMonth || !startYear || !endMonth || !endYear) && (
+                  <p style={{ color: "red" }}>Enter Valid Date</p>
+                )}
+                {!checkValidDate && (
+                  <p style={{ color: "red" }}>
+                    Start date cannot be greater that end date
+                  </p>
+                )}
+              </div>
             </div>
-            {(!startMonth || !startYear || !endMonth || !endYear) && (
-              <p style={{ color: "red" }}>Enter Valid Date</p>
-            )}
-            {!checkValidDate && (
-              <p style={{ color: "red" }}>
-                Start date cannot be greater that end date
-              </p>
-            )}
-          </div>
+          </>
+        )}
+        <div
+          style={{
+            alignItems: "center",
+            display: "flex",
+            paddingBottom: "5px",
+          }}
+        >
+          <label htmlFor="ckeckBox">Present:</label>
+          <input
+            style={{ marginLeft: "2px", marginTop: "3px" }}
+            type="checkbox"
+            checked={presentWork}
+            onChange={handlePresentChange}
+          />
         </div>
       </div>
       <div className="row">

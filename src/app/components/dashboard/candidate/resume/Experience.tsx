@@ -26,6 +26,7 @@ const Experience = () => {
   const [checkValidDate, setCheckValidDate] = useState(true);
   const [allFieldsCheck, setAllFieldsCheck] = useState(false);
   const [validDescription, setValidDescription] = useState(true);
+  const [presentWork, setPresentWork] = useState(false);
   useEffect(() => {
     if (
       startYear &&
@@ -56,7 +57,7 @@ const Experience = () => {
 
   useEffect(() => {
     if (
-      checkValidDescription(experience.description,50) ||
+      checkValidDescription(experience.description, 50) ||
       experience.description.trim().length === 0
     ) {
       setValidDescription(true);
@@ -93,6 +94,22 @@ const Experience = () => {
       [name]: value,
     });
   };
+  const handlePresentChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setPresentWork((prev) => !prev);
+  };
+  useEffect(() => {
+    setEndMonth(presentWork ? "Present" : "");
+    setEndYear(presentWork ? "Present" : "");
+  }, [presentWork]);
+  useEffect(() => {
+    if (endMonth === "Present" || endYear === "Present") {
+      setPresentWork(true);
+    } else {
+      setPresentWork(false);
+    }
+  }, [endMonth, endYear]);
 
   const handleAddExperience = async () => {
     if (
@@ -119,6 +136,7 @@ const Experience = () => {
       ...experience,
       startYear: startMonth + " " + startYear,
       endYear: endMonth + " " + endYear,
+      present:presentWork
     };
     if (!checkValidDate) {
       notifyInfo("Start date cannot be greater than end date");
@@ -186,7 +204,10 @@ const Experience = () => {
                           onChange={handleExperienceChange}
                           type="text"
                           placeholder="Lead Security Manager "
-                          style={{borderColor:!experience.title?"red":"", borderRadius:!experience.title?"5px":""}}
+                          style={{
+                            borderColor: !experience.title ? "red" : "",
+                            borderRadius: !experience.title ? "5px" : "",
+                          }}
                         />
                       </div>
                     </div>
@@ -205,7 +226,10 @@ const Experience = () => {
                           onChange={handleExperienceChange}
                           type="text"
                           placeholder="Amazon Inc"
-                          style={{borderColor:!experience.company?"red":"", borderRadius:!experience.company?"5px":""}}
+                          style={{
+                            borderColor: !experience.company ? "red" : "",
+                            borderRadius: !experience.company ? "5px" : "",
+                          }}
                         />
                       </div>
                     </div>
@@ -234,25 +258,41 @@ const Experience = () => {
                             placeholder="Start Month"
                           />
                         </div>
-                        <div className="col-sm-3">
-                          <SelectYear
-                            default={{ value: endYear, label: endYear }}
-                            setYear={setEndYear}
-                            firstInput="End Year"
-                            placeholder="End Year"
+                        {!presentWork && (
+                          <div className="col-sm-3">
+                            <SelectYear
+                              default={{ value: endYear, label: endYear }}
+                              setYear={setEndYear}
+                              firstInput="End Year"
+                              placeholder="End Year"
+                            />
+                          </div>
+                        )}
+                        {!presentWork && (
+                          <div className="col-sm-3">
+                            <SelectMonth
+                              default={{ value: endMonth, label: endMonth }}
+                              setMonth={setEndMonth}
+                              firstInput="End Month"
+                              placeholder="End Month"
+                            />
+                          </div>
+                        )}
+                        <div style={{ alignItems: "center", display: "flex", paddingBottom:"5px" }}>
+                          <label htmlFor="ckeckBox">Present:</label>
+                          <input
+                            style={{ marginLeft: "2px", marginTop: "3px" }}
+                            type="checkbox"
+                            checked={presentWork}
+                            onChange={handlePresentChange}
                           />
                         </div>
-                        <div className="col-sm-3">
-                          <SelectMonth
-                            default={{ value: endMonth, label: endMonth }}
-                            setMonth={setEndMonth}
-                            firstInput="End Month"
-                            placeholder="End Month"
-                          />
-                        </div>
-                        {(!startMonth || !startYear || !endMonth || !endYear) &&  <p style={{ color: "red" }}>
-                            Enter Valid Date
-                          </p>}
+                        {(!startMonth ||
+                          !startYear ||
+                          !endMonth ||
+                          !endYear) && (
+                          <p style={{ color: "red" }}>Enter Valid Date</p>
+                        )}
                         {!checkValidDate && (
                           <p style={{ color: "red" }}>
                             Start date cannot be greater that end date
@@ -278,7 +318,10 @@ const Experience = () => {
                           onChange={handleExperienceChange}
                           className="size-lg"
                           placeholder="Morbi ornare ipsum sed sem condimentum, et pulvinar tortor luctus. Suspendisse condimentum lorem ut elementum aliquam et pulvinar tortor luctus."
-                          style={{borderColor:!experience.description?"red":"", borderRadius:!experience.description?"5px":""}}
+                          style={{
+                            borderColor: !experience.description ? "red" : "",
+                            borderRadius: !experience.description ? "5px" : "",
+                          }}
                         ></textarea>
                       </div>
                       {!validDescription && (

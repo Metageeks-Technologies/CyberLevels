@@ -19,6 +19,7 @@ const SelectMonth = ({
   };
 
   const options = [
+    // {value:"Present",label:"Present"},
     { value: "Jan", label: "Jan" },
     { value: "Feb", label: "Feb" },
     { value: "Mar", label: "Mar" },

@@ -7,6 +7,7 @@ interface Props {
   setYear: React.Dispatch<React.SetStateAction<string>>;
   default?: { value: string; label: string };
   placeholder?: string;
+  presentWork?: boolean;
 }
 
 const SelectYear = ({
@@ -14,6 +15,7 @@ const SelectYear = ({
   firstInput,
   default: defaultOption,
   placeholder,
+  presentWork,
 }: Props) => {
   const handleYear = (item: { value: string; label: string }) => {
     setYear(item.value);
@@ -24,6 +26,7 @@ const SelectYear = ({
     value: String(year),
     label: String(year),
   }));
+  // options.unshift({ value: "Present", label: "Present" });
   options.unshift({ value: firstInput, label: firstInput });
 
   let def = 0;
@@ -42,6 +45,7 @@ const SelectYear = ({
         onChange={(item) => handleYear(item)}
         name="Year"
         placeholder={placeholder}
+        // disabled={presentWork}
       />
     </div>
   );

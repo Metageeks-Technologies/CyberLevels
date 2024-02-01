@@ -44,7 +44,7 @@ const WorkExperience = () => {
             {index + 1}
           </div>
           <div className="text_1 fw-500">
-            {obj.startYear}-{obj.endYear}
+            {obj.startYear}-{obj.endYear === "Present Present"?"Present":obj.endYear}
           </div>
           <h4>
             {obj.title} ({obj.company})

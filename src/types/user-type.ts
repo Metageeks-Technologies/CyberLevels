@@ -5,7 +5,8 @@ export interface IEducation {
     startYear: string;
     endYear: string;
     description: string;
-    _id: string
+    _id: string;
+    present:boolean;
 }
 interface ProfileView {
 
@@ -18,7 +19,8 @@ export interface IExperience {
     startYear: string;
     endYear: string;
     description: string;
-    _id: string
+    _id: string;
+    present:boolean;
 }
 interface ILocation {
     city: string;

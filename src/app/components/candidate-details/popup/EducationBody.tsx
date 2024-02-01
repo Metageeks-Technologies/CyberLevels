@@ -39,13 +39,20 @@ const EditEducationBody = ({
   // let end: string[] = [];
   const start = educationProp?.startYear.split(" ");
   const end = educationProp?.endYear.split(" ");
-  const [startYear, setStartYear] = useState(start[1] || "");
-  const [startMonth, setStartMonth] = useState(start[0] || "");
-  const [endYear, setEndYear] = useState(end[1] || "");
-  const [endMonth, setEndMonth] = useState(end[0] || "");
+  const [startYear, setStartYear] = useState(
+    educationProp?.startYear.split(" ")[1]
+  );
+  const [startMonth, setStartMonth] = useState(
+    educationProp?.startYear.split(" ")[0]
+  );
+  const [endYear, setEndYear] = useState(educationProp?.endYear.split(" ")[1]);
+  const [endMonth, setEndMonth] = useState(
+    educationProp?.endYear.split(" ")[0]
+  );
   const [checkValidDate, setCheckValidDate] = useState(true);
   const [allFieldsCheck, setAllFieldsCheck] = useState(false);
   const [validDescription, setValidDescription] = useState(true);
+  const [presentWork, setPresentWork] = useState(educationProp?.present);
   useEffect(() => {
     if (
       startYear &&
@@ -95,7 +102,7 @@ const EditEducationBody = ({
   }, [startYear, startMonth, endMonth, endYear]);
   useEffect(() => {
     if (
-      checkValidDescription(education.description,50) ||
+      checkValidDescription(education.description, 50) ||
       education.description.trim().length === 0
     ) {
       setValidDescription(true);
@@ -113,7 +120,7 @@ const EditEducationBody = ({
 
     const start = educationProp.startYear?.split(" ");
     const end = educationProp.endYear?.split(" ");
-
+    setPresentWork(educationProp?.present);
     setStartYear(start[1] || "");
     setStartMonth(start[0] || "");
     setEndYear(end[1] || "");
@@ -130,6 +137,22 @@ const EditEducationBody = ({
       [name]: value,
     });
   };
+  const handlePresentChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setPresentWork((prev) => !prev);
+  };
+  useEffect(() => {
+    setEndMonth(presentWork ? "Present" : "");
+    setEndYear(presentWork ? "Present" : "");
+  }, [presentWork]);
+  // useEffect(() => {
+  //   if (endYear === "Present" || endMonth === "Present") {
+  //     setPresentWork(true);
+  //   } else {
+  //     setPresentWork(false);
+  //   }
+  // }, [endMonth, endYear]);
 
   const handleAddEducation = async () => {
     if (
@@ -160,6 +183,7 @@ const EditEducationBody = ({
       ...education,
       startYear: startMonth + " " + startYear,
       endYear: endMonth + " " + endYear,
+      present:presentWork
     };
     console.log("bodyObj", bodyObj);
     if (new Date(bodyObj.startYear) > new Date(bodyObj.endYear)) {
@@ -205,7 +229,10 @@ const EditEducationBody = ({
               onChange={handleEducationChange}
               type="text"
               placeholder="Bachelor's"
-              style={{borderColor:!education.degree?"red":"", borderRadius:!education.degree?"5px":""}}
+              style={{
+                borderColor: !education.degree ? "red" : "",
+                borderRadius: !education.degree ? "5px" : "",
+              }}
             />
           </div>
         </div>
@@ -224,7 +251,10 @@ const EditEducationBody = ({
               onChange={handleEducationChange}
               type="text"
               placeholder="Oxford"
-              style={{borderColor:!education.institute?"red":"", borderRadius:!education.institute?"5px":""}}
+              style={{
+                borderColor: !education.institute ? "red" : "",
+                borderRadius: !education.institute ? "5px" : "",
+              }}
             />
           </div>
         </div>
@@ -258,36 +288,56 @@ const EditEducationBody = ({
         </div>
       </div>
       <div className="row">
-        <div className="col-lg-2">
-          <div className="dash-input-wrapper mb-30 md-mb-10">
-            <label htmlFor="">End Date*</label>
-          </div>
-        </div>
-        <div className="col-lg-10">
-          <div className="row">
-            <div className="col-sm-6">
-              <SelectMonth
-                default={{ value: endMonth, label: endMonth }}
-                setMonth={setEndMonth}
-                firstInput="End Month"
-              />
+        {!presentWork && (
+          <>
+            <div className="col-lg-2">
+              <div className="dash-input-wrapper mb-30 md-mb-10">
+                <label htmlFor="">End Date*</label>
+              </div>
             </div>
-            <div className="col-sm-6">
-              <SelectYear
-                default={{ value: endYear, label: endYear }}
-                setYear={setEndYear}
-                firstInput="End Year"
-              />
+            <div className="col-lg-10">
+              <div className="row">
+                <div className="col-sm-6">
+                  <SelectMonth
+                    default={{ value: end[0], label: end[0] }}
+                    setMonth={setEndMonth}
+                    firstInput="End Month"
+                  />
+                </div>
+                <div className="col-sm-6">
+                  <SelectYear
+                    default={{ value: end[1], label: end[1] }}
+                    setYear={setEndYear}
+                    firstInput="End Year"
+                  />
+                </div>
+
+                {(!startMonth || !startYear || !endMonth || !endYear) && (
+                  <p style={{ color: "red" }}>Enter Valid Date</p>
+                )}
+                {!checkValidDate && (
+                  <p style={{ color: "red" }}>
+                    Start date cannot be greater that end date
+                  </p>
+                )}
+              </div>
             </div>
-            {(!startMonth || !startYear || !endMonth || !endYear) && (
-              <p style={{ color: "red" }}>Enter Valid Date</p>
-            )}
-            {!checkValidDate && (
-              <p style={{ color: "red" }}>
-                Start date cannot be greater that end date
-              </p>
-            )}
-          </div>
+          </>
+        )}
+        <div
+          style={{
+            alignItems: "center",
+            display: "flex",
+            paddingBottom: "5px",
+          }}
+        >
+          <label htmlFor="ckeckBox">Present:</label>
+          <input
+            style={{ marginLeft: "2px", marginTop: "3px" }}
+            type="checkbox"
+            checked={presentWork}
+            onChange={handlePresentChange}
+          />
         </div>
       </div>
       <div className="row">
@@ -304,7 +354,10 @@ const EditEducationBody = ({
               onChange={handleEducationChange}
               className="size-lg"
               placeholder="Morbi ornare ipsum sed sem condimentum, et pulvinar tortor luctus. Suspendisse condimentum lorem ut elementum aliquam et pulvinar tortor luctus."
-              style={{borderColor:!education.description?"red":"", borderRadius:!education.description?"5px":""}}
+              style={{
+                borderColor: !education.description ? "red" : "",
+                borderRadius: !education.description ? "5px" : "",
+              }}
             ></textarea>
           </div>
         </div>

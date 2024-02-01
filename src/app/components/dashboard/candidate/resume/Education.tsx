@@ -31,6 +31,7 @@ const Education = () => {
   const [checkValidDate, setCheckValidDate] = useState(true);
   const [allFieldsCheck, setAllFieldsCheck] = useState(false);
   const [validDescription, setValidDescription] = useState(true);
+  const [presentWork, setPresentWork] = useState(false);
   useEffect(() => {
     if (
       startYear &&
@@ -114,6 +115,25 @@ const Education = () => {
     // setAllFieldsCheck(true);
     // console.log(allFieldsCheck, "Validator");
   };
+  const handlePresentChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setPresentWork((prev) => !prev);
+  };
+  useEffect(() => {
+    setEndMonth(presentWork ? "Present" : "");
+    setEndYear(presentWork ? "Present" : "");
+  }, [presentWork]);
+  useEffect(() => {
+    if (endMonth === "Present" || endYear === "Present") {
+      setPresentWork(true);
+    } else {
+      setPresentWork(false);
+    }
+  }, [endMonth, endYear]);
+
+
+  
   const handleAddEducation = async () => {
     if (
       !education.degree ||
@@ -144,6 +164,7 @@ const Education = () => {
       ...education,
       startYear: startMonth + " " + startYear,
       endYear: endMonth + " " + endYear,
+      present:presentWork
     };
     if (new Date(bodyObj.startYear) > new Date(bodyObj.endYear)) {
       notifyInfo("Start date cannot be greater than end date");
@@ -268,22 +289,33 @@ const Education = () => {
                           />
                         </div>
 
-                        <div className="col-sm-3">
-                          <SelectMonth
-                            default={{ value: endMonth, label: endMonth }}
-                            setMonth={setEndMonth}
-                            firstInput="End Month"
-                            placeholder="End Month"
-                            // default={{value:endMonth,label:endMonth}}
-                          />
-                        </div>
-                        <div className="col-sm-3">
-                          <SelectYear
-                            default={{ value: endYear, label: endYear }}
-                            setYear={setEndYear}
-                            firstInput="End Year"
-                            placeholder="End Year"
-                            // default={{value:endYear,label:endYear}}
+                        {!presentWork && (
+                          <div className="col-sm-3">
+                            <SelectMonth
+                              default={{ value: endMonth, label: endMonth }}
+                              setMonth={setEndMonth}
+                              firstInput="End Month"
+                              placeholder="End Month"
+                            />
+                          </div>
+                        )}
+                         {!presentWork && (
+                          <div className="col-sm-3">
+                            <SelectYear
+                              default={{ value: endYear, label: endYear }}
+                              setYear={setEndYear}
+                              firstInput="End Year"
+                              placeholder="End Year"
+                            />
+                          </div>
+                        )}
+                        <div style={{ alignItems: "center", display: "flex", paddingBottom:"5px" }}>
+                          <label htmlFor="ckeckBox">Present:</label>
+                          <input
+                            style={{ marginLeft: "2px", marginTop: "3px" }}
+                            type="checkbox"
+                            checked={presentWork}
+                            onChange={handlePresentChange}
                           />
                         </div>
                         {(!startMonth ||

@@ -47,12 +47,11 @@ const Education = () => {
               </div>
               <div className="text_1 fw-500">
                 {" "}
-                {obj?.institute} {` (${obj?.startYear}-${obj?.endYear})`}
+                {obj?.institute} {` (${obj?.startYear}-${obj?.present ?"Present":obj?.endYear})`}
               </div>
               <h4>{obj?.degree}</h4>
               <p>
-                {obj?.description} + Lorem ipsum dolor sit amet, consectetur
-                adipiscing elit. Proin a ipsum tellus. Interdum primis
+                {obj?.description} 
               </p>
             </div>
           </>
