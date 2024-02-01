@@ -356,7 +356,7 @@ const Education = () => {
                     {!validDescription && (
                       <p style={{ color: "red" }}>
                         description must include{" "}
-                        {education.description.trim().length}/50
+                        {education.description.replace(/\s/g, '').length}/50
                       </p>
                     )}
                   </div>

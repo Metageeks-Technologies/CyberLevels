@@ -327,7 +327,7 @@ const Experience = () => {
                       {!validDescription && (
                         <p style={{ color: "red" }}>
                           description must include{" "}
-                          {experience.description.trim().length}/50
+                          {experience.description.replace(/\s/g, '').length}/50
                         </p>
                       )}
                     </div>

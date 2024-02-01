@@ -124,7 +124,7 @@ const CompanyDetailsArea = ({ id }: { id: string }) => {
               <div className="col-xxl-9 col-xl-8 order-xl-first">
                 <div className="card-box details-post-data me-xxl-5 pe-xxl-4">
                   <h3>Overview</h3>
-                  <p>
+                  <p className="inner-card border-style mb-25 lg-mb-20">
                     {company?.about}
                   </p>
                   {/* <h3>Intro</h3> */}
@@ -145,8 +145,8 @@ const CompanyDetailsArea = ({ id }: { id: string }) => {
                   </div>
 
                   <h3>Benefits</h3>
-                  <div>
-                    <ul className="list-type-two style-none mb-15">
+                  <div className="inner-card border-style mb-25 lg-mb-20">
+                    <ul className="list-type-two mb-15 job-tags">
                       {company?.benefits?.map((val, index) => {
                         return <li key={index}>{val}</li>;
                       })}

@@ -382,7 +382,7 @@ const CreateCompany = () => {
             placeholder="Write something interesting about you...."
           ></textarea>
           <div className="alert-text">Brief description for your company.</div>
-          {!validForm.about && <p style={{color:"red"}}>About must include {form.about.trim().length}/100 characters</p>}
+          {!validForm.about && <p style={{color:"red"}}>About must include {form.about.replace(/\s/g, '').length}/100 characters</p>}
         </div>
         {/* <button
             type="submit"

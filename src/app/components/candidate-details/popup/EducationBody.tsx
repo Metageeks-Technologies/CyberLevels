@@ -363,7 +363,7 @@ const EditEducationBody = ({
         </div>
         {!validDescription && (
           <p style={{ color: "red" }}>
-            description must include {education.description.trim().length}/50
+            description must include {education.description.replace(/\s/g, '').length}/50
           </p>
         )}
       </div>
