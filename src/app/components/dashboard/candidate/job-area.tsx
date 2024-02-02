@@ -134,7 +134,7 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                           color: "#888",
                         }}
                       >
-                        No Job Applications to Show
+                        Please apply! to see job applications
                       </p>
                     )}
                 </div>

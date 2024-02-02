@@ -69,7 +69,9 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
               <div className="job-title d-flex align-items-center">
                 <div className="logo" onClick={() => handleViewClick(item._id)}>
                   <Image
-                    src={job_img_1}
+                    src={typeof item.companyId!=="string" && item.companyId.logo?item.companyId.logo: job_img_1}
+                    width={50}
+                    height={50}
                     alt="logo"
                     className="lazy-img m-auto"
                   />

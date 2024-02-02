@@ -60,7 +60,7 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
                           color: "#888",
                         }}
                       >
-                        No Saved Jobs
+                        Save Jobs to visit later!
                       </p>
                       </div>
                     )}

@@ -143,8 +143,8 @@ const EditEducationBody = ({
     setPresentWork((prev) => !prev);
   };
   useEffect(() => {
-    setEndMonth(presentWork ? "Present" : "");
-    setEndYear(presentWork ? "Present" : "");
+    setEndMonth(presentWork ? "Present" : endMonth);
+    setEndYear(presentWork ? "Present" : endYear);
   }, [presentWork]);
   // useEffect(() => {
   //   if (endYear === "Present" || endMonth === "Present") {
@@ -275,6 +275,7 @@ const EditEducationBody = ({
                 }}
                 setMonth={setStartMonth}
                 firstInput="Start Month"
+                placeholder="Start Month"
               />
             </div>
             <div className="col-sm-6">
@@ -282,6 +283,7 @@ const EditEducationBody = ({
                 default={{ value: startYear, label: startYear }}
                 setYear={setStartYear}
                 firstInput="Start Year"
+                placeholder="Start Year"
               />
             </div>
           </div>
@@ -299,16 +301,18 @@ const EditEducationBody = ({
               <div className="row">
                 <div className="col-sm-6">
                   <SelectMonth
-                    default={{ value: end[0], label: end[0] }}
+                    default={{ value: endMonth, label: endMonth }}
                     setMonth={setEndMonth}
                     firstInput="End Month"
+                    placeholder="End Month"
                   />
                 </div>
                 <div className="col-sm-6">
                   <SelectYear
-                    default={{ value: end[1], label: end[1] }}
+                    default={{ value: endYear, label: endYear }}
                     setYear={setEndYear}
                     firstInput="End Year"
+                    placeholder="End Year"
                   />
                 </div>
 

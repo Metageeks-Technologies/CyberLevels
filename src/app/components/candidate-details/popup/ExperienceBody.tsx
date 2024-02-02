@@ -123,9 +123,9 @@ const EditExperienceBody = ({
     setPresentWork(experienceProp?.present)
     setStartYear(start[1] || "");
     setStartMonth(start[0] || "");
-    setEndYear(end[1] || "");
-    setEndMonth(end[0] || "");
-    // console.log(startMonth, startYear, endYear, endMonth);
+    setEndYear(experienceProp.endYear?.split(" ")[1]);
+    setEndMonth(experienceProp.endYear?.split(" ")[0]);
+    console.log( endYear,end[1],"Yo", endMonth,end[0]);
   }, [experienceProp]);
   const handleEducationChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -142,8 +142,8 @@ const EditExperienceBody = ({
     setPresentWork((prev) => !prev);
   };
   useEffect(() => {
-    setEndMonth(presentWork ? "Present" : "");
-    setEndYear(presentWork ? "Present" : "");
+    setEndMonth(presentWork ? "Present" : endMonth);
+    setEndYear(presentWork ? "Present" : endYear);
   }, [presentWork]);
   // useEffect(() => {
   //   if (endYear === "Present" || endMonth === "Present") {
@@ -275,6 +275,7 @@ const EditExperienceBody = ({
                 }}
                 setMonth={setStartMonth}
                 firstInput="Start Month"
+                placeholder="Start Month"
               />
             </div>
             <div className="col-sm-6">
@@ -282,6 +283,7 @@ const EditExperienceBody = ({
                 default={{ value: start[1], label: start[1] }}
                 setYear={setStartYear}
                 firstInput="Start Year"
+                placeholder="Start Year"
               />
             </div>
           </div>
@@ -302,6 +304,7 @@ const EditExperienceBody = ({
                     default={{ value: end[0], label: end[0] }}
                     setMonth={setEndMonth}
                     firstInput="End Month"
+                    placeholder="End Month"
                   />
                 </div>
                 <div className="col-sm-6">
@@ -309,6 +312,7 @@ const EditExperienceBody = ({
                     default={{ value: end[1], label: end[1] }}
                     setYear={setEndYear}
                     firstInput="End Year"
+                    placeholder="End Year"
                   />
                 </div>
 

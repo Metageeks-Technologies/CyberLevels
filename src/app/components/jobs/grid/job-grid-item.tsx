@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { notifyError, notifyWarn } from "@/utils/toast";
 import { setProfileCompleteModel } from "@/redux/features/model/slice";
 import ProfileCompleteModal from "../../model/completeProfile";
+import { ICompany } from "@/types/company-type";
 
 
 const JobGridItem = ({
@@ -76,7 +77,9 @@ const JobGridItem = ({
         {isAuthenticated ? (
           <div className="logo cursor-pointer" onClick={() => handleViewClick(item._id)}>
             <Image
-              src={job_img_1}
+               src={typeof item.companyId!=="string" && item.companyId.logo?item.companyId.logo: job_img_1}
+               width={50}
+               height={50}
               alt="logo"
               style={{ height: "auto", width: "auto" }}
               className="lazy-img m-auto"

@@ -47,7 +47,7 @@ const JobAlertArea = ({ setIsOpenSidebar }: IProps) => {
                           color: "#888",
                         }}
                       >
-                        No Job Alerts
+                        Keep checking to find a better match
                       </p>
                       </div>
                     )}
