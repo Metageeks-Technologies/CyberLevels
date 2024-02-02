@@ -45,6 +45,27 @@ const SavedCompanyArea = ({ setIsOpenSidebar, savedCompanies }: IProps) => {
         </div>
 
         <div className="wrapper">
+        {savedCompanies?.length === 0 && (
+          <div
+        
+          className="job-list-one style-two position-relative mb-20"
+        >
+                      <p
+                        style={{
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          fontSize: "1.5em",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          color: "#888",
+                        }}
+                      >
+                        No Saved Companies
+                      </p>
+                      </div>
+                    )}
           {savedCompanies?.map((c) => (
             <div
               key={c._id}

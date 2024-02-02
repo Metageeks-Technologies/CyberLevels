@@ -28,7 +28,7 @@ export interface ICandidateDashboard {
           score: number;
         }
       ]
-    | null;
+    |[];
   currDashEducation: string;
   currDashExperience: string;
   viewsOnCandidateProfile: ProfileView[];
@@ -53,7 +53,7 @@ const initialState: ICandidateDashboard = {
   totalSavedCompany: 0,
   savedCompanies: [],
   toggle: false,
-  recommendedJobs: null,
+  recommendedJobs: [],
   currDashEducation: "",
   currDashExperience: "",
   viewsOnCandidateProfile: [],

@@ -71,7 +71,9 @@ const CompanyGridItem = ({ item }: { item: ICompany }) => {
             className="company-logo me-auto ms-auto rounded-circle cursor-pointer"
           >
             <Image
-              src={team_img_1}
+              src={item.logo?item.logo:team_img_1}
+              width={100}
+              height={100}
               alt="image"
               className="lazy-img rounded-circle"
             />

@@ -32,6 +32,22 @@ const Education = () => {
   const [allFieldsCheck, setAllFieldsCheck] = useState(false);
   const [validDescription, setValidDescription] = useState(true);
   const [presentWork, setPresentWork] = useState(false);
+  const [validCheckForm, setValidCheckForm] = useState({
+    degree: true,
+    institute: true,
+    description: true,
+    validDate: true,
+  });
+  useEffect(() => {
+    if (education.degree.length !== 0) {
+      setValidCheckForm({ ...validCheckForm, degree: true });
+    }
+  }, [education.degree]);
+  useEffect(() => {
+    if (education.institute.length !== 0) {
+      setValidCheckForm({ ...validCheckForm, institute: true });
+    }
+  }, [education.institute]);
   useEffect(() => {
     if (
       startYear &&
@@ -61,32 +77,36 @@ const Education = () => {
   ]);
   useEffect(() => {
     if (
-      !startMonth ||
-      !startYear ||
-      !endMonth ||
-      !endYear ||
-      (startYear === "Start Year" &&
-        startMonth === "Start Month" &&
-        endYear === "End Year" &&
-        endMonth === "End Month") ||
-      checkValidDateTimeLine(
-        startMonth + " " + startYear,
-        endMonth + " " + endYear
-      )
+      startMonth &&
+      endMonth &&
+      endYear &&
+      startYear &&
+      startYear !== "Start Year" &&
+      startMonth !== "Start Month" &&
+      endYear !== "End Year" &&
+      endMonth !== "End Month"
     ) {
-      setCheckValidDate(true);
-    } else {
-      setCheckValidDate(false);
+      setValidCheckForm({ ...validCheckForm, validDate: true });
+      if (
+        checkValidDateTimeLine(
+          startMonth + " " + startYear,
+          endMonth + " " + endYear
+        )
+      ) {
+        setCheckValidDate(true);
+      } else {
+        setCheckValidDate(false);
+      }
     }
   }, [startYear, startMonth, endMonth, endYear]);
   useEffect(() => {
-    if (
-      checkValidDescription(education.description, 50) ||
-      education.description.trim().length === 0
-    ) {
-      setValidDescription(true);
-    } else {
-      setValidDescription(false);
+    if (education.description.length !== 0) {
+      setValidCheckForm({ ...validCheckForm, description: true });
+      if (checkValidDescription(education.description, 50)) {
+        setValidDescription(true);
+      } else {
+        setValidDescription(false);
+      }
     }
   }, [education.description]);
   const handleEducationChange = (
@@ -132,8 +152,6 @@ const Education = () => {
     }
   }, [endMonth, endYear]);
 
-
-  
   const handleAddEducation = async () => {
     if (
       !education.degree ||
@@ -148,6 +166,22 @@ const Education = () => {
       !endMonth ||
       endMonth === "End Month"
     ) {
+      setValidCheckForm({
+        ...validCheckForm,
+        degree: education.degree.length !== 0,
+        institute: education.institute.length !== 0,
+        description: education.description.replace(/\s/g, "").length!==0,
+        validDate:
+        !(!startYear ||
+        startYear === "Start Year" ||
+        !startMonth ||
+        startMonth === "Start Month" ||
+        !endYear ||
+        endYear === "End Year" ||
+        !endMonth ||
+        endMonth === "End Month"),
+          
+      });
       notifyInfo("Please complete fields marked with *");
       return;
     }
@@ -164,7 +198,7 @@ const Education = () => {
       ...education,
       startYear: startMonth + " " + startYear,
       endYear: endMonth + " " + endYear,
-      present:presentWork
+      present: presentWork,
     };
     if (new Date(bodyObj.startYear) > new Date(bodyObj.endYear)) {
       notifyInfo("Start date cannot be greater than end date");
@@ -233,8 +267,8 @@ const Education = () => {
                           type="text"
                           placeholder="Bachelor's"
                           style={{
-                            borderColor: !education.degree ? "red" : "",
-                            borderRadius: !education.degree ? "5px" : "",
+                            borderColor: !validCheckForm.degree ? "red" : "",
+                            borderRadius: !validCheckForm.degree ? "5px" : "",
                           }}
                         />
                       </div>
@@ -255,8 +289,8 @@ const Education = () => {
                           type="text"
                           placeholder="Oxford"
                           style={{
-                            borderColor: !education.institute ? "red" : "",
-                            borderRadius: !education.institute ? "5px" : "",
+                            borderColor: !validCheckForm.institute ? "red" : "",
+                            borderRadius: !validCheckForm.institute ? "5px" : "",
                           }}
                         />
                       </div>
@@ -299,7 +333,7 @@ const Education = () => {
                             />
                           </div>
                         )}
-                         {!presentWork && (
+                        {!presentWork && (
                           <div className="col-sm-3">
                             <SelectYear
                               default={{ value: endYear, label: endYear }}
@@ -309,7 +343,13 @@ const Education = () => {
                             />
                           </div>
                         )}
-                        <div style={{ alignItems: "center", display: "flex", paddingBottom:"5px" }}>
+                        <div
+                          style={{
+                            alignItems: "center",
+                            display: "flex",
+                            paddingBottom: "5px",
+                          }}
+                        >
                           <label htmlFor="ckeckBox">Present:</label>
                           <input
                             style={{ marginLeft: "2px", marginTop: "3px" }}
@@ -318,10 +358,7 @@ const Education = () => {
                             onChange={handlePresentChange}
                           />
                         </div>
-                        {(!startMonth ||
-                          !startYear ||
-                          !endMonth ||
-                          !endYear) && (
+                        {!validCheckForm.validDate && (
                           <p style={{ color: "red" }}>Enter Valid Date</p>
                         )}
                         {!checkValidDate && (
@@ -347,8 +384,8 @@ const Education = () => {
                           className="size-lg"
                           placeholder="Morbi ornare ipsum sed sem condimentum, et pulvinar tortor luctus. Suspendisse condimentum lorem ut elementum aliquam et pulvinar tortor luctus."
                           style={{
-                            borderColor: !education.description ? "red" : "",
-                            borderRadius: !education.description ? "5px" : "",
+                            borderColor: !validCheckForm.description ? "red" : "",
+                            borderRadius: !validCheckForm.description ? "5px" : "",
                           }}
                         ></textarea>
                       </div>
@@ -356,7 +393,7 @@ const Education = () => {
                     {!validDescription && (
                       <p style={{ color: "red" }}>
                         description must include{" "}
-                        {education.description.replace(/\s/g, '').length}/50
+                        {education.description.replace(/\s/g, "").length}/50
                       </p>
                     )}
                   </div>

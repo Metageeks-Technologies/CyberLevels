@@ -77,9 +77,12 @@ const BlogDetailsArea = ({ id }: { id: string }) => {
                   {item.comments.map((comment) => (
                     <div className="comment d-flex">
                       <Image
-                        src={avatar_1}
+                        src={(comment?.userAvatar === "hello" || comment?.userAvatar === "none" || !comment.userAvatar)?avatar_1:comment.userAvatar}
                         alt="avatar"
+                        width={100}
+                        height={100}
                         className="lazy-img user-avatar rounded-circle"
+                        style={{ imageRendering: 'pixelated' }}
                       />
                       <div className="comment-text">
                         <div className="name fw-500 tx-dark">

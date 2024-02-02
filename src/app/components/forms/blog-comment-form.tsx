@@ -9,10 +9,12 @@ const BlogCommentForm = ({ blogId }: { blogId: string }) => {
   const { blog, loading } = useAppSelector((state) => state.blog);
   const { currAdmin } = useAppSelector((state) => state.admin);
   const [text, setText] = useState("");
-
+  const {currUser} = useAppSelector((state) => state.persistedReducer.user)
+  const {currEmployer} = useAppSelector((state) => state.employer)
+  const {currCandidate} = useAppSelector((state) => state.candidate.candidateDashboard)
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (!currAdmin) {
+    if (!currUser) {
       notifyInfo("Please login to comment");
       return;
     }
@@ -20,9 +22,9 @@ const BlogCommentForm = ({ blogId }: { blogId: string }) => {
       notifyError("blog not found");
     }
     const bodyObj = {
-      userId: currAdmin._id,
-      userAvatar: currAdmin.avatar,
-      userName: currAdmin.name,
+      userId: currUser,
+      userAvatar: currAdmin?.avatar || currEmployer?.avatar || currCandidate?.avatar,
+      userName: currAdmin?.name || currEmployer?.firstName || currCandidate?.firstName,
       text: text,
     };
     await addComment(dispatch, blogId, bodyObj);
