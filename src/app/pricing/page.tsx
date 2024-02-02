@@ -33,7 +33,7 @@ const PricingPage = () => {
         {/* pricing two end */}
 
         {/* job portal intro start */}
-        <JobPortalIntro />
+        {/* <JobPortalIntro /> */}
         {/* job portal intro end */}
 
         {/* footer start */}

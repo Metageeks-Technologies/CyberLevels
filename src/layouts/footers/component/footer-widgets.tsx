@@ -15,10 +15,10 @@ export function WidgetOne({
       </h5>
       <ul className="footer-nav-link style-none">
         <li>
-          <Link href="/job-grid-v2">Browse Jobs</Link>
+          <Link href="/job-list-v1">Browse Jobs</Link>
         </li>
         <li>
-          <Link href="/company-v1">Companies</Link>
+          <Link href="/company-v2">Companies</Link>
         </li>
         <li>
           <Link href="/candidates-v1">Candidates</Link>
