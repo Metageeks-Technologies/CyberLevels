@@ -43,6 +43,27 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
         </div>
 
         <div className="wrapper">
+        {savedJobs?.length === 0 && (
+          <div
+        
+          className="job-list-one style-two position-relative mb-20"
+        >
+                      <p
+                        style={{
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          fontSize: "1.5em",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          color: "#888",
+                        }}
+                      >
+                        Save Jobs to visit later!
+                      </p>
+                      </div>
+                    )}
           {savedJobs?.map((j) => (
             <div
               key={j._id}

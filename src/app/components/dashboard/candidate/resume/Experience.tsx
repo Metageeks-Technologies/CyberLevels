@@ -27,6 +27,22 @@ const Experience = () => {
   const [allFieldsCheck, setAllFieldsCheck] = useState(false);
   const [validDescription, setValidDescription] = useState(true);
   const [presentWork, setPresentWork] = useState(false);
+  const [validCheckForm, setValidCheckForm] = useState({
+    title: true,
+    company: true,
+    description: true,
+    validDate: true,
+  });
+  useEffect(() => {
+    if(experience.title.length !== 0){
+      setValidCheckForm({...validCheckForm,title:true});
+    }
+  },[experience.title])
+  useEffect(() => {
+    if(experience.company.length !== 0){
+      setValidCheckForm({...validCheckForm,company:true});
+    }
+  },[experience.company])
   useEffect(() => {
     if (
       startYear &&
@@ -56,33 +72,31 @@ const Experience = () => {
   ]);
 
   useEffect(() => {
-    if (
-      checkValidDescription(experience.description, 50) ||
-      experience.description.trim().length === 0
-    ) {
-      setValidDescription(true);
-    } else {
-      setValidDescription(false);
+    if (experience.description.length !== 0) {
+      setValidCheckForm({...validCheckForm,description:true})
+      if (checkValidDescription(experience.description, 50)) {
+        setValidDescription(true);
+      }else{
+        setValidDescription(false);
+      }
     }
   }, [experience.description]);
   useEffect(() => {
-    if (
-      !startMonth ||
-      !startYear ||
-      !endMonth ||
-      !endYear ||
-      (startYear === "Start Year" &&
-        startMonth === "Start Month" &&
-        endYear === "End Year" &&
-        endMonth === "End Month") ||
-      checkValidDateTimeLine(
-        startMonth + " " + startYear,
-        endMonth + " " + endYear
-      )
-    ) {
-      setCheckValidDate(true);
-    } else {
-      setCheckValidDate(false);
+    if (startMonth && endMonth && endYear && startYear && (startYear !== "Start Year" &&
+    startMonth !== "Start Month" &&
+    endYear !== "End Year" &&
+    endMonth !== "End Month")) {
+      setValidCheckForm({...validCheckForm,validDate:true});
+      if (
+        checkValidDateTimeLine(
+          startMonth + " " + startYear,
+          endMonth + " " + endYear
+        )
+      ) {
+        setCheckValidDate(true);
+      }else{
+        setCheckValidDate(false);
+      }
     }
   }, [startYear, startMonth, endMonth, endYear]);
   const handleExperienceChange = (
@@ -125,6 +139,23 @@ const Experience = () => {
       !endMonth ||
       endMonth === "End Month"
     ) {
+      
+      setValidCheckForm({
+        ...validCheckForm,
+        title: experience.title.length !== 0,
+        company: experience.company.length !== 0,
+        description: experience.description.replace(/\s/g, "").length!==0,
+        validDate:
+        !(!startYear ||
+        startYear === "Start Year" ||
+        !startMonth ||
+        startMonth === "Start Month" ||
+        !endYear ||
+        endYear === "End Year" ||
+        !endMonth ||
+        endMonth === "End Month"),
+          
+      });
       notifyInfo("Please Complete fields marked with *");
       return;
     }
@@ -136,7 +167,7 @@ const Experience = () => {
       ...experience,
       startYear: startMonth + " " + startYear,
       endYear: endMonth + " " + endYear,
-      present:presentWork
+      present: presentWork,
     };
     if (!checkValidDate) {
       notifyInfo("Start date cannot be greater than end date");
@@ -205,8 +236,8 @@ const Experience = () => {
                           type="text"
                           placeholder="Lead Security Manager "
                           style={{
-                            borderColor: !experience.title ? "red" : "",
-                            borderRadius: !experience.title ? "5px" : "",
+                            borderColor: !validCheckForm.title ? "red" : "",
+                            borderRadius: !validCheckForm.title ? "5px" : "",
                           }}
                         />
                       </div>
@@ -227,8 +258,8 @@ const Experience = () => {
                           type="text"
                           placeholder="Amazon Inc"
                           style={{
-                            borderColor: !experience.company ? "red" : "",
-                            borderRadius: !experience.company ? "5px" : "",
+                            borderColor: !validCheckForm.company ? "red" : "",
+                            borderRadius: !validCheckForm.company ? "5px" : "",
                           }}
                         />
                       </div>
@@ -278,7 +309,13 @@ const Experience = () => {
                             />
                           </div>
                         )}
-                        <div style={{ alignItems: "center", display: "flex", paddingBottom:"5px" }}>
+                        <div
+                          style={{
+                            alignItems: "center",
+                            display: "flex",
+                            paddingBottom: "5px",
+                          }}
+                        >
                           <label htmlFor="ckeckBox">Present:</label>
                           <input
                             style={{ marginLeft: "2px", marginTop: "3px" }}
@@ -287,10 +324,7 @@ const Experience = () => {
                             onChange={handlePresentChange}
                           />
                         </div>
-                        {(!startMonth ||
-                          !startYear ||
-                          !endMonth ||
-                          !endYear) && (
+                        {(!validCheckForm.validDate) && (
                           <p style={{ color: "red" }}>Enter Valid Date</p>
                         )}
                         {!checkValidDate && (
@@ -319,15 +353,15 @@ const Experience = () => {
                           className="size-lg"
                           placeholder="Morbi ornare ipsum sed sem condimentum, et pulvinar tortor luctus. Suspendisse condimentum lorem ut elementum aliquam et pulvinar tortor luctus."
                           style={{
-                            borderColor: !experience.description ? "red" : "",
-                            borderRadius: !experience.description ? "5px" : "",
+                            borderColor: !validCheckForm.description ? "red" : "",
+                            borderRadius: !validCheckForm.description ? "5px" : "",
                           }}
                         ></textarea>
                       </div>
                       {!validDescription && (
                         <p style={{ color: "red" }}>
                           description must include{" "}
-                          {experience.description.replace(/\s/g, '').length}/50
+                          {experience.description.replace(/\s/g, "").length}/50
                         </p>
                       )}
                     </div>

@@ -38,12 +38,9 @@ const SelectMonth = ({
   let def = 0;
   if (defaultOption) {
     console.log(defaultOption);
-    const index = options.findIndex(
+     def = options.findIndex(
       (option) => option.value === defaultOption.value
     );
-    if (index !== -1) {
-      def = index;
-    }
   }
 
   return (

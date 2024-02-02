@@ -58,7 +58,7 @@ const HeaderThree = () => {
                   aria-label="Toggle navigation">
                   <span></span>
                 </button>
-                <div className="collapse navbar-collapse" id="navbarNav">
+                <div className="collapse navbar-collapse" id="">
                   <ul className="navbar-nav">
                     <li className="d-block d-lg-none">
                       <div className="logo">

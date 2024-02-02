@@ -30,6 +30,27 @@ const JobAlertArea = ({ setIsOpenSidebar }: IProps) => {
         </div>
 
         <div className="wrapper">
+        {recommendedJobs?.length === 0 && (
+          <div
+        
+          className="job-list-one style-two position-relative mb-20"
+        >
+                      <p
+                        style={{
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          fontSize: "1.5em",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          color: "#888",
+                        }}
+                      >
+                        Keep checking to find a better match
+                      </p>
+                      </div>
+                    )}
           {recommendedJobs?.map((obj) => {
             const j = obj.job;
             const score = obj.score;
