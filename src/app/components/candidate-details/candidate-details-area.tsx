@@ -4,7 +4,7 @@ import Image from "next/image";
 import CandidateProfileSlider from "./candidate-profile-slider";
 import avatar from "@/assets/images/candidates/img_01.jpg";
 import Skills from "./skills";
-import WorkExperience from "./work-experience";
+import WorkExperience from "./DashWorkEx";
 import CandidateBio from "./bio";
 import EmailSendForm from "../forms/email-send-form";
 import Education from "./Education";
@@ -26,12 +26,12 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
     <>
       {candidate && (
         <>
-          <section className="candidates-profile pt-100 lg-pt-70 pb-150 lg-pb-80">
+          <section className="candidates-profile pt-100 lg-pt-70 pb-50 lg-pb-80">
             <div className="container">
               <div className="row">
                 <div className="col-xxl-9 col-lg-8">
                   <div className="candidates-profile-details me-xxl-5 pe-xxl-4">
-                    <div className="inner-card border-style mb-65 lg-mb-40">
+                    <div className="inner-card border-style mb-45 lg-mb-40">
                       <h3 className="title">Overview</h3>
                       {/* <p>
                     Hello my name is Ariana Gande Connor and I’m a Financial
@@ -47,21 +47,21 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
                       <p>{candidate.bio}</p>
                     </div>
 
-                    <div className="inner-card border-style mb-75 lg-mb-50">
+                    <div className="inner-card border-style mb-45 lg-mb-50">
                       <h3 className="title">Education</h3>
                       <Education education={candidate.education} />
                     </div>
-                    <div className="inner-card border-style mb-75 lg-mb-50">
+                    <div className="inner-card border-style mb-45 lg-mb-50">
                       <h3 className="title">Skills</h3>
                       {/* skill area */}
                       <Skills skills={candidate.skills} />
                       {/* skill area */}
                     </div>
                     {candidate.experience.length > 0 && (
-                      <div className="inner-card border-style mb-60 lg-mb-50">
+                      <div className="inner-card border-style mb-45 lg-mb-50">
                         <h3 className="title">Work Experience</h3>
                         {/* WorkExperience */}
-                        <WorkExperience />
+                        <WorkExperience experience={candidate.experience} />
                         {/* WorkExperience */}
                       </div>
                     )}
@@ -77,9 +77,12 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
                       <div className="pt-25">
                         <div className="cadidate-avatar m-auto">
                           <Image
-                            src={avatar}
+                            src={candidate?.avatar}
                             alt="avatar"
                             className="lazy-img rounded-circle w-100"
+                            width={60}
+                            height={60}
+                            style={{ height: "auto" }}
                           />
                         </div>
                       </div>
@@ -117,14 +120,14 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
                       </button>
                     </div>
 
-                    <h4 className="sidebar-title">Email James Brower.</h4>
+                    {/* <h4 className="sidebar-title">Email James Brower.</h4>
                     <div className="email-form bg-wrapper bg-color">
                       <p>
                         Your email address & profile will be shown to the
                         recipient.
                       </p>
                       <EmailSendForm />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

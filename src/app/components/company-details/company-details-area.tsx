@@ -44,9 +44,12 @@ const CompanyDetailsArea = ({ id }: { id: string }) => {
               <div className="col-xxl-3 col-xl-4 order-xl-last">
                 <div className="job-company-info ms-xl-5 ms-xxl-0 lg-mb-50">
                   <Image
-                    src={logo}
+                    src={company?.logo}
                     alt="logo"
                     className="lazy-img m-auto logo"
+                    width={60}
+                    height={60}
+                    style={{ height: "auto" }}
                   />
                   <div className="text-md text-dark text-center mt-15 mb-20 lg-mb-10">
                     {company.name}

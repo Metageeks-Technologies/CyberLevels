@@ -10,10 +10,10 @@ const CandidateBio = ({ candidate }: { candidate: ICandidate }) => {
           {candidate?.location?.city}, {candidate?.location?.country}{" "}
         </div>
       </li>
-      <li>
+      {/* <li>
         <span>Age: </span>
         <div>28</div>
-      </li>
+      </li> */}
       <li>
         <span>Email: </span>
         <div>
@@ -26,27 +26,27 @@ const CandidateBio = ({ candidate }: { candidate: ICandidate }) => {
           <div>{candidate.education[0].degree}</div>
         )}
       </li>
-      <li>
+      {/* <li>
         <span>Gender: </span>
-        <div>Male</div>
-      </li>
+        <div>{candidate?.gender}</div>
+      </li> */}
       <li>
         <span>Expected Salary: </span>
-        <div>$3k-$4k</div>
+        <div>{candidate?.expectedSalary?.currency?.symbol}{candidate?.expectedSalary?.min}-{candidate?.expectedSalary?.currency?.symbol}{candidate?.expectedSalary?.max} {candidate?.expectedSalary?.period}</div>
       </li>
       <li>
         <span>Social:</span>
         <div>
-          <a href="#" className="me-3">
-            <i className="bi bi-facebook"></i>
+          <a href={candidate?.socialSites?.website} className="me-3">
+            <i className="bi bi-globe"></i>
           </a>
-          <a href="#" className="me-3">
-            <i className="bi bi-instagram"></i>
+          <a href={candidate?.socialSites?.github} className="me-3">
+            <i className="bi bi-github"></i>
           </a>
-          <a href="#" className="me-3">
+          <a href={candidate?.socialSites?.twitter} className="me-3">
             <i className="bi bi-twitter"></i>
           </a>
-          <a href="#">
+          <a href={candidate?.socialSites?.linkedIn}>
             <i className="bi bi-linkedin"></i>
           </a>
         </div>
