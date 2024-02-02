@@ -151,6 +151,9 @@
 .navbar .nav-item:hover .nav-link {
   color: var(--color-three);
 }
+.navbar .nav-item .curr-nav-link {
+  color: var(--color-two) !important;
+}
 .navbar .dropdown-menu .dropdown-item {
   text-transform: capitalize;
   line-height: 38px;

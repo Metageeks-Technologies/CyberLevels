@@ -9,12 +9,18 @@ import icon_4 from "@/assets/dashboard/images/icon/icon_15.svg";
 import main_graph from "@/assets/dashboard/images/main-graph.png";
 import DashboardHeader from "./dashboard-header";
 import { useAppSelector, useAppDispatch } from "@/redux/hook";
-import { getAllShortlistedJobAppByCandidateId, getallJobAppByCandidateWithJobPost } from "@/redux/features/jobApp/api";
+import {
+  getAllShortlistedJobAppByCandidateId,
+  getallJobAppByCandidateWithJobPost,
+} from "@/redux/features/jobApp/api";
 import job_img_1 from "@/assets/images/logo/media_22.png";
 import { type } from "os";
 import Link from "next/link";
 import NiceSelect from "@/ui/nice-select";
-import { getCandidateProfileViewsForChart, getTotalViewsOfCandidate } from "@/redux/features/candidate/api";
+import {
+  getCandidateProfileViewsForChart,
+  getTotalViewsOfCandidate,
+} from "@/redux/features/candidate/api";
 import CandidateAreaChart from "@/ui/EmployerAreaChart";
 interface ProfileView {
   view_count?: number;
@@ -52,21 +58,22 @@ type IProps = {
 };
 const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
   const job_items = [...job_data.reverse().slice(0, 5)];
-  const { allJobAppByCandidateWithJobPost: jobApps, totalJobsApplied, numberOfShortlistedJobApps } = useAppSelector(
-    (state) => state.jobApplication
-  );
+  const {
+    allJobAppByCandidateWithJobPost: jobApps,
+    totalJobsApplied,
+    numberOfShortlistedJobApps,
+  } = useAppSelector((state) => state.jobApplication);
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
   const { currCandidate, totalViews } = useAppSelector(
     (state) => state.candidate.candidateDashboard
   );
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (currCandidate) 
-    {
-      getallJobAppByCandidateWithJobPost(dispatch, currCandidate._id,1);
-      getTotalViewsOfCandidate(dispatch,currCandidate._id);
-      getAllShortlistedJobAppByCandidateId(dispatch,currCandidate._id);
-    };
+    if (currCandidate) {
+      getallJobAppByCandidateWithJobPost(dispatch, currCandidate._id, 1);
+      getTotalViewsOfCandidate(dispatch, currCandidate._id);
+      getAllShortlistedJobAppByCandidateId(dispatch, currCandidate._id);
+    }
   }, [currCandidate]);
 
   const [viewsDataDay, setViewsDataDay] = useState<ProfileView[][] | []>();
@@ -132,8 +139,16 @@ const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
 
         <h2 className="main-title">Dashboard</h2>
         <div className="row">
-          <CardItem img={icon_1} title="Applications" value={totalJobsApplied.toString()} />
-          <CardItem img={icon_2} title="Shortlisted" value={numberOfShortlistedJobApps.toString()} />
+          <CardItem
+            img={icon_1}
+            title="Applications"
+            value={totalJobsApplied.toString()}
+          />
+          <CardItem
+            img={icon_2}
+            title="Shortlisted"
+            value={numberOfShortlistedJobApps.toString()}
+          />
           <CardItem img={icon_3} title="Views" value={totalViews.toString()} />
           <CardItem img={icon_4} title="Credit left" value="5" />
         </div>
@@ -238,8 +253,8 @@ const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
                             </Link>
                           </h6>
                           <div className="meta">
-                            <span>{app.jobPost.jobType[0]}</span> .{" "}
-                            <span>{app.jobPost.location[0]}</span>
+                            <span>{app.jobPost?.jobType[0]}</span> .{" "}
+                            <span>{app.jobPost?.location[0]}</span>
                           </div>
                         </div>
                         <div className="job-action">
@@ -255,7 +270,7 @@ const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
                             <li>
                               <Link
                                 className="dropdown-item"
-                                href={`/job-details-v1/${app.jobPost._id}`}
+                                href={`/job-details-v1/${app.jobPost?._id}`}
                               >
                                 View Job
                               </Link>

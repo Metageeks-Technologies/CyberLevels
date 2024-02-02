@@ -31,7 +31,7 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
   const Router = useRouter();
 
   const dispatch = useAppDispatch();
-  const isActive = item?.isSaved || false;
+  const isActive = (isAuthenticated && item?.isSaved) || false;
   const handleSaveCompany = (companyId: string) => {
     if (!isActive) {
       if (currCandidate?.isProfileCompleted === true) {

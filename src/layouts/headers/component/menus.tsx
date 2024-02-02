@@ -1,11 +1,14 @@
+"use client";
 import React, { useState } from "react";
 import menu_data from "@/data/menu-data";
 import { employ_menu_data } from "@/data/menu-data";
 import Link from "next/link";
 import { useAppSelector } from "@/redux/hook";
 import { IMenuData } from "@/types/menu-data-type";
+import { usePathname } from "next/navigation";
 
 const Menus = () => {
+  const pathname = usePathname();
   const handleOnClick = () => {};
   const { userRole } = useAppSelector((state) => state.persistedReducer.user);
   let menuData: IMenuData[] | null = null;
@@ -23,7 +26,9 @@ const Menus = () => {
             }`}
           >
             <Link
-              className="nav-link dropdown-toggle"
+              className={`${
+                pathname.includes(menu.link) ? "curr-nav-link" : ""
+              } nav-link  dropdown-toggle`}
               href={menu.link}
               role="button"
             >
@@ -42,7 +47,7 @@ const Menus = () => {
         ) : menu.mega_menus ? (
           <li key={menu.id} className="nav-item dropdown mega-dropdown-sm">
             <a
-              className="nav-link dropdown-toggle"
+              className="nav-link curr-nav-link  dropdown-toggle"
               href="#"
               role="button"
               data-bs-toggle="dropdown"

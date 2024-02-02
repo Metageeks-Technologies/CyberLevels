@@ -20,7 +20,7 @@ const CandidateListItem = ({
   );
 
   const dispatch = useAppDispatch();
-  const isActive = item?.isSaved || false;
+  const isActive = (isAuthenticated && item?.isSaved) || false;
   const handleSaveCandidate = (candidateId: string) => {
     if (!isActive) {
       saveCandidate(dispatch, {
