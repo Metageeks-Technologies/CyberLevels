@@ -43,7 +43,7 @@ const RelatedJobs = ({ jobs }: { jobs: IJobPost[] }) => {
   return (
     <section className="related-job-section pt-90 lg-pt-70 pb-120 lg-pb-70">
       <div className="container">
-        <div className="position-relative">
+        <div className="position-relative" >
           <div className="title-three text-center text-md-start mb-55 lg-mb-40">
             <h2 className="main-font">Related Jobs</h2>
           </div>
@@ -52,6 +52,8 @@ const RelatedJobs = ({ jobs }: { jobs: IJobPost[] }) => {
             {...slider_setting}
             ref={sliderRef}
             className="related-job-slider"
+            
+            
           >
             {jobs.map((j) => (
               <div key={j._id} className="item">

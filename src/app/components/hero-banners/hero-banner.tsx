@@ -28,7 +28,7 @@ const HeroBanner = () => {
               </p>
             </div>
           </div>
-          <div className="position-relative">
+          {/* <div className="position-relative">
             <div className="row">
               <div className="col-xl-9 col-lg-8">
                 <div
@@ -36,8 +36,8 @@ const HeroBanner = () => {
                   data-wow-delay="0.5s"
                 >
                   {/* search form start */}
-                  <SearchForm />
-                  {/* search form end */}
+                  {/* <SearchForm /> */}
+                  {/* search form end *
                   <ul className="tags d-flex flex-wrap style-none mt-20">
                     <li className="fw-500 text-white me-2">Popular:</li>
                     <li>
@@ -56,7 +56,7 @@ const HeroBanner = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
           <div style={{ marginTop: "100px" }} className="homeimg mt-5 ">
             <div className="img-box">
               <Image src={shape_1} alt="shape" className="lazy-img shapes" />

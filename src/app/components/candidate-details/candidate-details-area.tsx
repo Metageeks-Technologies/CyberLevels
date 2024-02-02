@@ -42,7 +42,7 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
                     velit. Aliquam Integer vehicula rhoncus molestie. Morbi
                     ornare ipsum sed sem condimentum, et pulvinar tortor luctus.
                     Suspendisse condimentum lorem ut elementum aliquam.{" "}
-                  </p> */}
+                   </p> */}
                       <br />
                       <p>{candidate.bio}</p>
                     </div>

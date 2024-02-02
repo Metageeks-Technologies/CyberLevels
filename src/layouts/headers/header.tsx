@@ -122,7 +122,7 @@ const Header = () => {
                         </Link>
                       </div>
                     </li>
-                    <li className="nav-item dropdown category-btn mega-dropdown-sm">
+                    {/* <li className="nav-item dropdown category-btn mega-dropdown-sm">
                       <a
                         className="nav-link dropdown-toggle"
                         href="#"
@@ -134,9 +134,9 @@ const Header = () => {
                         <i className="bi bi-grid-fill"></i> Category
                       </a>
                       {/* CategoryDropdown start */}
-                      <CategoryDropdown />
-                      {/* CategoryDropdown end */}
-                    </li>
+                      {/* <CategoryDropdown /> */}
+                      {/* CategoryDropdown end *
+                    </li> */}
                     {/* menus start */}
                     <Menus />
                     {/* menus end */}

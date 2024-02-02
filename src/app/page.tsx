@@ -66,7 +66,7 @@ export default function Home() {
       <FancyBanner />
       {/* fancy banner end */}
       {/* job portal intro start */}
-      <JobPortalIntro />
+      {/* <JobPortalIntro /> */}
       {/* job portal intro end */}
       {/* footer start */}
       <FooterOne />
