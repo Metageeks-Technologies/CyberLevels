@@ -37,16 +37,24 @@ const CandidateBio = ({ candidate }: { candidate: ICandidate }) => {
       <li>
         <span>Social:</span>
         <div>
-          <a href={candidate?.socialSites?.website} className="me-3">
+          <a 
+          target="_blank"
+          href={candidate?.socialSites?.website} className="me-3">
             <i className="bi bi-globe"></i>
           </a>
-          <a href={candidate?.socialSites?.github} className="me-3">
+          <a 
+          target="_blank"
+          href={candidate?.socialSites?.github} className="me-3">
             <i className="bi bi-github"></i>
           </a>
-          <a href={candidate?.socialSites?.twitter} className="me-3">
+          <a
+          target="_blank"
+          href={candidate?.socialSites?.twitter} className="me-3">
             <i className="bi bi-twitter"></i>
           </a>
-          <a href={candidate?.socialSites?.linkedIn}>
+          <a
+          target="_blank"
+          href={candidate?.socialSites?.linkedIn}>
             <i className="bi bi-linkedin"></i>
           </a>
         </div>

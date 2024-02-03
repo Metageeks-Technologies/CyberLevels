@@ -171,6 +171,14 @@ export default function Example({
         >
           {isSaved ? <span>Saved</span> : <span>Save</span>}
         </button>
+        {!isSaved && (
+        <button
+            onClick={() => setStep((p) => p + 1)}
+            className="btn-two tran3s"
+          >
+            Skip
+          </button>
+        )}
         {isSaved && (
           <button
             onClick={() => setStep((p) => p + 1)}

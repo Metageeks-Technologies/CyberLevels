@@ -21,10 +21,10 @@ const CandidatePage = () => {
         {/* header end */}
 
         {/* search breadcrumb start */}
-        <JobBreadcrumb
+        {/* <JobBreadcrumb
           title="Candidates"
           subtitle="Find you desire talents & make your work done"
-        />
+        /> */}
         {/* search breadcrumb end */}
 
         {/* candidate area start */}

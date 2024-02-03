@@ -12,16 +12,18 @@ const CandidateItem = ({ item }: { item: ICandidate }) => {
         <div className="cadidate-avatar online position-relative d-block me-auto ms-auto">
           <a href="#" className="rounded-circle">
             <Image
-              src={job_img_1}
+              src={item?.avatar}
+              width={85}
+              height={85}
               alt="image"
               className="lazy-img rounded-circle"
-              style={{ height: "auto" }}
+              // style={{ height: "auto" }}
             />
           </a>
         </div>
         <div className="right-side">
           <div className="row gx-1 align-items-center">
-            <div className="col-xl-3">
+            <div className="col-xl-4">
               <div className="position-relative">
                 <h4 className="candidate-name mb-0">
                   <a href="#" className="tran3s">
@@ -41,15 +43,15 @@ const CandidateItem = ({ item }: { item: ICandidate }) => {
                 </ul>
               </div>
             </div>
-            <div className="col-xl-3 col-md-4 col-sm-6">
+            <div className="col-xl-4 col-md-4 col-sm-6">
               <div className="candidate-info">
                 <span>Salary</span>
                 <div>
-                  ${3 - 7}/{"monthly"}
+                  {item?.expectedSalary?.currency?.symbol}{item?.expectedSalary?.min}-{item?.expectedSalary?.max}/{item?.expectedSalary?.period}
                 </div>
               </div>
             </div>
-            <div className="col-xl-3 col-md-4 col-sm-6">
+            <div className="col-xl-2 col-md-4 col-sm-6">
               <div className="candidate-info">
                 <span>Location</span>
                 <div>
@@ -57,7 +59,7 @@ const CandidateItem = ({ item }: { item: ICandidate }) => {
                 </div>
               </div>
             </div>
-            <div className="col-xl-3 col-md-4">
+            <div className="col-xl-2 col-md-4">
               <div className="d-flex justify-content-md-end align-items-center">
                 <Link
                   href={`/candidate-profile-v1/${item._id}`}

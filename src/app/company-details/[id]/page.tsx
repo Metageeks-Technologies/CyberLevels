@@ -1,3 +1,4 @@
+"use client";
 import CompanyBreadcrumb from "@/app/components/common/common-breadcrumb";
 import CompanyDetailsArea from "@/app/components/company-details/company-details-area";
 import OpenPosition from "@/app/components/company-details/open-position";
@@ -6,12 +7,14 @@ import FooterOne from "@/layouts/footers/footer-one";
 import Header from "@/layouts/headers/header";
 import Wrapper from "@/layouts/wrapper";
 import { Metadata } from "next";
+import { usePathname } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Company Details",
 };
 
 const CompanyDetailsPage = ({ params }: { params: { id: string } }) => {
+  const pathName = usePathname();
   return (
     <Wrapper>
       <div className="main-page-wrapper">
@@ -27,7 +30,7 @@ const CompanyDetailsPage = ({ params }: { params: { id: string } }) => {
         {/*breadcrumb end */}
 
         {/* company details area start */}
-        {<CompanyDetailsArea id={params.id} />}
+        {<CompanyDetailsArea id={params.id} url={pathName} />}
         {/* company details area end */}
 
         {/*job Open Position */}
