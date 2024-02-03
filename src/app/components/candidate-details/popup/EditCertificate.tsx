@@ -119,6 +119,7 @@ const EditCertificate = ({ certificates }: { certificates: string[] }) => {
                   </div>
 
                   <div className="button-group d-inline-flex align-items-center mt-30">
+                   {(_certificates.length>0 || certificates.length > 0) &&(
                     <button
                       onClick={() => {
                         handleSave();
@@ -130,7 +131,7 @@ const EditCertificate = ({ certificates }: { certificates: string[] }) => {
                     >
                       Save
                     </button>
-
+                    )}
                     <button
                       className="dash-cancel-btn tran3s"
                       type="button"
