@@ -185,9 +185,20 @@ const SelectResume = ({
         //   </div>)
 
         <div>
-          <p>Please upload your resume First....</p>
+          <div className="d-flex justify-content-between align-item-top ">
+            <p>Please upload your resume First....</p>
+            <button
+              onClick={navigateToResume}
+              className="btn-six"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              {" "}
+              Dashboard
+            </button>
+          </div>
           <button
-            className="btn-two tran3s"
+            className="btn-two mt-3 tran3s"
             type="button"
             data-bs-dismiss="modal"
             aria-label="Close"
