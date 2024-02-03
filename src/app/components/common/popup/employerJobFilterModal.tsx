@@ -52,7 +52,7 @@ const EmployerJobFilterModal = () => {
               </div>
               <div className="pt-25 pb-30 ps-4 pe-4">
                 <div className="row">
-                <div className="col-lg-3 col-sm-6">
+                  <div className="col-lg-3 col-sm-6">
                     <SearchTitleFilter />
                   </div>
                   <div className="col-lg-3 col-sm-6">
@@ -64,7 +64,6 @@ const EmployerJobFilterModal = () => {
                   <div className="col-lg-3 col-sm-6">
                     <FilterStatus />
                   </div>
-                  
                 </div>
 
                 {/* <div className="row">
@@ -90,8 +89,19 @@ const EmployerJobFilterModal = () => {
                   </div>
                 </div> */}
 
-                <div className="row">
-                  <div className="col-xl-2 m-auto">
+                <div className="row justify-content-center">
+                  <div className="col-xl-2 d-flex  justify-content-end">
+                    <button
+                      type="button"
+                      // className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                      className="btn-ten fw-500 text-white w-100 text-center tran3s mt-30 md-mt-10"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                  <div className="col-xl-2 d-flex justify-content-start">
                     <button
                       onClick={handleReset}
                       className="btn-ten fw-500 text-white w-100 text-center tran3s mt-30 md-mt-10"

@@ -47,7 +47,7 @@ const JobAlertArea = ({ setIsOpenSidebar }: IProps) => {
                           color: "#888",
                         }}
                       >
-                        Keep checking to find a better match
+                        No job alerts based on your skills!
                       </p>
                       </div>
                     )}

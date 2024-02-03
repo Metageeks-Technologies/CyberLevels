@@ -20,10 +20,12 @@ type IProps = {
 };
 const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
   const { jobPostsForEmployer } = useAppSelector((state) => state.jobPost);
-  const [currJobPost, setCurrJobPost] = useState<IJobPost|null>();
+  const [currJobPost, setCurrJobPost] = useState<IJobPost | null>();
 
   useEffect(() => {
-    const foundJobPost = jobPostsForEmployer.find((job) => job._id === jobPostId);
+    const foundJobPost = jobPostsForEmployer.find(
+      (job) => job._id === jobPostId
+    );
     setCurrJobPost(foundJobPost);
   }, [jobPostsForEmployer, jobPostId]);
 
@@ -108,7 +110,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
-                    
+
                     <tbody className="border-0">
                       {jobApp?.map((app) => {
                         const createdAt = getDate(app.createdAt);
@@ -146,22 +148,22 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                       })}
                     </tbody>
                   </table>
-                    {jobApp?.length === 0 && (
-                      <p
-                        style={{
-                          fontWeight: "bold",
-                          textAlign: "center",
-                          fontSize: "1.5em",
-                          width: "100%",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          color: "#888",
-                        }}
-                      >
-                        No candidates to Show
-                      </p>
-                    )}
+                  {jobApp?.length === 0 && (
+                    <p
+                      style={{
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        fontSize: "1.5em",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: "#888",
+                      }}
+                    >
+                      No candidates to Show
+                    </p>
+                  )}
                 </div>
               </div>
             </div>

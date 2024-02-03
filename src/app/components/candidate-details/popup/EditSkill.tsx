@@ -96,7 +96,7 @@ const EditSkill = ({ skills }: { skills: string[] }) => {
                     </div>
                   </div>
                   <div className="mt-3">
-                    <AutocompleteSkill skills={_skills} setSkills={setSkills} />
+                    <AutocompleteSkill skills={_skills} setSkills={setSkills} top={true}/>
                   </div>
 
                   <div className="button-group d-inline-flex align-items-center mt-30">

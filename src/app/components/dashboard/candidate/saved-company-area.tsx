@@ -62,7 +62,7 @@ const SavedCompanyArea = ({ setIsOpenSidebar, savedCompanies }: IProps) => {
                           color: "#888",
                         }}
                       >
-                        Mark your favorite company
+                        No companies saved! save company to visit later
                       </p>
                       </div>
                     )}

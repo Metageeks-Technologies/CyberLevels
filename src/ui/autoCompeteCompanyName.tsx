@@ -14,6 +14,7 @@ interface Props {
   top?:boolean
   showCreate?:boolean
   disabled?:boolean
+  borderNone?:boolean
 }
 
 function AutocompletePosition({
@@ -24,6 +25,7 @@ function AutocompletePosition({
   top=false,
   showCreate=true,
   disabled=false,
+  borderNone=false,
 }: Props) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -83,6 +85,7 @@ function AutocompletePosition({
               placeholder="Company Name"
               displayValue={() => selected.name}
               onChange={(event) => setQuery(event.target.value)}
+              style={{border: borderNone?"none":""}}
             />
             {query.length >= 3 && showCreate && (
               <p
