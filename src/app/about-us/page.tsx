@@ -43,7 +43,7 @@ const AboutUsPage = () => {
         {/* feedback one end */}
 
         {/* job portal intro start */}
-        <JobPortalIntro top_border={true} />
+        {/* <JobPortalIntro top_border={true} /> */}
         {/* job portal intro end */}
 
         {/* footer start */}

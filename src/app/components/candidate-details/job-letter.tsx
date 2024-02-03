@@ -27,6 +27,7 @@ const JobLetter = ({
   const dispatch = useAppDispatch();
   //   const [jobLetter, setJobLetter] = useState("");
   const [isSaved, setSaved] = useState(false);
+  const [isSkip, setSkip] = useState(false);
   const [text, setText] = useState("");
   const [jobLetterWithAi, setJobLetterWithAi] = useState<any>("");
   const { jobPost, gptLoading } = useAppSelector((state) => state.jobPost);
@@ -117,14 +118,26 @@ const JobLetter = ({
         </div>
       </div>
       <div className="button-group d-inline-flex align-items-center mt-30">
-        <button
-          type="button"
-          onClick={handleSave}
-          className="btn-one tran3s me-3"
-        >
-          {isSaved ? <span>Saved</span> : <span>Save</span>}
-        </button>
-        {isSaved && (
+        {!(isSaved || isSkip) && (
+          <>
+            <button
+              type="button"
+              onClick={handleSave}
+              className="btn-one tran3s me-3"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              onClick={() => setSkip(true)}
+              className="btn-two tran3s tran3s me-3"
+            >
+              <span>Skip</span>
+            </button>
+          </>
+        )}
+
+        {(isSaved || isSkip) && (
           <button
             onClick={handleApply}
             type="button"

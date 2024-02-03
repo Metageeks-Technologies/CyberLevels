@@ -5,6 +5,8 @@ import localFont from "next/font/local";
 import BackToTopCom from "./components/common/back-to-top-com";
 import "./globals.scss";
 
+const myCallbackFunc = () => {};
+
 const gordita = localFont({
   src: [
     {

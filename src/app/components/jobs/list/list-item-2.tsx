@@ -29,7 +29,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
     (state) => state.model
   );
   const dispatch = useAppDispatch();
-  const isActive = item?.isSaved || false;
+  const isActive = (isAuthenticated && item?.isSaved) || false;
   const handleSaveJob = (jobPostId: string) => {
     if (!isActive) {
       if (currCandidate?.isProfileCompleted === true) {
@@ -87,7 +87,9 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                     onClick={() => handleViewClick(item._id)}
                     className="title fw-500 tran3s"
                   >
-                    {`${item.title?.slice(0, 20)} ${item.title?.length > 20 ? ".." : ""}(${item.jobCode})`}
+                    {`${item.title?.slice(0, 20)} ${
+                      item.title?.length > 20 ? ".." : ""
+                    }(${item.jobCode})`}
                   </div>
                 </div>
               </div>

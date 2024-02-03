@@ -16,6 +16,7 @@ import ChatWithGpt from "../common/chat-with-gpt";
 
 import { setSubscriptionModel } from "@/redux/features/model/slice";
 import SubscriptionModal from "../model/subscriptionModel";
+import Experience from "../dashboard/candidate/resume/Experience";
 
 const JobDetailsV1Area = ({
   job,
@@ -31,7 +32,20 @@ const JobDetailsV1Area = ({
 
   const [sidebar, setSidebar] = useState(false);
   const date = new Date(job?.createdAt);
-  const readableString = date.toLocaleDateString();
+  const options: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  };
+  const readableString = date.toLocaleDateString(undefined, options);
+
+  const date1 = new Date(company?.foundedDate ?? new Date());
+  const options2: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  };
+  const readableStrings = date1.toLocaleDateString(undefined, options2);
 
   const dispatch = useAppDispatch();
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
@@ -84,16 +98,16 @@ const JobDetailsV1Area = ({
         <div className="container">
           <div className="row">
             <div className="col-xxl-9 col-xl-8">
-              <div className="details-post-data hello me-xxl-5 pe-xxl-4">
+              <div className="details-post-data row hello me-xxl-5 pe-xxl-4">
                 <div className="d-flex justify-content-between  ">
-                  <div className="">
+                  <div className="col-6 ">
                     <div className="post-date">
                       {readableString} by
                       <a href="#" className="fw-500 ms-2  text-dark">
                         {company?.name}
                       </a>
                     </div>
-                    <h3 className="post-title">{job?.title}</h3>
+                    <h3 className="post-title pe-3">{job?.title}</h3>
                     <div className=" d-flex justify-items-center w-100 justify-content-between align-items-center   ">
                       <ul className="share-buttons d-flex flex-wrap style-none">
                         <li>
@@ -121,7 +135,7 @@ const JobDetailsV1Area = ({
                       </ul>
                     </div>
                   </div>
-                  <div className="gap-3 ">
+                  <div className="gap-3 col-6 ">
                     {job.matchScore != undefined && (
                       <div className="job-match">
                         <span
@@ -140,15 +154,12 @@ const JobDetailsV1Area = ({
                           match with your profile.
                         </span>
                         <div>
-                        <div>
-                                Your profile is missing these key skills:
-                              </div>
+                          <div>Your profile is missing these key skills:</div>
                           {missingSKills.length > 0 && (
                             <div className="">
-                              
                               <div className=" fw-medium mt-3 ">
                                 Primary Skills:
-                                </div>
+                              </div>
                               <ul className="p-0  gap-2 mt-2 flex-wrap  d-flex shadow-none ">
                                 {missingSKills.map((skill, index) => (
                                   <li
@@ -166,7 +177,7 @@ const JobDetailsV1Area = ({
                           )}
                         </div>
                         <div>
-                        {secMissingSKills.length > 0 && (
+                          {secMissingSKills.length > 0 && (
                             <div className="">
                               <div className="fw-medium mt-3">
                                 Secondary Skills:
@@ -212,7 +223,7 @@ const JobDetailsV1Area = ({
                 );
               })} */}
 
-                <div className="post-block border-style mt-30">
+                <div className="post-block border-style mt-30 mb-45">
                   <div
                     className="_description"
                     dangerouslySetInnerHTML={{ __html: description }}
@@ -261,7 +272,7 @@ const JobDetailsV1Area = ({
                     </li>
                   </ul>
                 </div> */}
-                <div className="post-block border-style mt-40 lg-mt-30">
+                {/* <div className="post-block border-style mt-40 lg-mt-30">
                   <div className="d-flex align-items-center">
                     <div className="block-numb text-center fw-500 text-white rounded-circle me-2">
                       3
@@ -270,13 +281,29 @@ const JobDetailsV1Area = ({
                   </div>
                   <div className="candidates-profile-details">
                     <div className="inner-card p-0">
-                      {/* skill area */}
+                      {/* skill area *
                       <Skills skills={job?.primarySkills} />
-                      {/* skill area */}
+                      {/* skill area *
                     </div>
                   </div>
+                </div> */}
+                <div className="candidates-profile-details me-xxl-5 pe-xxl-4">
+                  <div className="inner-card border-style mb-45 lg-mb-50">
+                    <h3 className="title">Primary Skills</h3>
+                    <Skills skills={job?.primarySkills} />
+                  </div>
+                  <div className="inner-card border-style mb-45 lg-mb-50">
+                    <h3 className="title">Secondary Skills</h3>
+                    <Skills skills={job?.secondarySkills} />
+                  </div>
+                  <div className="inner-card border-style mb-45 lg-mb-50">
+                    <h3 className="title">Benefits</h3>
+                    {job?.benefits?.map((val, index) => {
+                      return <li key={index}>{val}</li>;
+                    })}
+                  </div>
                 </div>
-                <div className="post-block border-style mt-40 lg-mt-30">
+                {/* <div className="post-block border-style mt-40 lg-mt-30">
                   <div className="d-flex align-items-center">
                     <div className="block-numb text-center fw-500 text-white rounded-circle me-2">
                       4
@@ -285,14 +312,14 @@ const JobDetailsV1Area = ({
                   </div>
                   <div className="candidates-profile-details">
                     <div className="inner-card p-0">
-                      {/* skill area */}
+                      {/* skill area *
                       <Skills skills={job?.secondarySkills} />
-                      {/* skill area */}
+                      {/* skill area *
                     </div>
                   </div>
-                </div>
+                </div> */}
 
-                <div className="post-block border-style mt-40 lg-mt-30">
+                {/* <div className="post-block border-style mt-40 lg-mt-30">
                   <div className="d-flex align-items-center">
                     <div className="block-numb text-center fw-500 text-white rounded-circle me-2">
                       5
@@ -310,9 +337,9 @@ const JobDetailsV1Area = ({
                   </li>
                   <li>Vacation stipend</li>
                   <li>Unlimited paid vacation and paid company holidays</li>
-                  <li>Monthly wellness/gym stipend</li> */}
+                  <li>Monthly wellness/gym stipend</li> *
                   </ul>
-                </div>
+                </div> */}
               </div>
             </div>
             {/* side section */}
@@ -340,16 +367,42 @@ const JobDetailsV1Area = ({
                     </li>
                     <li className="col-xl-5 col-md-4 col-sm-6">
                       <span>Expertise</span>
-                      {/* <div>{job.primarySkills.join(",")}</div> */}
-                      <div>{job?.primarySkills[0]}</div>
+                      {/* <div>{job.primarySkills.join(",")}</div> * */}
+                      <div>
+                        {job?.primarySkills
+                          .slice(0, 3)
+                          .map((primarySkills, index) => (
+                            <span key={index}>
+                              {primarySkills}
+                              {index !== 2 && ","}
+                              <br />
+                            </span>
+                          ))}
+                      </div>
                     </li>
                     <li className="col-xl-7 col-md-4 col-sm-6">
                       <span>Location</span>
-                      <div>{job?.location}</div>
+                      <div>
+                        {job?.location.map((location, index) => (
+                          <span key={index}>
+                            {location}
+                            {index !== job?.location.length - 1 && ","}
+                            <br />
+                          </span>
+                        ))}
+                      </div>
                     </li>
                     <li className="col-xl-5 col-md-4 col-sm-6">
                       <span>Job Type</span>
-                      <div>{job?.jobType[0]}</div>
+                      <div>
+                        {job?.jobType.map((jobType, index) => (
+                          <span key={index}>
+                            {jobType}
+                            {index !== job?.jobType.length - 1 && ","}
+                            <br />
+                          </span>
+                        ))}
+                      </div>
                     </li>
                     <li className="col-xl-7 col-md-4 col-sm-6">
                       <span>Date</span>
@@ -357,7 +410,16 @@ const JobDetailsV1Area = ({
                     </li>
                     <li className="col-xl-5 col-md-4 col-sm-6">
                       <span>Experience</span>
-                      <div>{job?.preferredExperience[0]}</div>
+                      <div>
+                        {job?.preferredExperience.map((Experience, index) => (
+                          <span key={index}>
+                            {Experience}
+                            {index !== job?.preferredExperience.length - 1 &&
+                              ","}
+                            <br />
+                          </span>
+                        ))}
+                      </div>
                     </li>
                   </ul>
                   <div className="job-tags d-flex flex-wrap pt-15">
@@ -430,12 +492,12 @@ const JobDetailsV1Area = ({
                     </li>
                     <li className="col-xl-7 col-md-4 col-sm-6">
                       <span>Founded Date</span>
-                      <div>{readableString} </div>
+                      <div>{readableStrings}</div>
                     </li>
-                    <li className="col-xl-5 col-md-4 col-sm-6">
+                    {/* <li className="col-xl-5 col-md-4 col-sm-6">
                       <span>Experience</span>
                       <div>{job?.preferredExperience[0]}</div>
-                    </li>
+                    </li> */}
                   </ul>
                   <div className="job-tags d-flex flex-wrap pt-15">
                     {company?.benefits &&
@@ -460,7 +522,6 @@ const JobDetailsV1Area = ({
       </div>
       {sidebar && <GptSidebar setSidebar={setSidebar} />}
       <QuestionModal question={job?.testQuestions} jobId={job?._id} />
-      
     </>
   );
 };

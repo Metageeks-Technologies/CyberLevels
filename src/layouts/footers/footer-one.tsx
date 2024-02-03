@@ -36,13 +36,13 @@ const FooterOne = ({
               />
             </div>
             {/* widget one */}
-            <WidgetOne style_2={style_2} cls="col-lg-2 col-md-3 col-sm-4" />
+            <WidgetOne style_2={style_2} cls="col-lg-3 col-md-3 col-sm-4" />
             {/* widget two */}
-            <WidgetTwo style_2={style_2} cls="col-lg-2 col-md-3 col-sm-4" />
+            <WidgetTwo style_2={style_2} cls="col-lg-3 col-md-3 col-sm-4" />
             {/* widget three */}
-            <WidgetThree style_2={style_2} cls="col-lg-2 col-md-3 col-sm-4" />
+            <WidgetThree style_2={style_2} cls="col-lg-3 col-md-3 col-sm-4" />
             {/* widget end */}
-            <div className="col-lg-4 mb-20 footer-newsletter">
+            {/* <div className="col-lg-4 mb-20 footer-newsletter">
               <h5 className={`footer-title ${style_2 ? "text-white" : ""}`}>
                 Newsletter
               </h5>
@@ -59,7 +59,7 @@ const FooterOne = ({
               <p className="note">
                 We only send interesting and relevant emails.
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -72,7 +72,7 @@ const FooterOne = ({
           <div className="row align-items-center">
             <div className="col-lg-4 order-lg-3 mb-15">
               <ul className="style-none d-flex order-lg-last justify-content-center justify-content-lg-end social-icon">
-                <SocialLinks />
+                {/* <SocialLinks /> */}
               </ul>
             </div>
             <div className="col-lg-4 order-lg-1 mb-15">

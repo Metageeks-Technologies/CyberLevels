@@ -51,7 +51,7 @@ const RelatedJobs = ({ jobs }: { jobs: IJobPost[] }) => {
           <Slider
             {...slider_setting}
             ref={sliderRef}
-            className="related-job-slider"
+            className="related-job-slider "
           >
             {jobs.map((j) => (
               <div key={j._id} className="item">
