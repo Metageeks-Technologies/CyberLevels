@@ -32,11 +32,19 @@ const JobDetailsV1Area = ({
 
   const [sidebar, setSidebar] = useState(false);
   const date = new Date(job?.createdAt);
-  const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' };
+  const options: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  };
   const readableString = date.toLocaleDateString(undefined, options);
 
   const date1 = new Date(company?.foundedDate ?? new Date());
-  const options2: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' };
+  const options2: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  };
   const readableStrings = date1.toLocaleDateString(undefined, options2);
 
   const dispatch = useAppDispatch();
@@ -90,9 +98,9 @@ const JobDetailsV1Area = ({
         <div className="container">
           <div className="row">
             <div className="col-xxl-9 col-xl-8">
-              <div className="details-post-data hello me-xxl-5 pe-xxl-4">
+              <div className="details-post-data row hello me-xxl-5 pe-xxl-4">
                 <div className="d-flex justify-content-between  ">
-                  <div className="">
+                  <div className="col-6 ">
                     <div className="post-date">
                       {readableString} by
                       <a href="#" className="fw-500 ms-2  text-dark">
@@ -127,7 +135,7 @@ const JobDetailsV1Area = ({
                       </ul>
                     </div>
                   </div>
-                  <div className="gap-3 ">
+                  <div className="gap-3 col-6 ">
                     {job.matchScore != undefined && (
                       <div className="job-match">
                         <span
@@ -146,15 +154,12 @@ const JobDetailsV1Area = ({
                           match with your profile.
                         </span>
                         <div>
-                        <div>
-                                Your profile is missing these key skills:
-                              </div>
+                          <div>Your profile is missing these key skills:</div>
                           {missingSKills.length > 0 && (
                             <div className="">
-                              
                               <div className=" fw-medium mt-3 ">
                                 Primary Skills:
-                                </div>
+                              </div>
                               <ul className="p-0  gap-2 mt-2 flex-wrap  d-flex shadow-none ">
                                 {missingSKills.map((skill, index) => (
                                   <li
@@ -172,7 +177,7 @@ const JobDetailsV1Area = ({
                           )}
                         </div>
                         <div>
-                        {secMissingSKills.length > 0 && (
+                          {secMissingSKills.length > 0 && (
                             <div className="">
                               <div className="fw-medium mt-3">
                                 Secondary Skills:
@@ -283,21 +288,21 @@ const JobDetailsV1Area = ({
                   </div>
                 </div> */}
                 <div className="candidates-profile-details me-xxl-5 pe-xxl-4">
-                 <div className="inner-card border-style mb-45 lg-mb-50">
-                      <h3 className="title">Primary Skills</h3>
-                      <Skills skills={job?.primarySkills} />
-                    </div>
-                    <div className="inner-card border-style mb-45 lg-mb-50">
-                      <h3 className="title">Secondary Skills</h3>
-                      <Skills skills={job?.secondarySkills} />
-                    </div>
                   <div className="inner-card border-style mb-45 lg-mb-50">
-                      <h3 className="title">Benefits</h3>
-                      {job?.benefits?.map((val, index) => {
-                      return <li key={index}>{val}</li>
+                    <h3 className="title">Primary Skills</h3>
+                    <Skills skills={job?.primarySkills} />
+                  </div>
+                  <div className="inner-card border-style mb-45 lg-mb-50">
+                    <h3 className="title">Secondary Skills</h3>
+                    <Skills skills={job?.secondarySkills} />
+                  </div>
+                  <div className="inner-card border-style mb-45 lg-mb-50">
+                    <h3 className="title">Benefits</h3>
+                    {job?.benefits?.map((val, index) => {
+                      return <li key={index}>{val}</li>;
                     })}
-                   </div>
-                    </div>
+                  </div>
+                </div>
                 {/* <div className="post-block border-style mt-40 lg-mt-30">
                   <div className="d-flex align-items-center">
                     <div className="block-numb text-center fw-500 text-white rounded-circle me-2">
@@ -313,7 +318,6 @@ const JobDetailsV1Area = ({
                     </div>
                   </div>
                 </div> */}
-               
 
                 {/* <div className="post-block border-style mt-40 lg-mt-30">
                   <div className="d-flex align-items-center">
@@ -365,12 +369,14 @@ const JobDetailsV1Area = ({
                       <span>Expertise</span>
                       {/* <div>{job.primarySkills.join(",")}</div> * */}
                       <div>
-                        {job?.primarySkills.slice(0, 3).map((primarySkills, index) => (
-                          <span key={index}>
-                          {primarySkills}
-                         {index !== 2 && ','  }
-                         <br/>
-                           </span>
+                        {job?.primarySkills
+                          .slice(0, 3)
+                          .map((primarySkills, index) => (
+                            <span key={index}>
+                              {primarySkills}
+                              {index !== 2 && ","}
+                              <br />
+                            </span>
                           ))}
                       </div>
                     </li>
@@ -379,11 +385,11 @@ const JobDetailsV1Area = ({
                       <div>
                         {job?.location.map((location, index) => (
                           <span key={index}>
-                          {location}
-                         {index !== job?.location.length - 1 && ','  }
-                         <br/>
-                           </span>
-                          ))}
+                            {location}
+                            {index !== job?.location.length - 1 && ","}
+                            <br />
+                          </span>
+                        ))}
                       </div>
                     </li>
                     <li className="col-xl-5 col-md-4 col-sm-6">
@@ -391,11 +397,11 @@ const JobDetailsV1Area = ({
                       <div>
                         {job?.jobType.map((jobType, index) => (
                           <span key={index}>
-                          {jobType}
-                         {index !== job?.jobType.length - 1 && ','  }
-                         <br/>
-                           </span>
-                          ))}
+                            {jobType}
+                            {index !== job?.jobType.length - 1 && ","}
+                            <br />
+                          </span>
+                        ))}
                       </div>
                     </li>
                     <li className="col-xl-7 col-md-4 col-sm-6">
@@ -407,11 +413,12 @@ const JobDetailsV1Area = ({
                       <div>
                         {job?.preferredExperience.map((Experience, index) => (
                           <span key={index}>
-                          {Experience}
-                         {index !== job?.preferredExperience.length - 1 && ','  }
-                         <br/>
-                           </span>
-                          ))}
+                            {Experience}
+                            {index !== job?.preferredExperience.length - 1 &&
+                              ","}
+                            <br />
+                          </span>
+                        ))}
                       </div>
                     </li>
                   </ul>
@@ -515,7 +522,6 @@ const JobDetailsV1Area = ({
       </div>
       {sidebar && <GptSidebar setSidebar={setSidebar} />}
       <QuestionModal question={job?.testQuestions} jobId={job?._id} />
-      
     </>
   );
 };

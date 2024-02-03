@@ -161,10 +161,33 @@
 }
 // description
 ._description {
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  .h1,
+  h1,
+  .h2,
+  h2,
+  .h3,
+  h3,
+  .h4,
+  h4,
+  .h5,
+  h5,
+  .h6,
+  h6 {
+    font-weight: 500;
+    line-height: 1.2;
+    padding: 0.8rem 0;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0 0;
+    li {
+      padding: 0.2rem 0;
+    }
+  }
+  p {
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 }
 
