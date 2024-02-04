@@ -70,10 +70,11 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                 <div className="logo" onClick={() => handleViewClick(item._id)}>
                   <Image
                     src={typeof item.companyId!=="string" && item.companyId.logo?item.companyId.logo: job_img_1}
-                    width={50}
-                    height={50}
+                    width={100}
+                    height={100}
                     alt="logo"
-                    className="lazy-img m-auto"
+                    className="lazy-img rounded-circle w-100"
+                    style={{ height: "auto" }}
                   />
                 </div>
                 <div className="split-box1">

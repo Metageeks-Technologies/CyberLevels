@@ -9,7 +9,11 @@ import CompanyReviews from "./company-reviews";
 import { setSubscriptionModel } from "@/redux/features/model/slice";
 import SubscriptionModal from "../model/subscriptionModel";
 
-const CompanyDetailsArea = ({ id }: { id: string }) => {
+const CompanyDetailsArea = ({ id ,url}: {
+   id: string;
+   url:string; 
+  }) => {
+    const URL = `${process.env.NEXT_PUBLIC_HOME_ENDPOINT}${url}`;
   const dispatch = useAppDispatch();
   const { company } = useAppSelector((state) => state.company.companyList);
 
@@ -99,16 +103,24 @@ const CompanyDetailsArea = ({ id }: { id: string }) => {
                       <li className="col-12">
                         <span>Social: </span>
                         <div>
-                          <a href={company?.socialSites?.facebook} className="me-3">
+                          <a
+                          target="_blank"
+                          href={company?.socialSites?.facebook} className="me-3">
                             <i className="bi bi-facebook"></i>
                           </a>
-                          <a href={company?.socialSites?.linkedIn} className="me-3">
+                          <a
+                          target="_blank"
+                          href={company?.socialSites?.linkedIn} className="me-3">
                             <i className="bi bi-instagram"></i>
                           </a>
-                          <a href={company?.socialSites?.twitter} className="me-3">
+                          <a
+                          target="_blank"
+                          href={company?.socialSites?.twitter} className="me-3">
                             <i className="bi bi-twitter"></i>
                           </a>
-                          <a href={company?.socialSites?.linkedIn}>
+                          <a
+                          target="_blank"
+                          href={company?.socialSites?.linkedIn}>
                             <i className="bi bi-linkedin"></i>
                           </a>
                         </div>
@@ -164,18 +176,19 @@ const CompanyDetailsArea = ({ id }: { id: string }) => {
                   <div className="share-option mt-60">
                     <ul className="style-none d-flex align-items-center">
                       <li className="fw-500 me-2">Share: </li>
+                      
                       <li>
-                        <a href="#">
-                          <i className="bi bi-facebook"></i>
+                        <a 
+                        target="_blank"
+                        href={`https://www.linkedin.com/sharing/share-offsite/?url=${URL}`}>
+                          <i className="bi bi-linkedin"></i>
                         </a>
                       </li>
                       <li>
-                        <a href="#">
-                          <i className="bi bi-instagram"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
+                        <a 
+                        target="_blank"
+                        href={`https://twitter.com/intent/tweet?text=${""}&url=${URL}`}
+                        >
                           <i className="bi bi-twitter"></i>
                         </a>
                       </li>

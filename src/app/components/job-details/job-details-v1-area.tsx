@@ -113,8 +113,8 @@ const JobDetailsV1Area = ({
                         <li>
                           <a
                             target="_blank"
-                            // href={`https://twitter.com/intent/tweet?text=${""}&url=${URL}`}
-                            href={company?.socialSites?.twitter}
+                            href={`https://twitter.com/intent/tweet?text=${""}&url=${URL}`}
+                            // href={company?.socialSites?.twitter}
                             className="d-flex align-items-center justify-content-center"
                           >
                             <i className="bi bi-twitter"></i>
@@ -124,8 +124,8 @@ const JobDetailsV1Area = ({
                         <li>
                           <a
                             target="_blank"
-                            // href={`https://www.linkedin.com/sharing/share-offsite/?url=${URL}`}
-                            href={company?.socialSites?.linkedIn}
+                            href={`https://www.linkedin.com/sharing/share-offsite/?url=${URL}`}
+                            // href={company?.socialSites?.linkedIn}
                             className="d-flex align-items-center justify-content-center"
                           >
                             <i className="bi bi-linkedin"></i>

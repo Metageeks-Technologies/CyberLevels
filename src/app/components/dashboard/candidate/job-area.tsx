@@ -98,8 +98,8 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                     </thead>
                     <tbody className="border-0">
                       {allJobAppByCandidateWithJobPostPagination?.map((app) => {
-                        let ceratedAt: Date | string = new Date(app.createdAt);
-                        ceratedAt = ceratedAt.toLocaleDateString();
+                        // let ceratedAt: Date | string = new Date(app.createdAt);
+                        // ceratedAt = ceratedAt.toLocaleDateString();
 
                         let updatedAt: Date | string = new Date(app.updatedAt);
                         updatedAt = updatedAt.toLocaleDateString();
@@ -112,7 +112,7 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                               title={app.jobPost.title}
                               info={`${app.jobPost.jobType[0]} . ${app.jobPost.location}`}
                               application={`$ ${app.jobPost.salary.minimum} - ${app.jobPost.salary.maximum} K /month`}
-                              date={ceratedAt}
+                              date={app.jobPost?.createdAt}
                               status={app.status}
                               updatedAt={updatedAt}
                             />

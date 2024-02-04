@@ -79,10 +79,11 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
                   <Image
                     // src={item.logo}
                     src={item.logo ? item.logo : team_img_1}
-                    width={100}
-                    height={100}
+                    width={70}
+                    height={70}
                     alt="image"
-                    className="lazy-img rounded-circle"
+                    className="lazy-img rounded-circle w-100 "
+                    // style={{ height: "auto" }}
                   />
                 </div>
                 <div className="company-data">

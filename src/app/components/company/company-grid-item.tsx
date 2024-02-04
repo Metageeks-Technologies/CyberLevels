@@ -73,10 +73,11 @@ const CompanyGridItem = ({ item }: { item: ICompany }) => {
             >
               <Image
                 src={item.logo ? item.logo : team_img_1}
-                width={100}
-                height={100}
+                width={85}
+                height={85}
                 alt="image"
-                className="lazy-img rounded-circle"
+                className="lazy-img rounded-circle w-100"
+                // style={{ height: "auto", borderRadius: "50%"}}
               />
             </div>
             <h5 className="text-center">
