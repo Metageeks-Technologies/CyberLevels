@@ -22,13 +22,13 @@ export interface ICandidateDashboard {
   savedCompanies: ICompany[];
   toggle: boolean;
   recommendedJobs:
-    | [
-        {
-          job: IJobPost;
-          score: number;
-        }
-      ]
-    |[];
+  | [
+    {
+      job: IJobPost;
+      score: number;
+    }
+  ]
+  | [];
   currDashEducation: string;
   currDashExperience: string;
   viewsOnCandidateProfile: ProfileView[];
@@ -196,6 +196,7 @@ export const candidateDashboardSlice = createSlice({
     },
     updateAvatarSuccess: (state, action: PayloadAction<string>) => {
       if (state.currCandidate) state.currCandidate.avatar = action.payload;
+      state.photoFile = null;
     },
     deleteResumeSuccess: (state, action: PayloadAction<string>) => {
       if (state.currCandidate) {

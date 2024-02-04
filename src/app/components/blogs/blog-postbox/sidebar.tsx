@@ -9,7 +9,9 @@ import { getDate } from "@/utils/helper";
 
 const BlogSidebar = ({ keywords }: { keywords: string[] }) => {
   const recent_blogs = blog_data.slice(-3);
-  const { searchTerm, searchedBlogs,recentBlogs } = useAppSelector((state) => state.blog);
+  const { searchTerm, searchedBlogs, recentBlogs } = useAppSelector(
+    (state) => state.blog
+  );
   const dispatch = useAppDispatch();
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTimeout(() => {
@@ -22,7 +24,7 @@ const BlogSidebar = ({ keywords }: { keywords: string[] }) => {
     searchBlog(dispatch, { searchTerm });
     console.log(searchTerm);
   }, [searchTerm]);
-  
+
   return (
     <div className="blog-sidebar ps-xl-4 md-mt-60">
       <form action="#" className="search-form position-relative mb-50 lg-mb-40">
@@ -31,17 +33,16 @@ const BlogSidebar = ({ keywords }: { keywords: string[] }) => {
           <i className="bi bi-search"></i>
         </button>
       </form>
-      
 
       <div className="category-list mb-60 lg-mb-40">
         {/* <h3 className="sidebar-title">Category</h3> */}
         <ul className="style-none">
-        {searchedBlogs.map((b) => (
-          <li>
-            <Link href={`/blog-details/${b._id}`}>{b.title}</Link>
-          </li>
-        // <p>{b.title}</p>
-      ))}
+          {searchedBlogs.map((b) => (
+            <li>
+              <Link href={`/blog-details/${b._id}`}>{b.title}</Link>
+            </li>
+            // <p>{b.title}</p>
+          ))}
         </ul>
       </div>
       {/* <div className="category-list mb-60 lg-mb-40">
@@ -79,9 +80,9 @@ const BlogSidebar = ({ keywords }: { keywords: string[] }) => {
               i === recent_blogs.length - 1 ? "border-bottom" : ""
             }`}
           >
-            <div>
+            {/* <div>
               <Image src="" alt="image" className="lazy-img" />
-            </div>
+            </div> */}
             <div className="post ps-4">
               <h4 className="mb-5">
                 <Link href={`/blog-details/${b._id}`} className="title tran3s">

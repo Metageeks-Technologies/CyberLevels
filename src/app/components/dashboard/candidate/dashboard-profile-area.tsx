@@ -37,7 +37,9 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
   const dispatch = useAppDispatch();
   const user = currCandidate as ICandidate;
 
-  const { file } = useAppSelector((s) => s.global);
+  const { photoFile: file } = useAppSelector(
+    (state) => state.candidate.candidateDashboard
+  );
 
   const handleProfilePhoto = async () => {
     if (!user) {
