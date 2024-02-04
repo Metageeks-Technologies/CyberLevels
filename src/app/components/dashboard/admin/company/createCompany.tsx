@@ -19,8 +19,8 @@ import { useAppSelector } from "@/redux/hook";
 import "react-phone-number-input/style.css";
 import AutocompleteBenefits from "@/ui/autoCompletebenefits";
 import Finance from "../show-finance";
-import { notifyInfo } from "@/utils/toast";
-import { setFile } from "@/redux/features/globalSlice";
+import { notifyInfo, notifySuccess } from "@/utils/toast";
+import { resetFile, setFile } from "@/redux/features/globalSlice";
 import {
   checkValidDescription,
   isFundingAmount,
@@ -38,11 +38,12 @@ const CreateCompany = () => {
     logo: "",
     name: "",
     email: "",
-    foundedDate: "",
+    // foundedDate: "",
     founderName: "",
     about: "",
     category: "",
   });
+  const [foundedDate, setFoundedDate] = useState("");
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -69,6 +70,13 @@ const CreateCompany = () => {
     setFunding((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const [validFunding, setValidFunding] = useState({
+    amount: true,
+    fundedBy: true,
+    round: true,
+    yearOfFunding: true,
+  });
+
   const handleAddFunding = () => {
     if (
       !fundingInput.amount ||
@@ -78,6 +86,13 @@ const CreateCompany = () => {
       round === "select" ||
       yearOfFunding === "select"
     ) {
+      setValidFunding({
+        ...validFunding,
+        amount: fundingInput.amount.length !== 0,
+        fundedBy: fundingInput.fundedBy.length !== 0,
+        round: round.length !== 0 && round !== "select",
+        yearOfFunding: yearOfFunding.length !== 0 && yearOfFunding !== "select",
+      });
       notifyInfo("Please complete all fields to add funding");
       return;
     }
@@ -85,6 +100,7 @@ const CreateCompany = () => {
       ...fundingInput,
       round: round,
       yearOfFunding: yearOfFunding,
+      foundedDate,
     };
     setFunding((prev) => [...prev, fund]);
     setFundingInput({
@@ -206,40 +222,97 @@ const CreateCompany = () => {
   }, [socialSites.facebook]);
 
   useEffect(() => {
+    if (fundingInput.amount.length !== 0) {
+      setValidFunding({ ...validFunding, amount: true });
+    }
     setValidForm({
       ...validForm,
       fundingAmount: isFundingAmount(fundingInput.amount),
     });
   }, [fundingInput.amount]);
+  useEffect(() => {
+    if (fundingInput.fundedBy.length !== 0)
+      setValidFunding({ ...validFunding, fundedBy: true });
+  }, [fundingInput.fundedBy]);
+  useEffect(() => {
+    if (round.length !== 0)
+      setValidFunding({ ...validFunding, round: true });
+  }, [round]);
+  useEffect(() => {
+    if (yearOfFunding.length !== 0)
+    setValidFunding({ ...validFunding, yearOfFunding: true });
+}, [yearOfFunding]);
 
   const handleSubmit = async () => {
     // if(form.about && form.name && form.category && form.email && form.foundedDate && form.founderName && value && teamSize && socialSites.website && location.locality && city && country){
     //   notifyInfo("Please complete * marked fields.")
     //   return;
     // }
-    if (
-      !form.about ||
-      !form.name ||
-      !form.category ||
-      !form.email ||
-      !form.foundedDate ||
-      !form.founderName ||
-      !value ||
-      !teamSize ||
-      !socialSites.website ||
-      !location.locality ||
-      !city ||
-      !country
-    ) {
-      notifyInfo("Please complete * marked fields.");
-      return;
-    }
-    if (!file) {
-      notifyInfo("please upload logo");
-      return;
-    }
     if (!currAdmin && !currEmployer) {
       notifyInfo("please login to create a company");
+      return;
+    }
+    
+    if (!form.name) {
+      notifyInfo("Please complete the 'Company Name' field.");
+      return;
+    }
+    
+    
+    if (!form.email) {
+      notifyInfo("Please complete the 'Email' field.");
+      return;
+    }
+    
+    if (!foundedDate) {
+      notifyInfo("Please provide the 'Founded Year'.");
+      return;
+    }
+    
+    if (!form.founderName) {
+      notifyInfo("Please complete the 'Founder Name' field.");
+      return;
+    }
+    
+    if (!teamSize) {
+      notifyInfo("Please provide the 'Team Size'.");
+      return;
+    }
+    if (!value) {
+      notifyInfo("Please provide the 'Value'.");
+      return;
+    }
+    
+    if (!form.category) {
+      notifyInfo("Please complete the 'Category' field.");
+      return;
+    }
+    
+    if (!form.about) {
+      notifyInfo("Please complete the 'About' field.");
+      return;
+    }
+    if (!socialSites.website) {
+      notifyInfo("Please provide the 'Website' in the 'Social Sites' section.");
+      return;
+    }
+    if(!benefits){
+      notifyInfo("Please provide the 'Benefits' in the 'Benefits & Offerings' sections")
+      return 
+    }    
+    
+    if (!location.locality) {
+      notifyInfo("Please provide the 'Local Address' in the 'Location' section.");
+      return;
+    }
+    
+    if (!city) {
+      notifyInfo("Please provide the 'City' in the 'Location' section.");
+      return;
+    }
+    
+    if (!country) {
+      notifyInfo("Please provide the 'Country' in the 'Location' section.");
       return;
     }
     const ILocation = {
@@ -257,31 +330,35 @@ const CreateCompany = () => {
       // createdBy: currEmployer._id,
       createdBy,
       benefits,
+      foundedDate,
       funding,
     };
     console.log(bodyObj);
     // return;
 
-    addCompany(dispatch, bodyObj, file);
-
-    // setForm({
-    //   logo: "",
-    //   name: "",
-    //   email: "",
-    //   founderName: "",
-    //   foundedDate: "",
-    //   about: "",
-    //   category: "",
-    // });
-    // setCity("");
-    // setCountry("");
-    // setTeamSize("");
-    // setLocation({
-    //   locality: "",
-    // });
-    // // setSocialSites([]);
-    // setBenefits([]);
-    // setFunding([]);
+    addCompany(dispatch, bodyObj, file!);
+    notifySuccess("Company created successfully");
+    setForm({
+      logo: "",
+      name: "",
+      email: "",
+      founderName: "",
+      // foundedDate: "",
+      about: "",
+      category: "",
+    });
+    setCity("");
+    setCountry("");
+    setTeamSize("");
+    setLocation({
+      locality: "",
+    });
+    setFoundedDate("");
+    setSocialSites({ linkedIn: "", twitter: "", facebook: "", website: "" });
+    setBenefits([]);
+    setFunding([]);
+    setValue("");
+    dispatch(resetFile());
   };
   const handleFile = (file: File | null) => {
     dispatch(setFile(file));
@@ -348,19 +425,27 @@ const CreateCompany = () => {
                 onChange={handleInputChange}
                 placeholder="companyinc@gmail.com"
               />
-              {!validForm.email && <p style={{color:"red"}}>Enter valid email</p>}
+              {!validForm.email && (
+                <p style={{ color: "red" }}>Enter valid email</p>
+              )}
             </div>
           </div>
 
           <div className="col-md-6">
             <div className="dash-input-wrapper mb-30">
-              <label htmlFor="foundedDate">Founded Date*</label>
-              <input
+              <label htmlFor="foundedDate">Founded Year*</label>
+              {/* <input
                 name="foundedDate"
-                value={form.foundedDate}
+                value={foundedDate}
                 onChange={handleInputChange}
                 type="date"
                 placeholder="DD-MM-yyyy"
+              /> */}
+              <SelectYear
+                firstInput="Select Year"
+                setYear={setFoundedDate}
+                placeholder="Select Year"
+                default={{ value: `${foundedDate}`, label: `${foundedDate}` }}
               />
             </div>
           </div>
@@ -383,7 +468,11 @@ const CreateCompany = () => {
             <div className="dash-input-wrapper mb-30">
               <label htmlFor="">Company Size*</label>
               {/* <TeamSizeSelect teamSize={teamSize} setTeamSize={setTeamSize} /> */}
-              <TeamSizeSelect setSelected={setTeamSize} />
+              <TeamSizeSelect
+                setSelected={setTeamSize}
+                defaultOption={{ value: `${teamSize}`, label: `${teamSize}` }}
+                placeholder="Select Team Size"
+              />
             </div>
           </div>
           <div className="col-md-6">
@@ -537,7 +626,7 @@ const CreateCompany = () => {
                 aria-expanded="false"
                 aria-controls="collapseOne"
               >
-                Add Funding*
+                Add Funding
               </button>
             </div>
             <div
@@ -561,6 +650,10 @@ const CreateCompany = () => {
                         onChange={handleFundingChange}
                         type="text"
                         placeholder="345M"
+                        style={{
+                          borderColor: !validFunding.amount ? "red" : "",
+                          borderRadius: !validFunding.amount ? "5px" : "",
+                        }}
                       />
                       {!validForm.fundingAmount && (
                         <p style={{ color: "red" }}>
@@ -584,6 +677,10 @@ const CreateCompany = () => {
                         onChange={handleFundingChange}
                         type="text"
                         placeholder="GGV capitals"
+                        style={{
+                          borderColor: !validFunding.fundedBy ? "red" : "",
+                          borderRadius: !validFunding.fundedBy ? "5px" : "",
+                        }}
                       />
                     </div>
                   </div>
@@ -602,6 +699,9 @@ const CreateCompany = () => {
                           firstInput="select"
                           placeholder="Select Year"
                         />
+                        {!validFunding.yearOfFunding && (
+                          <p style={{ color: "red" }}>please select year</p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -616,6 +716,9 @@ const CreateCompany = () => {
                     <div className="row">
                       <div className="">
                         <SelectRound firstInput="select" setRound={setRound} />
+                        {!validFunding.round && (
+                          <p style={{ color: "red" }}>please select round</p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -657,7 +760,7 @@ const CreateCompany = () => {
       </div>
       {/* from for adding benefits of company */}
       <div className="bg-white card-box border-20 mt-40">
-        <h4 className="dash-title-three ">Benefits && Offerings</h4>
+        <h4 className="dash-title-three ">Benefits && Offerings*</h4>
         <div className="dash-input-wrapper">
           {benefits.length > 0 && (
             <div className="skills-wrapper mb-3 ">
@@ -794,9 +897,7 @@ const CreateCompany = () => {
         >
           {loading ? <Loader /> : <span>Save</span>}
         </button>
-        <a href="#" className="dash-cancel-btn tran3s">
-          Cancel
-        </a>
+        
       </div>
     </div>
   );

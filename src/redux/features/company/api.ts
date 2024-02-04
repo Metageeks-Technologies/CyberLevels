@@ -11,11 +11,11 @@ import { notifySuccess } from "@/utils/toast";
 export const addCompany = async (dispatch: AppDispatch, bodyObj: any, file: File) => {
 
     dispatch(submitCompanyStart());
-    const nameArr = file.name.split(".");
+    const nameArr = file?.name.split(".");
     const logoMetadata = {
         folder: "company",
-        extension: nameArr[nameArr.length - 1],
-        type: file.type,
+        extension: nameArr?nameArr[nameArr?.length - 1]:"",
+        type: file?.type,
     }
     try {
 
@@ -39,8 +39,8 @@ export const addCompany = async (dispatch: AppDispatch, bodyObj: any, file: File
                 dispatch(updateLogo(data.logo));
 
             }
-            notifySuccess("Company created successfully");
         }
+        
 
         // console.log(data);
     } catch (error) {
@@ -80,4 +80,5 @@ export const getCompanyDetails = async (dispatch: AppDispatch, id: string) => {
         dispatch(requestFail(e.message));
     }
 }
+
 

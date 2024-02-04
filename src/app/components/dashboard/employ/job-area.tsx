@@ -141,7 +141,7 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                         color: "#888",
                       }}
                     >
-                      No candidates to Show
+                      No Job Posts yet!
                     </p>
                   )}
               </div>

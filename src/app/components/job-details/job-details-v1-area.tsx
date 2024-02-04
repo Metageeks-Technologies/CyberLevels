@@ -107,7 +107,7 @@ const JobDetailsV1Area = ({
                         {company?.name}
                       </a>
                     </div>
-                    <h3 className="post-title pe-3">{job?.title}</h3>
+                    <h3 className="post-title pe-3">{`${job?.title} (${job.jobCode})`}</h3>
                     <div className=" d-flex justify-items-center w-100 justify-content-between align-items-center   ">
                       <ul className="share-buttons d-flex flex-wrap style-none">
                         <li>

@@ -16,7 +16,7 @@ const CompanyList = () => {
   const { companyFA, pageFCom, totalCompany, totalNumOfPageFCom, loading } =
     useAppSelector((state) => state.admin);
   const dispatch = useAppDispatch();
-
+ 
   useEffect(() => {
     
     if (currUser) {

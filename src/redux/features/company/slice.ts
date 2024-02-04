@@ -10,6 +10,8 @@ export interface jobPstState {
     page: number,
     totalNumOfPage: number,
     totalCompanies: number,
+    companyBeingEdited:string,
+   
 }
 const initialState: jobPstState = {
     company: null,
@@ -19,6 +21,8 @@ const initialState: jobPstState = {
     page: 1,
     totalCompanies: 0,
     totalNumOfPage: 1,
+    companyBeingEdited:"",
+    
 }
 
 type IForGetAllJobPost = {
@@ -63,10 +67,13 @@ export const companySlice = createSlice({
             })
 
         },
+        setCompanyBeingEdited:(state,action:PayloadAction<string>) => {
+            state.companyBeingEdited=action.payload;
+        }
 
     },
 })
 
-export const { requestFail, toggleIsSaved, setPage, requestStart, getCompaniesSuccess, getCompanySuccess } = companySlice.actions
+export const { requestFail, toggleIsSaved, setPage, requestStart, getCompaniesSuccess, getCompanySuccess, setCompanyBeingEdited } = companySlice.actions
 
 export default companySlice.reducer

@@ -6,6 +6,7 @@ import {
   getEmployerSuccess,
   getCurrAdminSuccess,
   getCompanySuccess,
+  companyUpdateSuccess,
 } from "./slice";
 import {
   blogRequestFail,
@@ -167,3 +168,16 @@ export const addComment = async (
     dispatch(blogRequestFail(e.message));
   }
 };
+
+
+export const updateCompany = async (dispatch:AppDispatch, companyId:string,bodyObj:any) => {
+  dispatch(requestStart());
+  try {
+    const {data} = await instance.patch(`/company/${companyId}`,bodyObj)
+    dispatch(companyUpdateSuccess(data));
+    
+  } catch (error) {
+    const e = error as AxiosError;
+    dispatch(blogRequestFail(e.message));
+  }
+}

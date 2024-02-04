@@ -1,5 +1,5 @@
 import { IFunding } from "@/types/company";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface Props {
   funding: IFunding[];

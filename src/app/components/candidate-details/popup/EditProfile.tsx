@@ -251,7 +251,7 @@ const EditProfile = () => {
                   </div>
                   {!validDescription && (
                     <p style={{ color: "red" }}>
-                      Description must have {form.bio.trim().length}/200
+                      Description must have {form.bio.trim().replace(/\s+/g, "").length}/200
                       characters
                     </p>
                   )}

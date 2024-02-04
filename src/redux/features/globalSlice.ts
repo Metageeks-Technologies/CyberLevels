@@ -30,8 +30,11 @@ export const globalSlice = createSlice({
         setUploadProgress: (state, action: PayloadAction<number>) => {
             state.uploadProgress = action.payload;
         },
+        resetFile:(state) => {
+            state.file=null
+        }
     },
 })
 
-export const { setSocket, clearSocket, setUploadProgress, setFile } = globalSlice.actions
+export const { setSocket, clearSocket, setUploadProgress, setFile,resetFile } = globalSlice.actions
 export default globalSlice.reducer
