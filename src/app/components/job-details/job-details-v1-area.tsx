@@ -103,7 +103,7 @@ const JobDetailsV1Area = ({
                   <div className="col-6 ">
                     <div className="post-date">
                       {readableString} by
-                      <a href="#" className="fw-500 ms-2  text-dark">
+                      <a className="fw-500 ms-2  text-dark">
                         {company?.name}
                       </a>
                     </div>
