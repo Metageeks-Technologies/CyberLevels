@@ -21,7 +21,13 @@ import AutocompleteBenefits from "@/ui/autoCompletebenefits";
 import Finance from "../show-finance";
 import { notifyInfo } from "@/utils/toast";
 import { setFile } from "@/redux/features/globalSlice";
-import { checkValidDescription, isFundingAmount, isPureString, isValidUrl } from "@/utils/helper";
+import {
+  checkValidDescription,
+  isFundingAmount,
+  isPureString,
+  isValidEmail,
+  isValidUrl,
+} from "@/utils/helper";
 
 const CreateCompany = () => {
   const dispatch = useDispatch();
@@ -48,7 +54,7 @@ const CreateCompany = () => {
   };
 
   const { currEmployer } = useAppSelector((s) => s.employer);
-  const {currAdmin}=useAppSelector((s) => s.admin);
+  const { currAdmin } = useAppSelector((s) => s.admin);
 
   const [benefits, setBenefits] = useState<string[]>([]);
   const [funding, setFunding] = useState<IFunding[]>([]);
@@ -59,7 +65,22 @@ const CreateCompany = () => {
 
   const [yearOfFunding, setYearOfFunding] = useState("");
   const [round, setRound] = useState("");
+  const handleRemoveFunding = (index: number) => {
+    setFunding((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const handleAddFunding = () => {
+    if (
+      !fundingInput.amount ||
+      !fundingInput.fundedBy ||
+      !round ||
+      !yearOfFunding ||
+      round === "select" ||
+      yearOfFunding === "select"
+    ) {
+      notifyInfo("Please complete all fields to add funding");
+      return;
+    }
     const fund = {
       ...fundingInput,
       round: round,
@@ -120,76 +141,96 @@ const CreateCompany = () => {
       [name]: value,
     });
   };
-  const [validForm,setValidForm] = useState({
+  const [validForm, setValidForm] = useState({
     // name: false,
-    // email: "",
+    email: true,
     // foundedDate: "",
     founderName: true,
     about: true,
     category: true,
-    phoneNumber:true,
+    phoneNumber: true,
     linkedIn: true,
     twitter: true,
     facebook: true,
     website: true,
-    fundingAmount:true,
-  })
+    fundingAmount: true,
+  });
   useEffect(() => {
-    if(isPureString(form.founderName)){
-      setValidForm({...validForm,founderName:true});
-    }else{
-      setValidForm({...validForm,founderName:false});
+    if (isPureString(form.founderName)) {
+      setValidForm({ ...validForm, founderName: true });
+    } else {
+      setValidForm({ ...validForm, founderName: false });
     }
-   
-  },[form.founderName])
+  }, [form.founderName]);
   useEffect(() => {
-    if(isPureString(form.category)){
-      setValidForm({...validForm,category:true});
+    if (isValidEmail(form.email)) {
+      setValidForm({ ...validForm, email: true });
+    } else {
+      setValidForm({ ...validForm, email: false });
     }
-    else{
-      setValidForm({...validForm,category:false});
-    }
-  },[form.category])
+  }, [form.email]);
   useEffect(() => {
-    if(value && isValidPhoneNumber(value.toString())){
-      setValidForm({...validForm,phoneNumber:true});
-    }else{
-      setValidForm({...validForm,phoneNumber:false});
+    if (isPureString(form.category)) {
+      setValidForm({ ...validForm, category: true });
+    } else {
+      setValidForm({ ...validForm, category: false });
     }
-  },[value])
+  }, [form.category]);
+  useEffect(() => {
+    if (value && isValidPhoneNumber(value.toString())) {
+      setValidForm({ ...validForm, phoneNumber: true });
+    } else {
+      setValidForm({ ...validForm, phoneNumber: false });
+    }
+  }, [value]);
 
   useEffect(() => {
-    if(checkValidDescription(form.about,100)){
-      setValidForm({...validForm,about:true});
+    if (checkValidDescription(form.about, 100)) {
+      setValidForm({ ...validForm, about: true });
+    } else {
+      setValidForm({ ...validForm, about: false });
     }
-    else{
-      setValidForm({...validForm,about:false});
-    }
-  },[form.about])
+  }, [form.about]);
 
   useEffect(() => {
-    setValidForm({...validForm,linkedIn:isValidUrl(socialSites?.linkedIn)});
-  },[socialSites.linkedIn])
+    setValidForm({ ...validForm, linkedIn: isValidUrl(socialSites?.linkedIn) });
+  }, [socialSites.linkedIn]);
   useEffect(() => {
-    setValidForm({...validForm,website:isValidUrl(socialSites?.website)});
-  },[socialSites.website])
+    setValidForm({ ...validForm, website: isValidUrl(socialSites?.website) });
+  }, [socialSites.website]);
   useEffect(() => {
-    setValidForm({...validForm,twitter:isValidUrl(socialSites?.twitter)});
-  },[socialSites.twitter])
+    setValidForm({ ...validForm, twitter: isValidUrl(socialSites?.twitter) });
+  }, [socialSites.twitter]);
   useEffect(() => {
-    setValidForm({...validForm,facebook:isValidUrl(socialSites?.facebook)});
-  },[socialSites.facebook])
+    setValidForm({ ...validForm, facebook: isValidUrl(socialSites?.facebook) });
+  }, [socialSites.facebook]);
 
   useEffect(() => {
-    setValidForm({...validForm,fundingAmount:isFundingAmount(fundingInput.amount)})
-  },[fundingInput.amount])
+    setValidForm({
+      ...validForm,
+      fundingAmount: isFundingAmount(fundingInput.amount),
+    });
+  }, [fundingInput.amount]);
 
   const handleSubmit = async () => {
     // if(form.about && form.name && form.category && form.email && form.foundedDate && form.founderName && value && teamSize && socialSites.website && location.locality && city && country){
     //   notifyInfo("Please complete * marked fields.")
     //   return;
     // }
-    if (!form.about || !form.name || !form.category || !form.email || !form.foundedDate || !form.founderName || !value || !teamSize || !socialSites.website || !location.locality || !city || !country) {
+    if (
+      !form.about ||
+      !form.name ||
+      !form.category ||
+      !form.email ||
+      !form.foundedDate ||
+      !form.founderName ||
+      !value ||
+      !teamSize ||
+      !socialSites.website ||
+      !location.locality ||
+      !city ||
+      !country
+    ) {
       notifyInfo("Please complete * marked fields.");
       return;
     }
@@ -307,6 +348,7 @@ const CreateCompany = () => {
                 onChange={handleInputChange}
                 placeholder="companyinc@gmail.com"
               />
+              {!validForm.email && <p style={{color:"red"}}>Enter valid email</p>}
             </div>
           </div>
 
@@ -332,7 +374,9 @@ const CreateCompany = () => {
                 onChange={handleInputChange}
                 placeholder="Shiva shah"
               />
-              {!validForm.founderName && <p style={{color:"red"}}>Do not use symbols or numbers</p>}
+              {!validForm.founderName && (
+                <p style={{ color: "red" }}>Do not use symbols or numbers</p>
+              )}
             </div>
           </div>
           <div className="col-md-6">
@@ -350,7 +394,9 @@ const CreateCompany = () => {
                 value={value}
                 onChange={(value: any) => setValue(value)}
               />
-              {!validForm.phoneNumber && <p style={{color:"red"}}>Enter Valid Phone Number</p>}
+              {!validForm.phoneNumber && (
+                <p style={{ color: "red" }}>Enter Valid Phone Number</p>
+              )}
             </div>
           </div>
           <div className="col-md-6">
@@ -363,7 +409,9 @@ const CreateCompany = () => {
                 type="text"
                 placeholder="Account, Finance, Marketing"
               />
-              {!validForm.category && <p style={{color:"red"}}>Enter Valid Category</p>}
+              {!validForm.category && (
+                <p style={{ color: "red" }}>Enter Valid Category</p>
+              )}
               {/* <AutocompletePosition
                   selected={category}
                   setSelected={setCategory}
@@ -382,7 +430,12 @@ const CreateCompany = () => {
             placeholder="Write something interesting about you...."
           ></textarea>
           <div className="alert-text">Brief description for your company.</div>
-          {!validForm.about && <p style={{color:"red"}}>About must include {form.about.replace(/\s/g, '').length}/100 characters</p>}
+          {!validForm.about && (
+            <p style={{ color: "red" }}>
+              About must include {form.about.replace(/\s/g, "").length}/100
+              characters
+            </p>
+          )}
         </div>
         {/* <button
             type="submit"
@@ -407,7 +460,9 @@ const CreateCompany = () => {
                 onChange={handleSocialSiteChange}
               />
             </div>
-            {!validForm.website && <p style={{color:"red"}}>Enter Valid URL</p>}
+            {!validForm.website && (
+              <p style={{ color: "red" }}>Enter Valid URL</p>
+            )}
           </div>
           <div className="dash-input-wrapper mb-30 col-5">
             <label htmlFor="firstName">Linked In</label>
@@ -420,7 +475,9 @@ const CreateCompany = () => {
                 onChange={handleSocialSiteChange}
               />
             </div>
-              {!validForm.linkedIn && <p style={{color:"red"}}>Enter Valid URL</p>}
+            {!validForm.linkedIn && (
+              <p style={{ color: "red" }}>Enter Valid URL</p>
+            )}
           </div>
           <div className="dash-input-wrapper mb-30 col-5">
             <label htmlFor="lastName">Twitter</label>
@@ -433,7 +490,9 @@ const CreateCompany = () => {
                 onChange={handleSocialSiteChange}
               />
             </div>
-            {!validForm.twitter && <p style={{color:"red"}}>Enter Valid URL</p>}
+            {!validForm.twitter && (
+              <p style={{ color: "red" }}>Enter Valid URL</p>
+            )}
           </div>
 
           <div className="dash-input-wrapper mb-30 col-5">
@@ -447,7 +506,9 @@ const CreateCompany = () => {
                 onChange={handleSocialSiteChange}
               />
             </div>
-            {!validForm.facebook && <p style={{color:"red"}}>Enter Valid URL</p>}
+            {!validForm.facebook && (
+              <p style={{ color: "red" }}>Enter Valid URL</p>
+            )}
           </div>
         </div>
       </div>
@@ -458,7 +519,10 @@ const CreateCompany = () => {
         {funding.length !== 0 && (
           <div className="inner-card border-style mb-25 lg-mb-20">
             <h3 className="title">Funding</h3>
-            <Finance funding={funding} />
+            <Finance
+              funding={funding}
+              handleRemoveFunding={handleRemoveFunding}
+            />
           </div>
         )}
 
@@ -498,7 +562,11 @@ const CreateCompany = () => {
                         type="text"
                         placeholder="345M"
                       />
-                      {!validForm.fundingAmount && <p style={{color:"red"}}>Please Input number followed by M,B or T.</p>}
+                      {!validForm.fundingAmount && (
+                        <p style={{ color: "red" }}>
+                          Please Input number followed by M,B or T.
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -552,17 +620,36 @@ const CreateCompany = () => {
                     </div>
                   </div>
                 </div>
-                <button
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapseOne"
-                  aria-expanded="false"
-                  aria-controls="collapseOne"
-                  onClick={handleAddFunding}
-                  className="dash-btn-two tran3s me-3 mb-15"
-                >
-                  Save
-                </button>
+                {!fundingInput.amount ||
+                !fundingInput.fundedBy ||
+                !round ||
+                !yearOfFunding ||
+                round === "select" ||
+                yearOfFunding === "select" ? (
+                  <button
+                    type="button"
+                    // data-bs-toggle="collapse"
+                    // data-bs-target="#collapseOne"
+                    // aria-expanded="false"
+                    // aria-controls="collapseOne"
+                    onClick={handleAddFunding}
+                    className="dash-btn-two tran3s me-3 mb-15"
+                  >
+                    Save
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne"
+                    aria-expanded="false"
+                    aria-controls="collapseOne"
+                    onClick={handleAddFunding}
+                    className="dash-btn-two tran3s me-3 mb-15"
+                  >
+                    Save
+                  </button>
+                )}
               </div>
             </div>
           </div>

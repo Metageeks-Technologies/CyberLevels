@@ -128,6 +128,22 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                     })}
                   </tbody>
                 </table>
+                {jobPostsForEmployer?.length === 0 && (
+                    <p
+                      style={{
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        fontSize: "1.5em",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: "#888",
+                      }}
+                    >
+                      No candidates to Show
+                    </p>
+                  )}
               </div>
             </div>
             {/* <div className="tab-pane fade" id="a2" role="tabpanel">

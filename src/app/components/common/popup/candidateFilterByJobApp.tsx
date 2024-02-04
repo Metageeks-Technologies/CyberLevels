@@ -95,8 +95,19 @@ const CandidateFilterByJobApp = () => {
                   </div>
                 </div> */}
 
-                <div className="row">
-                  <div className="col-xl-2 m-auto">
+                <div className="row justify-content-center">
+                <div className="col-xl-2 d-flex  justify-content-end">
+                    <button
+                      type="button"
+                      // className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                      className="btn-ten fw-500 text-white w-100 text-center tran3s mt-30 md-mt-10"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                  <div className="col-xl-2 d-flex justify-content-start">
                     <button
                       onClick={handleReset}
                       className="btn-ten fw-500 text-white w-100 text-center tran3s mt-30 md-mt-10"

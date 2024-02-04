@@ -82,7 +82,7 @@ export const isValidUrl = (url: string) => {
 export const checkValidDescription = (desc: string, limit: number) => {
   // Remove leading and trailing whitespaces and calculate the length without spaces
   const descLengthWithoutSpaces = desc.trim().replace(/\s+/g, "").length;
-  
+
   if (descLengthWithoutSpaces >= limit || descLengthWithoutSpaces === 0) {
     return true; // Return true if the condition is met
   } else {
@@ -138,4 +138,12 @@ export const isBetween = (num: string, min: number, max: number) => {
   } else {
     return false;
   }
+};
+
+export const isValidEmail = (email: string) => {
+  // Regular expression for a basic email validation
+  const emailRegex = /^$|^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Test the email against the regular expression
+  return emailRegex.test(email);
 };

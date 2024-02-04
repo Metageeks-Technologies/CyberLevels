@@ -6,12 +6,12 @@ import JobPortalIntro from "@/app/components/job-portal-intro/job-portal-intro";
 import FooterOne from "@/layouts/footers/footer-one";
 import Header from "@/layouts/headers/header";
 import Wrapper from "@/layouts/wrapper";
-import { Metadata } from "next";
+// import { Metadata } from "next";
 import { usePathname } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Company Details",
-};
+// export const metadata: Metadata = {
+//   title: "Company Details",
+// };
 
 const CompanyDetailsPage = ({ params }: { params: { id: string } }) => {
   const pathName = usePathname();

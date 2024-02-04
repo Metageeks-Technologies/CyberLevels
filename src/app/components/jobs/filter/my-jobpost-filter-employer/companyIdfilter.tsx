@@ -35,7 +35,7 @@ const JobCompany = () => {
   return (
     <div className="filter-block pb-50 lg-pb-20">
       <div className="filter-title fw-500 text-dark">Company</div>
-      <form className="input-box position-relative">
+      <form className="input-box position-relative"  >
         <AutocompletePosition
           selected={Company}
           setSelected={setCompany}
@@ -43,6 +43,7 @@ const JobCompany = () => {
           employerId={currEmployer?._id}
           top={true}
           showCreate={false}
+          borderNone={true}
         />
       </form>
     </div>

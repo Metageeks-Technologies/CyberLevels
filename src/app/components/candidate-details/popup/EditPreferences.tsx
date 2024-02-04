@@ -207,7 +207,7 @@ const EditPreferences = () => {
                 <div className="row">
                   <div className="col-12">
                     <div className="dash-input-wrapper mb-25">
-                      <label htmlFor="city">Expected Salary</label>
+                      <label htmlFor="city">Expected Salary*</label>
                       <AutocompleteCurrency
                         selected={currency}
                         setSelected={setCurrency}
