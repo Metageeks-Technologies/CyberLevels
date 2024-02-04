@@ -237,7 +237,7 @@ const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
                         key={app._id}
                         className="job-item-list d-flex align-items-center"
                       >
-                        <div>
+                        {/* <div>
                           <Image
                             src={job_img_1}
                             alt="logo"
@@ -245,7 +245,7 @@ const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
                             height={40}
                             className="lazy-img logo"
                           />
-                        </div>
+                        </div> */}
                         <div className="job-title">
                           <h6 className="mb-5">
                             <Link href={`/job-details-v1/${app.jobPost?._id}`}>

@@ -130,11 +130,14 @@ const CompanyGridItem = ({ item }: { item: ICompany }) => {
                 // onClick={() => handleViewClick()}
                 className="company-logo me-auto ms-auto rounded-circle cursor-pointer"
               >
-                <Image
-                  src={team_img_1}
-                  alt="image"
-                  className="lazy-img rounded-circle"
-                />
+               <Image
+                src={item.logo ? item.logo : team_img_1}
+                width={85}
+                height={85}
+                alt="image"
+                className="lazy-img rounded-circle w-100"
+                // style={{ height: "auto", borderRadius: "50%"}}
+              />
               </div>
               <h5 className="text-center">
                 <div

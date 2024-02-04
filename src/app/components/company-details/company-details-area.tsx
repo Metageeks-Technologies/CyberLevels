@@ -40,7 +40,7 @@ const CompanyDetailsArea = ({ id ,url}: {
 
   return (
     <>
-    {subscriptionModel ? <SubscriptionModal /> : null}
+    {/* {subscriptionModel ? <SubscriptionModal /> : null} */}
       {company && (
         <section className="company-details candidates-profile-details pt-110 lg-pt-80 pb-160 xl-pb-150 lg-pb-80">
           <div className="container">
@@ -79,7 +79,7 @@ const CompanyDetailsArea = ({ id ,url}: {
                       </li>
                       <li className="col-12">
                         <span>Size:</span>
-                        <div>{company.teamSize}, Worldwide</div>
+                        <div>{company.teamSize}</div>
                       </li>
                       <li className="col-12">
                         <span>Founder Name </span>
@@ -94,35 +94,45 @@ const CompanyDetailsArea = ({ id ,url}: {
                         <span>Category: </span>
                         <div>{company.category}</div>
                       </li>
+                      {company?.benefits && company?.benefits?.length>0 &&(
                       <li className="col-12">
                         <span>Benefits:</span>
                         {company.benefits.map((val) => (
                           <div key={val}>{val}</div>
                         ))}
                       </li>
+                      )}
                       <li className="col-12">
                         <span>Social: </span>
                         <div>
+                          {company?.socialSites?.facebook && (
                           <a
                           target="_blank"
                           href={company?.socialSites?.facebook} className="me-3">
                             <i className="bi bi-facebook"></i>
                           </a>
+                          )}
+                          {company?.socialSites?.website &&(
                           <a
                           target="_blank"
-                          href={company?.socialSites?.linkedIn} className="me-3">
-                            <i className="bi bi-instagram"></i>
+                          href={company?.socialSites?.website} className="me-3">
+                            <i className="bi bi-globe"></i>
                           </a>
+                          )}
+                          {company?.socialSites?.twitter && (
                           <a
                           target="_blank"
                           href={company?.socialSites?.twitter} className="me-3">
                             <i className="bi bi-twitter"></i>
                           </a>
+                          )}
+                          {company?.socialSites?.linkedIn &&(
                           <a
                           target="_blank"
                           href={company?.socialSites?.linkedIn}>
                             <i className="bi bi-linkedin"></i>
                           </a>
+                          )}
                         </div>
                       </li>
                     </ul>
@@ -151,14 +161,18 @@ const CompanyDetailsArea = ({ id ,url}: {
                   >
                     <i className="bi bi-play-fill"></i>
                   </a>
-                </div> */}
+                  </div> */}
+                  {company?.funding && company?.funding?.length >0 && (
+                    <>
                   <h3>Funding && Finnance</h3>
-                  <div>
                     <div className="inner-card border-style mb-25 lg-mb-20">
                       <Funding funding={company.funding} />
                     </div>
-                  </div>
+                    </>
+                  )}
 
+                  {company?.benefits && company?.benefits?.length>0 && (
+                 <>
                   <h3>Benefits</h3>
                   <div className="inner-card border-style mb-25 lg-mb-20">
                     <ul className="list-type-two mb-15 job-tags">
@@ -167,6 +181,8 @@ const CompanyDetailsArea = ({ id ,url}: {
                       })}
                     </ul>
                   </div>
+                  </>
+                  )}
 
                   {/* <div className="position-relative">
                     <h3>Company Reviews</h3>

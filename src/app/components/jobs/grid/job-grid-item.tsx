@@ -95,12 +95,14 @@ const JobGridItem = ({
             onClick={handleSubscribePopup}
           >
             <div className="logo" onClick={() => handleViewClick(item._id)}>
-              <Image
-                src={job_img_1}
-                alt="logo"
-                style={{ height: "auto", width: "auto" }}
-                className="lazy-img m-auto"
-              />
+            <Image
+               src={typeof item.companyId!=="string" && item.companyId.logo?item.companyId.logo: job_img_1}
+               width={50}
+               height={50}
+              alt="logo"
+              style={{ height: "auto", width: "auto" }}
+              className="lazy-img m-auto"
+            />
             </div>
           </button>
         )}
@@ -188,7 +190,7 @@ const JobGridItem = ({
             <div className="d-flex align-items-center justify-content-between mt-auto">
               <div className="job-location">
                 <div onClick={() => handleViewClick(item._id)}>
-                  {item.location}
+                  {item.location?.join(",")}
                 </div>
               </div>
 
@@ -228,7 +230,7 @@ const JobGridItem = ({
                 <div
                 // onClick={() => handleViewClick(item._id)}
                 >
-                  {item.location}
+                  {item.location?.join(",")}
                 </div>
               </div>
 

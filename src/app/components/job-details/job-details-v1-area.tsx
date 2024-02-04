@@ -93,7 +93,7 @@ const JobDetailsV1Area = ({
   // missingSKills.push(...job.secondarySkills);
   return (
     <>
-      {subscriptionModel ? <SubscriptionModal /> : null}
+      {/* {subscriptionModel ? <SubscriptionModal /> : null} */}
       <section className="job-details pt-100 lg-pt-80 pb-130 lg-pb-80">
         <div className="container">
           <div className="row">
