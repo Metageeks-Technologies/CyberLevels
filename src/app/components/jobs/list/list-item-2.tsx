@@ -218,7 +218,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
       {/* login modal start */}
       <LoginModal />
       {profileCompleteModel ? <ProfileCompleteModal /> : null}
-      {subscriptionModel ? <SubscriptionModal /> : null}
+      {/* {subscriptionModel ? <SubscriptionModal /> : null} */}
       {/* login modal end */}
     </>
   );

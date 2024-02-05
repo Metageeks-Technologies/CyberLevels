@@ -16,12 +16,14 @@ const EmployJobItem = ({
   isFeedbackAsked,
   resumes,
   resumeId,
+  experience,
 }: {
   title: string;
   info: string;
   date: string;
   tesScore: String;
   status: string;
+  experience: string;
   id: string;
   appId: string;
   isFeedbackAsked: boolean;
@@ -30,7 +32,11 @@ const EmployJobItem = ({
 }) => {
   const appliedResume = resumes?.find((resume) => resume?._id === resumeId);
   return (
-    <tr className={`${status}`}>
+    <tr className={`${experience} ${status === "Received" && "pending"} ${
+      status === "Under Review" && "active"
+    } ${status === "Not Selected" && "expired"} ${
+      status === "Shortlisted" && "active"
+    }`}>
       <td>
         <div className="job-name fw-500">
           <Link href={`/candidate-profile-v1/${id}`} target="_blank">
@@ -40,9 +46,9 @@ const EmployJobItem = ({
         <div className="info1">{info}</div>
       </td>
       <td>{date}</td>
-      <td>{tesScore}</td>
+      <td >{tesScore}</td>
       <td>
-        <div className="job-status text-capitalize">{status}</div>
+        <div className="text-capitalize">{experience}</div>
       </td>
       <td>
         <div className=" d-flex ">
@@ -56,6 +62,9 @@ const EmployJobItem = ({
           />
           <FileArrowDown size={24} color="black" />
         </div>
+      </td>
+      <td>
+      <div className="job-status text-capitalize">{status}</div>
       </td>
       <td>
         <div className="action-dots float-end">
