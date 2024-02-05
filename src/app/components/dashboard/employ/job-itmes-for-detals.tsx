@@ -46,7 +46,7 @@ const EmployJobItem = ({
         <div className="info1">{info}</div>
       </td>
       <td>{date}</td>
-      <td  style={{textAlign:"center"}}>{tesScore}</td>
+      <td >{tesScore}</td>
       <td>
         <div className="text-capitalize">{experience}</div>
       </td>

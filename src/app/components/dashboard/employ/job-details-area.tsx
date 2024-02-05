@@ -38,17 +38,21 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
           {/* header end */}
 
           <div className="d-sm-flex align-items-center justify-content-between mb-40 lg-mb-30">
-            <h2 className="main-title m0">
-              <Link
-                style={{ color: "#31795A" }}
-                className=""
-                href={`/dashboard/employer-dashboard/jobs`}
-              >
-                My Jobs
-              </Link>
-              /{currJobPost?.title}
-            </h2>
-            {/* <div className="d-flex ms-auto xs-mt-30">
+            <div className=" d-flex">
+              <h2 className="main-title m0">
+                <Link
+                  style={{ color: "#31795A" }}
+                  className=""
+                  href={`/dashboard/employer-dashboard/jobs`}
+                >
+                  My Jobs/
+                </Link>
+              </h2>
+              <div className="" style={{fontSize:"x-large"}}>
+              {currJobPost?.title}({currJobPost?.jobCode})
+            </div>
+          </div>
+          {/* <div className="d-flex ms-auto xs-mt-30">
             <div
               className="nav nav-tabs tab-filter-btn me-4"
               id="nav-tab"
@@ -80,98 +84,97 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
               <EmployShortSelect />
             </div>
           </div> */}
-            <button
-              type="button"
-              className="filter-btn fw-500 tran3s me-3"
-              data-bs-toggle="modal"
-              data-bs-target="#candidateFilterForJobApp"
+          <button
+            type="button"
+            className="filter-btn fw-500 tran3s me-3"
+            data-bs-toggle="modal"
+            data-bs-target="#candidateFilterForJobApp"
+          >
+            <i className="bi bi-funnel"></i>
+            Filter
+          </button>
+        </div>
+
+        <div className="bg-white card-box border-20">
+          <div className="tab-content" id="nav-tabContent">
+            <div
+              className="tab-pane fade show active"
+              id="a1"
+              role="tabpanel"
             >
-              <i className="bi bi-funnel"></i>
-              Filter
-            </button>
-          </div>
+              <div className="table-responsive">
+                <table className="table job-alert-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Applied At</th>
+                      <th scope="col">Test Score</th>
+                      <th scope="col">Expertise</th>
+                      <th scope="col">Resume</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
 
-          <div className="bg-white card-box border-20">
-            <div className="tab-content" id="nav-tabContent">
-              <div
-                className="tab-pane fade show active"
-                id="a1"
-                role="tabpanel"
-              >
-                <div className="table-responsive">
-                  <table className="table job-alert-table">
-                    <thead>
-                      <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Applied At</th>
-                        <th scope="col">Test Score</th>
-                        <th scope="col">Expertise</th>
-                        <th scope="col">Resume</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Action</th>
-                      </tr>
-                    </thead>
-
-                    <tbody className="border-0">
-                      {jobApp?.map((app) => {
-                        const createdAt = getDate(app.createdAt);
-                        console.log(jobApp, "Check Error");
-                        if (typeof app.candidate !== "string") {
-                          return (
-                            <>
-                              <EmployJobItem
-                                title={`${app.candidate?.firstName} ${app.candidate?.lastName}`}
-                                info={`${
-                                  app.candidate?.location?.city || "Delhi"
+                  <tbody className="border-0">
+                    {jobApp?.map((app) => {
+                      const createdAt = getDate(app.createdAt);
+                      console.log(jobApp, "Check Error");
+                      if (typeof app.candidate !== "string") {
+                        return (
+                          <>
+                            <EmployJobItem
+                              title={`${app.candidate?.firstName} ${app.candidate?.lastName}`}
+                              info={`${app.candidate?.location?.city || "Delhi"
                                 }`}
-                                tesScore={String(app.testScore) || "89%"}
-                                date={createdAt}
-                                experience={
-                                  app.candidate?.experienceInShort || "expert"
-                                }
-                                status={app?.status}
-                                id={app.candidate?._id}
-                                appId={app._id}
-                                isFeedbackAsked={app.isFeedbackAsked}
-                                resumes={app.candidate?.resumes}
-                                resumeId={app.appliedWithResume}
-                              />
-                              <JobLetterModal
-                                candidateName={
-                                  app.candidate?.firstName +
-                                  " " +
-                                  app.candidate?.lastName
-                                }
-                                text={app.jobLetter}
-                              />
-                            </>
-                          );
-                        }
-                      })}
-                    </tbody>
-                  </table>
-                  {jobApp?.length === 0 && (
-                    <p
-                      style={{
-                        fontWeight: "bold",
-                        textAlign: "center",
-                        fontSize: "1.5em",
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        color: "#888",
-                      }}
-                    >
-                      No candidates to Show
-                    </p>
-                  )}
-                </div>
+                              tesScore={String(app.testScore) || "89%"}
+                              date={createdAt}
+                              experience={
+                                app.candidate?.experienceInShort || "expert"
+                              }
+                              status={app?.status}
+                              id={app.candidate?._id}
+                              appId={app._id}
+                              isFeedbackAsked={app.isFeedbackAsked}
+                              resumes={app.candidate?.resumes}
+                              resumeId={app.appliedWithResume}
+                            />
+                            <JobLetterModal
+                              candidateName={
+                                app.candidate?.firstName +
+                                " " +
+                                app.candidate?.lastName
+                              }
+                              text={app.jobLetter}
+                            />
+                          </>
+                        );
+                      }
+                    })}
+                  </tbody>
+                </table>
+                {jobApp?.length === 0 && (
+                  <p
+                    style={{
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      fontSize: "1.5em",
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      color: "#888",
+                    }}
+                  >
+                    No candidates to Show
+                  </p>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div >
       <ChatModal />
       <FeedbackModal />
       <CandidateFilterByJobApp />
