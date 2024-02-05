@@ -64,8 +64,8 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   });
 
   const [company, setCompany] = useState({
-    name: "Rockstar",
-    companyId: "65b874905f98ef5f42996216",
+    name: "",
+    companyId: "",
   });
 
   const updateSalaryProperty = (
