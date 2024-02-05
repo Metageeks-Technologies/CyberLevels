@@ -7,35 +7,17 @@ import AutocompleteCategory from "@/ui/autoCompleteBlogCategory";
 import { createBlog } from "@/redux/features/admin/api";
 import Loader from "@/ui/loader";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import AdminBlogArea from "./blog/AdminBlogArea";
+import AdminBlogList from "./blog/AdminBlogList";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const BlogArea = ({ setIsOpenSidebar }: IProps) => {
-  const dispatch = useAppDispatch();
-  const { currAdmin } = useAppSelector((state) => state.admin);
-  const [category, setCategory] = useState<string[]>([]);
-  const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
-  const { loading } = useAppSelector((state) => state.blog);
-  const handleSubmit = async () => {
-    // console.log(title, content, category);
-    const bodyObj = {
-      title,
-      content,
-      category,
-      createdBy: {
-        id: currAdmin?._id || "",
-        name: currAdmin?.name || "",
-      },
-    };
-
-    await createBlog(dispatch, bodyObj);
-    setContent("");
-    setTitle("");
-    setCategory([]);
+  const [isCandidate, setIsCandidate] = useState(true);
+  const handleToggle = () => {
+    setIsCandidate((prev) => !prev);
   };
-
   return (
     <div className="dashboard-body">
       <div className="position-relative candidates-profile-details">
@@ -48,48 +30,28 @@ const BlogArea = ({ setIsOpenSidebar }: IProps) => {
         <div>
           <TextEditor />
         </div> */}
-        <h2 className="main-title">Post a New Job</h2>
-        <div className="bg-white card-box border-20">
-          {/* <h4 className="dash-title-three">Job Details</h4> */}
-          <div className="dash-input-wrapper mb-30">
-            <label htmlFor="">Title*</label>
-            <input
-              type="text"
-              placeholder="What is redis"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </div>
-          <div className="dash-input-wrapper mb-30">
-            <label htmlFor="">Category*</label>
-            <AutocompleteCategory
-              categories={category}
-              setCategories={setCategory}
-            />
-            <div className="skill-input-data d-flex align-items-center flex-wrap">
-              {category.map((value) => (
-                <button key={value}>{value}</button>
-              ))}
-            </div>
-          </div>
-          <div className="dash-input-wrapper mb-30">
-            <label htmlFor="">Blog Content*</label>
-            <TextEditor setContent={setContent} />
-          </div>
-          <div className="button-group d-inline-flex align-items-center mt-30">
-            <button
-              disabled={loading}
-              type={"submit"}
-              onClick={handleSubmit}
-              className="dash-btn-two tran3s me-3"
+        <div className="d-flex align-items-center justify-content-between mb-40 lg-mb-30">
+          <div className="subscription-tab align-content-center py-2  d-flex gap-3 px-2">
+            <p
+              onClick={handleToggle}
+              className={`p-1 px-2 ${isCandidate && "active"}`}
             >
-              {loading ? <Loader /> : "Save"}
-            </button>
-            {/* <a href="#" className="dash-cancel-btn tran3s">
-            Cancel
-          </a> */}
+              Create
+            </p>
+            <p
+              onClick={handleToggle}
+              className={`p-1 px-2 ${!isCandidate && "active"}`}
+            >
+              Blogs
+            </p>
           </div>
         </div>
+
+        <div className="wrapper">
+          {isCandidate ? <AdminBlogArea /> : <AdminBlogList />}
+        </div>
+
+
       </div>
     </div>
   );

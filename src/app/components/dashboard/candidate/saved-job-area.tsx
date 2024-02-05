@@ -19,7 +19,7 @@ type IProps = {
 };
 
 const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
-  const { totalSavedJob, totalNumOfSavedJobsPage, savedJobsPage } =
+  const { totalSavedJob, totalNumOfSavedJobsPage, savedJobsPage,loading } =
     useAppSelector((s) => s.candidate.candidateDashboard);
   const dispatch = useAppDispatch();
   const itemsPerPage = 4;
@@ -43,7 +43,8 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
         </div>
 
         <div className="wrapper">
-        {savedJobs?.length === 0 && (
+        {loading && (<Loader />)}
+        {!loading && savedJobs?.length === 0 && (
           <div
         
           className="job-list-one style-two position-relative mb-20"
@@ -64,7 +65,7 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
                       </p>
                       </div>
                     )}
-          {savedJobs?.map((j) => (
+          {!loading && savedJobs?.map((j) => (
             <div
               key={j._id}
               className="job-list-one style-two position-relative mb-20"
@@ -75,9 +76,11 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
                     <div className="job-title d-flex align-items-center">
                       <Link href={`/job-details-v1/${j._id}`} className="logo">
                         <Image
-                          src={job_img_1}
+                          src={typeof j.companyId!=="string"?j.companyId.logo:job_img_1}
                           alt="img"
                           className="lazy-img m-auto"
+                          width={50}
+                          height={50}
                         />
                       </Link>
                       <Link

@@ -8,6 +8,7 @@ import { ICandidate } from "@/types/user-type";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import Pagination from "@/ui/pagination";
 import { setPage } from "@/redux/features/employer/dashboardSlice";
+import Loader from "@/ui/loader";
 
 // props type
 type IProps = {
@@ -17,7 +18,7 @@ type IProps = {
 
 const SavedCandidateArea = ({ setIsOpenSidebar, savedCandidates }: IProps) => {
   const dispatch = useAppDispatch();
-  const {page, totalCandidate, totalNumOfPage, itemsPerPage} = useAppSelector((state) => state.employer)
+  const {page, totalCandidate, totalNumOfPage, itemsPerPage,loading} = useAppSelector((state) => state.employer)
   const handlePageClick = (event: { selected: number }) => {
     dispatch(setPage(event.selected + 1));
   }
@@ -37,10 +38,27 @@ const SavedCandidateArea = ({ setIsOpenSidebar, savedCandidates }: IProps) => {
         </div>
 
         <div className="wrapper">
-          {savedCandidates.map((item) => (
+        {loading && (<Loader />)}
+          {!loading && savedCandidates?.map((item) => (
             <CandidateItem key={item._id} item={item} />
           ))}
         </div>
+        {!loading && savedCandidates?.length === 0 && (
+                    <p
+                      style={{
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        fontSize: "1.5em",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: "#888",
+                      }}
+                    >
+                      No candidates saved!
+                    </p>
+                  )}
 
         {/* <div className="dash-pagination d-flex justify-content-end mt-30">
           <ul className="style-none d-flex align-items-center">

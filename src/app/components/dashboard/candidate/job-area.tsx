@@ -10,6 +10,7 @@ import FeedbackModal from "../../common/popup/feedback";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { getallJobAppByCandidateWithJobPost } from "@/redux/features/jobApp/api";
 import { setPage } from "@/redux/features/jobApp/slice";
+import Loader from "@/ui/loader";
 
 // props type
 type IProps = {
@@ -20,7 +21,7 @@ type IProps = {
 const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
   // console.log(jobApps);
   const dispatch = useAppDispatch();
-  const { allJobAppByCandidateWithJobPostPagination, currentPage, totalPages, itemsPerPage,totalJobsApplied } = useAppSelector(
+  const { allJobAppByCandidateWithJobPostPagination, currentPage, totalPages, itemsPerPage,totalJobsApplied,loading } = useAppSelector(
     (state) => state.jobApplication
   );
   const {currCandidate} = useAppSelector((state) => state.candidate.candidateDashboard)
@@ -97,7 +98,7 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                       </tr>
                     </thead>
                     <tbody className="border-0">
-                      {allJobAppByCandidateWithJobPostPagination?.map((app) => {
+                      {!loading && allJobAppByCandidateWithJobPostPagination?.map((app) => {
                         // let ceratedAt: Date | string = new Date(app.createdAt);
                         // ceratedAt = ceratedAt.toLocaleDateString();
 
@@ -121,7 +122,8 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                       })}
                     </tbody>
                   </table>
-                      {allJobAppByCandidateWithJobPostPagination?.length === 0 && (
+                  {loading && (<Loader />)}
+                      {!loading && allJobAppByCandidateWithJobPostPagination?.length === 0 && (
                       <p
                         style={{
                           fontWeight: "bold",

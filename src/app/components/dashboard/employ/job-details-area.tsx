@@ -11,6 +11,7 @@ import { useAppSelector } from "@/redux/hook";
 import JobLetterModal from "../../common/popup/jobLetterModer";
 import CandidateFilterByJobApp from "../../common/popup/candidateFilterByJobApp";
 import { IJobPost } from "@/types/jobPost-type";
+import Loader from "@/ui/loader";
 
 // props type
 type IProps = {
@@ -21,6 +22,9 @@ type IProps = {
 const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
   const { jobPostsForEmployer } = useAppSelector((state) => state.jobPost);
   const [currJobPost, setCurrJobPost] = useState<IJobPost | null>();
+  const { loading } = useAppSelector(
+    (state) => state.jobApplication
+  );
 
   useEffect(() => {
     const foundJobPost = jobPostsForEmployer.find(
@@ -112,7 +116,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                     </thead>
 
                     <tbody className="border-0">
-                      {jobApp?.map((app) => {
+                      {!loading && jobApp?.map((app) => {
                         const createdAt = getDate(app.createdAt);
                         console.log(jobApp, "Check Error");
                         if (typeof app.candidate !== "string") {
@@ -148,7 +152,8 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                       })}
                     </tbody>
                   </table>
-                  {jobApp?.length === 0 && (
+                  {loading && (<Loader />)}
+                  {!loading && jobApp?.length === 0 && (
                     <p
                       style={{
                         fontWeight: "bold",
