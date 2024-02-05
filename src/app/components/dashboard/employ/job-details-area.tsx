@@ -107,6 +107,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                         <th scope="col">Test Score</th>
                         <th scope="col">Expertise</th>
                         <th scope="col">Resume</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
@@ -125,9 +126,10 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                                 }`}
                                 tesScore={String(app.testScore) || "89%"}
                                 date={createdAt}
-                                status={
+                                experience={
                                   app.candidate?.experienceInShort || "expert"
                                 }
+                                status={app?.status}
                                 id={app.candidate?._id}
                                 appId={app._id}
                                 isFeedbackAsked={app.isFeedbackAsked}
