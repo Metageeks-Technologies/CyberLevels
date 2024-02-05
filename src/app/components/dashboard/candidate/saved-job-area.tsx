@@ -19,7 +19,7 @@ type IProps = {
 };
 
 const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
-  const { totalSavedJob, totalNumOfSavedJobsPage, savedJobsPage } =
+  const { totalSavedJob, totalNumOfSavedJobsPage, savedJobsPage, loading } =
     useAppSelector((s) => s.candidate.candidateDashboard);
   const dispatch = useAppDispatch();
   const itemsPerPage = 4;
@@ -43,46 +43,48 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
         </div>
 
         <div className="wrapper">
-        {savedJobs?.length === 0 && (
-          <div
-        
-          className="job-list-one style-two position-relative mb-20"
-        >
-                      <p
-                        style={{
-                          fontWeight: "bold",
-                          textAlign: "center",
-                          fontSize: "1.5em",
-                          width: "100%",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          color: "#888",
-                        }}
-                      >
-                        No Jobs Saved! save jobs to visit later
-                      </p>
-                      </div>
-                    )}
-          {savedJobs?.map((j) => (
-            <div
-              key={j._id}
-              className="job-list-one style-two position-relative mb-20"
-            >
-              {/* <Link href={`/job-details-v1/${j._id}`}> */}
+          {loading && <Loader />}
+          {!loading && savedJobs?.length === 0 && (
+            <div className="job-list-one style-two position-relative mb-20">
+              <p
+                style={{
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  fontSize: "1.5em",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  color: "#888",
+                }}
+              >
+                No Jobs Saved! save jobs to visit later
+              </p>
+            </div>
+          )}
+          {!loading &&
+            savedJobs?.map((j) => (
+              <div
+                key={j._id}
+                className="job-list-one style-two position-relative mb-20"
+              >
+                {/* <Link href={`/job-details-v1/${j._id}`}> */}
                 <div className="row justify-content-between align-items-center">
                   <div className="col-xxl-3 col-lg-4">
                     <div className="job-title d-flex align-items-center">
-                      {/* <Link href={`/job-details-v1/${j._id}`} className="logo"> */}
-                      <Image
-                    src={typeof j.companyId!=="string" && j.companyId.logo?j.companyId.logo: job_img_1}
-                    width={60}
-                    height={60}
-                    alt="logo"
-                    className="lazy-img rounded-circle w-100"
-                    // style={{ height: "auto" }}
-                  />
-                      {/* </Link> */}
+                      <Link href={`/job-details-v1/${j._id}`} className="logo">
+                        <Image
+                          src={
+                            typeof j.companyId !== "string"
+                              ? j.companyId.logo
+                              : job_img_1
+                          }
+                          alt="img"
+                          className="lazy-img m-auto"
+                          width={50}
+                          height={50}
+                        />
+                      </Link>
                       <Link
                         href={`/job-details-v1/${j._id}`}
                         className="title fw-500 tran3s"
@@ -140,9 +142,9 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
                     </div>
                   </div>
                 </div>
-              {/* </Link> */}
-            </div>
-          ))}
+                {/* </Link> */}
+              </div>
+            ))}
         </div>
         {totalSavedJob > itemsPerPage && (
           <Pagination

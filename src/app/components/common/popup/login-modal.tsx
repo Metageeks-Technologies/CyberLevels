@@ -92,7 +92,20 @@ const LoginModal = () => {
               <div className="row " style={{ padding: "20px" }}>
                 <div className="col-md-6 ">
                   <a
-                    onClick={() => dispatch(setLoggerWithGoogle(activeTab))}
+                    onClick={() => {
+                      // const width = 600;
+                      // const height = 400;
+                      // const left = window.innerWidth / 2 - width / 2;
+                      // const top = window.innerHeight / 2 - height / 2;
+
+                      // window.open(
+                      //   `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/candidate/auth/google`,
+                      //   "_blank",
+                      //   `width=${width}, height=${height}, left=${left}, top=${top}`
+                      // );
+
+                      dispatch(setLoggerWithGoogle(activeTab));
+                    }}
                     href={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/candidate/auth/google`}
                     className="social-use-btn d-flex align-items-center justify-content-center tran3s w-100 mt-10"
                     style={{ padding: "20px" }}
@@ -103,7 +116,20 @@ const LoginModal = () => {
                 </div>
                 <div className="col-md-6">
                   <a
-                    onClick={() => dispatch(setLoggerWithLn(activeTab))}
+                    onClick={() => {
+                      // const width = 600;
+                      // const height = 400;
+                      // const left = window.innerWidth / 2 - width / 2;
+                      // const top = window.innerHeight / 2 - height / 2;
+
+                      // window.open(
+                      //   `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/candidate/auth/linkedin`,
+                      //   "_blank",
+                      //   `width=${width}, height=${height}, left=${left}, top=${top}`
+                      // );
+
+                      dispatch(setLoggerWithLn(activeTab));
+                    }}
                     href={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/candidate/auth/linkedin`}
                     className="social-use-btn d-flex align-items-center justify-content-center tran3s w-100 mt-10"
                     style={{ padding: "20px" }}

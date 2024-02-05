@@ -9,6 +9,7 @@ import { setPageForJobPostEmployer } from "@/redux/features/jobPost/slice";
 import Pagination from "@/ui/pagination";
 import { getJobPostsForEmployer } from "@/redux/features/jobPost/api";
 import EmployerJobFilterModal from "../../common/popup/employerJobFilterModal";
+import Loader from "@/ui/loader";
 
 // props type
 type IProps = {
@@ -25,6 +26,7 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
     totalJobPostPagesForEmployer,
     totalJobPostsForEmployer,
     pageSizeForJobPostEmployer,
+    loading
   } = useAppSelector((state) => state.jobPost);
   const { currEmployer } = useAppSelector((state) => state.employer);
   const handlePageClick = (event: { selected: number }) => {
@@ -109,7 +111,8 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                     </tr>
                   </thead>
                   <tbody className="border-0">
-                    {jobPostsForEmployer?.map((job) => {
+                  
+                    {!loading && jobPostsForEmployer?.map((job) => {
                       let createdAt: string | Date = new Date(job.createdAt);
                       createdAt = createdAt.toLocaleDateString();
 
@@ -128,7 +131,8 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                     })}
                   </tbody>
                 </table>
-                {jobPostsForEmployer?.length === 0 && (
+                {loading && (<Loader />)}
+                {!loading && jobPostsForEmployer?.length === 0 && (
                     <p
                       style={{
                         fontWeight: "bold",

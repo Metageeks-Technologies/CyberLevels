@@ -3,7 +3,9 @@ import { Editor } from "@tinymce/tinymce-react";
 
 const TextEditor = ({
   setContent,
+  content=""
 }: {
+  content?:string,
   setContent: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   //   const [text, setText] = React.useState<string>("");
@@ -15,6 +17,7 @@ const TextEditor = ({
     <div>
       <Editor
         onEditorChange={handleEditorChange}
+        value={content}
         apiKey="5ck4fbg67tr2aopfaf7zp04pl5d1z2xfvv15qu0uunww5ss5"
         init={{
           height: 500,

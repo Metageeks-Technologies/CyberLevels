@@ -6,16 +6,18 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import job_img_1 from "@/assets/images/logo/media_22.png";
 import Image from "next/image";
 import Link from "next/link";
+import Loader from "@/ui/loader";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const JobAlertArea = ({ setIsOpenSidebar }: IProps) => {
-  const { recommendedJobs } = useAppSelector(
+  const { recommendedJobs,loading } = useAppSelector(
     (s) => s.candidate.candidateDashboard
   );
   return (
     <div className="dashboard-body">
+      
       <div className="position-relative">
         {/* header start */}
         <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
@@ -28,9 +30,9 @@ const JobAlertArea = ({ setIsOpenSidebar }: IProps) => {
             <ShortSelect />
           </div> */}
         </div>
-
+        {loading && (<Loader />)}
         <div className="wrapper">
-        {recommendedJobs?.length === 0 && (
+        {!loading && recommendedJobs?.length === 0 && (
           <div
         
           className="job-list-one style-two position-relative mb-20"
@@ -51,7 +53,7 @@ const JobAlertArea = ({ setIsOpenSidebar }: IProps) => {
                       </p>
                       </div>
                     )}
-          {recommendedJobs?.map((obj) => {
+          {!loading && recommendedJobs?.map((obj) => {
             const j = obj.job;
             const score = obj.score;
 
@@ -65,9 +67,11 @@ const JobAlertArea = ({ setIsOpenSidebar }: IProps) => {
                     <div className="job-title d-flex align-items-center">
                       <Link href={`/job-details-v1/${j._id}`} className="logo">
                         <Image
-                          src={job_img_1}
+                          src={typeof j.companyId!=="string"?j.companyId.logo:job_img_1}
                           alt="img"
                           className="lazy-img m-auto"
+                          width={50}
+                          height={50}
                         />
                       </Link>
                       <Link

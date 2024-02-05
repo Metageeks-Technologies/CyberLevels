@@ -6,7 +6,27 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 // has to be more improved in error handling
+// const receiveMessage = (event: MessageEvent) => {
+//   // Do we trust the sender of this message? (might be
+//   // different from what we originally opened, for example).
+//   const BASE_URL = 'http://localhost:3000'; // Replace 'your_base_url' with your actual base URL
 
+//   if (event.origin !== BASE_URL) {
+//     return;
+//   }
+
+//   const { data } = event;
+
+//   // if we trust the sender and the source is our popup
+//   if (data.source === 'lma-login-redirect') {
+//     // get the URL params and redirect to our server to use Passport to auth/login
+//     const { payload } = data;
+//     const redirectUrl = `/job-list-v1#find-jobs`;
+    
+//     // Use history.pushState to change the URL without triggering a page reload
+//     history.pushState({}, '', redirectUrl);
+//   }
+// };
 const page = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -107,6 +127,19 @@ const page = () => {
       handleLogin();
     }
   }, []);
+  useEffect(() => {
+    // get the URL parameters which will include the auth token
+     const params = window.location.search;
+     if (window.opener) {
+       // send them to the opening window
+       window.opener.postMessage(params);
+       // close the popup
+       window.close();
+     }
+   });
+
+   
+  
 
   return (
     <div className="_callback overflow-hidden ">

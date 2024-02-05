@@ -13,6 +13,7 @@ import ShortSelect from "../../common/short-select";
 import ActionDropdown from "./action-dropdown-company";
 import DashboardHeader from "./dashboard-header";
 import { ICompany } from "@/types/company";
+import Loader from "@/ui/loader";
 
 // props type
 type IProps = {
@@ -21,7 +22,7 @@ type IProps = {
 };
 
 const SavedCompanyArea = ({ setIsOpenSidebar, savedCompanies }: IProps) => {
-  const { totalSavedCompany, totalNumOfSavedCompaniesPage, savedCompanyPage } =
+  const { totalSavedCompany, totalNumOfSavedCompaniesPage, savedCompanyPage,loading } =
     useAppSelector((s) => s.candidate.candidateDashboard);
   const dispatch = useAppDispatch();
   const itemsPerPage = 4;
@@ -45,7 +46,8 @@ const SavedCompanyArea = ({ setIsOpenSidebar, savedCompanies }: IProps) => {
         </div>
 
         <div className="wrapper">
-        {savedCompanies?.length === 0 && (
+        {loading && (<Loader />)}
+        {!loading && savedCompanies?.length === 0 && (
           <div
         
           className="job-list-one style-two position-relative mb-20"
@@ -66,7 +68,7 @@ const SavedCompanyArea = ({ setIsOpenSidebar, savedCompanies }: IProps) => {
                       </p>
                       </div>
                     )}
-          {savedCompanies?.map((c) => (
+          {!loading && savedCompanies?.map((c) => (
             <div
               key={c._id}
               className="job-list-one style-two position-relative mb-20"

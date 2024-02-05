@@ -229,6 +229,7 @@ export const candidateDashboardSlice = createSlice({
         ]
       >
     ) => {
+      state.loading=false;
       state.recommendedJobs = action.payload;
     },
     setPhotoFile: (state, action: PayloadAction<File | null>) => {

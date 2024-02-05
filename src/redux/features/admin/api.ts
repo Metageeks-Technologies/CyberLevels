@@ -17,6 +17,8 @@ import {
   addCommentSuccess,
   searchBlogSuccess,
   setRecentBlogs,
+  blogUpdateSuccess,
+  blogDeleteSuccess,
 } from "./blogSlice";
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
@@ -181,3 +183,27 @@ export const updateCompany = async (dispatch:AppDispatch, companyId:string,bodyO
     dispatch(blogRequestFail(e.message));
   }
 }
+
+export const updateBlog = async (dispatch:AppDispatch,id:string,bodyObj:any) => {
+  dispatch(blogRequestStart());
+  try {
+    const {data} = await instance.patch(`/blog/${id}`,bodyObj);
+    dispatch(blogUpdateSuccess());
+    
+  } catch (error) {
+    const e = error as AxiosError;
+    dispatch(blogRequestFail(e.message));
+  }
+}
+
+export const deleteBlog = async (dispatch: AppDispatch, id: string) => {
+  dispatch(blogRequestStart());
+  try {
+    await instance.delete(`/blog/${id}`);
+    dispatch(blogDeleteSuccess());
+  } catch (error) {
+    const e = error as AxiosError;
+    dispatch(blogRequestFail(e.message));
+  }
+}
+

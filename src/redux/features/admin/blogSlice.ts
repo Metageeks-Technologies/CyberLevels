@@ -14,6 +14,7 @@ export interface InitialState {
     blogsPerPage:number,
     page:number,
     recentBlogs:IBlogPost[],
+    blogBeingEdited:string,
 }
 
 
@@ -29,6 +30,7 @@ const initialState: InitialState = {
     blogsPerPage:0,
     page:1,
     recentBlogs:[],
+    blogBeingEdited:"",
 }
 
 export const blogSlice = createSlice({
@@ -73,6 +75,16 @@ export const blogSlice = createSlice({
         },
         setRecentBlogs:(state,action:PayloadAction<any>) => {
             state.recentBlogs = action.payload.blogs;
+        },
+        setEditBlog:(state,action:PayloadAction<string>) => {
+            state.loading=false;
+            state.blogBeingEdited = action.payload;
+        },
+        blogUpdateSuccess:(state) => {
+            state.loading=false;
+        },
+        blogDeleteSuccess:(state) => {
+            state.loading=false;
         }
     },
 })
@@ -88,6 +100,9 @@ export const {
     setSearchTerm,
     setRecentBlogs,
     setPage,
+    setEditBlog,
+    blogUpdateSuccess,
+    blogDeleteSuccess
 
 } = blogSlice.actions
 
