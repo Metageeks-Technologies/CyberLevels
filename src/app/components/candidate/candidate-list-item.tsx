@@ -46,21 +46,23 @@ const CandidateListItem = ({
       >
         <div className="d-flex">
           <div className="cadidate-avatar online position-relative d-block me-auto ms-auto">
-            <Link href="/candidate-profile-v2" className="rounded-circle">
+            {/* <Link href="/candidate-profile-v2" className="rounded-circle"> */}
               <Image
-                src={job_img_1}
+                src={item?.avatar}
                 alt="image"
+                height={80}
+                width={80}
                 className="lazy-img rounded-circle"
               />
-            </Link>
+            {/* </Link> */}
           </div>
           <div className="right-side">
             <div className="row gx-1 align-items-center">
               <div className="col-xl-3">
                 <div className="position-relative">
                   <h4 className="candidate-name mb-0">
-                    <Link href="/candidate-profile-v2" className="tran3s">
-                      {item.firstName.slice(0, 3)}...
+                    <Link href={`/candidate-profile-v1/${item._id}`} className="tran3s">
+                      {item.firstName}
                     </Link>
                   </h4>
                   {/* <div className="candidate-post">{item.title}</div> */}
@@ -79,7 +81,7 @@ const CandidateListItem = ({
               <div className="col-xl-3 col-md-4 col-sm-6">
                 <div className="candidate-info">
                   <span>Salary</span>
-                  <div>$ 3-4 PA</div>
+                  <div>{item?.expectedSalary?.currency?.symbol}{item?.expectedSalary?.min}-{item?.expectedSalary?.max}</div>
                 </div>
               </div>
               <div className="col-xl-3 col-md-4 col-sm-6">
@@ -104,7 +106,7 @@ const CandidateListItem = ({
                   </button>
                   {isAuthenticated ? (
                     <Link
-                      href="/candidate-profile-v2"
+                      href={`/candidate-profile-v1/${item._id}`}
                       className="profile-btn tran3s ms-md-2 mt-10 sm-mt-20"
                     >
                       View Profile

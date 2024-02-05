@@ -60,17 +60,19 @@ const CandidateGridItem = ({
           )}
         </button>
         <div className="cadidate-avatar online position-relative d-block m-auto">
-          <Link href="/candidate-profile-v1" className="rounded-circle">
+          {/* <Link href="/candidate-profile-v1" className="rounded-circle"> */}
             <Image
-              src={job_img_1}
+              src={item?.avatar}
               alt="image"
               className="lazy-img rounded-circle"
+              height={80}
+              width={80}
             />
-          </Link>
+          {/* </Link> */}
         </div>
         <h4 className="candidate-name mt-15 mb-0">
           <Link href={`/candidate-profile-v1/${item._id}`} className="tran3s">
-            {item?.firstName.slice(0, 3)}...
+            {item?.firstName}
           </Link>
         </h4>
         <div className="candidate-post">{"Male"}</div>
@@ -89,7 +91,7 @@ const CandidateGridItem = ({
             <div className="candidate-info mt-10">
               <span>Salary</span>
               <div>
-                ${3}-${4} PA
+              {item?.expectedSalary?.currency?.symbol}{item?.expectedSalary?.min}-{item?.expectedSalary?.max}
               </div>
             </div>
           </div>
