@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { Resolver, useForm } from "react-hook-form";
 import ErrorMsg from "../common/error-msg";
 import icon from "@/assets/images/icon/icon_60.svg";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 // form data type
 type IFormData = {
@@ -45,7 +46,7 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<IFormData>({ resolver });
+  } = useForm<IFormData>({ resolver: yupResolver(schema) });
   // on submit
   const onSubmit = (data: IFormData) => {
     if (data) {
