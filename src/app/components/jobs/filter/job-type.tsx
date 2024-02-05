@@ -5,11 +5,11 @@ import { setJobType } from "@/redux/features/filterJobPostSlice";
 
 // job type items
 const JobTypeOption = [
-  "full-time",
-  "part-time",
+  "Full time",
+  "Part time",
   "internship",
-  "hourly-contract",
-  "fixed-price",
+  "Hourly-contract",
+  "Fixed-price",
 ];
 export function JobTypeItems({ showLength = true }: { showLength?: boolean }) {
   const jobDuration = [...new Set(job_data.map((job) => job.duration))];
