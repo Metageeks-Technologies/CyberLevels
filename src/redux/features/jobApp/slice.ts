@@ -68,16 +68,16 @@ export const jobApplicationSlice = createSlice({
             state.loading = false
         },
         allJobAppByCandidateWithJobPostSuccess: (state, action: PayloadAction<any>) => {
-            state.allJobAppByCandidateWithJobPost = action.payload.allJobApp;
-            state.totalJobsApplied = action.payload.totalJobApplied
-            state.loading = false
+            state.allJobAppByCandidateWithJobPost = action.payload.allJobApp as IJobApp[];
+            state.totalJobsApplied = action.payload.totalJobApplied as number;
+            state.loading = false;
         },
         allJobAppByCandidateWithJobPostPaginationSuccess: (state, action: PayloadAction<any>) => {
-            state.allJobAppByCandidateWithJobPostPagination = action.payload.allJobApp;
-            state.currentPage = action.payload.currentPage;
-            state.itemsPerPage = action.payload.itemsPerPage;
-            state.totalPages = action.payload.totalPages;
-            state.loading = false
+            state.allJobAppByCandidateWithJobPostPagination = action.payload.allJobApp as IJobApp[];
+            state.currentPage = action.payload.currentPage as number;
+            state.itemsPerPage = action.payload.itemsPerPage as number;
+            state.totalPages = action.payload.totalPages as number;
+            state.loading = false;
         },
         allJobAppByJobPostWithCandidateSuccess: (state, action: PayloadAction<IJobApp[]>) => {
             state.allJobAppByJobPostWithCandidate = action.payload;

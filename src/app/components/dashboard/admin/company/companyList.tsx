@@ -82,7 +82,7 @@ const CompanyList = () => {
                         No Companies yet!
                       </p>
                     )}
-                  {companyFA?.map((item:any) => (
+                  {companyFA?.map((item) => (
                     <CompanyListItem key={item._id} item={item} />
                   ))}
                 </div>

@@ -98,7 +98,7 @@ export const adminSlice = createSlice({
       state.pageFC = action.payload;
       state.pageFE = action.payload;
     },
-    companyUpdateSuccess: (state, action: PayloadAction<any>) => {
+    companyUpdateSuccess: (state, action: PayloadAction<ICompanyForAdmin>) => {
       state.loading = false;
         state.companyFA = state.companyFA.map((company) => {
           if(company._id === action.payload._id){

@@ -357,7 +357,7 @@ export const uploadResume = async (
         headers: {
           "Content-Type": file.type,
         },
-        onUploadProgress: (data) => {
+        onUploadProgress: (data:any) => {
           if (data.total)
             dispatch(
               setUploadProgress(Math.round((data.loaded / data.total) * 100))
@@ -411,7 +411,7 @@ export const updateAvatar = async (
         headers: {
           "Content-Type": file.type,
         },
-        onUploadProgress: (data) => {
+        onUploadProgress: (data:any) => {
           if (data.total)
             dispatch(
               setUploadProgress(Math.round((data.loaded / data.total) * 100))
