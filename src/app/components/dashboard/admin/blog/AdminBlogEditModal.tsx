@@ -95,16 +95,29 @@ const AdminBlogEditModal = () => {
                   <TextEditor content={content} setContent={setContent} />
                 </div>
                 <div className="button-group d-inline-flex align-items-center mt-30">
+                  {!title && !content ? 
                   <button
-                    disabled={loading}
-                    type={"submit"}
-                    onClick={handleSubmit}
-                    className="dash-btn-two tran3s me-3"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
+                  disabled={loading}
+                  type={"submit"}
+                  onClick={handleSubmit}
+                  className="dash-btn-two tran3s me-3"
+                  // data-bs-dismiss="modal"
+                  // aria-label="Close"
                   >
                     {loading ? <Loader /> : "Save"}
                   </button>
+                  : 
+                  <button
+                  disabled={loading}
+                  type={"submit"}
+                  onClick={handleSubmit}
+                  className="dash-btn-two tran3s me-3"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  >
+                    {loading ? <Loader /> : "Save"}
+                  </button>
+                  }
                   {/* <a href="#" className="dash-cancel-btn tran3s">
             Cancel
           </a> */}
