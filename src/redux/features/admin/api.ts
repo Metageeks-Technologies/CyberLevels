@@ -20,8 +20,10 @@ import {
   blogUpdateSuccess,
   blogDeleteSuccess,
 } from "./blogSlice";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
+import { setUploadProgress } from "../globalSlice";
+import { updateLogo } from "../companySlice";
 
 export const getCurrAdmin = async (dispatch: AppDispatch, id: string) => {
   dispatch(requestStart());
@@ -172,11 +174,38 @@ export const addComment = async (
 };
 
 
-export const updateCompany = async (dispatch:AppDispatch, companyId:string,bodyObj:any) => {
+export const updateCompany = async (dispatch:AppDispatch, companyId:string,bodyObj:any,file:File) => {
   dispatch(requestStart());
+  const nameArr = file?.name.split(".");
+    const logoMetadata = {
+        folder: "company",
+        extension: nameArr?nameArr[nameArr?.length - 1]:"",
+        type: file?.type,
+    }
   try {
-    const {data} = await instance.patch(`/company/${companyId}`,bodyObj)
-    dispatch(companyUpdateSuccess(data));
+    const {data} = await instance.patch(`/company/${companyId}`,{bodyObj,logoMetadata})
+    if (data) {
+      
+      dispatch(companyUpdateSuccess(data.company));
+
+      const companyId = data.company._id;
+      console.log(data);
+      const uploadRes = await axios.put(data.url, file, {
+          headers: {
+              "Content-Type": file.type,
+          },
+          onUploadProgress: (data) => {
+              if (data.total)
+                  dispatch(setUploadProgress(Math.round((data.loaded / data.total) * 100)));
+          },
+      })
+      if (uploadRes) {
+          const { data } = await instance.patch(`/company/logo`, { companyId, s3Key: `profile/company/${companyId}.${logoMetadata.extension}` });
+          dispatch(updateLogo(data.logo));
+
+      }
+  }
+    
     
   } catch (error) {
     const e = error as AxiosError;

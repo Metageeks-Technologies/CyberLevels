@@ -64,7 +64,7 @@ const EmployJobItem = ({
         </div>
       </td>
       <td>
-      <div className="job-status text-capitalize">{status}</div>
+      <div className="job-status text-capitalize">{status==="Received"?"Pending":status}</div>
       </td>
       <td>
         <div className="action-dots float-end">

@@ -384,7 +384,7 @@ const EditCompanyModal = () => {
     console.log(bodyObj);
     // return;
 
-    await updateCompany(dispatch, currCompany?._id,bodyObj);
+    await updateCompany(dispatch, currCompany?._id,bodyObj,file!);
     notifySuccess("Company updated successfully");
     // setForm({
     //   logo: "",
@@ -406,7 +406,7 @@ const EditCompanyModal = () => {
     // setBenefits([]);
     // setFunding([]);
     // setValue("");
-    // dispatch(resetFile());
+    dispatch(resetFile());
     await getAllCompany(dispatch, { page: pageFCom, limit: 8 }, currUser!);
   };
   const handleFile = (file: File | null) => {
