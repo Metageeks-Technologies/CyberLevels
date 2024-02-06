@@ -22,22 +22,22 @@ const CompanyListItem = ({
 
   const dispatch = useAppDispatch();
   const isActive = false;
-  const handleSaveCandidate = (candidateId: string) => {
-    if (!isActive) {
-      saveCandidate(dispatch, {
-        candidateId,
-        employerId: currUser,
-        page: page,
-      });
-    } else {
-      removeCandidate(dispatch, {
-        candidateId,
-        employerId: currUser,
-        page: page,
-      });
-    }
-  };
-  const handleSubscribePopup = () => {};
+  // const handleSaveCandidate = (candidateId: string) => {
+  //   if (!isActive) {
+  //     saveCandidate(dispatch, {
+  //       candidateId,
+  //       employerId: currUser,
+  //       page: page,
+  //     });
+  //   } else {
+  //     removeCandidate(dispatch, {
+  //       candidateId,
+  //       employerId: currUser,
+  //       page: page,
+  //     });
+  //   }
+  // };
+  // const handleSubscribePopup = () => {};
   return (
     <>
       <div
