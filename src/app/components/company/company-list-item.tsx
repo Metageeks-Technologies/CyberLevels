@@ -96,7 +96,7 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
                     </div>
                   </h5>
                   <p>
-                    {item.location?.[0].city} {item.location?.[0].country}
+                    {item.location?.[0].city},{item.location?.[0].country}
                   </p>
                 </div>
               </div>

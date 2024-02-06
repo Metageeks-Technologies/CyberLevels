@@ -32,6 +32,7 @@ const ActionDropdown = ({ jobAppId }: { jobAppId: string }) => {
           Chat
         </button>
       </li>
+      
       {/* <li>
         <button className="dropdown-item" type="button" onClick={handleDelete}>
           <Image src={delete_icon} alt="icon" className="lazy-img" /> Delete

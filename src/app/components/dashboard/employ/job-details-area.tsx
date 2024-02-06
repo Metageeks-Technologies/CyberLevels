@@ -22,9 +22,7 @@ type IProps = {
 const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
   const { jobPostsForEmployer } = useAppSelector((state) => state.jobPost);
   const [currJobPost, setCurrJobPost] = useState<IJobPost | null>();
-  const { loading } = useAppSelector(
-    (state) => state.jobApplication
-  );
+  const { loading } = useAppSelector((state) => state.jobApplication);
 
   useEffect(() => {
     const foundJobPost = jobPostsForEmployer.find(
@@ -42,16 +40,20 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
           {/* header end */}
 
           <div className="d-sm-flex align-items-center justify-content-between mb-40 lg-mb-30">
-            <h2 className="main-title m0">
-              <Link
-                style={{ color: "#31795A" }}
-                className=""
-                href={`/dashboard/employer-dashboard/jobs`}
-              >
-                My Jobs
-              </Link>
-              /{currJobPost?.title}
-            </h2>
+            <div className=" d-flex">
+              <h2 className="main-title m0">
+                <Link
+                  style={{ color: "#31795A" }}
+                  className=""
+                  href={`/dashboard/employer-dashboard/jobs`}
+                >
+                  My Jobs/
+                </Link>
+              </h2>
+              <div className="" style={{ fontSize: "x-large" }}>
+                {currJobPost?.title}({currJobPost?.jobCode})
+              </div>
+            </div>
             {/* <div className="d-flex ms-auto xs-mt-30">
             <div
               className="nav nav-tabs tab-filter-btn me-4"
@@ -111,48 +113,50 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                         <th scope="col">Test Score</th>
                         <th scope="col">Expertise</th>
                         <th scope="col">Resume</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
 
                     <tbody className="border-0">
-                      {!loading && jobApp?.map((app) => {
-                        const createdAt = getDate(app.createdAt);
-                        console.log(jobApp, "Check Error");
-                        if (typeof app.candidate !== "string") {
-                          return (
-                            <>
-                              <EmployJobItem
-                                title={`${app.candidate?.firstName} ${app.candidate?.lastName}`}
-                                info={`${
-                                  app.candidate?.location?.city || "Delhi"
-                                }`}
-                                tesScore={String(app.testScore) || "89%"}
-                                date={createdAt}
-                                status={
-                                  app.candidate?.experienceInShort || "expert"
-                                }
-                                id={app.candidate?._id}
-                                appId={app._id}
-                                isFeedbackAsked={app.isFeedbackAsked}
-                                resumes={app.candidate?.resumes}
-                                resumeId={app.appliedWithResume}
-                              />
-                              <JobLetterModal
-                                candidateName={
-                                  app.candidate?.firstName +
-                                  " " +
-                                  app.candidate?.lastName
-                                }
-                                text={app.jobLetter}
-                              />
-                            </>
-                          );
-                        }
-                      })}
+                      {!loading &&
+                        jobApp?.map((app) => {
+                          const createdAt = getDate(app.createdAt);
+                          console.log(jobApp, "Check Error");
+                          if (typeof app.candidate !== "string") {
+                            return (
+                              <>
+                                <EmployJobItem
+                                  title={`${app.candidate?.firstName} ${app.candidate?.lastName}`}
+                                  info={`${
+                                    app.candidate?.location?.city || "Delhi"
+                                  }`}
+                                  tesScore={String(app.testScore) || "89%"}
+                                  date={createdAt}
+                                  status={
+                                    app.candidate?.experienceInShort || "expert"
+                                  }
+                                  id={app.candidate?._id}
+                                  appId={app._id}
+                                  isFeedbackAsked={app.isFeedbackAsked}
+                                  resumes={app.candidate?.resumes}
+                                  resumeId={app.appliedWithResume}
+                                />
+                                <JobLetterModal
+                                  candidateName={
+                                    app.candidate?.firstName +
+                                    " " +
+                                    app.candidate?.lastName
+                                  }
+                                  text={app.jobLetter}
+                                />
+                              </>
+                            );
+                          }
+                        })}
                     </tbody>
                   </table>
-                  {loading && (<Loader />)}
+                  {loading && <Loader />}
                   {!loading && jobApp?.length === 0 && (
                     <p
                       style={{

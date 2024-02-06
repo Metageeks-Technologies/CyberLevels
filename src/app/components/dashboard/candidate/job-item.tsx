@@ -1,6 +1,7 @@
 import React from "react";
 import ActionDropdown from "./action-dropdown-jobApp";
 import { getDate } from "@/utils/helper";
+import Link from "next/link";
 
 const CandidateJobItem = ({
   title,
@@ -31,7 +32,9 @@ const CandidateJobItem = ({
         }`}
       >
         <td>
+          <Link href={`/job-details-v1/${jobId}`}>
           <div className="job-name fw-500">{title}</div>
+          </Link>
           <div className="info1">{info}</div>
         </td>
         <td>{getDate(date)}</td>

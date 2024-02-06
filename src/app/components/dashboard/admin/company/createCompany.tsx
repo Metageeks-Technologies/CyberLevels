@@ -368,10 +368,11 @@ const CreateCompany = () => {
       <div className="bg-white card-box border-20">
         <div className="user-avatar-setting d-flex align-items-center mb-30">
           {/* company logo url */}
+          {file instanceof File && (
           <Image
             width={50}
             height={50}
-            src={file ? URL.createObjectURL(file) : avatar}
+            src={URL.createObjectURL(file as Blob) }
             // src={
             //   user?.avatar !== "none" || false
             //     ? (user?.avatar as string)
@@ -380,6 +381,7 @@ const CreateCompany = () => {
             alt="avatar"
             className="lazy-img user-img"
           />
+          )}
           {!file && (
             <div className=" upload-btn position-relative tran3s ms-4 px-2  mx-3">
               <DropZone setFile={handleFile} text={"Upload logo"} />

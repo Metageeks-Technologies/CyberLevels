@@ -44,13 +44,12 @@ const ChatModal = () => {
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
-            <div className="text-center">
-              {/* <h3 className="mb-30">Chat With Employer</h3> */}
-            </div>
             {userRole === 'employer' && !chat && (
+              <div className="d-flex justify-content-center">
               <button type="button" className="btn-one tran3s" onClick={handleClick}>
                  Start Conversation
               </button>
+              </div>
             )}
             {userRole === 'candidate' && !chat && (
             <p className="fw-500 d-flex justify-content-center">Chat can only be initiated by the employer.</p>
