@@ -47,11 +47,11 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                   className=""
                   href={`/dashboard/employer-dashboard/jobs`}
                 >
-                  My Jobs/
+                  My Jobs
                 </Link>
               </h2>
               <div className="" style={{ fontSize: "x-large" }}>
-                {currJobPost?.title}({currJobPost?.jobCode})
+                /{currJobPost?.title} ({currJobPost?.jobCode})
               </div>
             </div>
             {/* <div className="d-flex ms-auto xs-mt-30">
@@ -133,9 +133,10 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                                   }`}
                                   tesScore={String(app.testScore) || "89%"}
                                   date={createdAt}
-                                  status={
+                                  experience={
                                     app.candidate?.experienceInShort || "expert"
                                   }
+                                  status={app?.status}
                                   id={app.candidate?._id}
                                   appId={app._id}
                                   isFeedbackAsked={app.isFeedbackAsked}
