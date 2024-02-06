@@ -20,7 +20,7 @@ const AdminBlogListItem = ({
           isActive ? "favourite" : ""
         } ${style_2 ? "border-0" : ""} list-layout mb-25 `}
       >
-        <div className="d-flex">
+        <div className="">
           {/* <div className="cadidate-avatar online position-relative d-block me-auto ms-auto">
             <Link href="/candidate-profile-v2" className="rounded-circle">
               <Image
@@ -30,31 +30,34 @@ const AdminBlogListItem = ({
               />
             </Link>
           </div> */}
-          <div className="right-side justify-content-center ">
-            <div className="row gx-1 align-items-center justify-content-center ">
-              <div className="col-xl-3">
+          <div className="  ">
+            <div className="row gx-1 align-items-center  ">
+              <div className=" col-xl-3">
                 <div className="position-relative">
                   <h4 className="candidate-name mb-0">
-                    <Link href="/candidate-profile-v2" className="tran3s">
-                      {item.title.substring(0,15)}...
+                    <Link 
+                    target="_blank"
+                    href={`/blog-details/${item._id}`} 
+                    className="tran3s">
+                    {item.title.substring(0,20)}...
                     </Link>
                   </h4>
                 </div>
               </div>
               <div className="col-xl-3 col-md-4 col-sm-6">
-                <div className="candidate-info">
+                <div className="candidate-info d-flex justify-content-center">
                   {/* <span>{item.email}</span> */}
                   <div>{item.createdBy.name}</div>
                 </div>
               </div>
               <div className="col-xl-2 col-md-4 col-sm-6">
-                <div className="candidate-info">
+                <div className="candidate-info d-flex justify-content-center">
                   <div>{getDate(item.createdAt.toString())}</div>
                 </div>
               </div>
               
               <div className="col-xl-3 col-md-4">
-                <div className="d-flex justify-content-lg-end">
+                <div className="d-flex justify-content-lg-end ">
                   <Link
                     target="_blank"
                     href={`/blog-details/${item._id}`}
@@ -64,7 +67,7 @@ const AdminBlogListItem = ({
                   </Link>
                 </div>
               </div>
-              <div className="col">
+              <div className="col-xl-1 col-md-4">
 
           <div className="action-dots float-end">
           <button

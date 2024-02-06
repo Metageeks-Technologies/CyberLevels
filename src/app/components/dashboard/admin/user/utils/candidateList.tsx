@@ -43,12 +43,17 @@ const CandidateListItem = ({
           isActive ? "favourite" : ""
         } ${style_2 ? "border-0" : ""} list-layout mb-25 `}
       >
-        <div className="d-flex">
-          <div className="cadidate-avatar online position-relative d-block me-auto ms-auto">
-            <Link href="/candidate-profile-v2" className="rounded-circle">
+        <div className="d-flex align-items-center">
+          <div className="cadidate-avatar online position-relative d-flex me-auto ms-auto" style={{paddingTop:"7px"}}>
+            <Link 
+              target="_blank"
+              href={`/candidate-profile-v1/${item._id}`} 
+              className="rounded-circle">
               <Image
-                src={job_img_1}
+                src={item?.avatar || job_img_1}
                 alt="image"
+                width={60}
+                height={60}
                 className="lazy-img rounded-circle"
               />
             </Link>
@@ -58,7 +63,9 @@ const CandidateListItem = ({
               <div className="col-xl-3">
                 <div className="position-relative">
                   <h4 className="candidate-name mb-0">
-                    <Link href="/candidate-profile-v2" className="tran3s">
+                    <Link target="_blank"
+                    href={`/candidate-profile-v1/${item._id}`}
+                    className="tran3s">
                       {item.firstName + " " + item.lastName}
                     </Link>
                   </h4>
