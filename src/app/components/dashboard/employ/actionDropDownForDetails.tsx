@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { updateJobAppStatus } from "@/redux/features/jobApp/api";
+import { getallJobAppByJobPostWithCandidate, updateJobAppStatus } from "@/redux/features/jobApp/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { setCurrJobApp } from "@/redux/features/jobApp/slice";
 // const  enum: ['Received', 'Under Review', 'Shortlisted', "Not Selected"]
@@ -10,14 +10,17 @@ const ActionDropdown = ({
   id,
   candidateId,
   isFeedbackAsked,
+  jobPostId,
 }: {
   id: string;
   candidateId: string;
   isFeedbackAsked: boolean;
+  jobPostId: string;
 }) => {
   const dispatch = useAppDispatch();
   const { currUser } = useAppSelector((s) => s.persistedReducer.user);
   const { socket } = useAppSelector((s) => s.global);
+  const filterState = useAppSelector((state) => state.employerCandidateByJobAppFilter);
   const handleClick = async (value: string) => {
     if (currUser) {
       await updateJobAppStatus(
@@ -31,6 +34,7 @@ const ActionDropdown = ({
         },
         socket
       );
+      getallJobAppByJobPostWithCandidate(dispatch, jobPostId,filterState);
     }
   };
   const { loading } = useAppSelector((state) => state.jobApplication);

@@ -44,6 +44,7 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
   const [lastUnit, setLastUnit] = useState<number>(6);
   // const [totalViews, setTotalViews] = useState(0);
   // const [totalApplicants, setTotalApplicants] = useState(0);
+ 
   const handleLastUnits = (item: { value: string; label: string }) => {
     const val = parseInt(item.value);
     setLastUnit(val);
@@ -133,7 +134,7 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                 </div>
               </div>
               <div
-                className="flex px-4 md:px-6 lg:px-8 xl:px-10 "
+                className="flex px-4 md:px-6 lg:px-8 xl:px-10"
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -175,13 +176,13 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                     Year
                   </button>
                 </div>
-                <div>
+                <div className="col-xl-5">
                   <NiceSelect
                     options={[
-                      { value: "2", label: "last 3 units" },
-                      { value: "4", label: "last 5 units" },
-                      { value: "6", label: "last 7 units" },
-                      { value: "11", label: "last 12 units" },
+                      { value: "2", label: `last 3 ${dataMode}s` },
+                      { value: "4", label: `last 5 ${dataMode}s` },
+                      { value: "6", label: `last 7 ${dataMode}s` },
+                      { value: "11", label: `last 12 ${dataMode}s` },
                     ]}
                     defaultCurrent={2}
                     onChange={(item) => handleLastUnits(item)}

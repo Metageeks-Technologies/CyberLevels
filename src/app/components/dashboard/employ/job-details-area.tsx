@@ -127,6 +127,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                             return (
                               <>
                                 <EmployJobItem
+                                jobPostId={jobPostId}
                                   title={`${app.candidate?.firstName} ${app.candidate?.lastName}`}
                                   info={`${
                                     app.candidate?.location?.city || "Delhi"
