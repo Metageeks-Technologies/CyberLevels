@@ -42,7 +42,6 @@ const NiceSelect = ({
       console.log(d);
       setCurrent(options[d]);
     }
-
   },[defaultValue])
   useEffect(() => {
     setCurrent(defaultCurrent!==undefined ? options[defaultCurrent] : undefined);

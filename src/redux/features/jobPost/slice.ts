@@ -119,11 +119,11 @@ export const jobPostSlice = createSlice({
         },
         getAllJobPostsSuccess: (state, action: PayloadAction<any>) => {
             state.loading = false
-            state.allJobPostAdmin = action.payload.jobPost;
-            state.pageForAdmin = action.payload.page;
-            state.totalJobsForAdmin = action.payload.totalDocuments;
-            state.totalPagesForJobpostAdmin = action.payload.totalPages;
-            console.log(action.payload)
+            state.allJobPostAdmin = action.payload.jobPost as IJobPost[];
+            state.pageForAdmin = action.payload.page as number;
+            state.totalJobsForAdmin = action.payload.totalDocuments as number;
+            state.totalPagesForJobpostAdmin = action.payload.totalPages as number;
+            // console.log(action.payload)
             
         },
         setAdminPage:(state,action:PayloadAction<number>) => {
@@ -131,11 +131,11 @@ export const jobPostSlice = createSlice({
         },
         getJobPostsForEmployerSuccess: (state, action: PayloadAction<any>) => {
             state.loading = false
-            state.jobPostsForEmployer = action.payload.jobPostsForEmployer;
-            state.totalJobPostPagesForEmployer = action.payload.totalJobPostPagesForEmployer;
-            state.currentPageForJobPostEmployer = action.payload.currentPageForJobPostEmployer;
-            state.pageSizeForJobPostEmployer = action.payload.pageSizeForJobPostEmployer;
-            state.totalJobPostsForEmployer = action.payload.totalJobPostsForEmployer;
+            state.jobPostsForEmployer = action.payload.jobPostsForEmployer as IJobPost[];
+            state.totalJobPostPagesForEmployer = action.payload.totalJobPostPagesForEmployer as number;
+            state.currentPageForJobPostEmployer = action.payload.currentPageForJobPostEmployer as number;
+            state.pageSizeForJobPostEmployer = action.payload.pageSizeForJobPostEmployer as number;
+            state.totalJobPostsForEmployer = action.payload.totalJobPostsForEmployer as number;
         },
         getJobPostViewsSuccess: (state, action: PayloadAction<JobPostView[]>) => {
             state.loading = false

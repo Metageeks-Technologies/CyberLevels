@@ -9,6 +9,8 @@ import { setPage } from "@/redux/features/admin/slice";
 import Loader from "@/ui/loader";
 import { getAllCandidate, getAllCompany } from "@/redux/features/admin/api";
 import CompanyListItem from "./companyListItem";
+import { ICompany } from "@/types/company-type";
+import { ICompanyForAdmin } from "@/types/for-admin-type";
 
 const CompanyList = () => {
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
@@ -64,12 +66,27 @@ const CompanyList = () => {
                     "list" === "list" ? "show" : ""
                   }`}
                 >
+                  {companyFA?.length === 0 && (
+                      <p
+                        style={{
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          fontSize: "1.5em",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          color: "#888",
+                        }}
+                      >
+                        No Companies yet!
+                      </p>
+                    )}
                   {companyFA?.map((item) => (
                     <CompanyListItem key={item._id} item={item} />
                   ))}
                 </div>
-
-                {companyFA && (
+                {companyFA.length !== 0 && (
                   <div className="pt-30 lg-pt-20 d-sm-flex align-items-center justify-content-between">
                     <p className="m0 order-sm-last text-center text-sm-start xs-pb-20">
                       Showing{" "}

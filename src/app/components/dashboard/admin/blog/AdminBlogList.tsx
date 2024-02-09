@@ -67,7 +67,7 @@ const AdminBlogList = () => {
                       No blogs yet!
                     </p>
                   )}
-                  {blogs?.map((item) => (
+                  {blogs?.map((item:any) => (
                     // <CompanyListItem key={item._id} item={item} />
                     <AdminBlogListItem key={item._id} item={item}/>
                     // <p>Hello</p>

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { ICandidate, IEmployer } from '@/types/user-type'
+import { ICandidate, IEducation, IEmployer, IExperience } from '@/types/user-type'
 
 type myUser = ICandidate | null;
 
@@ -73,14 +73,14 @@ export const userSlice = createSlice({
             state.user = action.payload;
             state.loading = false;
         },
-        updateEduSuccess: (state, action: PayloadAction<any>) => {
+        updateEduSuccess: (state, action: PayloadAction<IEducation>) => {
             if (state.user && 'education' in state.user) {
                 state.user.education = [...state.user.education, action.payload]
             }
 
             state.loading = false;
         },
-        updateExpSuccess: (state, action: PayloadAction<any>) => {
+        updateExpSuccess: (state, action: PayloadAction<IExperience>) => {
             if (state.user && 'experience' in state.user)
                 state.user.experience = [...state.user.experience, action.payload]
             state.loading = false;

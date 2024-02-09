@@ -6,6 +6,7 @@ import ResumeDownloadButton from "@/ui/downloadBtn";
 import { FileArrowDown } from "@phosphor-icons/react";
 
 const EmployJobItem = ({
+  jobPostId,
   title,
   info,
   date,
@@ -18,6 +19,7 @@ const EmployJobItem = ({
   resumeId,
   experience,
 }: {
+  jobPostId:string;
   title: string;
   info: string;
   date: string;
@@ -64,7 +66,7 @@ const EmployJobItem = ({
         </div>
       </td>
       <td>
-      <div className="job-status text-capitalize">{status}</div>
+      <div className="job-status text-capitalize">{status==="Received"?"Pending":status}</div>
       </td>
       <td>
         <div className="action-dots float-end">
@@ -81,6 +83,7 @@ const EmployJobItem = ({
             isFeedbackAsked={isFeedbackAsked}
             id={appId}
             candidateId={id}
+            jobPostId={jobPostId}
           />
         </div>
       </td>

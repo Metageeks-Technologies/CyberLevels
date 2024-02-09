@@ -200,13 +200,13 @@ const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
                     Year
                   </button>
                 </div>
-                <div>
+                <div className="col-xl-5">
                   <NiceSelect
                     options={[
-                      { value: "2", label: "last 3 units" },
-                      { value: "4", label: "last 5 units" },
-                      { value: "6", label: "last 7 units" },
-                      { value: "11", label: "last 12 units" },
+                      { value: "2", label: `last 3 ${dataMode}s` },
+                      { value: "4", label: `last 5 ${dataMode}s` },
+                      { value: "6", label: `last 7 ${dataMode}s` },
+                      { value: "11", label: `last 12 ${dataMode}s` },
                     ]}
                     defaultCurrent={2}
                     onChange={(item) => handleLastUnits(item)}

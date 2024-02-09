@@ -49,10 +49,10 @@ export const blogSlice = createSlice({
         },
         getBlogsSuccess: (state, action: PayloadAction<any>) => {
             state.loading = false;
-            state.blogs = action.payload.blogs;
-            state.totalBlogs = action.payload.totalBlogs;
-            state.blogsPerPage = action.payload.blogsPerPage;
-            state.totalPages = action.payload.blogsPerPage;
+            state.blogs = action.payload.blogs as IBlogPost[];
+            state.totalBlogs = action.payload.totalBlogs as number;
+            state.blogsPerPage = action.payload.blogsPerPage as number;
+            state.totalPages = action.payload.blogsPerPage as number;
 
         },
         getBlogByIdSuccess: (state, action: PayloadAction<IBlogPost>) => {
@@ -74,7 +74,7 @@ export const blogSlice = createSlice({
             state.page = action.payload;
         },
         setRecentBlogs:(state,action:PayloadAction<any>) => {
-            state.recentBlogs = action.payload.blogs;
+            state.recentBlogs = action.payload.blogs as IBlogPost[];
         },
         setEditBlog:(state,action:PayloadAction<string>) => {
             state.loading=false;

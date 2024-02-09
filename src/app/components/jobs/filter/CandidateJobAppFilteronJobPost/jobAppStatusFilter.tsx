@@ -25,7 +25,7 @@ export function JobAppStatusItems({
   const { status } = useAppSelector((state) => state.employerCandidateByJobAppFilter);
   useEffect(() => {
     let d = PreferredStatusOption.findIndex((m) => m.value===status);
-    console.log(def)
+    // console.log(def)
     setDef(d);
   },[status])
   const dispatch = useAppDispatch();

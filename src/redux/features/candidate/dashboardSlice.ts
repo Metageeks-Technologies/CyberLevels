@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { ICandidate, INotification, IResume } from "@/types/user-type";
+import type { ICandidate, IEducation, IExperience, INotification, IResume } from "@/types/user-type";
 import type { IJobPost } from "@/types/jobPost-type";
 import { ICompany } from "@/types/company";
 interface ProfileView {
@@ -104,18 +104,18 @@ export const candidateDashboardSlice = createSlice({
       state.currCandidate = action.payload;
       state.loading = false;
     },
-    updateEduSuccess: (state, action: PayloadAction<any>) => {
+    updateEduSuccess: (state, action: PayloadAction<IEducation[]>) => {
       console.log(action.payload, "Action payload adding edu");
       if (state.currCandidate) {
         state.currCandidate.education = [...action.payload];
       }
       state.loading = false;
     },
-    updateExistingEduSuccess: (state, action: PayloadAction<any>) => {
+    updateExistingEduSuccess: (state, action: PayloadAction<IEducation>) => {
       if (state.currCandidate) {
         // Find the index of the education item in the array
         const eduIndex = state.currCandidate.education.findIndex(
-          (edu) => edu._id === action.payload.eduId
+          (edu) => edu._id === action.payload._id
         );
 
         // If the education item is found, update it; otherwise, add a new one
@@ -125,16 +125,16 @@ export const candidateDashboardSlice = createSlice({
       }
       state.loading = false;
     },
-    updateExpSuccess: (state, action: PayloadAction<any>) => {
+    updateExpSuccess: (state, action: PayloadAction<IExperience[]>) => {
       if (state.currCandidate)
         state.currCandidate.experience = [...action.payload];
       state.loading = false;
     },
-    updateExistingExpSuccess: (state, action: PayloadAction<any>) => {
+    updateExistingExpSuccess: (state, action: PayloadAction<IExperience>) => {
       if (state.currCandidate) {
         // Find the index of the education item in the array
         const expIndex = state.currCandidate.experience.findIndex(
-          (exp) => exp._id === action.payload.expId
+          (exp) => exp._id === action.payload._id
         );
 
         // If the education item is found, update it; otherwise, add a new one

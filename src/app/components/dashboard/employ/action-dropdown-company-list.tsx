@@ -6,20 +6,24 @@ import Link from "next/link";
 import { removeSavedJob } from "@/redux/features/candidate/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { setCompanyBeingEdited } from "@/redux/features/company/slice";
+import { getAllCompany, updateCompany } from "@/redux/features/admin/api";
+import { notifySuccess } from "@/utils/toast";
 
 const ActionDropdown = ({ id }: { id: string }) => {
-  const { savedJobsPage } = useAppSelector(
-    (state) => state.candidate.candidateDashboard
-  );
+  
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
   const dispatch = useAppDispatch();
-
-  const handleDelete = () => {
+  const {  pageFCom } =
+  useAppSelector((state) => state.admin);
+  const handleDelete = async () => {
     // removeSavedJob(dispatch, {
     //   companyId: id, // Change jobPostId to companyId
     //   candidateId: currUser,
     //   page: savedJobsPage,
     // });
+    await updateCompany(dispatch,id,{isDeleted:true})
+    notifySuccess("Company deleted successfully");
+    await getAllCompany(dispatch, { page: pageFCom, limit: 8 }, currUser);
   };
   const handleClick = () => {
     dispatch(setCompanyBeingEdited(id));
@@ -28,14 +32,14 @@ const ActionDropdown = ({ id }: { id: string }) => {
   return (
     <ul className="dropdown-menu dropdown-menu-end">
       <li>
-        <button className="dropdown-item" type="button" onClick={handleDelete}>
-          <Image src={delete_icon} alt="icon" className="lazy-img" /> Delete
-        </button>
-      </li>
-      <li>
       <button className="dropdown-item" type="button" data-bs-toggle="modal"
         data-bs-target="#editCompanyByEmployer" onClick={handleClick}>
           <Image src={edit} alt="icon" className="lazy-img" /> Edit
+        </button>
+      </li>
+      <li>
+        <button className="dropdown-item" type="button" onClick={handleDelete}>
+          <Image src={delete_icon} alt="icon" className="lazy-img" /> Delete
         </button>
       </li>
     </ul>

@@ -85,13 +85,13 @@ export interface EmailTemplateState {
     },
     setBeingUsedFor: (state,action:PayloadAction<any>) => {
       if(action.payload.usedFor === "login"){
-        state.login = action.payload.id;
+        state.login = action.payload.id as string;
       }
       if(action.payload.usedFor === "signup"){
-        state.signup = action.payload.id;
+        state.signup = action.payload.id as string;
       }
       if(action.payload.usedFor === "paymentSuccess"){
-        state.paymentSuccess = action.payload.id;
+        state.paymentSuccess = action.payload.id as string;
       }
     },
     fetchTemplateUsedFor:(state) => {

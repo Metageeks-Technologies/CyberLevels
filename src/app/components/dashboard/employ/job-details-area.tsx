@@ -127,13 +127,14 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                             return (
                               <>
                                 <EmployJobItem
+                                  jobPostId={jobPostId}
                                   title={`${app.candidate?.firstName} ${app.candidate?.lastName}`}
                                   info={`${
                                     app.candidate?.location?.city || "Delhi"
                                   }`}
                                   tesScore={String(app.testScore) || "89%"}
                                   date={createdAt}
-                                  status={
+                                  experience={
                                     app.candidate?.experienceInShort || "expert"
                                   }
                                   id={app.candidate?._id}
@@ -141,6 +142,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                                   isFeedbackAsked={app.isFeedbackAsked}
                                   resumes={app.candidate?.resumes}
                                   resumeId={app.appliedWithResume}
+                                  status={app?.status}
                                   experience={app.candidate?.experienceInShort}
                                 />
                                 <JobLetterModal

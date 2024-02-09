@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAppDispatch } from "@/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { setJobCode } from "@/redux/features/employer/employerJobPostFilterSlice";
 import { setTestScore } from "@/redux/features/jobApp/filter-candidates-by-jobapp/candidateFilterByJobPostSlice";
 import Slider from "@mui/material-next/Slider";
@@ -8,13 +8,14 @@ import Slider from "@mui/material-next/Slider";
 
 const TestScoreFilter = () => {
   const dispatch = useAppDispatch();
+  const {testScore} = useAppSelector((state) => state.employerCandidateByJobAppFilter)
 
   // handle search
   // const [warn, setWarn] = useState<boolean>(false);
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTimeout(() => {
-      dispatch(setTestScore(e.target.value));
-    }, 1000);
+    
+    dispatch(setTestScore(e.target.value));
+    
   };
   return (
     <div className="filter-block pb-50 lg-pb-20">
@@ -34,6 +35,7 @@ const TestScoreFilter = () => {
           max={100}
           min={0}
           valueLabelDisplay="auto"
+          value={testScore}
           track="inverted"
           onChange={handleSearch}
           step={25}
