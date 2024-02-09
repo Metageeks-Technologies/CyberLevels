@@ -10,30 +10,34 @@ import { getAllCompany, updateCompany } from "@/redux/features/admin/api";
 import { notifySuccess } from "@/utils/toast";
 
 const ActionDropdown = ({ id }: { id: string }) => {
-  
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
   const dispatch = useAppDispatch();
-  const {  pageFCom } =
-  useAppSelector((state) => state.admin);
+  const { pageFCom } = useAppSelector((state) => state.admin);
   const handleDelete = async () => {
     // removeSavedJob(dispatch, {
     //   companyId: id, // Change jobPostId to companyId
     //   candidateId: currUser,
     //   page: savedJobsPage,
     // });
-    await updateCompany(dispatch,id,{isDeleted:true})
+    await updateCompany(dispatch, id, { isDeleted: true });
     notifySuccess("Company deleted successfully");
-    await getAllCompany(dispatch, { page: pageFCom, limit: 8 }, currUser);
+    if (currUser)
+      await getAllCompany(dispatch, { page: pageFCom, limit: 8 }, currUser);
   };
   const handleClick = () => {
     dispatch(setCompanyBeingEdited(id));
-  }
+  };
 
   return (
     <ul className="dropdown-menu dropdown-menu-end">
       <li>
-      <button className="dropdown-item" type="button" data-bs-toggle="modal"
-        data-bs-target="#editCompanyByEmployer" onClick={handleClick}>
+        <button
+          className="dropdown-item"
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#editCompanyByEmployer"
+          onClick={handleClick}
+        >
           <Image src={edit} alt="icon" className="lazy-img" /> Edit
         </button>
       </li>
@@ -45,7 +49,8 @@ const ActionDropdown = ({ id }: { id: string }) => {
     </ul>
   );
 };
-{/* <ul className="dropdown-menu dropdown-menu-end">
+{
+  /* <ul className="dropdown-menu dropdown-menu-end">
       <li>
         <Link className="dropdown-item" href={`/job-details-v1/${id}`}>
           <Image src={view} alt="icon" className="lazy-img" /> View
@@ -60,5 +65,6 @@ const ActionDropdown = ({ id }: { id: string }) => {
           <Image src={edit} alt="icon" className="lazy-img" /> Edit
         </button>
       </li>
-    </ul> */}
+    </ul> */
+}
 export default ActionDropdown;

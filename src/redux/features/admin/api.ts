@@ -174,51 +174,51 @@ export const addComment = async (
 };
 
 
-export const updateCompany = async (dispatch:AppDispatch, companyId:string,bodyObj:any,file:File) => {
+export const updateCompany = async (dispatch: AppDispatch, companyId: string, bodyObj: any, file?: File) => {
   dispatch(requestStart());
   const nameArr = file?.name.split(".");
-    const logoMetadata = {
-        folder: "company",
-        extension: nameArr?nameArr[nameArr?.length - 1]:"",
-        type: file?.type,
-    }
+  const logoMetadata = {
+    folder: "company",
+    extension: nameArr ? nameArr[nameArr?.length - 1] : "",
+    type: file?.type,
+  }
   try {
-    const {data} = await instance.patch(`/company/${companyId}`,{bodyObj,logoMetadata})
+    const { data } = await instance.patch(`/company/${companyId}`, { bodyObj, logoMetadata })
     if (data) {
-      
+
       dispatch(companyUpdateSuccess(data.company));
 
       const companyId = data.company._id;
       console.log(data);
       const uploadRes = await axios.put(data.url, file, {
-          headers: {
-              "Content-Type": file.type,
-          },
-          onUploadProgress: (data) => {
-              if (data.total)
-                  dispatch(setUploadProgress(Math.round((data.loaded / data.total) * 100)));
-          },
+        headers: {
+          "Content-Type": file?.type || "",
+        },
+        onUploadProgress: (data) => {
+          if (data.total)
+            dispatch(setUploadProgress(Math.round((data.loaded / data.total) * 100)));
+        },
       })
       if (uploadRes) {
-          const { data } = await instance.patch(`/company/logo`, { companyId, s3Key: `profile/company/${companyId}.${logoMetadata.extension}` });
-          dispatch(updateLogo(data.logo));
+        const { data } = await instance.patch(`/company/logo`, { companyId, s3Key: `profile/company/${companyId}.${logoMetadata.extension}` });
+        dispatch(updateLogo(data.logo));
 
       }
-  }
-    
-    
+    }
+
+
   } catch (error) {
     const e = error as AxiosError;
     dispatch(blogRequestFail(e.message));
   }
 }
 
-export const updateBlog = async (dispatch:AppDispatch,id:string,bodyObj:any) => {
+export const updateBlog = async (dispatch: AppDispatch, id: string, bodyObj: any) => {
   dispatch(blogRequestStart());
   try {
-    const {data} = await instance.patch(`/blog/${id}`,bodyObj);
+    const { data } = await instance.patch(`/blog/${id}`, bodyObj);
     dispatch(blogUpdateSuccess());
-    
+
   } catch (error) {
     const e = error as AxiosError;
     dispatch(blogRequestFail(e.message));
