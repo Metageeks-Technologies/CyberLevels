@@ -18,8 +18,11 @@ const EmployDashboardJobsPage = ({ params }: { params: { id: string } }) => {
   const {candidateName,testScore,status,matchPercent} = filterState
 
   useEffect(() => {
-    getallJobAppByJobPostWithCandidate(dispatch, params.id,filterState);
-    console.log(allJobAppByJobPostWithCandidate)
+    setTimeout(() => {
+      getallJobAppByJobPostWithCandidate(dispatch, params.id,filterState);
+
+    },1000)
+    // console.log(allJobAppByJobPostWithCandidate)
   }, [candidateName,testScore,status,matchPercent]);
   useEffect(() => {
     dispatch(resetFilter())

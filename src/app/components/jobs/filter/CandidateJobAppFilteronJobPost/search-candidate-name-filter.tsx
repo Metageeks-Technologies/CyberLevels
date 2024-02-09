@@ -1,17 +1,17 @@
 import React from "react";
-import { useAppDispatch } from "@/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { setCandidateName } from "@/redux/features/jobApp/filter-candidates-by-jobapp/candidateFilterByJobPostSlice";
 // import { setTitle } from "@/redux/features/employer/employerJobPostFilterSlice";
 // import { setSearchKey } from "@/redux/features/filterJobPostSlice";
 
 const SearchCandidateNameFilter = () => {
   const dispatch = useAppDispatch();
-
+const {candidateName} = useAppSelector((state) => state.employerCandidateByJobAppFilter);
   // handle search
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTimeout(() => {
+  
       dispatch(setCandidateName(e.target.value));
-    }, 1000);
+  
   };
   return (
     <div className="filter-block pb-50 lg-pb-20">
@@ -21,6 +21,7 @@ const SearchCandidateNameFilter = () => {
           onChange={handleSearch}
           type="text"
           placeholder="Search by Name"
+          value={candidateName}
         />
         <button>
           <i className="bi bi-search"></i>

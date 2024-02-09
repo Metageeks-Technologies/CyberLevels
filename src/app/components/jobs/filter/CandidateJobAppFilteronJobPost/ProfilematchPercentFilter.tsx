@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAppDispatch } from "@/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { setJobCode } from "@/redux/features/employer/employerJobPostFilterSlice";
 import {
   setMatchPercent,
@@ -10,14 +10,14 @@ import Slider from "@mui/material-next/Slider";
 
 const MatchPercentFilter = () => {
   const dispatch = useAppDispatch();
-
+  const {matchPercent} = useAppSelector((state) => state.employerCandidateByJobAppFilter)
   // handle search
   // const [warn,setWarn] = useState<boolean>(false);
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     // if((parseInt(e.target.value) >=0 && parseInt(e.target.value)<=100) || e.target.value === ""){
-    setTimeout(() => {
+   
       dispatch(setMatchPercent(e.target.value));
-    }, 1000);
+    
     //     setWarn(false);
     // }
     // else{
@@ -42,6 +42,7 @@ const MatchPercentFilter = () => {
           max={100}
           min={0}
           valueLabelDisplay="auto"
+          value={matchPercent}
           track="inverted"
           onChange={handleSearch}
           sx={{

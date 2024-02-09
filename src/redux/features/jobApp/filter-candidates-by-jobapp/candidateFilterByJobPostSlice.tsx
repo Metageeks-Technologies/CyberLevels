@@ -40,9 +40,9 @@ export const candidateFilterByJobPostSlice = createSlice({
 
     resetFilter: (state) => {
         state.candidateName= "";
-        state.testScore= "";
+        state.testScore= "0";
         state.status="";
-        state.matchPercent= "";
+        state.matchPercent= "0";
     },
   },
 });
