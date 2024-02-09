@@ -143,7 +143,6 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                                   resumes={app.candidate?.resumes}
                                   resumeId={app.appliedWithResume}
                                   status={app?.status}
-                                  experience={app.candidate?.experienceInShort}
                                 />
                                 <JobLetterModal
                                   candidateName={
