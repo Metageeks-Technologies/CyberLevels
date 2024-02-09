@@ -45,13 +45,15 @@ const CompanyListItem = ({
           isActive ? "favourite" : ""
         } ${style_2 ? "border-0" : ""} list-layout mb-25 `}
       >
-        <div className="d-flex">
-          <div className="cadidate-avatar online position-relative d-block me-auto ms-auto">
+        <div className="d-flex align-items-center">
+          <div className="cadidate-avatar online position-relative d-flex me-auto ms-auto" style={{paddingTop:"7px"}}>
             <Link href="/candidate-profile-v2" className="rounded-circle">
               <Image
-                src={job_img_1}
+                src={item?.logo || job_img_1}
+                width={60}
+                height={60}
                 alt="image"
-                className="lazy-img rounded-circle"
+                className="lazy-img rounded-circle "                
               />
             </Link>
           </div>

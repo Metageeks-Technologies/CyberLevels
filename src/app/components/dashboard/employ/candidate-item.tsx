@@ -1,5 +1,5 @@
 import React from "react";
-import ActionDropdown from "../candidate/action-dropdown-sabJobs";
+import ActionDropdown from "./actionDropDown-savedCandidate";
 import Image from "next/image";
 import { ICandidate } from "@/types/user-type";
 import job_img_1 from "@/assets/images/logo/media_22.png";
@@ -12,7 +12,7 @@ const CandidateItem = ({ item }: { item: ICandidate }) => {
         <div className="cadidate-avatar online position-relative d-block me-auto ms-auto">
           <a href="#" className="rounded-circle">
             <Image
-              src={item?.avatar}
+              src={item?.avatar || job_img_1}
               width={85}
               height={85}
               alt="image"
@@ -26,7 +26,7 @@ const CandidateItem = ({ item }: { item: ICandidate }) => {
             <div className="col-xl-4">
               <div className="position-relative">
                 <h4 className="candidate-name mb-0">
-                  <a href="#" className="tran3s">
+                  <a href={`/candidate-profile-v1/${item._id}`} className="tran3s">
                     {item.firstName} {item.lastName}
                   </a>
                 </h4>
@@ -76,7 +76,7 @@ const CandidateItem = ({ item }: { item: ICandidate }) => {
                   >
                     <span></span>
                   </button>
-                  {/* <ActionDropdown /> */}
+                  <ActionDropdown id={item._id} />
                 </div>
               </div>
             </div>

@@ -200,7 +200,7 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                         key={app._id}
                         className="job-item-list d-flex align-items-center"
                       >
-                        <div>
+                        {/* <div>
                           <Image
                             src={job_img_1}
                             alt="logo"
@@ -208,7 +208,7 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                             height={40}
                             className="lazy-img logo"
                           />
-                        </div>
+                        </div> */}
                         <div className="job-title">
                           <h6 className="mb-5">
                             <Link href={`/job-details-v1/${app._id}`}>
@@ -220,7 +220,7 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                             <span>{app.location[0]}</span>
                           </div>
                         </div>
-                        <div className="job-action">
+                        {/* <div className="job-action">
                           <button
                             className="action-btn dropdown-toggle"
                             type="button"
@@ -247,9 +247,9 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                             <a className="dropdown-item" href="#">
                               Delete
                             </a>
-                          </li> */}
+                          </li> *
                           </ul>
-                        </div>
+                        </div> */}
                       </div>
                     );
                   }
