@@ -10,7 +10,8 @@ import { useAppDispatch } from "@/redux/hook";
 import { resetFilter } from "@/redux/features/filterJobPostSlice";
 import JobWorkMode from "./job-workmode";
 import JobLocationSelect from "./job-location-select";
-
+import SearchJobCodeFilter from "../../jobs/filter/my-jobpost-filter-employer/search-jobcode-filter";
+import SearchJobCode from "./job-code";
 // prop type
 type IProps = {
   priceValue: number[];
@@ -62,6 +63,7 @@ const FilterArea = ({
         </div> */}
 
         {/* <!-- /.filter-block --> */}
+        <SearchJobCode />
         <div className="filter-block bottom-line pb-25 mt-25">
           <a
             className="filter-title fw-500 text-dark"
@@ -76,6 +78,9 @@ const FilterArea = ({
             <JobType />
           </div>
         </div>
+        {/* <!-- /.filter-block --> */}
+        {/* <!-- /.filter-block --> */}
+
         {/* <!-- /.filter-block --> */}
         <div className="filter-block bottom-line pb-25 mt-25">
           <a

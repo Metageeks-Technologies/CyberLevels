@@ -7,11 +7,11 @@ import { notifyError, notifySuccess } from "@/utils/toast";
 import { setUploadProgress } from "../globalSlice";
 
 
-export const getAllJobPosts = async (dispatch: AppDispatch,page:number,adminId:string="") => {
+export const getAllJobPosts = async (dispatch: AppDispatch, page: number, adminId: string = "") => {
     dispatch(requestStart)
     try {
         const { data } = await instance(`/jobPost/getalljobposts?page=${page}&adminId=${adminId}`);
-        dispatch(getAllJobPostsSuccess({jobPost:data.jobPosts,page:data.page,totalPages:data.totalPages,totalDocuments:data.totalDocs}))
+        dispatch(getAllJobPostsSuccess({ jobPost: data.jobPosts, page: data.page, totalPages: data.totalPages, totalDocuments: data.totalDocs }))
     } catch (error) {
         const e = error as AxiosError;
         dispatch(requestFail(e.message))
@@ -19,11 +19,11 @@ export const getAllJobPosts = async (dispatch: AppDispatch,page:number,adminId:s
 }
 
 export const getJObPosts = async (dispatch: AppDispatch, queryObject: IFilterState, page: number, candidateId: string) => {
-    const { location, jobCategory, jobType, salary, workMode, preferredExperience, status } = queryObject;
+    const { location, jobCategory, jobType, salary, workMode, preferredExperience, status, jobCode } = queryObject;
 
     dispatch(requestStart());
     try {
-        const { data } = await instance(`/jobPost/get?location=${location.join(",")}&jobType=${jobType.join(",")}&jobCategory=${jobCategory.join(",")}&workMode=${workMode.join(",")}&preferredExperience=${preferredExperience.join(",")}&salary=${salary}&status=${status}&page=${page}&candidateId=${candidateId}`)
+        const { data } = await instance(`/jobPost/get?jobCode=${jobCode}&location=${location.join(",")}&jobType=${jobType.join(",")}&jobCategory=${jobCategory.join(",")}&workMode=${workMode.join(",")}&preferredExperience=${preferredExperience.join(",")}&salary=${salary}&status=${status}&page=${page}&candidateId=${candidateId}`)
         console.log(data.result)
         dispatch(getJobPostsSuccess({ allJobPost: data.result, totalJobPost: data.totalJobPost, totalNumOfPage: data.totalNumOfPage }))
     } catch (error) {
@@ -60,25 +60,25 @@ export const addJobPost = async (dispatch: AppDispatch, bodyObj: any) => {
         notifyError(msg);
     }
 }
-export const updateJobPost = async (dispatch:AppDispatch,bodyObj:any) => {
-dispatch(requestStart());
-try {
-    const {data} = await instance.patch("/jobPost/add",bodyObj);
-    dispatch(updateJobPostSuccess(data.job))
-    notifySuccess("Job Post Updated Successfully");
-} catch (error) {
-    const e = error as AxiosError;
+export const updateJobPost = async (dispatch: AppDispatch, bodyObj: any) => {
+    dispatch(requestStart());
+    try {
+        const { data } = await instance.patch("/jobPost/add", bodyObj);
+        dispatch(updateJobPostSuccess(data.job))
+        notifySuccess("Job Post Updated Successfully");
+    } catch (error) {
+        const e = error as AxiosError;
         const response = e.response as any;
         const msg = response.data.message;
         dispatch(requestFail(e.message));
         notifyError(msg);
-    
-}
+
+    }
 }
 
-export const getJobPostsForEmployer = async (dispatch: AppDispatch, id: string, page: number,filterState:any) => {
-    
-    const {company:{companyId},status,jobCode,title} = filterState;
+export const getJobPostsForEmployer = async (dispatch: AppDispatch, id: string, page: number, filterState: any) => {
+
+    const { company: { companyId }, status, jobCode, title } = filterState;
     dispatch(requestStart());
 
     try {

@@ -10,7 +10,8 @@ export interface IFilterState {
   workMode: string[];
   salary: number;
   preferredExperience: string[];
-  status: string
+  status: string;
+  jobCode: string;
 
 }
 
@@ -22,7 +23,8 @@ const initialState: IFilterState = {
   workMode: [],
   salary: -1,
   preferredExperience: [],
-  status: "active"
+  status: "active",
+  jobCode: ""
 };
 
 export const filterSlice = createSlice({
@@ -70,6 +72,11 @@ export const filterSlice = createSlice({
         state.salary = action.payload
       }
     },
+    setJobCode: (state, action: PayloadAction<string>) => {
+      if (state.jobCode !== action.payload) {
+        state.jobCode = action.payload
+      }
+    },
     setStatus: (state, action: PayloadAction<string>) => {
       state.status = action.payload
     },
@@ -81,7 +88,8 @@ export const filterSlice = createSlice({
         state.jobCategory = [],
         state.workMode = [],
         state.salary = -1,
-        state.preferredExperience = []
+        state.preferredExperience = [],
+        state.jobCode = ""
     },
   },
 });
@@ -94,7 +102,8 @@ export const {
   setSalary,
   setWorkMode,
   resetFilter,
-  setStatus
+  setStatus,
+  setJobCode
 } = filterSlice.actions;
 
 export default filterSlice.reducer;
