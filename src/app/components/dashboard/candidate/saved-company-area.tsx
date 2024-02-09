@@ -78,7 +78,9 @@ const SavedCompanyArea = ({ setIsOpenSidebar, savedCompanies }: IProps) => {
                   <div className="job-title d-flex align-items-center">
                     <Link href={`/company-details/${c._id}`} className="logo">
                       <Image
-                        src={job_img_1}
+                        src={c?.logo || job_img_1}
+                        width={60}
+                        height={60}
                         alt="img"
                         className="lazy-img m-auto"
                       />

@@ -89,12 +89,12 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                   <table className="table job-alert-table">
                     <thead>
                       <tr>
-                        <th scope="col">Title</th>
-                        <th scope="col">Job Created</th>
-                        <th scope="col">Salary</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Updated At</th>
-                        <th scope="col">Options</th>
+                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">Title</th>
+                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">Job Created</th>
+                        <th className="col-xl-2 col-md-4 col-sm-6" scope="col">Salary</th>
+                        <th className="col-xl-2 col-md-4 col-sm-6" scope="col">Status</th>
+                        <th className="col-xl-4 col-md-4 col-sm-6" scope="col">Updated At</th>
+                        <th className="col-xl-1 col-md-4 col-sm-6" scope="col">Options</th>
                       </tr>
                     </thead>
                     <tbody className="border-0">

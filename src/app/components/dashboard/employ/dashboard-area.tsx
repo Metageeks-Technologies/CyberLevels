@@ -232,7 +232,7 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                             <span>{app.location[0]}</span>
                           </div>
                         </div>
-                        <div className="job-action">
+                        {/* <div className="job-action">
                           <button
                             className="action-btn dropdown-toggle"
                             type="button"
@@ -259,9 +259,9 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                             <a className="dropdown-item" href="#">
                               Delete
                             </a>
-                          </li> */}
+                          </li> *
                           </ul>
-                        </div>
+                        </div> */}
                       </div>
                     );
                   }

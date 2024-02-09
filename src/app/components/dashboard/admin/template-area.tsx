@@ -390,8 +390,8 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                     color: "white",
                     font: "inherit",
                     fontFamily: "inherit",
-                    padding:"1px 4px",
-                    borderRadius: "10px",
+                    padding:"5px 10px",
+                    borderRadius: "15px",
                     
                     
                   }}

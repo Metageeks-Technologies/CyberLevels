@@ -108,13 +108,13 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                   <table className="table job-alert-table">
                     <thead>
                       <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Applied At</th>
-                        <th scope="col">Test Score</th>
-                        <th scope="col">Expertise</th>
-                        <th scope="col">Resume</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Action</th>
+                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">Name</th>
+                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">Applied At</th>
+                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">Test Score</th>
+                        <th className="col-xl-2 col-md-4 col-sm-6" scope="col">Expertise</th>
+                        <th className="col-xl-2 col-md-4 col-sm-6" scope="col">Resume</th>
+                        <th className="col-xl-2 col-md-4 col-sm-6" scope="col">Status</th>
+                        <th className="col-xl-1 col-md-4 col-sm-6" scope="col">Action</th>
                       </tr>
                     </thead>
 

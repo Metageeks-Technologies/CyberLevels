@@ -202,14 +202,14 @@ const EditProfile = () => {
                       
                     />
                   </div>
-                  <div className="dash-input-wrapper mb-30">
+                  {/* <div className="dash-input-wrapper mb-30">
                     <label htmlFor="lastName">Gender*</label>
                     <SelectGender
                       default={{ value: gender, label: gender }}
                       firstInput={!user?.gender ? "select gender" : ""}
                       setMonth={setGender}
                     />
-                  </div>
+                  </div> */}
                   <div className="dash-input-wrapper">
                     <label htmlFor="bio">Bio*</label>
                     <textarea

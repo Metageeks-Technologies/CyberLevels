@@ -64,12 +64,12 @@ const Profile = () => {
             />
           </div>
         </div>
-        <div className="dash-input-wrapper mb-30 col-5">
+        {/* <div className="dash-input-wrapper mb-30 col-5">
           <label htmlFor="">Gender</label>
           <div className="d-flex align-items-center position-relative">
             <input type="text" placeholder="select" value={user?.gender} readOnly />
           </div>
-        </div>
+        </div> */}
         <div className="dash-input-wrapper w-100 ">
           <label htmlFor="bio">Bio</label>
 
