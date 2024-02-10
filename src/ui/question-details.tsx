@@ -96,7 +96,7 @@ export default function Example({
   setStep,
   setForm,
 }: {
-  text: string;
+  text: string[][];
   setStep: React.Dispatch<React.SetStateAction<number>>;
   setForm: React.Dispatch<
     React.SetStateAction<{
@@ -107,20 +107,16 @@ export default function Example({
   >;
 }) {
   // console.log(text, "text is here");
-  const questions = text.split("\n");
-  console.log(questions, "questions");
+  // const questions = text.split("\n");
+  // console.log(questions, "questions");
 
-  const [userAnswer, setUserAnswer] = useState<string[]>(
-    new Array(questions?.length).fill("")
-  );
-  const [answer, setAnswer] = useState<string[]>(
-    new Array(questions?.length).fill("")
-  );
+  const [userAnswer, setUserAnswer] = useState<string[]>(new Array(4).fill(""));
+  const [answer, setAnswer] = useState<string[]>(new Array(4).fill(""));
   const [isSaved, setSaved] = useState(false);
   const [isAnsweredAll, setAnsweredAll] = useState(true);
 
   const handleSave = async () => {
-    let score = 0;
+    let score = 58;
     for (let index = 0; index < userAnswer.length; index++) {
       const val = userAnswer[index];
       // Your logic here
@@ -133,7 +129,7 @@ export default function Example({
         break;
       }
     }
-    // console.log(score);
+    console.log(score, "score");
     if (isAnsweredAll) {
       const netScore = (score / userAnswer.length) * 100;
       setForm((form) => ({
@@ -146,15 +142,14 @@ export default function Example({
 
   return (
     <div>
-      {questions?.map((obj, index) => {
-        const question = obj.split("\\n");
-        const options = question.filter(
-          (element, index) => index !== 0 && index !== question.length - 1
+      {text?.map((obj, index) => {
+        const options = obj.filter(
+          (element, index) => index !== 0 && index !== obj.length - 1
         );
 
         return (
           <Question
-            question={question}
+            question={obj}
             options={options}
             index={index}
             setUserAnswer={setUserAnswer}

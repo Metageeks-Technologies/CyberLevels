@@ -82,7 +82,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const [secondarySkills, setSecondarySkills] = useState<string[]>([]);
   const [benefits, setBenefits] = useState<string[]>([]);
   const [descriptionWithAI, setDescriptionWithAI] = useState<string>("");
-  const [questionWithAI, setQuestionWithAI] = useState<any>("");
+  const [questionWithAI, setQuestionWithAI] = useState<string[][]>([]);
   const [workHours, setWorkHours] = useState("");
   const [education, setEducation] = useState("");
   const [joiningTime, setJoiningTime] = useState("");
@@ -221,7 +221,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     companyId: company?.companyId,
     companyName: company?.name,
     employerId: currEmployer?._id,
-    testQuestions: questionWithAI ? questionWithAI : "",
+    testQuestions: questionWithAI ? questionWithAI : [],
     description,
     benefits: benefits,
     deadlineDate,
@@ -327,14 +327,33 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     }
   };
   const draftQuestion = async () => {
-    const query = `generate 4 easy to medium  question with answer in multiple choice of exact four option on the topic ${bodyObj.primarySkills.join(
-      ","
-    )}. do not give any extra information or text just question and corresponding answer`;
+    // const query = `generate 4 easy to medium  question with answer in multiple choice of exact four option on the topic ${bodyObj.primarySkills.join(
+    //   ","
+    // )}. do not give any extra information or text just question and corresponding answer. give the response in a way that question, options and answer should be in same group or new line.`;
 
+    const query = `Generate 4 easy to medium questions with answers in multiple choice format, each with exactly four options. The topic is ${bodyObj.primarySkills.join(
+      ","
+    )}. Each question, its options, and the corresponding answer should be grouped together and separated by two newline characters (\\n\\n). Do not include any extra information or text. Here is an example of the desired format:
+
+1. Question text
+A. Option 1
+B. Option 2
+C. Option 3
+D. Option 4
+E: Correct option
+
+Please follow this format for all questions.`;
     try {
       const data = await askToGpt(dispatch, query);
-      setQuestionWithAI(data.choices[0].message.content);
-      console.log(data);
+      if (data?.choices?.[0].message?.content) {
+        let questions = data.choices[0].message.content.split("\n\n");
+        if (questions.length > 4) {
+          notifyInfo("Not enough questions. Please generate again.");
+          return;
+        }
+        questions = questions.map((question: string) => question.split("\n"));
+        setQuestionWithAI(questions);
+      }
     } catch (error) {
       console.log(error);
     }

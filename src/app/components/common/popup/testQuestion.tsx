@@ -10,7 +10,7 @@ const QuestionModal = ({
   question,
   jobId,
 }: {
-  question: string;
+  question: string[][];
   jobId: string;
 }) => {
   const { currCandidate } = useAppSelector(

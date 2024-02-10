@@ -39,7 +39,7 @@ const SearchJobCode = () => {
               value={localSearch}
               onChange={optimizedDebounce}
               type="text"
-              placeholder="Company Name"
+              placeholder="type job code here"
             />
             <button>
               <i className="bi bi-search"></i>

@@ -79,8 +79,7 @@ const JobDetailsV1Area = ({
   };
   let isApplied = false;
   isApplied = checkIsApplied();
-  const temp = job?.testQuestions.split("\\n\\n");
-  console.log(temp);
+  console.log(job.testQuestions, "test questions");
   const test = 58;
 
   const description = job?.description.replaceAll("\\n", "<br/>");
@@ -103,9 +102,7 @@ const JobDetailsV1Area = ({
                   <div className="col-6 ">
                     <div className="post-date">
                       {readableString} by
-                      <a className="fw-500 ms-2  text-dark">
-                        {company?.name}
-                      </a>
+                      <a className="fw-500 ms-2  text-dark">{company?.name}</a>
                     </div>
                     <h3 className="post-title pe-3">{`${job?.title} (${job.jobCode})`}</h3>
                     <div className=" d-flex justify-items-center w-100 justify-content-between align-items-center   ">

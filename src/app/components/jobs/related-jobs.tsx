@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import job_data from "@/data/job-data";
 import Slider from "react-slick";
 import JobGridItem from "./grid/job-grid-item";
+import RelatedGridItem from "./grid/related-grid";
 import { IJobPost } from "@/types/jobPost-type";
 
 // slider setting
@@ -40,6 +41,8 @@ const RelatedJobs = ({ jobs }: { jobs: IJobPost[] }) => {
   const sliderNext = () => {
     sliderRef.current?.slickNext();
   };
+
+  // console.log(jobs);
   return (
     <section className="related-job-section pt-90 lg-pt-70 pb-120 lg-pb-70">
       <div className="container">
@@ -51,13 +54,16 @@ const RelatedJobs = ({ jobs }: { jobs: IJobPost[] }) => {
           <Slider
             {...slider_setting}
             ref={sliderRef}
-            className="related-job-slider "
+            className="related-job-slider"
           >
-            {jobs.map((j) => (
-              <div key={j._id} className="item">
-                <JobGridItem item={j} />
-              </div>
-            ))}
+            {jobs.map((j, index) => {
+              console.log(index);
+              return (
+                <div key={j._id} className="item">
+                  <RelatedGridItem item={j} />
+                </div>
+              );
+            })}
           </Slider>
 
           <ul className="slider-arrows slick-arrow-one color-two d-flex justify-content-center style-none sm-mt-20">
