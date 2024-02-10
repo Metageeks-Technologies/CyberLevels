@@ -51,7 +51,7 @@ const JobDetailsDynamicPage = ({ params }: { params: { id: string } }) => {
         {/* job details area end */}
 
         {/* related job start */}
-        {relatedJobs.length>0 && <RelatedJobs jobs={relatedJobs} />}
+        {/* {relatedJobs.length>0 && <RelatedJobs jobs={relatedJobs} />} */}
         {/* related job end */}
 
         {/* job portal intro start */}
