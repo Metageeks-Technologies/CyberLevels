@@ -235,13 +235,12 @@ const CreateCompany = () => {
       setValidFunding({ ...validFunding, fundedBy: true });
   }, [fundingInput.fundedBy]);
   useEffect(() => {
-    if (round.length !== 0)
-      setValidFunding({ ...validFunding, round: true });
+    if (round.length !== 0) setValidFunding({ ...validFunding, round: true });
   }, [round]);
   useEffect(() => {
     if (yearOfFunding.length !== 0)
-    setValidFunding({ ...validFunding, yearOfFunding: true });
-}, [yearOfFunding]);
+      setValidFunding({ ...validFunding, yearOfFunding: true });
+  }, [yearOfFunding]);
 
   const handleSubmit = async () => {
     // if(form.about && form.name && form.category && form.email && form.foundedDate && form.founderName && value && teamSize && socialSites.website && location.locality && city && country){
@@ -252,28 +251,27 @@ const CreateCompany = () => {
       notifyInfo("please login to create a company");
       return;
     }
-    
+
     if (!form.name) {
       notifyInfo("Please complete the 'Company Name' field.");
       return;
     }
-    
-    
+
     if (!form.email) {
       notifyInfo("Please complete the 'Email' field.");
       return;
     }
-    
+
     if (!foundedDate) {
       notifyInfo("Please provide the 'Founded Year'.");
       return;
     }
-    
+
     if (!form.founderName) {
       notifyInfo("Please complete the 'Founder Name' field.");
       return;
     }
-    
+
     if (!teamSize) {
       notifyInfo("Please provide the 'Team Size'.");
       return;
@@ -282,12 +280,12 @@ const CreateCompany = () => {
       notifyInfo("Please provide the 'Value'.");
       return;
     }
-    
+
     if (!form.category) {
       notifyInfo("Please complete the 'Category' field.");
       return;
     }
-    
+
     if (!form.about) {
       notifyInfo("Please complete the 'About' field.");
       return;
@@ -296,21 +294,25 @@ const CreateCompany = () => {
       notifyInfo("Please provide the 'Website' in the 'Social Sites' section.");
       return;
     }
-    if(!benefits){
-      notifyInfo("Please provide the 'Benefits' in the 'Benefits & Offerings' sections")
-      return 
-    }    
-    
-    if (!location.locality) {
-      notifyInfo("Please provide the 'Local Address' in the 'Location' section.");
+    if (!benefits) {
+      notifyInfo(
+        "Please provide the 'Benefits' in the 'Benefits & Offerings' sections"
+      );
       return;
     }
-    
+
+    if (!location.locality) {
+      notifyInfo(
+        "Please provide the 'Local Address' in the 'Location' section."
+      );
+      return;
+    }
+
     if (!city) {
       notifyInfo("Please provide the 'City' in the 'Location' section.");
       return;
     }
-    
+
     if (!country) {
       notifyInfo("Please provide the 'Country' in the 'Location' section.");
       return;
@@ -369,18 +371,18 @@ const CreateCompany = () => {
         <div className="user-avatar-setting d-flex align-items-center mb-30">
           {/* company logo url */}
           {file instanceof File && (
-          <Image
-            width={50}
-            height={50}
-            src={URL.createObjectURL(file as Blob) }
-            // src={
-            //   user?.avatar !== "none" || false
-            //     ? (user?.avatar as string)
-            //     : avatar
-            // }
-            alt="avatar"
-            className="lazy-img user-img"
-          />
+            <Image
+              width={50}
+              height={50}
+              src={URL.createObjectURL(file as Blob)}
+              // src={
+              //   user?.avatar !== "none" || false
+              //     ? (user?.avatar as string)
+              //     : avatar
+              // }
+              alt="avatar"
+              className="lazy-img user-img"
+            />
           )}
           {!file && (
             <div className=" upload-btn position-relative tran3s ms-4 px-2  mx-3">
@@ -391,17 +393,21 @@ const CreateCompany = () => {
             <div className=" d-flex flex-column ms-4 ">
               <div className="d-flex justify-content-center   ">
                 {/* <button
-                    onClick={handleCompanyLogo}
-                    className="upload-btn position-relative tran3s ms-4 me-3"
-                  >
-                    {"Save"}
-                  </button> */}
-                <div className=" mt-1 ">
+                  onClick={handleCompanyLogo}
+                  className="upload-btn position-relative tran3s ms-4 me-3"
+                >
+                  {"Save"}
+                </button> */}
+                <button onClick={() => dispatch(setFile(null))} className="">
+                  Cancel
+                </button>
+                <div className="ms-5 mt-1 ">
                   <small>
                     Upload square image in .png, .jpeg, max 1mb sized
                   </small>
                 </div>
               </div>
+
               <p className="dash-title-three">{file?.name}</p>
             </div>
           )}
@@ -899,7 +905,6 @@ const CreateCompany = () => {
         >
           {loading ? <Loader /> : <span>Save</span>}
         </button>
-        
       </div>
     </div>
   );

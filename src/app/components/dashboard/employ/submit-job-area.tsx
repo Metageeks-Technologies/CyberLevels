@@ -286,22 +286,38 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     console.log(bodyObj);
 
     await addJobPost(dispatch, bodyObj);
-    // setTitle("");
-    // setJobCategory("");
-    // setJobType([]);
-    // setLocation([]);
-    // setExperience([]);
-    // setSalary({
-    //   minimum: "",
-    //   maximum: "",
-    //   isDisclosed: true,
-    //   currency: "",
-    //   period: "",
-    // });
-    // setPrimarySkills([]);
-    // setSecondarySkills([]);
-    // setDescriptionWithAI("");
-    // setQuestionWithAI("");
+    setTitle("");
+    setJobCategory("");
+    setJobType([]);
+    setLocation([]);
+    setExperience([]);
+    setSalary({
+      minimum: "",
+      maximum: "",
+      isDisclosed: true,
+      currency: {
+        abbreviation: "",
+        name: "",
+        symbol: "",
+      },
+      period: "",
+    });
+    setPrimarySkills([]);
+    setSecondarySkills([]);
+    setDescriptionWithAI("");
+    setQuestionWithAI([]);
+    setBenefits([]);
+    setWorkHours("");
+    setEducation("");
+    setCompany({
+      name: "",
+      companyId: "",
+    });
+    // setDescription("");
+    setDeadlineDate(null);
+    setWorkMode([]);
+    setLanguage("");
+    setJoiningTime("");
   };
 
   const draftDescription = async () => {

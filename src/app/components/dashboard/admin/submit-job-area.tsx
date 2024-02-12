@@ -33,7 +33,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   const { loading, gptLoading } = useSelector(
     (state: RootState) => state.jobPost
   );
-  const {currUser} = useAppSelector((state) => state.persistedReducer.user)
+  const { currUser } = useAppSelector((state) => state.persistedReducer.user);
 
   const { currAdmin } = useAppSelector((state) => state.admin);
 
@@ -187,22 +187,26 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     // console.log(bodyObj);
 
     await addJobPost(dispatch, bodyObj);
-    // setTitle("");
-    // setJobCategory("");
-    // setJobType([]);
-    // setLocation([]);
-    // setExperience([]);
-    // setSalary({
-    //   minimum: "",
-    //   maximum: "",
-    //   isDisclosed: true,
-    //   currency: "",
-    //   period: "",
-    // });
-    // setPrimarySkills([]);
-    // setSecondarySkills([]);
-    // setDescriptionWithAI("");
-    // setQuestionWithAI("");
+    setTitle("");
+    setJobCategory("");
+    setJobType([]);
+    setLocation([]);
+    setExperience([]);
+    setSalary({
+      minimum: "",
+      maximum: "",
+      isDisclosed: true,
+      currency: {
+        abbreviation: "",
+        name: "",
+        symbol: "",
+      },
+      period: "",
+    });
+    setPrimarySkills([]);
+    setSecondarySkills([]);
+    setDescriptionWithAI("");
+    setQuestionWithAI([]);
   };
 
   const draftDescription = async () => {
@@ -645,7 +649,6 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
 
 export default SubmitJobArea;
 
-
 // "use client";
 // import { addJobPost } from "@/redux/features/jobPost/api";
 // import { RootState } from "@/redux/store";
@@ -707,7 +710,6 @@ export default SubmitJobArea;
 //       [property]: item.value,
 //     });
 //   };
-
 
 //   const [primarySkills, setPrimarySkills] = useState<string[]>([]);
 //   const [secondarySkills, setSecondarySkills] = useState<string[]>([]);
@@ -774,7 +776,6 @@ export default SubmitJobArea;
 //     secSkills: false,
 //   });
 
-  
 //   useEffect(() => {
 //     setValidForm({
 //       ...validForm,
@@ -1097,7 +1098,7 @@ export default SubmitJobArea;
 //             </div>
 //           </div>
 //           {/* <div className="bg-white card-box border-20 mt-40">
-            
+
 //           </div> */}
 //           <h4 className="dash-title-three ">Benefits && Offerings</h4>
 //           <div className="dash-input-wrapper">
