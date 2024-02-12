@@ -422,8 +422,9 @@ Please follow this format for all questions.`;
                   options={[
                     { value: "Full time", label: "Full time" },
                     { value: "Part time", label: "Part time" },
-                    { value: "Hourly-Contract", label: "Hourly-Contract" },
-                    { value: "Fixed-Price", label: "Fixed-Price" },
+                    { value: "Interneship", label: "Interneship" },
+                    { value: "Hourly contract", label: "Hourly contract" },
+                    { value: "Fixed price", label: "Fixed price" },
                   ]}
                   defaultCurrent={0}
                   onChange={(item) => handleJobType(item)}
@@ -630,7 +631,7 @@ Please follow this format for all questions.`;
                 <NiceSelect
                   options={[
                     { value: "Intermediate", label: "Intermediate" },
-                    { value: "No-Experience", label: "No-Experience" },
+                    { value: "Fresher", label: "Fresher" },
                     { value: "Expert", label: "Expert" },
                   ]}
                   defaultCurrent={0}
