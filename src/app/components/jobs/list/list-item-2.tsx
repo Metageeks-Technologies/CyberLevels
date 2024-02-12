@@ -70,11 +70,11 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                 <div className="logo" onClick={() => handleViewClick(item._id)}>
                   <Image
                     src={typeof item.companyId!=="string" && item.companyId.logo?item.companyId.logo: job_img_1}
-                    width={100}
-                    height={100}
+                    width={60}
+                    height={60}
                     alt="logo"
                     className="lazy-img rounded-circle w-100"
-                    style={{ height: "auto" }}
+                    // style={{ height: "auto" }}
                   />
                 </div>
                 <div className="split-box1">
@@ -103,7 +103,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
               </div>
               <div className="job-salary">
                 <span className="fw-500 text-dark">
-                  ${item.salary.minimum}-{item.salary.maximum} PA
+                  {item.salary?.currency?.symbol}{item.salary.minimum}-{item.salary.maximum} {item?.salary?.period}
                 </span>{" "}
                 /{item?.preferredExperience?.[0]}
               </div>
@@ -149,11 +149,11 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                   >
                     <Image
                     src={typeof item.companyId!=="string" && item.companyId.logo?item.companyId.logo: job_img_1}
-                    width={100}
-                    height={100}
+                    width={60}
+                    height={60}
                     alt="logo"
                     className="lazy-img rounded-circle w-100"
-                    style={{ height: "auto" }}
+                    // style={{ height: "auto" }}
                   />
                   </div>
                   <div className="split-box1">

@@ -589,13 +589,13 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                       </div>
                     </div>
                     <h3>
-                      {selectedTemplate.templateName ||
+                      {selectedTemplate?.templateName ||
                         `Template ${selectedTemplates.indexOf(
                           selectedTemplate
                         )}`}
                     </h3>
                     <p>
-                      <strong>Subject:</strong> {selectedTemplate.subject}
+                      <strong>Subject:</strong> {selectedTemplate?.subject}
                     </p>
                     <p
                       dangerouslySetInnerHTML={sanitizeHtml(
