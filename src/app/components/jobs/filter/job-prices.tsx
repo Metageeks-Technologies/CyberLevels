@@ -41,7 +41,7 @@ export function SalaryRangeSlider({
             readOnly
           />
         </div>
-        <div className="currency ps-1">$ PA</div>
+        {/* <div className="currency ps-1">$ PA</div> */}
       </div>
       <div className="range-input mb-10">
         {/* <InputRange
@@ -54,7 +54,7 @@ export function SalaryRangeSlider({
         <SingleRange
           MAX={maxPrice}
           MIN={0}
-          STEP={1}
+          STEP={100}
           values={priceValue}
           handleChanges={handleChanges}
           setFinalPrice={setFinalPrice}
