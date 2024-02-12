@@ -82,8 +82,8 @@ const JobGridItem = ({
                width={50}
                height={50}
               alt="logo"
-              style={{ height: "auto", width: "auto" }}
-              className="lazy-img m-auto"
+              // style={{ height: "auto", width: "auto" }}
+              className="lazy-img m-auto rounded-circle"
             />
           </div>
         ) : (
@@ -100,8 +100,8 @@ const JobGridItem = ({
                width={50}
                height={50}
               alt="logo"
-              style={{ height: "auto", width: "auto" }}
-              className="lazy-img m-auto"
+              // style={{ height: "auto", width: "auto" }}
+              className="lazy-img m-auto rounded-circle"
             />
             </div>
           </button>
@@ -184,7 +184,7 @@ const JobGridItem = ({
             </div>
             <div className="job-salary">
               <span className="fw-500 text-dark">
-                ${`${item.salary.minimum}-${item.salary.maximum}`} PA
+              {item.salary?.currency?.symbol}{item.salary.minimum}-{item.salary.maximum} {item?.salary?.period}
               </span>
             </div>
             <div className="d-flex align-items-center justify-content-between mt-auto">

@@ -132,7 +132,7 @@ const CandidateAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
             </button>
           </div>
           <div className="user-data">
-            <div className="user-avatar position-relative rounded-circle">
+            <div className="d-flex justify-content-center align-items-center user-avatar position-relative rounded-circle">
               {/* <Image
                 src={
                   user?.avatar !== "none" ? (user?.avatar as string) : avatar
@@ -158,7 +158,7 @@ const CandidateAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
             </div>
             <div className="user-name-data user-name ">
               <p className="  d-flex gap-1 justify-content-center align-items-center  ">
-                <span className=" text-capitalize mt-2">
+                <span className="text-center text-capitalize mt-2">
                   {user?.firstName} {user?.lastName}
                 </span>
                 <span
