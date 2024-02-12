@@ -37,7 +37,7 @@ const slider_setting = {
 
 
   const sliderRef = useRef<Slider | null>(null);
-
+  // console.log(jobs)
   const sliderPrev = () => {
     sliderRef.current?.slickPrev();
   };
@@ -63,12 +63,8 @@ const slider_setting = {
             {jobs.map((j, index) => {
               console.log(index);
               return (
-                <div key={j._id} className="item d-flex justify-content-center">
-                   {isSingleJob ? (
-                  <div className="d-flex justify-content-center " style={{width:"35%"}}>
-                    <RelatedGridItem item={j} />
-                  </div>
-                ) : (
+                <div key={j._id} className="item">
+                  {/* console.log(j._id) */}
                   <RelatedGridItem item={j} />
                 )}
                 </div>
