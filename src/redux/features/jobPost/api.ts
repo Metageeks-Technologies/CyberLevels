@@ -93,6 +93,7 @@ export const getJobPostsForEmployer = async (dispatch: AppDispatch, id: string, 
 export const askToGpt = async (dispatch: AppDispatch, query: string) => {
 
     dispatch(askGptStart());
+
     try {
         const { data } = await instance(`/jobPost/askGpt?query=${query}`);
         dispatch(askGptSuccess());

@@ -48,9 +48,9 @@ const JobLetter = ({
   };
 
   const draftJobLetter = async () => {
-    const query = `write a job letter with this job description ${
-      jobPost?.description
-    }and my skills which are ${currCandidate?.skills.join(" ,")},my name is ${
+    const query = `write a job letter with this job title ${
+      jobPost?.title
+    }  and my skills which are ${currCandidate?.skills.join(" ,")},my name is ${
       currCandidate?.firstName
     } , give me just body of the job letter  in about 150 to 200 words  `;
 
