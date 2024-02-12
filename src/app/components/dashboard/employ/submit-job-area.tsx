@@ -333,16 +333,16 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
 
     const query = `Generate 4 easy to medium questions with answers in multiple choice format, each with exactly four options. The topic is ${bodyObj.primarySkills.join(
       ","
-    )}. Each question, its options, and the corresponding answer should be grouped together and separated by two newline characters (\\n\\n). Do not include any extra information or text. Here is an example of the desired format:
+    )}. Each question, its options, and the corresponding answer should be grouped together and separated by two newline characters (\\n\\n).The correct answer should be the full text of the correct option, not just the option letter. Do not include any extra information or text. Here is an example of the desired format:
 
 1. Question text
 A. Option 1
 B. Option 2
 C. Option 3
 D. Option 4
-E: Correct option
+Answer: B. Option 2
 
-Please follow this format for all questions.`;
+Please follow this format strictly for all questions.`;
     try {
       const data = await askToGpt(dispatch, query);
       if (data?.choices?.[0].message?.content) {

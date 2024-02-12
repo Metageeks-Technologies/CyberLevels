@@ -85,7 +85,7 @@ export default function Example({ text }: { text: string[][] }) {
         const option = obj.filter(
           (item, index) => index !== 0 && index !== obj.length - 1
         );
-        console.log(option, "[[question]]");
+        // console.log(option, "[[question]]");
         return <Question question={obj} options={option} />;
       })}
     </div>

@@ -116,12 +116,19 @@ export default function Example({
   const [isAnsweredAll, setAnsweredAll] = useState(true);
 
   const handleSave = async () => {
-    let score = 58;
+    // console.log(text, "text");
+    // console.log(userAnswer, "userAnswer");
+    // console.log(answer, "answer");
+
+    let score = 0;
     for (let index = 0; index < userAnswer.length; index++) {
-      const val = userAnswer[index];
+      const val = userAnswer[index].trim();
       // Your logic here
       if (val) {
-        if (answer[index].includes(val)) score++;
+        if (answer[index].trim().includes(val)) {
+          score++;
+          // console.log(index, "score");
+        }
         setAnsweredAll(true);
       } else {
         setAnsweredAll(false);
@@ -129,7 +136,7 @@ export default function Example({
         break;
       }
     }
-    console.log(score, "score");
+    // console.log(score, "score");
     if (isAnsweredAll) {
       const netScore = (score / userAnswer.length) * 100;
       setForm((form) => ({
