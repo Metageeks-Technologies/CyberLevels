@@ -6,35 +6,33 @@ import JobGridItem from "./grid/job-grid-item";
 import RelatedGridItem from "./grid/related-grid";
 import { IJobPost } from "@/types/jobPost-type";
 
-
 const RelatedJobs = ({ jobs }: { jobs: IJobPost[] }) => {
   const numRelatedJobs = jobs.length;
   const isSingleJob = numRelatedJobs < 2;
-// slider setting
-const slider_setting = {
-  dots: false,
-  arrows: false,
-  centerPadding: "0px",
-  slidesToShow: numRelatedJobs > 2 ? 3 : numRelatedJobs,
-  slidesToScroll: 1,
-  autoplay: true,
-  autoplaySpeed: 3000,
-  responsive: [
-    {
-      breakpoint: 992,
-      settings: {
-        slidesToShow: numRelatedJobs > 1 ? 2 : 1,
+  // slider setting
+  const slider_setting = {
+    dots: false,
+    arrows: false,
+    centerPadding: "0px",
+    slidesToShow: numRelatedJobs > 2 ? 3 : numRelatedJobs,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    responsive: [
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: numRelatedJobs > 1 ? 2 : 1,
+        },
       },
-    },
-    {
-      breakpoint: 768,
-      settings: {
-        slidesToShow: 1,
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+        },
       },
-    },
-  ],
-};
-
+    ],
+  };
 
   const sliderRef = useRef<Slider | null>(null);
   // console.log(jobs)
@@ -64,9 +62,7 @@ const slider_setting = {
               console.log(index);
               return (
                 <div key={j._id} className="item">
-                  {/* console.log(j._id) */}
                   <RelatedGridItem item={j} />
-                )}
                 </div>
               );
             })}
