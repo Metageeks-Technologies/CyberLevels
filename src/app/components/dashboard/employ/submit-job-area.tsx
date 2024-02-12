@@ -42,7 +42,14 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   );
 
   const { currEmployer } = useAppSelector((state) => state.employer);
-
+    const [countAiClick,setCountAiClick] = useState({
+      jobDescription:0,
+      test:0
+    })
+    const [loadingLocal,setLoadingLocal] = useState({
+      description:false,
+      question:false
+    })
   const [title, setTitle] = useState("");
   const [jobCategory, setJobCategory] = useState("");
   const [jobType, setJobType] = useState<string[]>([]);
@@ -305,6 +312,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   };
 
   const draftDescription = async () => {
+    setLoadingLocal({...loadingLocal,description:true})
     const query = `Help me in writing to the point job description for a job post with given information .
                     job title:${bodyObj.title} job type:${
       bodyObj.jobType
@@ -322,19 +330,22 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     try {
       const data = await askToGpt(dispatch, query);
       setDescriptionWithAI(data.choices[0].message.content);
+      setCountAiClick({...countAiClick,jobDescription:1});
     } catch (error) {
       console.log(error);
     }
+    setLoadingLocal({...loadingLocal,description:false})
   };
   const draftQuestion = async () => {
+    setLoadingLocal({...loadingLocal,question:true})
     // const query = `generate 4 easy to medium  question with answer in multiple choice of exact four option on the topic ${bodyObj.primarySkills.join(
-    //   ","
-    // )}. do not give any extra information or text just question and corresponding answer. give the response in a way that question, options and answer should be in same group or new line.`;
-
-    const query = `Generate 4 easy to medium questions with answers in multiple choice format, each with exactly four options. The topic is ${bodyObj.primarySkills.join(
-      ","
-    )}. Each question, its options, and the corresponding answer should be grouped together and separated by two newline characters (\\n\\n). Do not include any extra information or text. Here is an example of the desired format:
-
+      //   ","
+      // )}. do not give any extra information or text just question and corresponding answer. give the response in a way that question, options and answer should be in same group or new line.`;
+      
+      const query = `Generate 4 easy to medium questions with answers in multiple choice format, each with exactly four options. The topic is ${bodyObj.primarySkills.join(
+        ","
+        )}. Each question, its options, and the corresponding answer should be grouped together and separated by two newline characters (\\n\\n). Do not include any extra information or text. Here is an example of the desired format:
+        
 1. Question text
 A. Option 1
 B. Option 2
@@ -343,23 +354,26 @@ D. Option 4
 E: Correct option
 
 Please follow this format for all questions.`;
-    try {
-      const data = await askToGpt(dispatch, query);
-      if (data?.choices?.[0].message?.content) {
-        let questions = data.choices[0].message.content.split("\n\n");
-        if (questions.length > 4) {
-          notifyInfo("Not enough questions. Please generate again.");
-          return;
-        }
-        questions = questions.map((question: string) => question.split("\n"));
-        setQuestionWithAI(questions);
+try {
+  const data = await askToGpt(dispatch, query);
+  if (data?.choices?.[0].message?.content) {
+    let questions = data.choices[0].message.content.split("\n\n");
+    if (questions.length > 4) {
+      notifyInfo("Not enough questions. Please generate again.");
+      setLoadingLocal({...loadingLocal,question:false})
+      return;
+    }
+    questions = questions.map((question: string) => question.split("\n"));
+    setQuestionWithAI(questions);
+    setCountAiClick({...countAiClick,test:1});
       }
     } catch (error) {
       console.log(error);
     }
+    setLoadingLocal({...loadingLocal,question:false})
   };
   console.log(descriptionWithAI);
-
+  
   return (
     <div className="dashboard-body job-details">
       <div className="position-relative">
@@ -697,6 +711,7 @@ Please follow this format for all questions.`;
                   selected={deadlineDate}
                   onChange={(date: Date | null) => setDeadlineDate(date)}
                   dateFormat="dd/MM/yyyy"
+                  minDate={new Date()}
                 />
                 {!validForm.deadlineDate && (
                   <p style={{ color: "red" }}>select a Valid deadline date</p>
@@ -743,7 +758,7 @@ Please follow this format for all questions.`;
               onClick={draftDescription}
               className="dash-btn-ai mb-3  tran3s me-3 d-flex align-content-center gap-2  justify-content-center   "
             >
-              <span>{true ? "Write a description With Ai" : <Loader />}</span>
+              <span>{!loadingLocal.description ?(countAiClick.jobDescription<1? "Write a description With Ai":"Re-generate Job Description"): <Loader />}</span>
               <span className="">
                 <MagicWand size={32} color="#244034" weight="light" />
               </span>
@@ -764,7 +779,7 @@ Please follow this format for all questions.`;
               onClick={draftQuestion}
               className="dash-btn-ai mb-3  tran3s me-3 d-flex align-content-center gap-2  justify-content-center "
             >
-              <span>{true ? "Generate Test" : <Loader />}</span>
+              <span>{!loadingLocal.question ? (countAiClick.test<1?"Generate Test":"Re-Generate Test" ): <Loader />}</span>
               <span className="">
                 <MagicWand size={32} color="#244034" weight="light" />
               </span>

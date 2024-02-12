@@ -33,7 +33,7 @@ const slider_setting = {
 
 const RelatedJobs = ({ jobs }: { jobs: IJobPost[] }) => {
   const sliderRef = useRef<Slider | null>(null);
-
+  // console.log(jobs)
   const sliderPrev = () => {
     sliderRef.current?.slickPrev();
   };
@@ -60,6 +60,7 @@ const RelatedJobs = ({ jobs }: { jobs: IJobPost[] }) => {
               console.log(index);
               return (
                 <div key={j._id} className="item">
+                  {/* console.log(j._id) */}
                   <RelatedGridItem item={j} />
                 </div>
               );
