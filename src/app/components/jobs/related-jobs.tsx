@@ -6,12 +6,16 @@ import JobGridItem from "./grid/job-grid-item";
 import RelatedGridItem from "./grid/related-grid";
 import { IJobPost } from "@/types/jobPost-type";
 
+
+const RelatedJobs = ({ jobs }: { jobs: IJobPost[] }) => {
+  const numRelatedJobs = jobs.length;
+  const isSingleJob = numRelatedJobs < 2;
 // slider setting
 const slider_setting = {
   dots: false,
   arrows: false,
   centerPadding: "0px",
-  slidesToShow: 3,
+  slidesToShow: numRelatedJobs > 2 ? 3 : numRelatedJobs,
   slidesToScroll: 1,
   autoplay: true,
   autoplaySpeed: 3000,
@@ -19,7 +23,7 @@ const slider_setting = {
     {
       breakpoint: 992,
       settings: {
-        slidesToShow: 2,
+        slidesToShow: numRelatedJobs > 1 ? 2 : 1,
       },
     },
     {
@@ -31,7 +35,7 @@ const slider_setting = {
   ],
 };
 
-const RelatedJobs = ({ jobs }: { jobs: IJobPost[] }) => {
+
   const sliderRef = useRef<Slider | null>(null);
 
   const sliderPrev = () => {
@@ -59,8 +63,14 @@ const RelatedJobs = ({ jobs }: { jobs: IJobPost[] }) => {
             {jobs.map((j, index) => {
               console.log(index);
               return (
-                <div key={j._id} className="item">
+                <div key={j._id} className="item d-flex justify-content-center">
+                   {isSingleJob ? (
+                  <div className="d-flex justify-content-center " style={{width:"35%"}}>
+                    <RelatedGridItem item={j} />
+                  </div>
+                ) : (
                   <RelatedGridItem item={j} />
+                )}
                 </div>
               );
             })}
