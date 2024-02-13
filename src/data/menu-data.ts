@@ -218,13 +218,13 @@ export const employ_deep_data: IMenuData[] = [
     ]
   },
 
-  {
-    id: 2,
-    link: 'dashboard/employer-dashboard/jobs/chats',
-    title: 'Chats',
-    sub_menus: [
-    ]
-  },
+  // {
+  //   id: 2,
+  //   link: 'dashboard/employer-dashboard/jobs/chats',
+  //   title: 'Chats',
+  //   sub_menus: [
+  //   ]
+  // },
 
 
 ]

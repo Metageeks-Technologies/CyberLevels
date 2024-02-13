@@ -13,6 +13,7 @@ export interface IJobApp {
     _id: string,
     createdAt: string,
     updatedAt: string,
+    profileMatchPercent:number
 }
 
 export interface IChatMessage {

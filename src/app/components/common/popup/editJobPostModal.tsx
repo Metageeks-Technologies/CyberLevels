@@ -875,6 +875,8 @@ const EditJobPostModal = () => {
                     disabled={loading}
                     type={"submit"}
                     onClick={handleSubmit}
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
                     className="dash-btn-two tran3s me-3"
                     // data-bs-dismiss="modal"
                     // aria-label="Close"

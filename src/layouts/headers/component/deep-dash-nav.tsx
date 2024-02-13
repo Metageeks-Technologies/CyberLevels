@@ -11,10 +11,12 @@ const DeepMenus = () => {
       <ul className="deep-nav list-unstyled  d-flex text-secondary ">
         {menuData.map((obj, index) => {
           return (
-            <li className="nav-item active">
-              <Link className="nav-link" href={obj.link}>
+            <li className="nav-item ">
+              <h2 className="main-title m0">
+              <Link style={{ color: "#31795A" }} className="" href={obj.link}>
                 {obj.title}
               </Link>
+              </h2>
             </li>
           );
         })}

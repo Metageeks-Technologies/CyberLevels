@@ -39,7 +39,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
           <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
           {/* header end */}
 
-          <div className="d-sm-flex align-items-center justify-content-between mb-40 lg-mb-30">
+          <div className="d-sm-flex align-items-center justify-content-between mb-30 lg-mb-30" style={{paddingLeft:"25px"}}>
             <div className=" d-flex">
               <h2 className="main-title m0">
                 <Link
@@ -108,13 +108,13 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                   <table className="table job-alert-table">
                     <thead>
                       <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Applied At</th>
-                        <th scope="col">Test Score</th>
-                        <th scope="col">Expertise</th>
-                        <th scope="col">Resume</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Action</th>
+                        <th className="col-xl-4 col-md-4 col-sm-6" scope="col">Name</th>
+                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">Applied At</th>
+                        <th className="col-xl-3 col-md-4 col-sm-6 text-center" scope="col">Test Score</th>
+                        <th className="col-xl-2 col-md-4 col-sm-6 text-center" scope="col">%Match</th>
+                        <th className="col-xl-2 col-md-4 col-sm-6" scope="col">Resume</th>
+                        <th className="col-xl-1 col-md-4 col-sm-6" scope="col">Status</th>
+                        <th className="col-xl-1 col-md-4 col-sm-6" scope="col">Action</th>
                       </tr>
                     </thead>
 
@@ -134,8 +134,8 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                                   }`}
                                   tesScore={String(app.testScore) || "89%"}
                                   date={createdAt}
-                                  experience={
-                                    app.candidate?.experienceInShort || "expert"
+                                  matchScore={
+                                    app?.profileMatchPercent
                                   }
                                   status={app?.status}
                                   id={app.candidate?._id}

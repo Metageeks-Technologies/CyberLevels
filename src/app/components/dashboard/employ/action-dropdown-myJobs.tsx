@@ -42,9 +42,9 @@ const ActionDropdown = ({ id }: { id: string }) => {
           <Image src={view} alt="icon" className="lazy-img" /> View
         </Link>
       </li>
-      <Link className="dropdown-item" href="#">
+      {/* <Link className="dropdown-item" href="#">
         <Image src={share} alt="icon" className="lazy-img" /> Share
-      </Link>
+      </Link> */}
       <li>
         <button className="dropdown-item" type="button" data-bs-toggle="modal"
         data-bs-target="#editJobPostByEmployer" onClick={handleClick}>

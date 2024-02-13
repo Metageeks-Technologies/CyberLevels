@@ -37,8 +37,8 @@ const EmployJobItem = ({
           </div>
           <div className="info1">{info}</div>
         </td>
-        <td>{date}</td>
-        <td>{application}</td>
+        <td className="text-center">{date}</td>
+        <td className="text-center">{application}</td>
         <td>
           <div className="job-status text-capitalize">{status}</div>
         </td>
