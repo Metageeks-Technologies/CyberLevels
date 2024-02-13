@@ -17,7 +17,8 @@ type IPropType = {
   onChange: (item: Option) => void;
   name: string;
   isScroll?: boolean;
-  defaultValue?:string
+  defaultValue?:string;
+  dataMode?:string;
 };
 
 const NiceSelect = ({
@@ -29,6 +30,7 @@ const NiceSelect = ({
   onChange,
   name,
   defaultValue,
+  dataMode,
 }: IPropType) => {
   // console.log(defaultCurrent, "from defalt current");
   const [open, setOpen] = useState(false);
@@ -45,7 +47,7 @@ const NiceSelect = ({
   },[defaultValue])
   useEffect(() => {
     setCurrent(defaultCurrent!==undefined ? options[defaultCurrent] : undefined);
-  }, [defaultCurrent]);
+  }, [defaultCurrent,dataMode]);
   const onClose = useCallback(() => {
     setOpen(false);
     // setCurrent(undefined);

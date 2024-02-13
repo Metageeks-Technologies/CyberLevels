@@ -173,6 +173,7 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
                     defaultCurrent={2}
                     onChange={(item) => handleLastUnits(item)}
                     name="last units"
+                    dataMode={dataMode}
                   />
                 </div>
               </div>
