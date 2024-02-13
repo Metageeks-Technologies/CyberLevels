@@ -59,7 +59,7 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
         <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
         {/* header end */}
 
-        <div className="d-sm-flex align-items-center justify-content-between mb-40 lg-mb-30">
+        <div className="d-sm-flex align-items-center justify-content-between mb-20 lg-mb-30">
           {/* <h2 className="main-title m0">My Jobs</h2> */}
           <DeepMenus />
           {/* <div className="d-flex ms-auto xs-mt-30">
@@ -103,11 +103,11 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                 <table className="table job-alert-table">
                   <thead>
                     <tr>
-                      <th scope="col">Title</th>
-                      <th scope="col">Job Created</th>
-                      <th scope="col">Applicants</th>
-                      <th scope="col">Status</th>
-                      <th scope="col">Action</th>
+                      <th className="col-xl-4 col-md-4 col-sm-6" scope="col">Title</th>
+                      <th className="col-xl-2 col-md-4 col-sm-6 text-center" scope="col">Job Created</th>
+                      <th className="col-xl-2 col-md-4 col-sm-6 text-center" scope="col">Applicants</th>
+                      <th className="col-xl-1 col-md-4 col-sm-6" scope="col">Status</th>
+                      <th className="col-xl-1 col-md-4 col-sm-6" scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody className="border-0">

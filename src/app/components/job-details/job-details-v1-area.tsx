@@ -359,7 +359,7 @@ const JobDetailsV1Area = ({
                     <li className="col-xl-7 col-md-4 col-sm-6">
                       <span>Salary</span>
                       <div>
-                        $ {job?.salary.minimum}-{job?.salary.maximum} PA
+                        {job?.salary?.currency?.symbol} {job?.salary.minimum}-{job?.salary.maximum} {job?.salary?.period}
                       </div>
                     </li>
                     <li className="col-xl-5 col-md-4 col-sm-6">

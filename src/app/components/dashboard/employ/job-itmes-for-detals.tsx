@@ -17,7 +17,7 @@ const EmployJobItem = ({
   isFeedbackAsked,
   resumes,
   resumeId,
-  experience,
+  matchScore,
 }: {
   jobPostId:string;
   title: string;
@@ -25,16 +25,17 @@ const EmployJobItem = ({
   date: string;
   tesScore: String;
   status: string;
-  experience: string;
+  // experience: string;
   id: string;
   appId: string;
   isFeedbackAsked: boolean;
   resumes: IResume[];
   resumeId: string;
+  matchScore:number;
 }) => {
   const appliedResume = resumes?.find((resume) => resume?._id === resumeId);
   return (
-    <tr className={`${experience} ${status === "Received" && "pending"} ${
+    <tr className={` ${status === "Received" && "pending"} ${
       status === "Under Review" && "active"
     } ${status === "Not Selected" && "expired"} ${
       status === "Shortlisted" && "active"
@@ -48,9 +49,9 @@ const EmployJobItem = ({
         <div className="info1">{info}</div>
       </td>
       <td>{date}</td>
-      <td >{tesScore}</td>
+      <td className="text-capitalize text-center">{tesScore}</td>
       <td>
-        <div className="text-capitalize">{experience}</div>
+        <div className="text-capitalize text-center">{matchScore}</div>
       </td>
       <td>
         <div className=" d-flex ">
