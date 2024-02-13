@@ -60,7 +60,7 @@ const EditSkill = ({ skills }: { skills: string[] }) => {
 
                 <div className="form-wrapper dash-input-wrapper m-auto w-100 ">
                   <div>
-                    <h3 className=" text-dark ">Key skills</h3>
+                    <h3 className=" text-dark ">Primary skills</h3>
                     <div>
                       Tell recruiters what you know or what you are known for
                       e.g. Direct Marketing, Oracle, Java etc. We will send you

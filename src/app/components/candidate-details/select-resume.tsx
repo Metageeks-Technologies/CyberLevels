@@ -87,9 +87,11 @@ const SelectResume = ({
 
   return (
     <div className=" w-100 ">
-      <p className="mt-3 fw-medium mb-3 text-center ">
-        Select your resume for this job post.
+      {!isSaved && (
+      <p className="mt-3 fw-medium mb-3 text-center" style={{color:"red"}}>
+        Select your resume for this job post*
       </p>
+      )}
       {resumes.length >= 1 ? (
         <div>
           {resumes.map((resume) => (
@@ -98,16 +100,17 @@ const SelectResume = ({
               type="button"
               className={`${
                 String(resume._id) === selectedId && "request-btn-active"
-              } request-btn d-flex w-100  flex-column  rounded gap-1 mb-3 border border-black p-3 `}
+              } request-btn d-flex w-100  flex-column  rounded gap-1 mb-3 border border-black p-3`}
             >
-              <div className="job-name fw-500">{resume.name}</div>
+              <div className="job-name fw-500 ">{resume.name}</div>
             </button>
           ))}
 
           {!file && (
             <>
               <div className="btn-group d-flex mt-25 align-items-center justify-content-between  ">
-                <div style={{ cursor: "pointer" }} className="btn-one ">
+                {resumes.length<3 && (
+                <div style={{ cursor: "pointer" }} className="btn-one d-flex ">
                   <DropZone
                     setFile={handleFile}
                     showIcon={false}
@@ -115,6 +118,8 @@ const SelectResume = ({
                     text={"Upload New"}
                   />
                 </div>
+                )}
+                <div className="d-flex justify-content-end">
                 <button
                   onClick={navigateToResume}
                   className="btn-six"
@@ -124,10 +129,13 @@ const SelectResume = ({
                   {" "}
                   Dashboard
                 </button>
+                </div>
               </div>
+              {resumes.length<3 && (
               <div className=" mt-3 ">
                 <small>Upload file .pdf .doc .docx</small>
               </div>
+              )}
             </>
           )}
 
@@ -137,7 +145,7 @@ const SelectResume = ({
               <div className="btn-group">
                 <button
                   disabled={resumeUploadProgress !== 0}
-                  className="btn-hover-underline  tran3s me-3 mt-3 mb-20"
+                  className="btn-one tran3s me-3 mt-3 mb-20"
                   type="button"
                   onClick={handleSubmit}
                 >

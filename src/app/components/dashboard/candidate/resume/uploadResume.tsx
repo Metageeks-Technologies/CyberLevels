@@ -98,6 +98,7 @@ const UploadResume = ({
 
         {!file && (
           <>
+           {resume?.length < 3 && ( 
             <div
               style={{ cursor: "pointer" }}
               className="dash-btn-one d-inline-block position-relative me-3"
@@ -109,7 +110,14 @@ const UploadResume = ({
                 text={"Upload New"}
               />
             </div>
+           )}
           </>
+        )}
+
+      {resume?.length === 3 && (
+        <div className="dash-input-wrapper ">
+        <label htmlFor=""> You have reached your resume limit. Remove resume to add new.</label>
+        </div>
         )}
 
         {file && (
@@ -135,9 +143,11 @@ const UploadResume = ({
             </div>
           </>
         )}
+        {resume?.length < 3 && ( 
         <div className=" mt-3 ">
           <small>*Upload file with .pdf .doc .docx</small>
         </div>
+        )}
       </div>
     </>
   );

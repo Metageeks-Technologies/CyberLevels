@@ -55,7 +55,7 @@ const EditSoftSkill = () => {
 
                 <div className="form-wrapper dash-input-wrapper m-auto w-100 ">
                   <div>
-                    <h3 className=" text-dark ">Soft skills</h3>
+                    <h3 className=" text-dark ">Secondary skills</h3>
                     <div>
                       Tell recruiters what you know or what you are known for
                       e.g. Time Management, Communication, Leadership etc. We
