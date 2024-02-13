@@ -105,6 +105,20 @@ export const askToGpt = async (dispatch: AppDispatch, query: string) => {
         dispatch(askGptEnd());
     }
 }
+export const getJobPostDetailsForEmployer = async (dispatch:AppDispatch, id:string) => {
+    dispatch(requestStart());
+    try {
+        const { data } = await instance(`/jobPost/getJobForEmployer/${id}`,
+            //  { withCredentials: true }
+        );
+        dispatch(submitJobPostSuccess(data.job));
+
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        dispatch(requestFail(e.message));
+    }
+}
 export const getJobPostDetails = async (dispatch: AppDispatch, id: string) => {
     // getJobDetailsWithCompany
     dispatch(requestStart());

@@ -9,6 +9,7 @@ import Wrapper from "@/layouts/wrapper";
 import { getAllJobAppByCandidate } from "@/redux/features/jobApp/api";
 import {
   getJobPostDetails,
+  getJobPostDetailsForEmployer,
   getRelatedJobs,
 } from "@/redux/features/jobPost/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
@@ -22,7 +23,7 @@ const JobDetailsDynamicPage = ({ params }: { params: { id: string } }) => {
 
   const pathName = usePathname();
   useEffect(() => {
-    if (currUser) getJobPostDetails(dispatch, params.id);
+    if (currUser) getJobPostDetailsForEmployer(dispatch, params.id);
     getRelatedJobs(dispatch, params.id);
 
     if (currUser) getAllJobAppByCandidate(dispatch, currUser);
