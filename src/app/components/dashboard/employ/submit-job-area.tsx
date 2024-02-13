@@ -408,6 +408,7 @@ Please follow this format for all questions.`;
                   setSelected={setCompany}
                   endPoint="companyName"
                   employerId={currEmployer?._id}
+                  showCreate={true}
                 />
                 {!validForm.companyId && (
                   <p style={{ color: "red" }}>Please Enter Valid Company</p>

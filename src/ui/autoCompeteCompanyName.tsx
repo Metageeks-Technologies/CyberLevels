@@ -23,7 +23,7 @@ function AutocompletePosition({
   endPoint,
   employerId = "",
   top=false,
-  showCreate=true,
+  showCreate=false,
   disabled=false,
   borderNone=false,
 }: Props) {
@@ -55,6 +55,7 @@ function AutocompletePosition({
           }
         }
         if (query.length === 0) {
+          // showCreate=true;
           setSelected({
             name: "",
             companyId: "",
@@ -66,6 +67,9 @@ function AutocompletePosition({
     };
     callApi();
   }, [query]);
+  // useEffect(() => {
+  //   showCreate=false
+  // },[selected])
   return (
     <div className="nice-select" style={{ border: "none", padding: "0" }}>
       <Combobox
@@ -75,6 +79,7 @@ function AutocompletePosition({
             name: selectedOption ? selectedOption.person.name : "",
             companyId: selectedOption ? selectedOption.person._id : "",
           });
+          showCreate=false;
         }}
         disabled={disabled}
       >
@@ -87,7 +92,7 @@ function AutocompletePosition({
               onChange={(event) => setQuery(event.target.value)}
               style={{border: borderNone?"none":""}}
             />
-            {query.length >= 3 && showCreate && (
+            {selected?.companyId==="" && query.length >= 3 && showCreate && (
               <p
                 onClick={() => {
                   router.push("/dashboard/employer-dashboard/company");
