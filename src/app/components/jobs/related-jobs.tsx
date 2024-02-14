@@ -61,8 +61,17 @@ const RelatedJobs = ({ jobs }: { jobs: IJobPost[] }) => {
             {jobs.map((j, index) => {
               console.log(index);
               return (
-                <div key={j._id} className="item">
-                  <RelatedGridItem item={j} />
+                <div key={j._id} className="item d-flex justify-content-center">
+                  {isSingleJob ? (
+                    <div
+                      className="d-flex justify-content-center "
+                      style={{ width: "35%" }}
+                    >
+                      <RelatedGridItem item={j} />
+                    </div>
+                  ) : (
+                    <RelatedGridItem item={j} />
+                  )}
                 </div>
               );
             })}
