@@ -80,9 +80,9 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
                               : job_img_1
                           }
                           alt="img"
-                          className="lazy-img m-auto"
-                          width={50}
-                          height={50}
+                          className="lazy-img m-auto rounded-circle"
+                          width={60}
+                          height={60}
                         />
                       </Link>
                       <Link
