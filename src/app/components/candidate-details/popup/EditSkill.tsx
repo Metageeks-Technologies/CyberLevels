@@ -100,7 +100,7 @@ const EditSkill = ({ skills }: { skills: string[] }) => {
                   </div>
 
                   <div className="button-group d-inline-flex align-items-center mt-30">
-                   {skills.length === 0? 
+                   {_skills.length === 0? 
                    <button
                    onClick={handleSave}
                    className="dash-btn-two tran3s me-3"
