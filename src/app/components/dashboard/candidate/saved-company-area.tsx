@@ -82,7 +82,9 @@ const SavedCompanyArea = ({ setIsOpenSidebar, savedCompanies }: IProps) => {
                         <Image
                           src={c.logo || job_img_1}
                           alt="img"
-                          className="lazy-img m-auto"
+                          width={60}
+                          height={60}
+                          className="lazy-img m-auto rounded-circle"
                         />
                       </Link>
                       <Link

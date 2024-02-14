@@ -29,6 +29,8 @@ const OpenPosition = ({ companyId }: { companyId: string }) => {
     dispatch(setPageForCompany(event.selected + 1));
   };
   return (
+    <>
+    {totalJobPost>0 && (
     <section
       id="open-job"
       className="company-open-position pt-80 lg-pt-60 pb-100 lg-pb-60"
@@ -64,6 +66,8 @@ const OpenPosition = ({ companyId }: { companyId: string }) => {
         </div>
       </div>
     </section>
+    )}
+    </>
   );
 };
 

@@ -43,7 +43,7 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
           {/* header end */}
 
           <div className="d-sm-flex align-items-center justify-content-between mb-40 lg-mb-30">
-            <h2 className="main-title m0">My Jobs</h2>
+            <h2 className="main-title m0">Applied Jobs</h2>
             <div className="d-flex ms-auto xs-mt-30">
               {/* <div
               className="nav nav-tabs tab-filter-btn me-4"
@@ -89,12 +89,12 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                   <table className="table job-alert-table">
                     <thead>
                       <tr>
-                        <th scope="col">Title</th>
-                        <th scope="col">Job Created</th>
-                        <th scope="col">Salary</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Updated At</th>
-                        <th scope="col">Options</th>
+                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">Title</th>
+                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">Job Created</th>
+                        <th className="col-xl-2 col-md-4 col-sm-6" scope="col">Salary</th>
+                        <th className="col-xl-2 col-md-4 col-sm-6" scope="col">Status</th>
+                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">Updated At</th>
+                        <th className="col-xl-1 col-md-4 col-sm-6" scope="col">Options</th>
                       </tr>
                     </thead>
                     <tbody className="border-0">
