@@ -132,6 +132,7 @@ const JobDetailsV1Area = ({
                       </ul>
                     </div>
                   </div>
+                  {job.matchScore !== -1 && 
                   <div className="gap-3 col-6 ">
                     {job.matchScore != undefined && (
                       <div className="job-match">
@@ -184,7 +185,7 @@ const JobDetailsV1Area = ({
                                   <li
                                     className="website-btn d-flex justify-content-center gap-1 "
                                     key={index}
-                                  >
+                                    >
                                     <span>
                                       <i className="bi bi-x-circle"></i>
                                     </span>
@@ -198,6 +199,7 @@ const JobDetailsV1Area = ({
                       </div>
                     )}
                   </div>
+                  }
                 </div>
 
                 {/* {description?.map((text, index) => {
@@ -433,18 +435,20 @@ const JobDetailsV1Area = ({
                         </a>
                       ))}
                   </div>
+                  {job.matchScore !== -1 && 
                   <button
-                    disabled={loading || isApplied}
-                    className={`${
-                      isApplied ? "btn-one-applied" : "btn-one"
-                    }  w-100 mt-25 `}
+                  disabled={loading || isApplied}
+                  className={`${
+                    isApplied ? "btn-one-applied" : "btn-one"
+                  }  w-100 mt-25 `}
                     data-bs-toggle="modal"
                     data-bs-target="#questionModal"
                   >
                     {isApplied ? "Applied" : "Apply Now"}
                   </button>
+                }
                   {/* <button
-                    type="button"
+                  type="button"
                     disabled={loading || isApplied}
                     onClick={handleApply}
                     className={`${
