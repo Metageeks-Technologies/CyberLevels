@@ -49,7 +49,7 @@ const EditProfile = () => {
       form.lastName &&
       form.experienceInYears &&
       form.bio &&
-      form.phoneNumber
+      value
     ) {
       setAllFieldsCheck(true);
     } else {
