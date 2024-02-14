@@ -12,6 +12,7 @@ interface MyComponentProps {
   isMultiple?: Boolean;
   type: string;
   label: string;
+  borderTrue?:boolean;
 }
 
 function AddressForm({
@@ -21,6 +22,7 @@ function AddressForm({
   type,
   label,
   isMultiple,
+  borderTrue=true,
 }: MyComponentProps) {
   const [query, setQuery] = useState(selected || "");
   // const [selected, setSelected] = useState("");
@@ -71,6 +73,7 @@ function AddressForm({
                 placeholder: `Select ${label} ...`,
                 className: "location-search-input",
               })}
+              style={{border:!borderTrue?"none":""}}
             />
             {suggestions.length !==0 && (
               <ul

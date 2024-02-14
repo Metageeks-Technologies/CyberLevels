@@ -51,11 +51,11 @@ export const addCompany = async (dispatch: AppDispatch, bodyObj: any, file: File
 }
 
 export const getCompanies = async (dispatch: AppDispatch, queryObject: ICompanyFilterState, page: number, candidateId: string) => {
-    const { name, teamSize } = queryObject;
+    const { name, teamSize,location } = queryObject;
 
     dispatch(requestStart());
     try {
-        const { data } = await instance(`/company/get?name=${name}&teamSize=${teamSize.join(",")}&page=${page}&candidateId=${candidateId}`)
+        const { data } = await instance(`/company/get?name=${name}&teamSize=${teamSize.join(",")}&page=${page}&candidateId=${candidateId}&location=${location}`)
         // console.log(data.result)
         dispatch(getCompaniesSuccess({ companies: data.result, totalCompanies: data.totalCompanies, totalNumOfPage: data.totalNumOfPage }))
     } catch (error) {

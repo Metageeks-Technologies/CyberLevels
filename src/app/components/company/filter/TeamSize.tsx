@@ -3,7 +3,7 @@ import { setTeamSize } from "@/redux/features/company/filter";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 
 const teamSizeOptions = [
-  "Solo",
+  "Individual",
   "1-10",
   "11-50",
   "51-100",
