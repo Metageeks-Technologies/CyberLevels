@@ -4,7 +4,7 @@ import { getBlogById } from "@/redux/features/admin/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { getDate } from "@/utils/helper";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { format } from "timeago.js";
 import BlogCommentForm from "../../forms/blog-comment-form";
 import BlogSidebar from "../blog-postbox/sidebar";
@@ -12,6 +12,7 @@ import BlogSidebar from "../blog-postbox/sidebar";
 const BlogDetailsArea = ({ id }: { id: string }) => {
   const dispatch = useAppDispatch();
   const { blog } = useAppSelector((state) => state.blog);
+  const [displayedComments, setDisplayedComments] = useState(3);
 
   useEffect(() => {
     getBlogById(dispatch, id);
@@ -20,6 +21,12 @@ const BlogDetailsArea = ({ id }: { id: string }) => {
   if (!item) return null;
   const date = new Date(item?.createdAt);
   const strDate = date.toDateString();
+
+  const handleSeeMoreClick = () => {
+    // Increase the number of displayed comments when "See More" is clicked
+    setDisplayedComments(item.comments.length);
+  };
+
 
   return (
     <section className="blog-section pt-100 lg-pt-80">
@@ -70,14 +77,14 @@ const BlogDetailsArea = ({ id }: { id: string }) => {
                     </ul> */}
                   </div>
                 </article>
-                <div className="blog-comment-area">
-                  <h3 className="blog-inner-title pb-15">
+                  <h3 className="blog-inner-title pb-10 pt-4">
                     {item.comments.length} comments
                   </h3>
-                  {item.comments.map((comment) => (
+                <div className="blog-comment-area" style={{ maxHeight: '400px', overflowY: 'auto',paddingTop:"3px" }}>
+                  {item.comments.slice(0, displayedComments).map((comment, index) => (
                     <div className="comment d-flex">
                       <Image
-                        src={(comment?.userAvatar === "hello" || comment?.userAvatar === "none" || !comment.userAvatar)?avatar_1:comment.userAvatar}
+                        src={(comment?.userAvatar === "hello" || comment?.userAvatar === "none" || !comment.userAvatar) ? avatar_1 : comment.userAvatar}
                         alt="avatar"
                         width={100}
                         height={100}
@@ -93,6 +100,11 @@ const BlogDetailsArea = ({ id }: { id: string }) => {
                       </div>
                     </div>
                   ))}
+                  {item.comments.length > displayedComments && (
+                    <button onClick={handleSeeMoreClick} className="btn-two tran3s" style={{marginLeft:'30px'}}>
+                      See More..
+                    </button>
+                  )}
                 </div>
                 <div className="blog-comment-form">
                   {/* <h3 className="blog-inner-title">Leave A Comment</h3> */}
