@@ -20,10 +20,15 @@ const JobDetailsDynamicPage = ({ params }: { params: { id: string } }) => {
   const dispatch = useAppDispatch();
   const { jobPost, relatedJobs } = useAppSelector((state) => state.jobPost);
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
+  const {currCandidate} = useAppSelector((state) => state.candidate.candidateDashboard)
+  const {currEmployer} = useAppSelector((state) => state.employer)
 
   const pathName = usePathname();
   useEffect(() => {
-    if (currUser) getJobPostDetailsForEmployer(dispatch, params.id);
+    if (!currCandidate) getJobPostDetailsForEmployer(dispatch, params.id)
+    else{
+      getJobPostDetails(dispatch,params.id)
+    }
     getRelatedJobs(dispatch, params.id);
 
     if (currUser) getAllJobAppByCandidate(dispatch, currUser);
