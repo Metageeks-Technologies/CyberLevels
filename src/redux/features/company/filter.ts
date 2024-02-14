@@ -1,16 +1,23 @@
+import { ILocation } from "@/types/company";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
+// interface location  {
+// city:string,
+// country:string,
+// }
 // Define a type for the slice state
 export interface ICompanyFilterState {
     name: string,
-    teamSize: string[]
+    teamSize: string[],
+    location: string[]
 }
 
 // Define the initial state using that type
 const initialState: ICompanyFilterState = {
     name: "",
-    teamSize: []
+    teamSize: [],
+    location:[]
 };
 
 export const companyFilterSlice = createSlice({
@@ -30,10 +37,14 @@ export const companyFilterSlice = createSlice({
                 state.name = action.payload
             }
         },
+        setLocationFilter:(state,action:PayloadAction<string[]>) => {
+            state.location = action.payload;
+        },
 
         resetFilter: (state) => {
             state.name = "",
-                state.teamSize = []
+                state.teamSize = [],
+                state.location=[]
         },
     },
 });
@@ -41,7 +52,8 @@ export const companyFilterSlice = createSlice({
 export const {
     setTeamSize,
     setName,
-    resetFilter
+    resetFilter,
+    setLocationFilter
 } = companyFilterSlice.actions;
 
 export default companyFilterSlice.reducer;

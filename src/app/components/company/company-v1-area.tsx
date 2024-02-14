@@ -15,7 +15,7 @@ const CompanyV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
   const filterState = useAppSelector((state) => state.company.companyFilter);
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
 
-  const { name, teamSize } = filterState;
+  const { name, teamSize, location } = filterState;
   const { companies, totalCompanies, totalNumOfPage, loading, page } =
     useAppSelector((state) => state.company.companyList);
 
@@ -26,7 +26,7 @@ const CompanyV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
     // dispatch(setSubscriptionModel(true));
     getCompanies(dispatch, filterState, page, currUser ? currUser : "");
 
-  }, [name, teamSize, page]);
+  }, [name, teamSize, page, location]);
 
   const handlePageClick = (event: { selected: number }) => {
     dispatch(setPage(event.selected + 1));
