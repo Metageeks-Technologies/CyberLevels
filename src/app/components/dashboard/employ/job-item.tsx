@@ -3,6 +3,7 @@ import ActionDropdown from "./action-dropdown-myJobs";
 import Link from "next/link";
 import EditJobPostModal from "../../common/popup/editJobPostModal";
 import { IJobPost } from "@/types/jobPost-type";
+import { getDate } from "@/utils/helper";
 
 const EmployJobItem = ({
   // job,
@@ -37,7 +38,7 @@ const EmployJobItem = ({
           </div>
           <div className="info1">{info}</div>
         </td>
-        <td className="text-center">{date}</td>
+        <td className="text-center">{getDate(date)}</td>
         <td className="text-center">{application}</td>
         <td>
           <div className="job-status text-capitalize">{status}</div>

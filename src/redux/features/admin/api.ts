@@ -55,6 +55,26 @@ export const getAllCandidate = async (dispatch: AppDispatch, bodyObj: any) => {
   }
 };
 
+export const deleteCandidateByAdmin = async (dispatch:AppDispatch,id:string,bodyObj:any) => {
+  try {
+    const data = await instance.patch(`/candidate//deleteByAdmin/${id}`,bodyObj);
+
+  } catch (error) {
+    const e = error as AxiosError;
+    dispatch(requestFail(e.message));
+  }
+}
+
+export const deletedEmployerByAdmin = async (dispatch:AppDispatch,id:string,bodyObj:any) => {
+  try {
+    const data = await instance.patch(`employer/updateEmployerByAdmin/${id}`,bodyObj);
+    
+  } catch (error) {
+    const e = error as AxiosError;
+    dispatch(requestFail(e.message));
+  }
+}
+
 export const getAllEmployer = async (dispatch: AppDispatch, bodyObj: any) => {
   dispatch(requestStart());
   try {

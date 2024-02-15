@@ -5,6 +5,7 @@ import job_img_1 from "@/assets/images/logo/media_22.png";
 import { removeCandidate, saveCandidate } from "@/redux/features/employer/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { IEmployerForAdmin } from "@/types/for-admin-type";
+import ActionDropdown from "../../action-dropdown-user-list";
 
 const EmployerListItem = ({
   item,
@@ -76,9 +77,25 @@ const EmployerListItem = ({
                   </div> */}
                 </div>
               </div>
-              <div className="col-xl-3 col-md-4">
+              <div className="col-xl-2 col-md-4">
                 <div className="d-flex justify-content-lg-end">
                   {item.company?.name}
+                </div>
+              </div>
+              <div className="col-xl">
+                <div className="action-dots float-end">
+                  <button
+                    className="action-btn dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <span></span>
+                  </button>
+                  {/* action dropdown start */}
+                  <ActionDropdown role="employer" id={item._id} />
+                  {/* <EditCompanyModal /> */}
+                  {/* action dropdown end */}
                 </div>
               </div>
             </div>
