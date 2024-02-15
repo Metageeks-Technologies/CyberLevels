@@ -127,6 +127,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
   };
 
   const handleTemplateClick = () => {
+    setShowModelProperties(true);
     setShowInputFields(!showInputFields);
     setSubject("");
     setBody("");
@@ -268,15 +269,6 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
   const selectedTemplates =
     templateType === "employer" ? employerTemplates : candidateTemplates;
 
-  // const indexOfLastTemplate = currentPage * templatesPerPage;
-  // const indexOfFirstTemplate = indexOfLastTemplate - templatesPerPage;
-  // const currentTemplates = selectedTemplates.slice(indexOfFirstTemplate, indexOfLastTemplate);
-
-  // const totalPages = Math.ceil(selectedTemplates.length / templatesPerPage);
-
-  // const handlePageChange = (pageNumber: number) => {
-  //   setCurrentPage(pageNumber);
-  // };
   const handleClick = () => {
     setShowModelProperties(true); // Toggle the visibility
   };
@@ -295,9 +287,78 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
               className="btn-one justify-content-center"
               type="button"
               onClick={handleTemplateClick}
+              data-bs-toggle="modal"
+              data-bs-target="#AddModel"
             >
               Add
             </button>
+            <div
+                          className="modal fade"
+                          id="AddModel"
+                          tabIndex={-1}
+                          aria-labelledby="smtpModelLabel"
+                          aria-hidden="true"
+                        >
+                          <div className="modal-dialog modal-fullscreen modal-dialog-centered">
+                            <div className="user-data-form modal-content">
+                              <button
+                                type="button"
+                                className="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                                onClick={handleClose}
+                              ></button>
+                              <div className="container subscription-model">
+                                <h2 className="fs-2 text-center mb-3">
+                                  Add Template
+                                </h2>
+                                {showModelProperties && (
+                                  <div className="bg-white card-box border-20">
+                                                        
+                                  <div >
+                                    <div className="dash-input-wrapper">
+                                      <label htmlFor="templateName">TemplateName:</label>
+                                      <input
+                                        type="text"
+                                        id="templateName"
+                                        value={templateName}
+                                        onChange={handleTemplateName}
+                                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                                      />
+                                    </div>
+                      
+                                    <div className="dash-input-wrapper mb-30">
+                                      <label htmlFor="subject">Subject:</label>
+                                      <input
+                                        type="text"
+                                        id="subject"
+                                        value={subject}
+                                        onChange={(e) => setSubject(e.target.value)}
+                                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                                      />
+                                    </div>
+                      
+                                    <div className="dash-input-wrapper">
+                                      <label htmlFor="body">Body:</label>
+                                      <TextEditor1 initialContent="" setContent={setBody} />
+                                    </div>
+                                  </div>
+                                   <div className="pt-4">
+                                    <button
+                                      className="d-flex dash-btn-two tran3s me-3 justify-content-center align-items-center mt-5 "
+                                      onClick={handleAddTemplate}
+                                      data-bs-dismiss="modal"
+                                      aria-label="Close"
+                                    >
+                                      Save
+                                    </button>
+                                  </div>
+                                </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
           </div>
 
           <div className="subscription-tab align-content-center py-2  d-flex px-2 ms-auto">
@@ -316,67 +377,6 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
           </div>
         </div>
 
-        {showInputFields && (
-          <div className="bg-white card-box border-20">
-            {/* Display input fields for subject and body */}
-
-            <div className="bg-white card-box border-20">
-              <div className="dash-input-wrapper">
-                <label htmlFor="templateName">TemplateName:</label>
-                <input
-                  type="text"
-                  id="templateName"
-                  value={templateName}
-                  onChange={handleTemplateName}
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div className="dash-input-wrapper mb-30">
-                <label htmlFor="subject">Subject:</label>
-                <input
-                  type="text"
-                  id="subject"
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div className="dash-input-wrapper">
-                <label htmlFor="body">Body:</label>
-                <TextEditor1 initialContent="" setContent={setBody} />
-                {/* <TextEditor setContent={setBody}/> */}
-                {/* <textarea
-                  id="body"
-                  value={body}
-                  onChange={(e) => setBody(e.target.value)}
-                  placeholder="Type your message here..."
-                  className="size-lg"
-                /> */}
-              </div>
-            </div>
-
-            {isEditing ? (
-              // Button to update the sent email
-              <button
-                className="d-flex dash-btn-two tran3s me-3 justify-content-center align-items-center mt-5 "
-                onClick={handleUpdate}
-              >
-                Update
-              </button>
-            ) : (
-              // Button to save the Template
-              <button
-                className="d-flex dash-btn-two tran3s me-3 justify-content-center align-items-center mt-5 "
-                onClick={handleAddTemplate}
-              >
-                Save
-              </button>
-            )}
-          </div>
-        )}
-
         <div className="mt-3 row ">
           {templates?.map((template, index) => (
             <div key={index} className="mt-3 me-3 bg-white p-3 border-20 row ">
@@ -390,7 +390,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                     color: "white",
                     font: "inherit",
                     fontFamily: "inherit",
-                    padding:"1px 4px",
+                    padding:"5px 6px",
                     borderRadius: "10px",
                     
                     
@@ -474,7 +474,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                                   Edit Template
                                 </h2>
                                 {showModelProperties && (
-                                  <div>
+                                  <div className="bg-white card-box border-20">
                                     <div className="dash-input-wrapper input">
                                       <label htmlFor="updatedTemplateName">
                                         Template Name:
@@ -505,15 +505,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                                         initialContent={body}
                                         setContent={setBody}
                                       />
-                                      {/* <TextEditor  setContent={setBody}/> */}
-                                      {/* <textarea
-                                        id="updatedBody"
-                                        value={body}
-                                        onChange={(e) => setBody(e.target.value)}
-                                        className="size-lg"
-                                      /> */}
-
-                                      <div>
+                                      <div className="pt-4">
                                         <button
                                           className="d-flex dash-btn-two tran3s me-3 justify-content-center align-items-center mt-5 "
                                           data-bs-dismiss="modal"
@@ -607,36 +599,6 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
               )}
             </div>
           ))}
-
-          {/* <div className="dash-pagination d-flex justify-content-end mt-30">
-            {currentPage > 1 && (
-              <button
-                className=""
-                onClick={() => handlePageChange(currentPage - 1)}
-                >
-                <Image src={icon_2} className="me-2" alt="icon" />
-                </button>
-            )}
-            {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
-              <button
-                key={pageNumber}
-                className={`pagination-one me-2 d-flex justify-content-center items-center ${currentPage === pageNumber ? 'active' : ''}`}
-                onClick={() => handlePageChange(pageNumber)}
-              >
-                {pageNumber}
-              </button>
-            ))}
-            {currentPage < totalPages && (
-              <button
-                className=""
-                onClick={() => handlePageChange(currentPage + 1)}
-              >
-                
-                  <Image src={icon} alt="icon" className="ms-2" />
-                
-              </button>
-            )}
-          </div> */}
 
           <div className="pt-30 lg-pt-20 d-sm-flex align-items-center justify-content-between">
             <p className="m0 order-sm-last text-center text-sm-start xs-pb-20">

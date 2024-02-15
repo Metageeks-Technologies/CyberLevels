@@ -436,7 +436,7 @@ const EditCompanyModal = () => {
                   <Image
                     width={50}
                     height={50}
-                    src={file ? URL.createObjectURL(file) : avatar}
+                    src={file ? URL.createObjectURL(file) : currCompany?.logo}
                     // src={
                     //   user?.avatar !== "none" || false
                     //     ? (user?.avatar as string)
