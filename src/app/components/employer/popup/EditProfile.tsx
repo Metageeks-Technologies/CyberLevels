@@ -68,7 +68,7 @@ const EditProfile = () => {
   }, [company.name]); 
 
   useEffect(() => {
-    if(form.firstName && form.lastName && form.bio && form.phoneNumber && company.name && gender){
+    if(form.firstName && form.lastName && form.bio && value && company.name && gender){
       setAllFieldsCheck(true);
     }
   },[form.firstName,form.lastName,form.bio,value,gender,company.name])
@@ -223,7 +223,7 @@ const EditProfile = () => {
                   </div>
                   {!checkForm.bio && (
                     <p style={{ color: "red" }}>
-                      Description must have {form.bio.trim().length}/200
+                      Description must have {form.bio.trim().replace(/\s+/g, "").length}/200
                       characters
                     </p>
                   )}
