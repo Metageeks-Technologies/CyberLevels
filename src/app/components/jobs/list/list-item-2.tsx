@@ -21,7 +21,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
   const { isAuthenticated, currUser } = useAppSelector(
     (state) => state.persistedReducer.user
   );
-  const {currAdmin} = useAppSelector((state) => state.admin)
+  const { currAdmin } = useAppSelector((state) => state.admin);
   const router = useRouter();
   const { currCandidate } = useAppSelector(
     (state) => state.candidate.candidateDashboard
@@ -70,7 +70,11 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
               <div className="job-title d-flex align-items-center">
                 <div className="logo" onClick={() => handleViewClick(item._id)}>
                   <Image
-                    src={typeof item.companyId!=="string" && item.companyId.logo?item.companyId.logo: job_img_1}
+                    src={
+                      typeof item.companyId !== "string" && item.companyId.logo
+                        ? item.companyId.logo
+                        : job_img_1
+                    }
                     width={60}
                     height={60}
                     alt="logo"
@@ -104,7 +108,9 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
               </div>
               <div className="job-salary">
                 <span className="fw-500 text-dark">
-                  {item.salary?.currency?.symbol}{item.salary.minimum}-{item.salary.maximum} {item?.salary?.period}
+                  {item.salary?.currency?.symbol}
+                  {item.salary.minimum}-{item.salary.maximum}{" "}
+                  {item?.salary?.period}
                 </span>{" "}
                 /{item?.preferredExperience?.[0]}
               </div>
@@ -150,13 +156,18 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                     // onClick={() => handleViewClick(item._id)}
                   >
                     <Image
-                    src={typeof item.companyId!=="string" && item.companyId.logo?item.companyId.logo: job_img_1}
-                    width={60}
-                    height={60}
-                    alt="logo"
-                    className="lazy-img rounded-circle w-100"
-                    // style={{ height: "auto" }}
-                  />
+                      src={
+                        typeof item.companyId !== "string" &&
+                        item.companyId.logo
+                          ? item.companyId.logo
+                          : job_img_1
+                      }
+                      width={60}
+                      height={60}
+                      alt="logo"
+                      className="lazy-img rounded-circle w-100"
+                      // style={{ height: "auto" }}
+                    />
                   </div>
                   <div className="split-box1">
                     <div
@@ -203,9 +214,10 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                     
                     title={`${isActive ? "Remove Job" : "Save Job"}`}
                     >
-                    <i className="bi bi-bookmark-dash"></i>
-                  </button>
-                  
+                      <i className="bi bi-bookmark-dash"></i>
+                    </button>
+                 
+
                   <div
                     // onClick={() => handleViewClick(item._id)}
                     // href={"/dashboard/candidate-dashboard/membership"}
