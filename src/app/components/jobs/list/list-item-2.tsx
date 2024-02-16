@@ -118,6 +118,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                   className={`save-btn text-center rounded-circle tran3s me-3 cursor-pointer ${
                     isActive ? "active" : ""
                   }`}
+                  style={{display:currCandidate?"block":"none"}}
                   title={`${isActive ? "Remove Job" : "Save Job"}`}
                 >
                   <i className="bi bi-bookmark-dash"></i>
@@ -199,7 +200,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                     className={`save-btn text-center rounded-circle tran3s me-3 cursor-pointer ${
                       isActive ? "active" : ""
                     }`}
-                    style={{display:currCandidate?"block":"none"}}
+                    
                     title={`${isActive ? "Remove Job" : "Save Job"}`}
                     >
                     <i className="bi bi-bookmark-dash"></i>
