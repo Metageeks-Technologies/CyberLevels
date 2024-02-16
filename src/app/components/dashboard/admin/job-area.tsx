@@ -97,11 +97,14 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                       return(
 
                         <EmployJobItem
+                        // showLink={jobViewState}
                         title={job.title}
                         info={`${job.jobType} . ${job.location}`}
                         application={job.candidates.length.toString()}
                         date={job.createdAt}
                         status={job.status}
+                        id = {job._id}
+                        jobCode={job.jobCode}
                         />
                         )
                     })}
@@ -152,11 +155,14 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                       return(
 
                         <EmployJobItem
+                        // showLink={jobViewState}
+                        id={job._id}
                         title={job.title}
                         info={`${job.jobType} . ${job.location}`}
                         application={job.candidates.length.toString()}
                         date={job.createdAt}
                         status={job.status}
+                        jobCode={job.jobCode}
                         />
                         )
                     })}

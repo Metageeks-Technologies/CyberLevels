@@ -46,14 +46,17 @@ const CompanyListItem = ({
         } ${style_2 ? "border-0" : ""} list-layout mb-25 `}
       >
         <div className="d-flex align-items-center">
-          <div className="cadidate-avatar online position-relative d-flex me-auto ms-auto" style={{paddingTop:"7px"}}>
+          <div
+            className="cadidate-avatar online position-relative d-flex me-auto ms-auto"
+            style={{ paddingTop: "7px" }}
+          >
             <Link href="/candidate-profile-v2" className="rounded-circle">
               <Image
                 src={item?.logo || job_img_1}
                 width={60}
                 height={60}
                 alt="image"
-                className="lazy-img rounded-circle "                
+                className="lazy-img rounded-circle "
               />
             </Link>
           </div>
@@ -94,25 +97,23 @@ const CompanyListItem = ({
                 </div>
               </div>
               <div className="col-xl-1">
-
-          <div className="action-dots float-end">
-          <button
-            className="action-btn dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <span></span>
-          </button>
-          {/* action dropdown start */}
-          <ActionDropdown id={item._id} />
-          <EditCompanyModal />
-          {/* action dropdown end */}
-        </div>
+                <div className="action-dots float-end">
+                  <button
+                    className="action-btn dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <span></span>
+                  </button>
+                  {/* action dropdown start */}
+                  <ActionDropdown id={item._id} />
+                  <EditCompanyModal />
+                  {/* action dropdown end */}
+                </div>
               </div>
             </div>
           </div>
-                  
         </div>
       </div>
     </>

@@ -21,6 +21,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
   const { isAuthenticated, currUser } = useAppSelector(
     (state) => state.persistedReducer.user
   );
+  const {currAdmin} = useAppSelector((state) => state.admin)
   const router = useRouter();
   const { currCandidate } = useAppSelector(
     (state) => state.candidate.candidateDashboard
@@ -50,7 +51,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
     }
   };
   const handleViewClick = (id: string) => {
-    if (currCandidate?.isProfileCompleted === true) {
+    if (currCandidate?.isProfileCompleted === true || currAdmin) {
       // registerJobPostView(dispatch, id);
       router.push(`/job-details-v1/${id}`);
     } else {
@@ -190,6 +191,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
               </div>
               <div className="col-md-3 col-sm-6">
                 <div className="btn-group d-flex align-items-center justify-content-sm-end xs-mt-20">
+              
                   <button
                     type="button"
                     disabled={loading}
@@ -197,10 +199,12 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                     className={`save-btn text-center rounded-circle tran3s me-3 cursor-pointer ${
                       isActive ? "active" : ""
                     }`}
+                    style={{display:currCandidate?"block":"none"}}
                     title={`${isActive ? "Remove Job" : "Save Job"}`}
-                  >
+                    >
                     <i className="bi bi-bookmark-dash"></i>
                   </button>
+                  
                   <div
                     // onClick={() => handleViewClick(item._id)}
                     // href={"/dashboard/candidate-dashboard/membership"}
