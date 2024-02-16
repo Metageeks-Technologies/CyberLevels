@@ -22,6 +22,7 @@ const CompanyGridItem = ({ item }: { item: ICompany }) => {
   const { isAuthenticated, currUser } = useAppSelector(
     (state) => state.persistedReducer.user
   );
+  const {currAdmin} = useAppSelector((state)=>state.admin)
   const { profileCompleteModel, subscriptionModel } = useAppSelector(
     (state) => state.model
   );
@@ -52,7 +53,7 @@ const CompanyGridItem = ({ item }: { item: ICompany }) => {
     }
   };
   const handleViewClick = () => {
-    if (currCandidate?.isProfileCompleted === true) {
+    if (currCandidate?.isProfileCompleted === true || currAdmin) {
       Router.push(`/company-details/${item._id}`);
     } else {
       dispatch(setProfileCompleteModel(true));
@@ -91,13 +92,14 @@ const CompanyGridItem = ({ item }: { item: ICompany }) => {
             <p className="text-center mb-auto">
               {item.location?.[0]?.city}, {item.location?.[0]?.country}
             </p>
+            {currCandidate ?(
             <div className="align-items-center btn-group justify-content-md-end bottom-line d-flex">
               {/* <Link href="/company-details">{item.benefits.length} Vacancy</Link> */}
 
               <div
                 // href="#"
                 onClick={() => handleViewClick()}
-                className="open-job-btn text-center fw-500 tran3s me-2 cursor-pointer"
+                className="open-job-btn text-center fw-500 tran3s me-2 cursor-pointer "
               >
                 {/* {item.vacancy} open job */}
                 {item.jobOpenings} open job
@@ -110,11 +112,24 @@ const CompanyGridItem = ({ item }: { item: ICompany }) => {
                 // disabled={loading}
                 onClick={() => handleSaveCompany(item._id)}
                 className={` cursor-pointer ${isActive ? "active" : ""}`}
-                title={`${isActive ? "Remove Company" : "Save Company"}`}
-              >
+                >
                 <i className="bi bi-bookmark-dash"></i>
               </button>
             </div>
+            ):(
+              <div className="align-items-center btn-group justify-content-center bottom-line d-flex" style={{paddingTop:"20px", paddingBottom:"20px"}}>
+                <div
+                // href="#"
+                onClick={() => handleViewClick()}
+                className="open-job-btn text-center fw-500 tran3s me-2 cursor-pointer "
+               >
+                {/* {item.vacancy} open job */}
+                {item.jobOpenings} open job
+              </div>             
+             
+            </div>
+
+            )}
           </>
         ) : (
           <button

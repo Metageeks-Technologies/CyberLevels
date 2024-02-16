@@ -22,6 +22,7 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
   const { isAuthenticated, currUser } = useAppSelector(
     (state) => state.persistedReducer.user
   );
+  const {currAdmin} = useAppSelector((state)=>state.admin);
   const { profileCompleteModel, subscriptionModel } = useAppSelector(
     (state) => state.model
   );
@@ -56,7 +57,7 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
     }
   };
   const handleViewClick = () => {
-    if (currCandidate?.isProfileCompleted === true) {
+    if (currCandidate?.isProfileCompleted === true || currAdmin) {
       Router.push(`/company-details/${item._id}`);
     } else {
       dispatch(setProfileCompleteModel(true));
@@ -144,6 +145,7 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
                     isActive ? "active" : ""
                   }`}
                   title={`${isActive ? "Remove Company" : "Save Company"}`}
+                   style={{display:currCandidate?"block":"none"}}
                 >
                   <i className="bi bi-bookmark-dash"></i>
                 </button>
