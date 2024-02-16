@@ -140,7 +140,7 @@ const JobGridItem = ({
               <button
                 type="button"
                 disabled={loading}
-                onClick={() => handleSaveJob(item._id)}
+                // onClick={() => handleSaveJob(item._id)}
                 className={`save-btn text-center rounded-circle tran3s cursor-pointer ${
                   isActive ? "active" : ""
                 }`}
