@@ -32,6 +32,8 @@ const JobGridItem = ({
   const { currCandidate } = useAppSelector(
     (state) => state.candidate.candidateDashboard
   );
+  const { currAdmin } = useAppSelector((state) => state.admin);
+  const {userRole} = useAppSelector((state) => state.persistedReducer.user);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const isActive = (isAuthenticated && item?.isSaved) || false;
@@ -56,7 +58,7 @@ const JobGridItem = ({
     }
   };
   const handleViewClick = (id: string) => {
-    if (currCandidate?.isProfileCompleted === true) {
+    if (currCandidate?.isProfileCompleted === true || currAdmin) {
       // registerJobPostView(dispatch, id);
       router.push(`/job-details-v1/${id}`);
     } else {
@@ -78,9 +80,13 @@ const JobGridItem = ({
             onClick={() => handleViewClick(item._id)}
           >
             <Image
-               src={typeof item.companyId!=="string" && item.companyId.logo?item.companyId.logo: job_img_1}
-               width={50}
-               height={50}
+              src={
+                typeof item.companyId !== "string" && item.companyId.logo
+                  ? item.companyId.logo
+                  : job_img_1
+              }
+              width={50}
+              height={50}
               alt="logo"
               // style={{ height: "auto", width: "auto" }}
               className="lazy-img m-auto rounded-circle"
@@ -95,14 +101,18 @@ const JobGridItem = ({
             onClick={handleSubscribePopup}
           >
             <div className="logo" onClick={() => handleViewClick(item._id)}>
-            <Image
-               src={typeof item.companyId!=="string" && item.companyId.logo?item.companyId.logo: job_img_1}
-               width={50}
-               height={50}
-              alt="logo"
-              // style={{ height: "auto", width: "auto" }}
-              className="lazy-img m-auto rounded-circle"
-            />
+              <Image
+                src={
+                  typeof item.companyId !== "string" && item.companyId.logo
+                    ? item.companyId.logo
+                    : job_img_1
+                }
+                width={50}
+                height={50}
+                alt="logo"
+                // style={{ height: "auto", width: "auto" }}
+                className="lazy-img m-auto rounded-circle"
+              />
             </div>
           </button>
         )}
@@ -120,25 +130,28 @@ const JobGridItem = ({
           </button>
         ) : (
           <button
-            data-bs-toggle="modal"
-            data-bs-target="#loginModal"
-            type="button"
-            //  className="apply-btn text-center tran3s"
-            onClick={handleSubscribePopup}
+          data-bs-toggle="modal"
+          data-bs-target="#loginModal"
+          type="button"
+          //  className="apply-btn text-center tran3s"
+          onClick={handleSubscribePopup}
           >
-            <button
-              type="button"
-              disabled={loading}
-              // onClick={() => handleSaveJob(item._id)}
-              className={`save-btn text-center rounded-circle tran3s cursor-pointer ${
-                isActive ? "active" : ""
-              }`}
-              // title={`${isActive ? "Remove Job" : "Save Job"}`}
-            >
-              <i className="bi bi-bookmark-dash"></i>
-            </button>
-          </button>
-        )}
+         
+              <button
+                type="button"
+                disabled={loading}
+                onClick={() => handleSaveJob(item._id)}
+                className={`save-btn text-center rounded-circle tran3s cursor-pointer ${
+                  isActive ? "active" : ""
+                }`}
+                style={{display:userRole==="admin"?"none":"block"}}
+                // title={`${isActive ? "Remove Job" : "Save Job"}`}
+              >
+                <i className="bi bi-bookmark-dash"></i>
+              </button>
+                
+              </button>
+              )}
         <div className="d-flex gap-2 mt-40 mb-40  flex-wrap cursor-pointer">
           {item?.jobType?.map((val, index) =>
             isAuthenticated ? (
@@ -184,7 +197,9 @@ const JobGridItem = ({
             </div>
             <div className="job-salary">
               <span className="fw-500 text-dark">
-              {item.salary?.currency?.symbol}{item.salary.minimum}-{item.salary.maximum} {item?.salary?.period}
+                {item.salary?.currency?.symbol}
+                {item.salary.minimum}-{item.salary.maximum}{" "}
+                {item?.salary?.period}
               </span>
             </div>
             <div className="d-flex align-items-center justify-content-between mt-auto">
