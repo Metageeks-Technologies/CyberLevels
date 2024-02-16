@@ -118,7 +118,7 @@ export const jobPostSlice = createSlice({
             }
         },
         getAllJobPostsSuccess: (state, action: PayloadAction<any>) => {
-            state.loading = false
+            state.loading = false;
             state.allJobPostAdmin = action.payload.jobPost as IJobPost[];
             state.pageForAdmin = action.payload.page as number;
             state.totalJobsForAdmin = action.payload.totalDocuments as number;

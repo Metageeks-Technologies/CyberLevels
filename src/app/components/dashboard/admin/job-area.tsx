@@ -7,6 +7,7 @@ import { getAllJobPosts } from "@/redux/features/jobPost/api";
 import Pagination from "@/ui/pagination";
 import { setAdminPage } from "@/redux/features/jobPost/slice";
 import EmployerJobFilterModal from "../../common/popup/employerJobFilterModal";
+import Loader from "@/ui/loader";
 
 // props type
 type IProps = {
@@ -14,23 +15,29 @@ type IProps = {
 };
 const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
   const dispatch = useAppDispatch();
-  const {currUser} = useAppSelector((state) => state.persistedReducer.user)
+  const { currUser } = useAppSelector((state) => state.persistedReducer.user);
   const {
     allJobPostAdmin,
     pageForAdmin,
     totalJobsForAdmin,
     totalPagesForJobpostAdmin,
+    loading
   } = useAppSelector((state) => state.jobPost);
-  const [jobViewState,setJobViewState] = useState('all');
+  const [jobViewState, setJobViewState] = useState("all");
+  const filter = useAppSelector((state) => state.emplyerJobPostFilter);
+  const {
+    title,
+    jobCode,
+    company: { companyId },
+    status,
+  } = filter;
   useEffect(() => {
-    if(jobViewState==="all"){
-      getAllJobPosts(dispatch, pageForAdmin);
-      
-    }else{
-      getAllJobPosts(dispatch, pageForAdmin,currUser!);
-
+    if (jobViewState === "all") {
+      getAllJobPosts(dispatch, pageForAdmin, "", filter);
+    } else {
+      getAllJobPosts(dispatch, pageForAdmin, currUser!, filter);
     }
-  }, [pageForAdmin,jobViewState]);
+  }, [pageForAdmin, jobViewState, title, jobCode, companyId, status]);
   const handlePageClick = (event: { selected: number }) => {
     dispatch(setAdminPage(event.selected + 1));
   };
@@ -42,7 +49,9 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
         {/* header end */}
 
         <div className="d-sm-flex align-items-center justify-content-between mb-40 lg-mb-30">
-          <h2 className="main-title mb-0 ms-3"style={{ color: "#31795A" }}>My Jobs</h2>
+          <h2 className="main-title mb-0 ms-3" style={{ color: "#31795A" }}>
+            My Jobs
+          </h2>
           <div className="d-flex ms-auto xs-mt-30">
             <div
               className="nav nav-tabs tab-filter-btn me-4"
@@ -56,7 +65,10 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                 type="button"
                 role="tab"
                 aria-selected="true"
-                onClick={() => setJobViewState("all")}
+                onClick={() => {
+                  setJobViewState("all");
+                  dispatch(setAdminPage(1));
+                }}
               >
                 All
               </button>
@@ -67,7 +79,10 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                 type="button"
                 role="tab"
                 aria-selected="false"
-                onClick={() => setJobViewState("my")}
+                onClick={() => {
+                  setJobViewState("my");
+                  dispatch(setAdminPage(1));
+                }}
               >
                 My Jobs
               </button>
@@ -77,15 +92,15 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
               <EmployShortSelect />
             </div> */}
             <div>
-            <button
-        type="button"
-        className="filter-btn fw-500 tran3s me-3"
-        data-bs-toggle="modal"
-        data-bs-target="#myJobPostForEmployerFilter"
-      >
-        <i className="bi bi-funnel"></i>
-        Filter
-      </button>
+              <button
+                type="button"
+                className="filter-btn fw-500 tran3s me-3"
+                data-bs-toggle="modal"
+                data-bs-target="#myJobPostForEmployerFilter"
+              >
+                <i className="bi bi-funnel"></i>
+                Filter
+              </button>
             </div>
           </div>
         </div>
@@ -105,20 +120,19 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                     </tr>
                   </thead>
                   <tbody className="border-0">
-                    {allJobPostAdmin.map((job, index) => {
-                      return(
-
+                    {!loading && allJobPostAdmin.map((job, index) => {
+                      return (
                         <EmployJobItem
-                        showLink={jobViewState}
-                        title={job.title}
-                        info={`${job.jobType} . ${job.location}`}
-                        application={job.candidates.length.toString()}
-                        date={job.createdAt}
-                        status={job.status}
-                        id = {job._id}
-                        jobCode={job.jobCode}
+                          showLink={jobViewState}
+                          title={job.title}
+                          info={`${job.jobType} . ${job.location}`}
+                          application={job.candidates.length.toString()}
+                          date={job.createdAt}
+                          status={job.status}
+                          id={job._id}
+                          jobCode={job.jobCode}
                         />
-                        )
+                      );
                     })}
 
                     {/* <EmployJobItem
@@ -146,8 +160,8 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                     /> */}
                   </tbody>
                 </table>
+                {loading && <Loader />}
               </div>
-              
             </div>
             <div className="tab-pane fade" id="a2" role="tabpanel">
               <div className="table-responsive">
@@ -162,21 +176,19 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                     </tr>
                   </thead>
                   <tbody className="border-0">
-                    
-                  {allJobPostAdmin.map((job, index) => {
-                      return(
-
+                    {!loading && allJobPostAdmin.map((job, index) => {
+                      return (
                         <EmployJobItem
-                        showLink={jobViewState}
-                        id={job._id}
-                        title={job.title}
-                        info={`${job.jobType} . ${job.location}`}
-                        application={job.candidates.length.toString()}
-                        date={job.createdAt}
-                        status={job.status}
-                        jobCode={job.jobCode}
+                          showLink={jobViewState}
+                          id={job._id}
+                          title={job.title}
+                          info={`${job.jobType} . ${job.location}`}
+                          application={job.candidates.length.toString()}
+                          date={job.createdAt}
+                          status={job.status}
+                          jobCode={job.jobCode}
                         />
-                        )
+                      );
                     })}
 
                     {/* <EmployJobItem
@@ -204,19 +216,24 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                     /> */}
                   </tbody>
                 </table>
+                {loading && <Loader />}
               </div>
             </div>
           </div>
         </div>
 
-        {totalJobsForAdmin > 8 && 
-              <Pagination handlePageClick={handlePageClick} pageCount={totalPagesForJobpostAdmin} currPage={pageForAdmin} />
-            }
+        {totalJobsForAdmin > 8 && (
+          <Pagination
+            handlePageClick={handlePageClick}
+            pageCount={totalPagesForJobpostAdmin}
+            currPage={pageForAdmin}
+          />
+        )}
       </div>
-      <EmployerJobFilterModal 
+      <EmployerJobFilterModal
       // maxPrice={0}
       //   priceValue={[0,20]}
-      //   setPriceValue={setValue} 
+      //   setPriceValue={setValue}
       />
     </div>
   );
