@@ -102,13 +102,15 @@ export const jobApplicationSlice = createSlice({
         },
         addChatSuccess: (state, action: PayloadAction<IChatMessage>) => {
             state.chat?.messages.push(action.payload);
+            state.loading = false;
         },
         getChatsByEmployerSuccess: (state, action: PayloadAction<IChat[]>) => {
             state.chatsByEmp = action.payload;
             state.loading = false;
         },
         setCurrJobApp: (state, action: PayloadAction<string>) => {
-            state.currJobApp = action.payload
+            state.currJobApp = action.payload;
+            state.loading = false;
         },
         getFeedbackSuccess: (state, action: PayloadAction<IFeedback>) => {
             state.feedback = action.payload;
@@ -125,6 +127,7 @@ export const jobApplicationSlice = createSlice({
         },
         setPage: (state, action:PayloadAction<number>) => {
             state.currentPage = action.payload;
+            state.loading=false;
         },
         getAllShortlistedJobAppByCandidateIdSuccess: (state, action:PayloadAction<number>) => {
             state.loading = false;

@@ -28,7 +28,7 @@ const EmployJobItem = ({
         {showLink === "my"? 
         <div className="job-name fw-500">
         <Link
-          href={`/dashboard/employer-dashboard/jobs/${id}`}
+          href={`/dashboard/admin-dashboard/jobs/${id}`}
         >{`${title} (${jobCode})`}</Link>
       </div>
         : 
@@ -37,7 +37,7 @@ const EmployJobItem = ({
         <div className="info1">{info}</div>
       </td>
       <td>{getDate(date)}</td>
-      <td>{application} Applications</td>
+      <td className="text-center">{application}</td>
       <td>
         <div className="job-status text-capitalize">{status}</div>
       </td>

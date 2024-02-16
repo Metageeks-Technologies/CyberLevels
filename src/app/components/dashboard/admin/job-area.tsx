@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { getAllJobPosts } from "@/redux/features/jobPost/api";
 import Pagination from "@/ui/pagination";
 import { setAdminPage } from "@/redux/features/jobPost/slice";
+import EmployerJobFilterModal from "../../common/popup/employerJobFilterModal";
 
 // props type
 type IProps = {
@@ -41,7 +42,7 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
         {/* header end */}
 
         <div className="d-sm-flex align-items-center justify-content-between mb-40 lg-mb-30">
-          <h2 className="main-title m0">My Jobs</h2>
+          <h2 className="main-title mb-0 ms-3"style={{ color: "#31795A" }}>My Jobs</h2>
           <div className="d-flex ms-auto xs-mt-30">
             <div
               className="nav nav-tabs tab-filter-btn me-4"
@@ -71,9 +72,20 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                 My Jobs
               </button>
             </div>
-            <div className="short-filter d-flex align-items-center ms-auto">
+            {/* <div className="short-filter d-flex align-items-center ms-auto">
               <div className="text-dark fw-500 me-2">Sort by:</div>
               <EmployShortSelect />
+            </div> */}
+            <div>
+            <button
+        type="button"
+        className="filter-btn fw-500 tran3s me-3"
+        data-bs-toggle="modal"
+        data-bs-target="#myJobPostForEmployerFilter"
+      >
+        <i className="bi bi-funnel"></i>
+        Filter
+      </button>
             </div>
           </div>
         </div>
@@ -97,7 +109,7 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                       return(
 
                         <EmployJobItem
-                        // showLink={jobViewState}
+                        showLink={jobViewState}
                         title={job.title}
                         info={`${job.jobType} . ${job.location}`}
                         application={job.candidates.length.toString()}
@@ -155,7 +167,7 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                       return(
 
                         <EmployJobItem
-                        // showLink={jobViewState}
+                        showLink={jobViewState}
                         id={job._id}
                         title={job.title}
                         info={`${job.jobType} . ${job.location}`}
@@ -201,6 +213,11 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
               <Pagination handlePageClick={handlePageClick} pageCount={totalPagesForJobpostAdmin} currPage={pageForAdmin} />
             }
       </div>
+      <EmployerJobFilterModal 
+      // maxPrice={0}
+      //   priceValue={[0,20]}
+      //   setPriceValue={setValue} 
+      />
     </div>
   );
 };
