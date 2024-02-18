@@ -8,6 +8,7 @@ import Pagination from "@/ui/pagination";
 import { setAdminPage } from "@/redux/features/jobPost/slice";
 import EmployerJobFilterModal from "../../common/popup/employerJobFilterModal";
 import Loader from "@/ui/loader";
+import EditJobPostModalForAdmin from "../../common/popup/EditJobPostForAdmin";
 
 // props type
 type IProps = {
@@ -174,7 +175,7 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                       <th scope="col">Status</th>
                       <th scope="col">Action</th>
                     </tr>
-                  </thead>
+                  </thead> 
                   <tbody className="border-0">
                     {!loading && allJobPostAdmin.map((job, index) => {
                       return (
@@ -235,6 +236,7 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
       //   priceValue={[0,20]}
       //   setPriceValue={setValue}
       />
+      <EditJobPostModalForAdmin />
     </div>
   );
 };
