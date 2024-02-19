@@ -137,7 +137,7 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
                         <span></span>
                       </button>
                       {/* action dropdown start */}
-                      <ActionDropdown id={j._id} jobAppId={j._id} />
+                      <ActionDropdown id={j._id} />
                       {/* action dropdown end */}
                     </div>
                   </div>

@@ -7,8 +7,8 @@ import { notifyError, notifySuccess } from "@/utils/toast";
 import { setUploadProgress } from "../globalSlice";
 
 
-export const getAllJobPosts = async (dispatch: AppDispatch, page: number, adminId: string = "",filter:any) => {
-    const {title,jobCode,company: { companyId },status} = filter
+export const getAllJobPosts = async (dispatch: AppDispatch, page: number, filter: any, adminId: string = "") => {
+    const { title, jobCode, company: { companyId }, status } = filter
     dispatch(requestStart())
     try {
         const { data } = await instance(`/jobPost/getalljobposts?page=${page}&adminId=${adminId}&title=${title}&jobCode=${jobCode}&companyId=${companyId}&status=${status}`);
@@ -107,7 +107,7 @@ export const askToGpt = async (dispatch: AppDispatch, query: string) => {
         dispatch(askGptEnd());
     }
 }
-export const getJobPostDetailsForEmployer = async (dispatch:AppDispatch, id:string) => {
+export const getJobPostDetailsForEmployer = async (dispatch: AppDispatch, id: string) => {
     dispatch(requestStart());
     try {
         const { data } = await instance(`/jobPost/getJobForEmployer/${id}`,

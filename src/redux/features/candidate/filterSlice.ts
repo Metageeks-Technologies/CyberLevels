@@ -23,12 +23,8 @@ export const candidateFilterSlice = createSlice({
     name: "candidateFilter",
     initialState,
     reducers: {
-        setLocation: (state, action: PayloadAction<string>) => {
-            if (state.location.includes(action.payload)) {
-                state.location = state.location.filter(ele => ele !== action.payload);
-            } else {
-                state.location.push(action.payload);
-            }
+        setLocationFilter: (state, action: PayloadAction<string[]>) => {
+            state.location=action.payload;
         },
 
         setPreferredExperience: (state, action: PayloadAction<string>) => {
@@ -65,7 +61,7 @@ export const candidateFilterSlice = createSlice({
 
 export const {
 
-    setLocation,
+    setLocationFilter,
     setPreferredExperience,
     setSalary,
     setKeyword,

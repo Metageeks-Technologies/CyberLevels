@@ -1,11 +1,11 @@
 "use client";
-import { ICandidateSub } from "@/types/template";
+import { IEmployerSub } from "@/types/template";
 import React, { useState } from "react";
 
-const CandidateSub = ({
+const EmployerSub = ({
   subscriptionArr,
 }: {
-  subscriptionArr: ICandidateSub[];
+  subscriptionArr: IEmployerSub[];
 }) => {
   const [isMonthly, setIsMonthly] = useState<boolean>(true);
 
@@ -61,26 +61,22 @@ const CandidateSub = ({
                     )}
                     <ul className="style-none">
                       <li>
-                        {item.offering.jobApplicationLimit !== -1
-                          ? item.offering.jobApplicationLimit
-                          : "unlimited"}{" "}
-                        jobs can be Applied per month
+                        {item.offering.jobPostLimit} jobs can be posted per
+                        month
                       </li>
                       <li>{item.offering.aiTokenLimit} Ai tokens</li>
-                      <li>Full job search</li>
-                      <li>Job Suggestions based on skills</li>
+                      <li>Candidate List newsletter</li>
+                      <li>Job Tracking</li>
                       <li>blogs: Updates on News in Cybersecurity Trends</li>
-                      <li>Job list newsletter </li>
-                      <li>Applied job tracking</li>
-                      {item.subscriptionType === "foundational" ? (
+                      {item.subscriptionType === "essential" ? (
                         <>
-                          <li>Limited Companies details</li>
+                          <li>Limited candidate search</li>
                         </>
                       ) : (
                         <>
-                          <li>Saved Jobs and Favorite Companies</li>
-                          <li>Detailed Companies details</li>
-                          <li>Feedback feature for each applied job</li>
+                          <li>Unlimited candidate search</li>
+                          <li>In App chat with candidate</li>
+                          <li>Request to potential candidate</li>
                         </>
                       )}
                     </ul>
@@ -94,4 +90,4 @@ const CandidateSub = ({
   );
 };
 
-export default CandidateSub;
+export default EmployerSub;

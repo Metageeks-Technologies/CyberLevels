@@ -36,7 +36,7 @@ const ActionDropdown = ({ id }: { id: string }) => {
     //     currentPageForJobPostEmployer,
     //     filterState
     //   );
-    await getAllJobPosts(dispatch, pageForAdmin, currUser!, filter);
+    await getAllJobPosts(dispatch, pageForAdmin, filter,currUser!);
   };
   return (
     <ul className="dropdown-menu dropdown-menu-end">

@@ -34,21 +34,18 @@ import {
 } from "@/utils/helper";
 import { boolean } from "yup";
 
-
 const EditJobPostModalForAdmin = () => {
-  const { currEditJobPost } = useAppSelector(
-    (state) => state.employer
-  );
+  const { currEditJobPost } = useAppSelector((state) => state.employer);
   const filter = useAppSelector((state) => state.emplyerJobPostFilter);
   const {
     allJobPostAdmin,
     pageForAdmin,
     totalJobsForAdmin,
     totalPagesForJobpostAdmin,
-    loading
+    loading,
   } = useAppSelector((state) => state.jobPost);
-  const {currUser} = useAppSelector((state)=>state.persistedReducer.user);
-  const {currAdmin} = useAppSelector((state) => state.admin)
+  const { currUser } = useAppSelector((state) => state.persistedReducer.user);
+  const { currAdmin } = useAppSelector((state) => state.admin);
   const { jobPostsForEmployer } = useAppSelector((state) => state.jobPost);
   const { currentPageForJobPostEmployer } = useAppSelector(
     (state) => state.jobPost
@@ -403,7 +400,7 @@ const EditJobPostModalForAdmin = () => {
     // setSecondarySkills([]);
     // setDescriptionWithAI("");
     // setQuestionWithAI("");
-    await getAllJobPosts(dispatch, pageForAdmin, currUser!, filter);
+    await getAllJobPosts(dispatch, pageForAdmin, filter,currUser!);
   };
 
   return (
@@ -436,7 +433,7 @@ const EditJobPostModalForAdmin = () => {
                         selected={company}
                         setSelected={setCompany}
                         endPoint="companyName"
-                        employerId={currAdmin?._id} 
+                        employerId={currAdmin?._id}
                         disabled={true}
                       />
                     </div>

@@ -1,48 +1,42 @@
-export interface IEmployerSub {
-    _id: string,
-    subscriptionType: string;
-    subscriptionFor: string;
-    price: {
-        amount: number;
-        currency: {
-            abbreviation:string;
-            name:string;
-            symbol:string;
-        };
-    };
+export interface Price {
     duration: string;
-    offering: {
-        [key: string]: unknown;
-    },
-    __v: number
-}
-export interface OfferingField {
-    type: string;
-    required?: boolean;
+    amount: number;
+    currency: {
+        abbreviation: string;
+        name: string;
+        symbol: string;
+    };
+
 }
 
-export interface Offering {
-    [key: string]: OfferingField;
+export interface EmpOffering {
+    isCandidateSearchLimited: boolean;
+    jobPostLimit: number;
+    aiTokenLimit: number;
+    isChatApplicable: boolean;
+    isRequestApplicable: boolean;
 }
+
+export interface IEmployerSub {
+    _id: string;
+    subscriptionType: string;
+    subscriptionFor: string;
+    price: Price[];
+    offering: EmpOffering;
+}
+
+export interface CanOffering {
+    feedBackLimit: number;
+    jobApplicationLimit: number;
+    aiTokenLimit: number;
+    isSaveApplicable: boolean;
+    isFullCompanyView: boolean;
+}
+
 export interface ICandidateSub {
-    _id: string,
-    name: string,
-    properties: {
-        subscriptionType: string;
-        subscriptionFor: string;
-        price: {
-            amount: number;
-            currency: {
-                abbreviation: string;
-                name: string;
-                symbol: string;
-            };
-        };
-        duration: string;
-        // offering: {
-        //     [key: string]: unknown;
-        // }
-        offering: Offering;
-    }
-    __v: number
+    _id: string;
+    subscriptionType: string;
+    subscriptionFor: string;
+    price: Price[];
+    offering: CanOffering;
 }

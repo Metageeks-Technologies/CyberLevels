@@ -275,6 +275,7 @@
 .pricing-section.bg-color {
   background: $light-bg;
 }
+
 .pricing-card-one {
   position: relative;
   overflow: hidden;
@@ -283,6 +284,7 @@
   border: 1px solid #244034;
   border-radius: 30px;
   padding: 38px 20px 38px;
+
   .pack-name {
     font-size: 17px;
     color: rgba($color: #000000, $alpha: 0.35);
@@ -382,4 +384,9 @@
       }
     }
   }
+}
+
+.pricing-card-one:hover {
+  background: #faffe5;
+  border-color: #bae800;
 }

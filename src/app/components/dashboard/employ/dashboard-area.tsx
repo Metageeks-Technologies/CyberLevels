@@ -29,9 +29,11 @@ type IProps = {
 const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
   const dispatch = useAppDispatch();
   const { currEmployer } = useAppSelector((state) => state.employer);
-  const {jobPostForEmployerDashboard, jobPostForEmployerNiceSelect, jobPostForEmployerDashboardCards } = useAppSelector(
-    (state) => state.jobPost
-  );
+  const {
+    jobPostForEmployerDashboard,
+    jobPostForEmployerNiceSelect,
+    jobPostForEmployerDashboardCards,
+  } = useAppSelector((state) => state.jobPost);
   const job_items = [...jobPostForEmployerDashboard];
   const [selectedJobId, setSelectedJobId] = useState<string>("");
   const handleJobs = (item: { value: string; label: string }) => {
@@ -44,16 +46,16 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
   const [lastUnit, setLastUnit] = useState<number>(6);
   // const [totalViews, setTotalViews] = useState(0);
   // const [totalApplicants, setTotalApplicants] = useState(0);
- 
+
   const handleLastUnits = (item: { value: string; label: string }) => {
     const val = parseInt(item.value);
     setLastUnit(val);
   };
   const jobTitles = jobPostForEmployerNiceSelect?.map((job) => ({
-      value: job._id,
-      label: job.title,
-      date: job.createdAt,
-    }));
+    value: job._id,
+    label: job.title,
+    date: job.createdAt,
+  }));
   useEffect(() => {
     if (currEmployer) {
       getJobPostForEmployerDashboard(dispatch, currEmployer._id);
@@ -62,10 +64,6 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
     }
     // console.log(jobPostsForEmployer)
   }, [currEmployer]);
-
-  
-
- 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -110,10 +108,29 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
 
         <h2 className="main-title">Dashboard</h2>
         <div className="row">
-          <CardItem img={icon_1} title="Total Views" value={jobPostForEmployerDashboardCards?.totalViews?.toString()} />
-          <CardItem img={icon_2} title="Applicants" value={jobPostForEmployerDashboardCards?.totalApplications?.toString()} />
-          <CardItem img={icon_3} title="Tokens Left" value={currEmployer?.subscription?.requestLimit?.toString()} />
-          <CardItem img={icon_4} title="Jobs Posted" value={jobPostForEmployerNiceSelect?.length?.toString()} />
+          <CardItem
+            img={icon_1}
+            title="Total Views"
+            value={jobPostForEmployerDashboardCards?.totalViews?.toString()}
+          />
+          <CardItem
+            img={icon_2}
+            title="Applicants"
+            value={jobPostForEmployerDashboardCards?.totalApplications?.toString()}
+          />
+          <CardItem
+            img={icon_3}
+            title="Tokens Left"
+            value={
+              currEmployer?.subscription?.offering.aiTokenLimit?.toString() ||
+              ""
+            }
+          />
+          <CardItem
+            img={icon_4}
+            title="Jobs Posted"
+            value={jobPostForEmployerNiceSelect?.length?.toString()}
+          />
         </div>
 
         <div className="row d-flex pt-50 lg-pt-10">
@@ -206,7 +223,7 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
             <div className="recent-job-tab bg-white border-20 mt-30 w-100">
               <h4 className="dash-title-two">Posted Job</h4>
               <div className="wrapper">
-              {job_items.map((app) => {
+                {job_items.map((app) => {
                   // console.log(allJobPostAdmin)
                   if (typeof app !== "string") {
                     return (

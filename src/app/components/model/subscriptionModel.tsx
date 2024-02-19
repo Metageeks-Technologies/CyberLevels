@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { setSubscriptionModel } from "@/redux/features/model/slice";
-import { IEmployerSub, Offering, OfferingField } from "@/types/template";
+import { IEmployerSub } from "@/types/template";
 import { camelCaseToNormal } from "@/utils/helper";
 import { getCandidateSub } from "@/redux/features/subscription/api";
 import instance from "@/lib/axios";
@@ -33,7 +33,7 @@ const SubscriptionModal = () => {
     sub: IEmployerSub
   ) => {
     const bodyObj = {
-      amount: sub.price.amount,
+      amount: sub.price[0].amount,
       currency: "INR",
       user: currCandidate?._id,
       userModel: "Candidate",
@@ -77,7 +77,7 @@ const SubscriptionModal = () => {
     });
     razor.open();
   };
-  const renderOfferingItems = (offeringData: Offering) => {
+  const renderOfferingItems = (offeringData: any) => {
     return Object.entries(offeringData).map(([key, value]) => {
       // Customize the rendering based on your requirements
       let displayKey = key;
@@ -90,7 +90,9 @@ const SubscriptionModal = () => {
   return (
     <div
       style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}
-      className={`modal-backdrop  fade ${subscriptionModel ? "show opacity-100" : ""}`}
+      className={`modal-backdrop  fade ${
+        subscriptionModel ? "show opacity-100" : ""
+      }`}
       onClick={handleClose}
     >
       <div
@@ -151,15 +153,15 @@ const SubscriptionModal = () => {
                           <div className="pack-name text-capitalize ">
                             {sub.subscriptionType}
                           </div>
-                          <div className="price fw-500">
+                          {/* <div className="price fw-500">
                             <sub title={sub.price.currency.name}>
                               {sub.price.currency.symbol}
                             </sub>{" "}
                             {sub.price.amount}
-                          </div>
-                          <ul className="style-none">
+                          </div> */}
+                          {/* <ul className="style-none">
                             {renderOfferingItems(sub.offering as Offering)}
-                          </ul>
+                          </ul> */}
                           <button
                             onClick={(e) => checkoutHandler(e, sub)}
                             className="get-plan-btn tran3s w-100 mt-30 mx-auto "

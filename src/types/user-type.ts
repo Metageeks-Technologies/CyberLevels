@@ -1,3 +1,5 @@
+import { ICandidateSub, IEmployerSub } from "./template";
+
 export interface IEducation {
     degree: string;
     field: string;
@@ -6,7 +8,7 @@ export interface IEducation {
     endYear: string;
     description: string;
     _id: string;
-    present:boolean;
+    present: boolean;
 }
 interface ProfileView {
 
@@ -20,7 +22,7 @@ export interface IExperience {
     endYear: string;
     description: string;
     _id: string;
-    present:boolean;
+    present: boolean;
 }
 interface ILocation {
     city: string;
@@ -102,12 +104,13 @@ export interface ICandidate {
     testScore: number,
     notifications: INotification[],
     bio: string,
+    paymentDate?: Date,
     profileViews: ProfileView[];
     createdAt: string,
     updatedAt: string,
     isSaved?: boolean,
     experienceInShort: string,
-    subscription: any,
+    subscription: ICandidateSub,
     role: string,
     _id: string,
     __v: number
@@ -145,7 +148,8 @@ export interface IEmployer {
     updatedAt: string,
     _id: string,
     __v: number,
-    subscription: any,
+    subscription: IEmployerSub,
+    paymentDate?: Date,
 
 }
 

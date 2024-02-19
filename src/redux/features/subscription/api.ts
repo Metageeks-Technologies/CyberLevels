@@ -1,5 +1,5 @@
 import instance from "@/lib/axios";
-import { requestFail, requestStart, requestSuccess, submitCandidateSubSuccess, getEmploySubSuccess, submitEmploySubSuccess } from "./slice"
+import { requestFail, requestStart, requestSuccess, submitCandidateSubSuccess, getEmploySubSuccess, submitEmploySubSuccess, getCandidateSubSuccess } from "./slice"
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { IFilterState } from "../filterJobPostSlice";
@@ -59,7 +59,7 @@ export const getCandidateSub = async (dispatch: AppDispatch) => {
     dispatch(requestStart());
     try {
         const { data } = await instance(`/subscription/candidate`);
-        dispatch(getEmploySubSuccess(data.subscriptions));
+        dispatch(getCandidateSubSuccess(data.subscriptions));
     } catch (error) {
         const e = error as AxiosError;
         const response = e.response as any;
@@ -69,34 +69,34 @@ export const getCandidateSub = async (dispatch: AppDispatch) => {
 
 }
 
-export const updateCandidateSubscription = async (dispatch: AppDispatch, bodyObj:any) => {
+export const updateCandidateSubscription = async (dispatch: AppDispatch, bodyObj: any) => {
     dispatch(requestStart());
     console.log(bodyObj);
     try {
-        await instance.patch(`/subscription/candidate`,bodyObj);
-        await instance.patch(`/subscription/employer`,bodyObj);
-        
-            getCandidateSub(dispatch);
-            // getEmploySub(dispatch);
+        await instance.patch(`/subscription/candidate`, bodyObj);
+        await instance.patch(`/subscription/employer`, bodyObj);
 
-        
+        getCandidateSub(dispatch);
+        // getEmploySub(dispatch);
+
+
     } catch (error) {
         const e = error as AxiosError;
         dispatch(requestFail(e.message));
     }
 }
 
-export const updateEmployerSubscription = async (dispatch: AppDispatch, bodyObj:any) => {
+export const updateEmployerSubscription = async (dispatch: AppDispatch, bodyObj: any) => {
     dispatch(requestStart());
     console.log(bodyObj);
     try {
         // await instance.patch(`/subscription/candidate`,bodyObj);
-        await instance.patch(`/subscription/employer`,bodyObj);
-        
-            // getCandidateSub(dispatch);
-            getEmploySub(dispatch);
+        await instance.patch(`/subscription/employer`, bodyObj);
 
-        
+        // getCandidateSub(dispatch);
+        getEmploySub(dispatch);
+
+
     } catch (error) {
         const e = error as AxiosError;
         dispatch(requestFail(e.message));

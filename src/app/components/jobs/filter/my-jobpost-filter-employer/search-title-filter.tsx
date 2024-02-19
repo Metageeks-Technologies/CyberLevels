@@ -19,6 +19,7 @@ const SearchTitleFilter = () => {
         <input
           onChange={handleSearch}
           value={title}
+          defaultValue=""
           type="text"
           placeholder="Search by Keywords"
         />
