@@ -6,7 +6,7 @@ export interface templateState {
     submitCandidateSub: IEmployerSub | null,
     submitEmploySub: IEmployerSub | null,
     employSub: IEmployerSub[],
-    candidateSub: IEmployerSub[],
+    candidateSub: ICandidateSub[],
     error: string | null,
     loading: boolean,
 }
@@ -40,12 +40,12 @@ export const subscriptionSlice = createSlice({
             state.loading = false;
             state.error = null;
         },
-        getCandidateSubSuccess: (state, action: PayloadAction<IEmployerSub[]>) => {
+        getCandidateSubSuccess: (state, action: PayloadAction<ICandidateSub[]>) => {
             state.candidateSub = action.payload;
             state.loading = false;
             state.error = null;
         },
-        submitCandidateSubSuccess: (state, action: PayloadAction<IEmployerSub>) => {
+        submitCandidateSubSuccess: (state, action: PayloadAction<ICandidateSub>) => {
             if (state.candidateSub)
                 state.candidateSub.push(action.payload)
             state.loading = false;

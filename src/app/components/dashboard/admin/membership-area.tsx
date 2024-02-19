@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import DashboardHeader from "../candidate/dashboard-header";
 import SubscriptionModel from "./subscriptionModel";
 import CandidateSub from "./subscription/candidateSub";
+import EmployerSub from "./subscription/EmployerSub";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import {
   getCandidateSub,
@@ -26,7 +27,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
   };
 
   const dispatch = useAppDispatch();
-  const { employSub } = useAppSelector((s) => s.subscription);
+  const { employSub, candidateSub } = useAppSelector((s) => s.subscription);
 
   useEffect(() => {
     let storedValue: string | boolean | null =
@@ -56,14 +57,14 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
           <div className="d-flex justify-content-between align-items-center  ">
             <div className=" d-flex gap-3 py-4">
               <h2 className="main-title mb-0 ">Membership </h2>
-              <button
+              {/* <button
                 className="btn-one justify-content-center"
                 data-bs-toggle="modal"
                 data-bs-target="#subscriptionModel"
                 type="button"
               >
                 Add{" "}
-              </button>
+              </button> */}
             </div>
             <div className="subscription-tab align-content-center py-2  d-flex gap-3 px-2">
               <p
@@ -111,8 +112,12 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
               </div>
             </div>
           </div> */}
-          <div></div>
-          <CandidateSub subscriptionArr={employSub} />
+
+          {isCandidate ? (
+            <CandidateSub subscriptionArr={candidateSub} />
+          ) : (
+            <EmployerSub subscriptionArr={employSub} />
+          )}
         </div>
       </div>
       <SubscriptionModel />
