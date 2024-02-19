@@ -7,10 +7,11 @@ import { notifyError, notifySuccess } from "@/utils/toast";
 import { setUploadProgress } from "../globalSlice";
 
 
-export const getAllJobPosts = async (dispatch: AppDispatch, page: number, adminId: string = "") => {
-    dispatch(requestStart)
+export const getAllJobPosts = async (dispatch: AppDispatch, page: number, adminId: string = "",filter:any) => {
+    const {title,jobCode,company: { companyId },status} = filter
+    dispatch(requestStart())
     try {
-        const { data } = await instance(`/jobPost/getalljobposts?page=${page}&adminId=${adminId}`);
+        const { data } = await instance(`/jobPost/getalljobposts?page=${page}&adminId=${adminId}&title=${title}&jobCode=${jobCode}&companyId=${companyId}&status=${status}`);
         dispatch(getAllJobPostsSuccess({ jobPost: data.jobPosts, page: data.page, totalPages: data.totalPages, totalDocuments: data.totalDocs }))
     } catch (error) {
         const e = error as AxiosError;
