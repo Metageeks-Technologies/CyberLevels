@@ -33,66 +33,68 @@ const SubscriptionModel = () => {
   const [subscriptionType, setSubscriptionType] = useState("");
   const [subscriptionFor, setSubscriptionFor] = useState("");
   const [subscriptionAmount, setSubscriptionAmount] = useState("");
-  const [subscriptionCurrency, setSubscriptionCurrency] = useState<Currency|undefined>({
-    abbreviation:"",
-    name:"",
-    symbol:""
+  const [subscriptionCurrency, setSubscriptionCurrency] = useState<
+    Currency | undefined
+  >({
+    abbreviation: "",
+    name: "",
+    symbol: "",
   });
   const [subscriptionDuration, setSubscriptionDuration] = useState("");
   const [dynamicFields, setDynamicFields] = useState<{
     [key: string]: string;
   }>({});
 
-  const renderDynamicFields = () => {
-    if (
-      !subscriptionModel ||
-      !subscriptionModel.properties ||
-      !subscriptionModel.properties.offering
-    ) {
-      return null;
-    }
+  // const renderDynamicFields = () => {
+  //   if (
+  //     !subscriptionModel ||
+  //     !subscriptionModel?.properties ||
+  //     !subscriptionModel?.properties.offering
+  //   ) {
+  //     return null;
+  //   }
 
-    const offeringProperties: Offering = subscriptionModel.properties.offering;
+  //   const offeringProperties: Offering = subscriptionModel?.properties.offering;
 
-    return Object.keys(offeringProperties).map((fieldName) => {
-      const field = offeringProperties[fieldName];
-      const isRequired = field.required || false;
+  //   return Object.keys(offeringProperties).map((fieldName) => {
+  //     const field = offeringProperties[fieldName];
+  //     const isRequired = field.required || false;
 
-      return (
-        <div key={fieldName} className="dash-input-wrapper mb-30">
-          <label htmlFor={fieldName}>
-            {camelCaseToNormal(fieldName)} {isRequired ? "*" : ""}
-          </label>
+  //     return (
+  //       <div key={fieldName} className="dash-input-wrapper mb-30">
+  //         <label htmlFor={fieldName}>
+  //           {camelCaseToNormal(fieldName)} {isRequired ? "*" : ""}
+  //         </label>
 
-          {field.type === "String" ? (
-            <input
-              type="text"
-              value={dynamicFields[fieldName] || ""}
-              onChange={(e) => {
-                setDynamicFields((prevFields) => ({
-                  ...prevFields,
-                  [fieldName]: e.target.value,
-                }));
-              }}
-            />
-          ) : (
-            <input
-              type="number"
-              value={dynamicFields[fieldName] || ""}
-              onChange={(e) => {
-                setDynamicFields((prevFields) => ({
-                  ...prevFields,
-                  [fieldName]: e.target.value,
-                }));
-              }}
-            />
-          )}
+  //         {field.type === "String" ? (
+  //           <input
+  //             type="text"
+  //             value={dynamicFields[fieldName] || ""}
+  //             onChange={(e) => {
+  //               setDynamicFields((prevFields) => ({
+  //                 ...prevFields,
+  //                 [fieldName]: e.target.value,
+  //               }));
+  //             }}
+  //           />
+  //         ) : (
+  //           <input
+  //             type="number"
+  //             value={dynamicFields[fieldName] || ""}
+  //             onChange={(e) => {
+  //               setDynamicFields((prevFields) => ({
+  //                 ...prevFields,
+  //                 [fieldName]: e.target.value,
+  //               }));
+  //             }}
+  //           />
+  //         )}
 
-          {/* Add more conditions based on other field types (e.g., Number, Date, etc.) as needed */}
-        </div>
-      );
-    });
-  };
+  //         {/* Add more conditions based on other field types (e.g., Number, Date, etc.) as needed */}
+  //       </div>
+  //     );
+  //   });
+  // };
   const handleSave = async () => {
     const bodyObj = {
       subscriptionType,
@@ -119,9 +121,9 @@ const SubscriptionModel = () => {
     setSubscriptionFor("");
     setSubscriptionAmount("");
     setSubscriptionCurrency({
-      abbreviation:"",
-      name:"",
-      symbol:""
+      abbreviation: "",
+      name: "",
+      symbol: "",
     });
     setSubscriptionDuration("");
     setDynamicFields({});
@@ -221,7 +223,7 @@ const SubscriptionModel = () => {
                     </div>
                   </div>
                   {/* dynamic form */}
-                  {renderDynamicFields()}
+                  {/* {renderDynamicFields()} */}
 
                   <div className="button-group d-inline-flex align-items-center mt-30">
                     <button
