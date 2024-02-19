@@ -8,6 +8,8 @@ import FilterEnglishFluency from "./filter-english-fluency";
 import Keyword from "./filter-keyword";
 import JobLocationSelect from "./filter-location-select";
 import CandidateType from "./filter-candidateTpe";
+import SearchLocation from "./filter-location-select";
+// import SearchLocation from "../../company/filter/LocationFilter";
 
 const CandidateV1FilterArea = () => {
   const [priceValue, setPriceValue] = useState<number[]>([0, 50000]);
@@ -44,23 +46,9 @@ const CandidateV1FilterArea = () => {
           </div>
         </div> */}
 
-        <div className="filter-block bottom-line pb-25 mt-25">
-          <a
-            className="filter-title fw-500 text-dark"
-            data-bs-toggle="collapse"
-            href="#collapseLocation"
-            role="button"
-            aria-expanded="false"
-          >
-            Location
-          </a>
-          <div className="collapse show" id="collapseLocation">
-            <div className="main-body">
-              {/* <FilterCandidateLocation /> */}
-              <JobLocationSelect />
-            </div>
-          </div>
-        </div>
+<div className="filter-block bottom-line pb-25 mt-25">
+      <SearchLocation />
+      </div>
 
         <div className="filter-block bottom-line pb-25 mt-25">
           <a
