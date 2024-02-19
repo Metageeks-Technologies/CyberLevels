@@ -5,6 +5,7 @@ import job_img_1 from "@/assets/images/logo/media_22.png";
 import { removeCandidate, saveCandidate } from "@/redux/features/employer/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { ICandidateForAdmin } from "@/types/for-admin-type";
+import ActionDropdown from "../../action-dropdown-user-list";
 
 const CandidateListItem = ({
   item,
@@ -84,19 +85,20 @@ const CandidateListItem = ({
               </div>
               <div className="col-xl-3 col-md-4 col-sm-6">
                 <div className="candidate-info">
-                  <span>{item.gender}</span>
-                  <div>{item.phoneNumber}</div>
+                <div>{item.email}</div>
+                 
                 </div>
               </div>
               <div className="col-xl-3 col-md-4 col-sm-6">
                 <div className="candidate-info">
-                  <div>{item.email}</div>
+                <span>{item.gender}</span>
+                  <div>{item.phoneNumber}</div>
                   {/* <div>
                     {item.location.city},{item.location.country}
                   </div> */}
                 </div>
               </div>
-              <div className="col-xl-3 col-md-4">
+              <div className="col-xl-2 col-md-4">
                 <div className="d-flex justify-content-lg-end">
                   <Link
                     target="_blank"
@@ -105,6 +107,22 @@ const CandidateListItem = ({
                   >
                     View Profile
                   </Link>
+                </div>
+              </div>
+              <div className="col-xl">
+                <div className="action-dots float-end">
+                  <button
+                    className="action-btn dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <span></span>
+                  </button>
+                  {/* action dropdown start */}
+                  <ActionDropdown role="candidate"id={item._id} />
+                  {/* <EditCompanyModal /> */}
+                  {/* action dropdown end */}
                 </div>
               </div>
             </div>

@@ -229,7 +229,12 @@ const AdminAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
           <nav className="dasboard-main-nav">
             <ul className="style-none">
               {nav_data.map((m) => {
-                const isActive = pathname === m.link;
+                // const isActive = pathname === m.link;
+                const isActive =
+                pathname.startsWith(m.link) && // Check if the current URL starts with the link
+                   (m.link === "/dashboard/admin-dashboard" ? pathname === m.link // If the link is the dashboard, check for strict equality
+                       : true); 
+
                 return (
                   <li key={m.id} onClick={() => setIsOpenSidebar(false)}>
                     <Link

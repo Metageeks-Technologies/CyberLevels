@@ -17,7 +17,7 @@ const CandidateGridItem = ({
   style_2?: boolean;
 }) => {
   const { page, loading } = useAppSelector((state) => state.employer);
-  const { isAuthenticated, currUser } = useAppSelector(
+  const { isAuthenticated, currUser,userRole } = useAppSelector(
     (state) => state.persistedReducer.user
   );
 
@@ -50,6 +50,7 @@ const CandidateGridItem = ({
           type="button"
           disabled={loading}
           onClick={() => handleSaveCandidate(item._id)}
+          style={{display:userRole==="admin"?"none":"block"}}
           className={`save-btn tran3s ${item.isSaved ? "fav-btn" : ""}`}
           title={`${item.isSaved ? "Remove Candidate" : "Save candidate"}`}
         >

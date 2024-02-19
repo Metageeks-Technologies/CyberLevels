@@ -46,11 +46,7 @@ export const getCandidates = async (
   dispatch(requestStart());
   try {
     const { data } = await instance(
-      `/candidate/get?location=${location.join(
-        ","
-      )}&preferredExperience=${preferredExperience.join(
-        ","
-      )}&keyword=${keyword}&candidateType=${candidateType}&page=${page}&employerId=${employerId}`
+      `/candidate/get?location=${location}&preferredExperience=${preferredExperience}&keyword=${keyword}&candidateType=${candidateType}&page=${page}&employerId=${employerId}`
     );
     dispatch(
       getCandidatesSuccess({

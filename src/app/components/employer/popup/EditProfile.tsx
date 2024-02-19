@@ -199,7 +199,8 @@ const EditProfile = () => {
                       selected={company}
                       setSelected={setCompany}
                       endPoint="companyName"
-                      
+                      showCreate={true}
+                      top={true}
                     />
                   </div>
                   <div className="dash-input-wrapper mb-30">

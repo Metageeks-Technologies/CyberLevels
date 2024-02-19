@@ -24,7 +24,7 @@ const ChatModal = () => {
   const handleClick = () => {
     if (userRole === "candidate") {
       notifyInfo("chat can be only initiated by employer");
-    } else if (userRole === "employer") {
+    } else if (userRole === "employer" ||userRole ==="admin") {
       initiateChat(dispatch, {
         appId: currJobApp,
         employerId: currUser,
@@ -44,7 +44,7 @@ const ChatModal = () => {
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
-            {userRole === 'employer' && !chat && (
+            {(userRole === 'employer' || userRole==='admin') && !chat && (
               <div className="d-flex justify-content-center">
               <button type="button" className="btn-one tran3s" onClick={handleClick}>
                  Start Conversation

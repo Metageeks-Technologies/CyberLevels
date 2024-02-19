@@ -98,6 +98,7 @@ const JobDetailsV1Area = ({
           <div className="row">
             <div className="col-xxl-9 col-xl-8">
               <div className="details-post-data row hello me-xxl-5 pe-xxl-4">
+                {currCandidate ? (
                 <div className="d-flex justify-content-between  ">
                   <div className="col-6 ">
                     <div className="post-date">
@@ -201,6 +202,43 @@ const JobDetailsV1Area = ({
                   </div>
                   }
                 </div>
+                ):(
+                  <div className="d-flex justify-content-between  ">
+                  <div className="">
+                    <div className="post-date">
+                      {readableString} by
+                      <a className="fw-500 ms-2  text-dark">{company?.name}</a>
+                    </div>
+                    <h3 className="post-title pe-3">{`${job?.title} (${job.jobCode})`}</h3>
+                    <div className=" d-flex justify-items-center w-100 justify-content-between align-items-center   ">
+                      <ul className="share-buttons d-flex flex-wrap style-none">
+                        <li>
+                          <a
+                            target="_blank"
+                            href={`https://twitter.com/intent/tweet?text=${""}&url=${URL}`}
+                            // href={company?.socialSites?.twitter}
+                            className="d-flex align-items-center justify-content-center"
+                          >
+                            <i className="bi bi-twitter"></i>
+                            <span>Twitter</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            target="_blank"
+                            href={`https://www.linkedin.com/sharing/share-offsite/?url=${URL}`}
+                            // href={company?.socialSites?.linkedIn}
+                            className="d-flex align-items-center justify-content-center"
+                          >
+                            <i className="bi bi-linkedin"></i>
+                            <span>LinkedIn</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  </div>
+                )}
 
                 {/* {description?.map((text, index) => {
                 const paragraph = text.split("\n");

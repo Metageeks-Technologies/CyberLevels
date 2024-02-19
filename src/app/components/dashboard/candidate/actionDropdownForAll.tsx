@@ -17,27 +17,27 @@ import {
 import { notifySuccess } from "@/utils/toast";
 // const  enum: ['Received', 'Under Review', 'Shortlisted', "Not Selected"]
 
-const ActionDropdown = ({ id }: { id: string }) => {
-  const dispatch = useAppDispatch();
-  const { currUser } = useAppSelector((state) => state.persistedReducer.user);
+const ActionDropdownForAll = ({ id }: { id: string }) => {
+//   const dispatch = useAppDispatch();
+//   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
   
   
-  const handleClick = () => {
-    dispatch(setCurrEditJobPost(id));
-  };
-  const { pageForAdmin } = useAppSelector((state) => state.jobPost);
-  const filter = useAppSelector((state) => state.emplyerJobPostFilter);
-  const handleTerminateClick = async () => {
-    await updateJobPost(dispatch, { status: "expired", _id: id });
-    // notifySuccess("job Post updated successfully")
-    //  await getJobPostsForEmployer(
-    //     dispatch,
-    //     currEmployer?._id as string,
-    //     currentPageForJobPostEmployer,
-    //     filterState
-    //   );
-    await getAllJobPosts(dispatch, pageForAdmin, currUser!, filter);
-  };
+//   const handleClick = () => {
+//     dispatch(setCurrEditJobPost(id));
+//   };
+//   const { pageForAdmin } = useAppSelector((state) => state.jobPost);
+//   const filter = useAppSelector((state) => state.emplyerJobPostFilter);
+//   const handleTerminateClick = async () => {
+//     await updateJobPost(dispatch, { status: "expired", _id: id });
+//     // notifySuccess("job Post updated successfully")
+//     //  await getJobPostsForEmployer(
+//     //     dispatch,
+//     //     currEmployer?._id as string,
+//     //     currentPageForJobPostEmployer,
+//     //     filterState
+//     //   );
+//     await getAllJobPosts(dispatch, pageForAdmin, currUser!, filter);
+//   };
   return (
     <ul className="dropdown-menu dropdown-menu-end">
       <li>
@@ -48,7 +48,7 @@ const ActionDropdown = ({ id }: { id: string }) => {
       {/* <Link className="dropdown-item" href="#">
         <Image src={share} alt="icon" className="lazy-img" /> Share
       </Link> */}
-      <li>
+      {/* <li>
         <button
           className="dropdown-item"
           type="button"
@@ -58,8 +58,8 @@ const ActionDropdown = ({ id }: { id: string }) => {
         >
           <Image src={edit} alt="icon" className="lazy-img" /> Edit
         </button>
-      </li>
-      <li>
+      </li> */}
+      {/* <li>
         <button
           className="dropdown-item"
           type="button"
@@ -67,9 +67,9 @@ const ActionDropdown = ({ id }: { id: string }) => {
         >
           <Image src={edit} alt="icon" className="lazy-img" /> Terminate
         </button>
-      </li>
+      </li> */}
     </ul>
   );
 };
 
-export default ActionDropdown;
+export default ActionDropdownForAll;

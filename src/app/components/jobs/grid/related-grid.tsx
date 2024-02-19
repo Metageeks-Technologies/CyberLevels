@@ -87,6 +87,7 @@ const RelatedGridItem = ({
             isActive ? "active" : ""
           }`}
           title={`${isActive ? "Remove Job" : "Save Job"}`}
+          style={{display:currCandidate?"block":"none"}}
         >
           <i className="bi bi-bookmark-dash"></i>
         </button>
