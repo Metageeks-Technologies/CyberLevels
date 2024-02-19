@@ -150,7 +150,14 @@ const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
             value={numberOfShortlistedJobApps.toString()}
           />
           <CardItem img={icon_3} title="Views" value={totalViews.toString()} />
-          <CardItem img={icon_4} title="Credit left" value={currCandidate?.subscription?.offering?.applyJobLimit} />
+          <CardItem
+            img={icon_4}
+            title="Credit left"
+            value={
+              currCandidate?.subscription?.offering.feedBackLimit.toString() ||
+              ""
+            }
+          />
         </div>
 
         <div className="row d-flex pt-50 lg-pt-10">
