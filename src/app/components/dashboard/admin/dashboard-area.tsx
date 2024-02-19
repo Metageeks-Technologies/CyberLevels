@@ -42,7 +42,7 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
     setSelectedUserType(item.value);
   };
   useEffect(() => {
-    getAllJobPosts(dispatch,1);
+    getAllJobPosts(dispatch,1,filterObj);
   }, []);
   useEffect(() => {
     const fetchData = async () => {

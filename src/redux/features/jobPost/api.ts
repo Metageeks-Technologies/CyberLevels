@@ -7,7 +7,7 @@ import { notifyError, notifySuccess } from "@/utils/toast";
 import { setUploadProgress } from "../globalSlice";
 
 
-export const getAllJobPosts = async (dispatch: AppDispatch, page: number, adminId: string = "",filter:any) => {
+export const getAllJobPosts = async (dispatch: AppDispatch, page: number, filter:any,adminId: string = "") => {
     const {title,jobCode,company: { companyId },status} = filter
     dispatch(requestStart())
     try {

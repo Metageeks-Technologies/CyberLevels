@@ -403,7 +403,7 @@ const EditJobPostModalForAdmin = () => {
     // setSecondarySkills([]);
     // setDescriptionWithAI("");
     // setQuestionWithAI("");
-    await getAllJobPosts(dispatch, pageForAdmin, currUser!, filter);
+    await getAllJobPosts(dispatch, pageForAdmin, filter,currUser!);
   };
 
   return (

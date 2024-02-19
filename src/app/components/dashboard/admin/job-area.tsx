@@ -34,9 +34,9 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
   } = filter;
   useEffect(() => {
     if (jobViewState === "all") {
-      getAllJobPosts(dispatch, pageForAdmin, "", filter);
+      getAllJobPosts(dispatch, pageForAdmin,  filter,"");
     } else {
-      getAllJobPosts(dispatch, pageForAdmin, currUser!, filter);
+      getAllJobPosts(dispatch, pageForAdmin, filter,currUser!);
     }
   }, [pageForAdmin, jobViewState, title, jobCode, companyId, status]);
   const handlePageClick = (event: { selected: number }) => {
