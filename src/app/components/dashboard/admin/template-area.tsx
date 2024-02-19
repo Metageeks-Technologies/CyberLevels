@@ -276,6 +276,19 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
     setShowModelProperties(false); // Toggle the visibility
   };
 
+  const sortedTemplates = [...templates].sort((a, b) => {
+    // Place templates being used first
+    if (a.beingUsedFor && !b.beingUsedFor) return -1;
+    if (!a.beingUsedFor && b.beingUsedFor) return 1;
+
+    if (a.beingUsedFor && b.beingUsedFor) {
+      return a.beingUsedFor.localeCompare(b.beingUsedFor);
+    }
+
+    const aId = a._id || "";
+    const bId = b._id || "";
+    return aId.localeCompare(bId);
+  });
   return (
     <div className="dashboard-body ">
       <div className="position-relative">
@@ -378,7 +391,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
         </div>
 
         <div className="mt-3 row ">
-          {templates?.map((template, index) => (
+          {sortedTemplates?.map((template, index) => (
             <div key={index} className="mt-3 me-3 bg-white p-3 border-20 row ">
               {template.beingUsedFor && template.beingUsedFor !== "" && (
                 <div
