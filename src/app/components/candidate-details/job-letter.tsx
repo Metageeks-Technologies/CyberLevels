@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TinyMCEEditor from "@/ui/textEditor";
 import { MagicWand } from "@phosphor-icons/react";
-import { askToGpt } from "@/redux/features/jobPost/api";
+import { askToGpt, askToGptForCan } from "@/redux/features/jobPost/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import GptLoader from "@/ui/loader";
 import { notifyInfo } from "@/utils/toast";
@@ -55,7 +55,7 @@ const JobLetter = ({
     } , give me just body of the job letter  in about 150 to 200 words  `;
 
     try {
-      const data = await askToGpt(dispatch, query);
+      const data = await askToGptForCan(dispatch, query);
       setJobLetterWithAi(data);
       console.log(data);
       //   console.log(data);

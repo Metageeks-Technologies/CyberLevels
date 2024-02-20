@@ -103,7 +103,25 @@ export const askToGpt = async (dispatch: AppDispatch, query: string) => {
     } catch (error) {
         console.log(error);
         const e = error as AxiosError;
-        notifyError("Something went wrong, try later")
+        const response = e.response as any;
+        notifyError(response.data.message || "Something went wrong, try later");
+        dispatch(askGptEnd());
+    }
+}
+export const askToGptForCan = async (dispatch: AppDispatch, query: string) => {
+
+    dispatch(askGptStart());
+
+    try {
+        const { data } = await instance(`/jobPost/askGpt/candidate?query=${query}`);
+        dispatch(askGptSuccess());
+        return data.result;
+
+    } catch (error) {
+        console.log(error);
+        const e = error as AxiosError;
+        const response = e.response as any;
+        notifyError(response.data.message || "Something went wrong, try later");
         dispatch(askGptEnd());
     }
 }
@@ -222,6 +240,8 @@ export const getSuggestion = async (dispatch: AppDispatch, candidateId: string, 
     } catch (error) {
         console.log(error);
         const e = error as AxiosError;
+        const response = e.response as any;
+        notifyError(response?.data?.message || "Something went wrong, try later")
         dispatch(askGptEnd());
     }
 }
