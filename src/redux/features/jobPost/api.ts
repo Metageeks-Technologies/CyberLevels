@@ -8,10 +8,14 @@ import { setUploadProgress } from "../globalSlice";
 
 
 export const getAllJobPosts = async (dispatch: AppDispatch, page: number, filter: any, adminId: string = "") => {
-    const { title, jobCode, company: { companyId }, status } = filter
+    // const { title, jobCode, company: { companyId }, status } = filter
+    const { title, jobCode, company, status } = filter;
+
+    const companyId = company ? company.companyId : '';
+    const title1=title===undefined?'':title;
     dispatch(requestStart())
     try {
-        const { data } = await instance(`/jobPost/getalljobposts?page=${page}&adminId=${adminId}&title=${title}&jobCode=${jobCode}&companyId=${companyId}&status=${status}`);
+        const { data } = await instance(`/jobPost/getalljobposts?page=${page}&adminId=${adminId}&title=${title1}&jobCode=${jobCode}&companyId=${companyId}&status=${status}`);
         dispatch(getAllJobPostsSuccess({ jobPost: data.jobPosts, page: data.page, totalPages: data.totalPages, totalDocuments: data.totalDocs }))
     } catch (error) {
         const e = error as AxiosError;
