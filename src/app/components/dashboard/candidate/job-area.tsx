@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { getallJobAppByCandidateWithJobPost } from "@/redux/features/jobApp/api";
 import { setPage } from "@/redux/features/jobApp/slice";
 import Loader from "@/ui/loader";
+import SubscriptionModal from "../../model/subscriptionModel";
 
 // props type
 type IProps = {
@@ -23,7 +24,8 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
   const dispatch = useAppDispatch();
   const { allJobAppByCandidateWithJobPostPagination, currentPage, totalPages, itemsPerPage,totalJobsApplied,loading } = useAppSelector(
     (state) => state.jobApplication
-  );
+    );
+    const { subscriptionModel } = useAppSelector((state) => state.model);
   const {currCandidate} = useAppSelector((state) => state.candidate.candidateDashboard)
     useEffect(() => {
       if(currCandidate)
@@ -202,6 +204,7 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
       </div>
       <ChatModal />
       <FeedbackModal />
+      {subscriptionModel && <SubscriptionModal />}
     </>
   );
 };

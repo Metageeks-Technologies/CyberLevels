@@ -18,7 +18,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
   const { savedJobsPage, loading } = useAppSelector(
     (state) => state.candidate.candidateDashboard
   );
-  const { isAuthenticated, currUser } = useAppSelector(
+  const { isAuthenticated, currUser, userRole } = useAppSelector(
     (state) => state.persistedReducer.user
   );
   const { currAdmin } = useAppSelector((state) => state.admin);
@@ -59,6 +59,12 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
       // dispatch(setSubscriptionModel(true));
       // notifyWarn("Please complete your profile.");
     }
+  };
+  const handleGetDetails = () => {
+    // getCompanyDetails(dispatch, id);
+    // console.log("Hello")
+    dispatch(setSubscriptionModel(true));
+    // setModalShown(true);
   };
   const handleSubscribePopup = () => {};
   return (
@@ -117,7 +123,10 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
             </div>
             <div className="col-md-3 col-sm-6">
               <div className="btn-group d-flex align-items-center justify-content-sm-end xs-mt-20">
-                <button
+              {userRole === "candidate" &&
+                currCandidate?.subscription.offering.isSaveApplicable ===
+                  true ? 
+                  <button
                   type="button"
                   disabled={loading}
                   onClick={() => handleSaveJob(item._id)}
@@ -129,6 +138,20 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                 >
                   <i className="bi bi-bookmark-dash"></i>
                 </button>
+                :
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={handleGetDetails}
+                  className={`save-btn text-center rounded-circle tran3s me-3 cursor-pointer ${
+                    isActive ? "active" : ""
+                  }`}
+                  style={{display:currCandidate?"block":"none"}}
+                  title={`${isActive ? "Remove Job" : "Save Job"}`}
+                >
+                  <i className="bi bi-bookmark-dash"></i>
+                </button>
+                }
                 <div
                   onClick={() => handleViewClick(item._id)}
                   // href={"/dashboard/candidate-dashboard/membership"}
@@ -235,7 +258,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
       {/* login modal start */}
       <LoginModal />
       {profileCompleteModel ? <ProfileCompleteModal /> : null}
-      {/* {subscriptionModel ? <SubscriptionModal /> : null} */}
+      {subscriptionModel && <SubscriptionModal /> }
       {/* login modal end */}
     </>
   );

@@ -59,13 +59,13 @@ const JobDetailsV1Area = ({
 
   const { subscriptionModel } = useAppSelector((state) => state.model);
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      dispatch(setSubscriptionModel(true));
-    }, 2000);
-    // Clean up the timeout to avoid memory leaks
-    return () => clearTimeout(timeoutId);
-  }, []);
+  // useEffect(() => {
+  //   const timeoutId = setTimeout(() => {
+  //     dispatch(setSubscriptionModel(true));
+  //   }, 2000);
+  //   // Clean up the timeout to avoid memory leaks
+  //   return () => clearTimeout(timeoutId);
+  // }, []);
 
   // console.log(allJobAppByCandidate);
   const checkIsApplied = () => {

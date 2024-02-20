@@ -13,16 +13,20 @@ import { notifyWarn } from "@/utils/toast";
 // item.isFav
 import LoginModal from "../common/popup/login-modal";
 import ProfileCompleteModal from "../model/completeProfile";
-import { setProfileCompleteModel } from "@/redux/features/model/slice";
+import {
+  setProfileCompleteModel,
+  setSubscriptionModel,
+} from "@/redux/features/model/slice";
+import SubscriptionModal from "../model/subscriptionModel";
 
 const CompanyGridItem = ({ item }: { item: ICompany }) => {
   const { savedCompanyPage, loading } = useAppSelector(
     (state) => state.candidate.candidateDashboard
   );
-  const { isAuthenticated, currUser } = useAppSelector(
+  const { isAuthenticated, currUser, userRole } = useAppSelector(
     (state) => state.persistedReducer.user
   );
-  const {currAdmin} = useAppSelector((state)=>state.admin)
+  const { currAdmin } = useAppSelector((state) => state.admin);
   const { profileCompleteModel, subscriptionModel } = useAppSelector(
     (state) => state.model
   );
@@ -59,6 +63,12 @@ const CompanyGridItem = ({ item }: { item: ICompany }) => {
       dispatch(setProfileCompleteModel(true));
     }
   };
+  const handleGetDetails = () => {
+    // getCompanyDetails(dispatch, id);
+
+    dispatch(setSubscriptionModel(true));
+    // setModalShown(true);
+  };
   const handleSubscribePopup = () => {};
   return (
     <>
@@ -92,43 +102,57 @@ const CompanyGridItem = ({ item }: { item: ICompany }) => {
             <p className="text-center mb-auto">
               {item.location?.[0]?.city}, {item.location?.[0]?.country}
             </p>
-            {currCandidate ?(
-            <div className="align-items-center btn-group justify-content-md-end bottom-line d-flex">
-              {/* <Link href="/company-details">{item.benefits.length} Vacancy</Link> */}
+            {currCandidate ? (
+              <div className="align-items-center btn-group justify-content-md-end bottom-line d-flex">
+                {/* <Link href="/company-details">{item.benefits.length} Vacancy</Link> */}
 
-              <div
-                // href="#"
-                onClick={() => handleViewClick()}
-                className="open-job-btn text-center fw-500 tran3s me-2 cursor-pointer "
-              >
-                {/* {item.vacancy} open job */}
-                {item.jobOpenings} open job
-              </div>
-              {/* <Link href="/company-details">
+                <div
+                  // href="#"
+                  onClick={() => handleViewClick()}
+                  className="open-job-btn text-center fw-500 tran3s me-2 cursor-pointer "
+                >
+                  {/* {item.vacancy} open job */}
+                  {item.jobOpenings} open job
+                </div>
+                {/* <Link href="/company-details">
           <i className="bi bi-bookmark-dash"></i> Save
         </Link> */}
-              <button
-                type="button"
-                // disabled={loading}
-                onClick={() => handleSaveCompany(item._id)}
-                className={` cursor-pointer ${isActive ? "active" : ""}`}
-                >
-                <i className="bi bi-bookmark-dash"></i>
-              </button>
-            </div>
-            ):(
-              <div className="align-items-center btn-group justify-content-center bottom-line d-flex" style={{paddingTop:"20px", paddingBottom:"20px"}}>
+                {userRole === "candidate" &&
+                currCandidate?.subscription.offering.isSaveApplicable ===
+                  true ? (
+                  <button
+                    type="button"
+                    // disabled={loading}
+                    onClick={() => handleSaveCompany(item._id)}
+                    className={` cursor-pointer ${isActive ? "active" : ""}`}
+                  >
+                    <i className="bi bi-bookmark-dash"></i>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    // disabled={loading}
+                    onClick={handleGetDetails}
+                    className={` cursor-pointer ${isActive ? "active" : ""}`}
+                  >
+                    <i className="bi bi-bookmark-dash"></i>
+                  </button>
+                )}
+              </div>
+            ) : (
+              <div
+                className="align-items-center btn-group justify-content-center bottom-line d-flex"
+                style={{ paddingTop: "20px", paddingBottom: "20px" }}
+              >
                 <div
-                // href="#"
-                onClick={() => handleViewClick()}
-                className="open-job-btn text-center fw-500 tran3s me-2 cursor-pointer "
-               >
-                {/* {item.vacancy} open job */}
-                {item.jobOpenings} open job
-              </div>             
-             
-            </div>
-
+                  // href="#"
+                  onClick={() => handleViewClick()}
+                  className="open-job-btn text-center fw-500 tran3s me-2 cursor-pointer "
+                >
+                  {/* {item.vacancy} open job */}
+                  {item.jobOpenings} open job
+                </div>
+              </div>
             )}
           </>
         ) : (
@@ -145,14 +169,14 @@ const CompanyGridItem = ({ item }: { item: ICompany }) => {
                 // onClick={() => handleViewClick()}
                 className="company-logo me-auto ms-auto rounded-circle cursor-pointer"
               >
-               <Image
-                src={item.logo ? item.logo : team_img_1}
-                width={85}
-                height={85}
-                alt="image"
-                className="lazy-img rounded-circle w-100"
-                // style={{ height: "auto", borderRadius: "50%"}}
-              />
+                <Image
+                  src={item.logo ? item.logo : team_img_1}
+                  width={85}
+                  height={85}
+                  alt="image"
+                  className="lazy-img rounded-circle w-100"
+                  // style={{ height: "auto", borderRadius: "50%"}}
+                />
               </div>
               <h5 className="text-center">
                 <div
@@ -197,6 +221,7 @@ const CompanyGridItem = ({ item }: { item: ICompany }) => {
       <LoginModal />
       {profileCompleteModel ? <ProfileCompleteModal /> : null}
       {/* login modal end */}
+      {subscriptionModel && <SubscriptionModal />}
     </>
   );
 };
