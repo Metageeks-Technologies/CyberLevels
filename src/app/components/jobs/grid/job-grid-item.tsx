@@ -9,9 +9,10 @@ import LoginModal from "../../common/popup/login-modal";
 import { registerJobPostView } from "@/redux/features/jobPost/api";
 import { useRouter } from "next/navigation";
 import { notifyError, notifyWarn } from "@/utils/toast";
-import { setProfileCompleteModel } from "@/redux/features/model/slice";
+import { setProfileCompleteModel, setSubscriptionModel } from "@/redux/features/model/slice";
 import ProfileCompleteModal from "../../model/completeProfile";
 import { ICompany } from "@/types/company-type";
+import SubscriptionModal from "../../model/subscriptionModel";
 
 const JobGridItem = ({
   item,
@@ -65,6 +66,12 @@ const JobGridItem = ({
       // notifyWarn("Please complete your profile.")
       dispatch(setProfileCompleteModel(true));
     }
+  };
+  const handleGetDetails = () => {
+    // getCompanyDetails(dispatch, id);
+
+    dispatch(setSubscriptionModel(true));
+    // setModalShown(true);
   };
   const handleSubscribePopup = () => {};
   return (
@@ -137,11 +144,13 @@ const JobGridItem = ({
           //  className="apply-btn text-center tran3s"
           onClick={handleSubscribePopup}
           >
-         
+         {userRole === "candidate" &&
+                currCandidate?.subscription.offering.isSaveApplicable ===
+                  true ? 
               <button
                 type="button"
                 disabled={loading}
-                // onClick={() => handleSaveJob(item._id)}
+                onClick={() => handleSaveJob(item._id)}
                 className={`save-btn text-center rounded-circle tran3s cursor-pointer ${
                   isActive ? "active" : ""
                 }`}
@@ -150,6 +159,21 @@ const JobGridItem = ({
               >
                 <i className="bi bi-bookmark-dash"></i>
               </button>
+              :
+              <button
+                type="button"
+                disabled={loading}
+                onClick={handleGetDetails}
+                className={`save-btn text-center rounded-circle tran3s cursor-pointer ${
+                  isActive ? "active" : ""
+                }`}
+                // style={{display:userRole==="admin"?"none":"block"}}
+                // title={`${isActive ? "Remove Job" : "Save Job"}`}
+              >
+                <i className="bi bi-bookmark-dash"></i>
+              </button>
+              }
+
                 
               </button>
               )}
@@ -266,6 +290,7 @@ const JobGridItem = ({
       <LoginModal />
       {profileCompleteModel ? <ProfileCompleteModal /> : null}
       {/* login modal end */}
+      {subscriptionModel && <SubscriptionModal /> }
     </>
   );
 };

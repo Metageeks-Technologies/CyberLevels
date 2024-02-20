@@ -13,22 +13,24 @@ import { useRouter } from "next/navigation";
 import { notifyWarn } from "@/utils/toast";
 // item.isFav;
 import ProfileCompleteModal from "../model/completeProfile";
-import { setProfileCompleteModel } from "@/redux/features/model/slice";
+import { setProfileCompleteModel, setSubscriptionModel } from "@/redux/features/model/slice";
+import SubscriptionModal from "../model/subscriptionModel";
 
 const CompanyListItem = ({ item }: { item: ICompany }) => {
   const { savedCompanyPage, loading, totalSavedCompany } = useAppSelector(
     (state) => state.candidate.candidateDashboard
   );
-  const { isAuthenticated, currUser } = useAppSelector(
+  const { isAuthenticated, currUser, userRole } = useAppSelector(
     (state) => state.persistedReducer.user
   );
-  const {currAdmin} = useAppSelector((state)=>state.admin);
+  const { currAdmin } = useAppSelector((state) => state.admin);
   const { profileCompleteModel, subscriptionModel } = useAppSelector(
     (state) => state.model
   );
   const { currCandidate } = useAppSelector(
     (state) => state.candidate.candidateDashboard
   );
+
   const Router = useRouter();
 
   const dispatch = useAppDispatch();
@@ -62,6 +64,12 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
     } else {
       dispatch(setProfileCompleteModel(true));
     }
+  };
+  const handleGetDetails = () => {
+    // getCompanyDetails(dispatch, id);
+
+    dispatch(setSubscriptionModel(true));
+    // setModalShown(true);
   };
   const handleSubscribePopup = () => {};
   return (
@@ -136,7 +144,7 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
                   {/* {item.vacancy} open job */}
                   {item.jobOpenings} open job
                 </div>
-
+                {userRole==="candidate" && currCandidate?.subscription.offering.isSaveApplicable === true ? 
                 <button
                   type="button"
                   disabled={loading}
@@ -145,10 +153,25 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
                     isActive ? "active" : ""
                   }`}
                   title={`${isActive ? "Remove Company" : "Save Company"}`}
-                   style={{display:currCandidate?"block":"none"}}
+                  style={{ display: currCandidate ? "block" : "none" }}
                 >
                   <i className="bi bi-bookmark-dash"></i>
                 </button>
+                :
+                <button
+                  type="button"
+                  disabled={loading}
+                  onClick={handleGetDetails}
+                  // onClick={() => handleSaveCompany(item._id)}
+                  className={`save-btn text-center rounded-circle tran3s me-3 cursor-pointer ${
+                    isActive ? "active" : ""
+                  }`}
+                  title={`${isActive ? "Remove Company" : "Save Company"}`}
+                  style={{ display: currCandidate ? "block" : "none" }}
+                >
+                  <i className="bi bi-bookmark-dash"></i>
+                </button>
+                }
               </div>
             </div>
           </div>
@@ -168,14 +191,14 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
                     className="company-logo rounded-circle cursor-pointer"
                   >
                     <Image
-                    // src={item.logo}
-                    src={item.logo ? item.logo : team_img_1}
-                    width={70}
-                    height={70}
-                    alt="image"
-                    className="lazy-img rounded-circle w-100 "
-                    // style={{ height: "auto" }}
-                  />
+                      // src={item.logo}
+                      src={item.logo ? item.logo : team_img_1}
+                      width={70}
+                      height={70}
+                      alt="image"
+                      className="lazy-img rounded-circle w-100 "
+                      // style={{ height: "auto" }}
+                    />
                   </div>
                   <div className="company-data">
                     <h5 className="m0">
@@ -244,6 +267,7 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
       {/* login modal start */}
       <LoginModal />
       {profileCompleteModel ? <ProfileCompleteModal /> : null}
+      {subscriptionModel && <SubscriptionModal />}
       {/* login modal end */}
     </>
   );

@@ -17,7 +17,7 @@ const CompanyDetailsArea = ({ id, url }: { id: string; url: string }) => {
   const { subscriptionModel } = useAppSelector((state) => state.model);
   const [modalShown, setModalShown] = useState(false);
   const { currCandidate } = useAppSelector(
-    (state) => state.candidate.candidateDashboard
+    (state) => state.candidate.candidateDashboard 
   );
   const { userRole } = useAppSelector((state) => state.persistedReducer.user);
   useEffect(() => {
