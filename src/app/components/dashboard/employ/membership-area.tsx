@@ -234,7 +234,29 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                               </>
                             )}
                           </ul>
-                          <button
+                          {subscription.hasOwnProperty("_id") &&
+                          subscription._id === item._id ? (
+                            <button
+                              className=" tran3s w-100 mt-30 mx-auto current-plan"
+                              style={{lineHeight:'54px',fontWeight:'500',borderRadius:'30px'}}
+                            >
+                              Current Plan
+                            </button>
+                          ) : (
+                            <button
+                              onClick={(e) =>
+                                checkoutHandler(
+                                  e,
+                                  item,
+                                  item.price[isYearly ? 1 : 0]
+                                )
+                              }
+                              className="get-plan-btn tran3s w-100 mt-30 mx-auto "
+                            >
+                              Choose Plan
+                            </button>
+                          )}
+                          {/* <button
                             onClick={(e) =>
                               checkoutHandler(
                                 e,
@@ -248,7 +270,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                             subscription._id === item._id
                               ? "Current Plan"
                               : "Choose Plan"}
-                          </button>
+                          </button> */}
                         </div>
                       </div>
                     ))

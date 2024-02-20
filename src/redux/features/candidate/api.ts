@@ -309,7 +309,7 @@ export const removeSavedCompany = async (
     );
     dispatch(toggleCompanyIsSaved(companyId));
     // dispatch(removeSavedJobSuccess);
-    notifySuccess("Job remove form saved Jobs");
+    notifySuccess("Company removed form saved companies");
   } catch (error) {
     const e = error as AxiosError;
     dispatch(requestFailDash(e.message));
