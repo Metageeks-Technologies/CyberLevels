@@ -18,8 +18,7 @@ const SearchTitleFilter = () => {
       <form className="input-box position-relative">
         <input
           onChange={handleSearch}
-          value={title}
-          defaultValue=""
+          value={title || ""}
           type="text"
           placeholder="Search by Keywords"
         />

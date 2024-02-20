@@ -132,7 +132,7 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                   </tbody>
                 </table>
                 {loading && (<Loader />)}
-                {!loading && jobPostsForEmployer?.length === 0 && (
+                {!loading && jobPostsForEmployer?.length === 0 && ( 
                     <p
                       style={{
                         fontWeight: "bold",
