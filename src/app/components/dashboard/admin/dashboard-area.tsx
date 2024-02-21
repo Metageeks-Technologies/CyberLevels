@@ -41,8 +41,9 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
   const handleJobs = (item: { value: string; label: string }) => {
     setSelectedUserType(item.value);
   };
+  const { currUser } = useAppSelector((state) => state.persistedReducer.user);
   useEffect(() => {
-    getAllJobPosts(dispatch, 1, filterObj);
+    getAllJobPosts(dispatch, 1, filterObj,currUser!);
   }, []);
   useEffect(() => {
     const fetchData = async () => {

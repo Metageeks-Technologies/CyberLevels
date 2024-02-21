@@ -4,7 +4,7 @@ import Link from "next/link";
 import DashboardHeader from "./dashboard-header";
 import ShortSelect from "../../common/short-select";
 import job_data from "@/data/job-data";
-import ActionDropdown from "./action-dropdown-sabJobs";
+import ActionDropdown from "./action-dropdown-savedJob";
 import job_img_1 from "@/assets/images/logo/media_22.png";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { IJobPost } from "@/types/jobPost-type";
@@ -137,7 +137,7 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
                         <span></span>
                       </button>
                       {/* action dropdown start */}
-                      <ActionDropdown id={j._id} />
+                      <ActionDropdown id={j._id}  />
                       {/* action dropdown end */}
                     </div>
                   </div>

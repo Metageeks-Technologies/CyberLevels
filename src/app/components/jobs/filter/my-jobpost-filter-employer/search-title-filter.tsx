@@ -5,7 +5,7 @@ import { setTitle } from "@/redux/features/employer/employerJobPostFilterSlice";
 
 const SearchTitleFilter = () => {
   const dispatch = useAppDispatch();
-  const {title} = useAppSelector((state) => state.emplyerJobPostFilter);
+  const { title } = useAppSelector((state) => state.emplyerJobPostFilter);
   // handle search
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTimeout(() => {
@@ -18,7 +18,8 @@ const SearchTitleFilter = () => {
       <form className="input-box position-relative">
         <input
           onChange={handleSearch}
-          value={title || ""}
+          // value={title}
+          defaultValue=""
           type="text"
           placeholder="Search by Keywords"
         />

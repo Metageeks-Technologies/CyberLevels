@@ -21,24 +21,14 @@ const ActionDropdown = ({ id }: { id: string }) => {
   };
   return (
     <ul className="dropdown-menu dropdown-menu-end">
-      <li>
+      {/* <li>
         <Link className="dropdown-item" href={`/company-details/${id}`}>
           <Image src={view} alt="icon" className="lazy-img" /> View
         </Link>
-      </li>
-      <li>
-        <a className="dropdown-item" href="#">
-          <Image src={share} alt="icon" className="lazy-img" /> Share
-        </a>
-      </li>
-      {/* <li>
-        <a className="dropdown-item" href="#">
-          <Image src={edit} alt="icon" className="lazy-img" /> Edit
-        </a>
-      </li> */}
+      </li> */}      
       <li>
         <button className="dropdown-item" type="button" onClick={handleDelete}>
-          <Image src={delete_icon} alt="icon" className="lazy-img" /> Delete
+          <Image src={delete_icon} alt="icon" className="lazy-img" /> Remove
         </button>
       </li>
     </ul>

@@ -113,7 +113,7 @@ const SavedCompanyArea = ({ setIsOpenSidebar, savedCompanies }: IProps) => {
                       / {c.category}
                     </div>
                   </div>
-                  <div className="col-xxl-2 col-lg-3 col-md-4 col-sm-6 ms-auto xs-mt-10">
+                  <div className="col-xxl-2 col-lg-3 col-md-4 col-sm-6 ms-auto xs-mt-10 justify-content-end d-flex">
                     {/* <div className="job-location">
                     <a href="#">{c.location}</a>
                   </div>

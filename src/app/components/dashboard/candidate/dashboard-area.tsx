@@ -154,7 +154,7 @@ const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
             img={icon_4}
             title="Credit left"
             value={
-              currCandidate?.subscription?.offering.feedBackLimit.toString() ||
+              currCandidate?.subscription?.offering.jobApplicationLimit.toString() ||
               ""
             }
           /> */}
