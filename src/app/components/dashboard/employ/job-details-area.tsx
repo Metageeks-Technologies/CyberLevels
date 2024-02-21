@@ -12,6 +12,7 @@ import JobLetterModal from "../../common/popup/jobLetterModer";
 import CandidateFilterByJobApp from "../../common/popup/candidateFilterByJobApp";
 import { IJobPost } from "@/types/jobPost-type";
 import Loader from "@/ui/loader";
+import SubscriptionModalForEmployer from "../../model/subscriptionModelEmployer";
 
 // props type
 type IProps = {
@@ -23,7 +24,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
   const { jobPostsForEmployer } = useAppSelector((state) => state.jobPost);
   const [currJobPost, setCurrJobPost] = useState<IJobPost | null>();
   const { loading } = useAppSelector((state) => state.jobApplication);
-
+  const {subscriptionModelEmployer} = useAppSelector((state) => state.model)
   useEffect(() => {
     const foundJobPost = jobPostsForEmployer.find(
       (job) => job._id === jobPostId
@@ -184,6 +185,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
       <ChatModal />
       <FeedbackModal />
       <CandidateFilterByJobApp />
+      {subscriptionModelEmployer && <SubscriptionModalForEmployer />}
     </>
   );
 };

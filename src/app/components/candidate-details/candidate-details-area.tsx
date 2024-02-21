@@ -12,16 +12,27 @@ import { useAppSelector, useAppDispatch } from "@/redux/hook";
 import { getCandidateDetails } from "@/redux/features/candidate/api";
 import RequestModal from "./popup/request";
 import ResumeDownloadButton from "@/ui/downloadBtn";
+import { setSubscriptionModelEmployer } from "@/redux/features/model/slice";
+import SubscriptionModalForEmployer from "../model/subscriptionModelEmployer";
 
 const CandidateDetailsArea = ({ id }: { id: string }) => {
   const dispatch = useAppDispatch();
   const { candidate } = useAppSelector(
     (state) => state.candidate.candidateList
   );
-
+  const { userRole } = useAppSelector((state) => state.persistedReducer.user);
+  const { currEmployer } = useAppSelector((state) => state.employer);
   useEffect(() => {
     getCandidateDetails(dispatch, id);
   }, [id]);
+
+  const {subscriptionModelEmployer} = useAppSelector((state) => state.model)
+  const handleGetDetails = () => {
+    // getCompanyDetails(dispatch, id);
+
+    dispatch(setSubscriptionModelEmployer(true));
+    // setModalShown(true);
+  };
   return (
     <>
       {candidate && (
@@ -111,13 +122,30 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
                           s3Key={candidate.resumes[0].s3Key}
                         />
                       )}
-                      <button
-                        className="btn-ten fw-500 text-white w-100 text-center tran3s mt-15"
-                        data-bs-toggle="modal"
-                        data-bs-target="#requestModal"
-                      >
-                        {false ? "Applied" : "Send request"}
-                      </button>
+                      {(userRole === "employer" &&
+                        currEmployer?.subscription?.offering
+                          ?.isRequestApplicable === true) ||
+                        (userRole === "admin" && (
+                          <button
+                            className="btn-ten fw-500 text-white w-100 text-center tran3s mt-15"
+                            data-bs-toggle="modal"
+                            data-bs-target="#requestModal"
+                          >
+                            {false ? "Applied" : "Send request"}
+                          </button>
+                        ))}
+                      {userRole === "employer" &&
+                        currEmployer?.subscription?.offering
+                          ?.isRequestApplicable === false && (
+                          <button
+                            className="btn-ten fw-500 text-white w-100 text-center tran3s mt-15"
+                            // data-bs-toggle="modal"
+                            // data-bs-target="#requestModal"
+                            onClick={handleGetDetails}
+                          >
+                            {false ? "Applied" : "Send request"}
+                          </button>
+                        )}
                     </div>
 
                     {/* <h4 className="sidebar-title">Email James Brower.</h4>
@@ -134,6 +162,7 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
             </div>
           </section>
           <RequestModal candidateId={candidate._id} />
+          {subscriptionModelEmployer && <SubscriptionModalForEmployer />}
         </>
       )}
     </>
