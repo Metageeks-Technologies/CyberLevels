@@ -73,9 +73,10 @@ export const filterSlice = createSlice({
       }
     },
     setJobCode: (state, action: PayloadAction<string>) => {
-      if (state.jobCode !== action.payload) {
+      // if (state.jobCode !== action.payload) {
         state.jobCode = action.payload
-      }
+        console.log(action.payload,"from slice")
+      // }
     },
     setStatus: (state, action: PayloadAction<string>) => {
       state.status = action.payload

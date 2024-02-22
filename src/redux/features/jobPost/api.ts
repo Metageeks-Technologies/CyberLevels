@@ -29,7 +29,8 @@ export const getJObPosts = async (dispatch: AppDispatch, queryObject: IFilterSta
     dispatch(requestStart());
     try {
         const { data } = await instance(`/jobPost/get?jobCode=${jobCode}&location=${location.join(",")}&jobType=${jobType.join(",")}&jobCategory=${jobCategory.join(",")}&workMode=${workMode.join(",")}&preferredExperience=${preferredExperience.join(",")}&salary=${salary}&status=${status}&page=${page}&candidateId=${candidateId}`)
-        console.log(data.result)
+        console.log(jobCode);
+        
         dispatch(getJobPostsSuccess({ allJobPost: data.result, totalJobPost: data.totalJobPost, totalNumOfPage: data.totalNumOfPage }))
     } catch (error) {
         const e = error as AxiosError;

@@ -12,6 +12,7 @@ import JobWorkMode from "./job-workmode";
 import JobLocationSelect from "./job-location-select";
 import SearchJobCodeFilter from "../../jobs/filter/my-jobpost-filter-employer/search-jobcode-filter";
 import SearchJobCode from "./job-code";
+import { useRouter } from "next/navigation";
 // prop type
 type IProps = {
   priceValue: number[];
@@ -25,11 +26,13 @@ const FilterArea = ({
   maxPrice,
   setFinalPrice,
 }: IProps) => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   // handleReset
   const handleReset = () => {
     dispatch(resetFilter());
     setPriceValue([0, maxPrice]);
+    router.push(`job-list-v1`);
   };
   return (
     <div

@@ -9,6 +9,7 @@ import FilterArea from "../filter/filter-area";
 import JobGridItem from "../grid/job-grid-item";
 import ListItemTwo from "./list-item-2";
 import Loader from "@/ui/loader";
+import { useSearchParams } from "next/navigation";
 
 const JobListThree = ({
   itemsPerPage,
@@ -18,6 +19,7 @@ const JobListThree = ({
   grid_style?: boolean;
 }) => {
   const filterState = useAppSelector((state) => state.filter);
+  const searchParams = useSearchParams();
   const {
     location,
     jobCategory,
@@ -25,7 +27,6 @@ const JobListThree = ({
     salary,
     preferredExperience,
     workMode,
-    jobCode,
   } = filterState;
   const { allJobPost, totalJobPost, totalNumOfPage, loading, page } =
     useAppSelector((state) => state.jobPost);
@@ -40,14 +41,14 @@ const JobListThree = ({
   };
 
   useEffect(() => {
-    getJObPosts(dispatch, filterState, page, currUser ? currUser : "");
+    getJObPosts(dispatch, {...filterState,jobCode:searchParams.get("jobCode") || ""}, page, currUser ? currUser : "");
   }, [
     location,
     jobCategory,
     jobType,
     workMode,
     salary,
-    jobCode,
+    searchParams.get("jobCode"),
     preferredExperience,
     page,
   ]);
