@@ -125,7 +125,7 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
                       {(userRole === "employer" &&
                         currEmployer?.subscription?.offering
                           ?.isRequestApplicable === true) ||
-                        (userRole === "admin" && (
+                        (userRole === "admin") && (
                           <button
                             className="btn-ten fw-500 text-white w-100 text-center tran3s mt-15"
                             data-bs-toggle="modal"
@@ -133,7 +133,7 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
                           >
                             {false ? "Applied" : "Send request"}
                           </button>
-                        ))}
+                        )}
                       {userRole === "employer" &&
                         currEmployer?.subscription?.offering
                           ?.isRequestApplicable === false && (

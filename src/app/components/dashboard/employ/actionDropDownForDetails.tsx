@@ -70,8 +70,8 @@ const ActionDropdown = ({
           currEmployer?.subscription?.offering?.isChatApplicable === false && (
             <button
               onClick={handleGetDetails}
-              data-bs-toggle="modal"
-              data-bs-target="#chatModal"
+              // data-bs-toggle="modal"
+              // data-bs-target="#chatModal"
               type="button"
               className="active dropdown-item"
             >
@@ -111,8 +111,8 @@ const ActionDropdown = ({
           <li>
             <button
               onClick={handleGetDetails}
-              data-bs-toggle="modal"
-              data-bs-target="#feedbackModal"
+              // data-bs-toggle="modal"
+              // data-bs-target="#feedbackModal"
               type="button"
               className="dropdown-item"
             >
