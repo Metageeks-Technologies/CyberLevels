@@ -10,9 +10,20 @@ import JobLocationSelect from "./filter-location-select";
 import CandidateType from "./filter-candidateTpe";
 import SearchLocation from "./filter-location-select";
 // import SearchLocation from "../../company/filter/LocationFilter";
+import {resetFilter} from "@/redux/features/candidate/filterSlice"
+import { useAppDispatch } from "@/redux/hook";
 
 const CandidateV1FilterArea = () => {
+  const dispatch=useAppDispatch();
+  const [location, setLocation] = useState<string[]>([]);
+
+  const handleReset=()=>{
+    setLocation([]);
+    dispatch(resetFilter());
+  };
   const [priceValue, setPriceValue] = useState<number[]>([0, 50000]);
+  
+  
   return (
     <div
       className="filter-area-tab offcanvas offcanvas-start"
@@ -47,7 +58,7 @@ const CandidateV1FilterArea = () => {
         </div> */}
 
 <div className="filter-block bottom-line pb-25 mt-25">
-      <SearchLocation />
+      <SearchLocation location={location} setLocation={setLocation} />
       </div>
 
         <div className="filter-block bottom-line pb-25 mt-25">
@@ -148,12 +159,12 @@ const CandidateV1FilterArea = () => {
           </div>
         </div> */}
 
-        <a
-          href="#"
+        <button
+          onClick={handleReset}          
           className="btn-ten fw-500 text-white w-100 text-center tran3s mt-30"
         >
           Reset Filter
-        </a>
+        </button>
       </div>
     </div>
   );
