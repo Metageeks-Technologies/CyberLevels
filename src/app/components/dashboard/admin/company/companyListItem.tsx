@@ -50,7 +50,7 @@ const CompanyListItem = ({
             className="cadidate-avatar online position-relative d-flex me-auto ms-auto"
             style={{ paddingTop: "7px" }}
           >
-            <Link href="/candidate-profile-v2" className="rounded-circle">
+            <Link href={`/company-details/${item._id}`} className="rounded-circle">
               <Image
                 src={item?.logo || job_img_1}
                 width={60}
@@ -65,7 +65,7 @@ const CompanyListItem = ({
               <div className="col-xl-3">
                 <div className="position-relative">
                   <h4 className="candidate-name mb-0">
-                    <Link href="/candidate-profile-v2" className="tran3s">
+                    <Link href={`/company-details/${item._id}`} className="tran3s">
                       {item.name}
                     </Link>
                   </h4>

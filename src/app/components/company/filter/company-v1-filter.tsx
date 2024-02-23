@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import FilterCompanyLocation from "./filter-company-location";
 import SearchCompany from "./SearchCompany";
 import TeamSize from "./TeamSize";
@@ -8,8 +8,10 @@ import SearchLocation from "./LocationFilter";
 
 const CompanyV1Filter = () => {
   const dispatch = useAppDispatch();
+  const [location, setLocation] = useState<string[]>([]);
 
   const handleReset = () => {
+    setLocation([]);
     dispatch(resetFilter());
   };
   return (
@@ -65,7 +67,7 @@ const CompanyV1Filter = () => {
         </div>
       </div> */}
       <div className="filter-block bottom-line pb-25 mt-25">
-      <SearchLocation />
+      <SearchLocation location={location} setLocation={setLocation} />
       </div>
 
       <div className="filter-block bottom-line pb-25 mt-25">

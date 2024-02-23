@@ -36,14 +36,14 @@ const JobLetter = ({
   );
 
   const handleSave = () => {
-    // if (!jobLetterWithAi) {
-    //   notifyInfo("please Write something in text area to before save.");
-    //   return;
-    // }
-    // setForm((form) => ({
-    //   ...form,
-    //   jobLetter: jobLetterWithAi.choices[0].message.content,
-    // }));
+    if (!jobLetterWithAi) {
+      notifyInfo("please Write something in text area to before save.");
+      return;
+    }
+    setForm((form) => ({
+      ...form,
+      jobLetter: jobLetterWithAi.choices[0].message.content,
+    }));
     setSaved(true);
   };
 

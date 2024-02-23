@@ -1,12 +1,17 @@
 "use client";
 import { setLocationFilter, setName } from "@/redux/features/company/filter";
 import { useAppDispatch } from "@/redux/hook";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect,SetStateAction,Dispatch, useMemo, useState } from "react";
 import LocationAutoComplete from "@/ui/locationAutoComplete";
-const SearchLocation = () => {
+
+interface SearchLocationProps {
+  location: string[];
+  setLocation: Dispatch<SetStateAction<string[]>>;
+}
+const SearchLocation: React.FC<SearchLocationProps> = ({ location, setLocation }) => {
   const dispatch = useAppDispatch();
 
-  const [location, setLocation] = useState<string[]>([]);
+  // const [location, setLocation] = useState<string[]>([]);
 
   //   const debounce = () => {
   //     let timeoutID: any;
