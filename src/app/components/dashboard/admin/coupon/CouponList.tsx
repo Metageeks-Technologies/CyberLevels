@@ -9,6 +9,7 @@ import Pagination from "@/ui/pagination";
 import React, { useEffect } from "react";
 // import couponGridItem from "./couponGridItem"
 import CouponGridItem from "./couponGridItem";
+import EditCouponArea from "./EditExistingCoupon";
 // import AdminBlogListItem from './AdminBlogListItem';
 
 const AdminCouponList = () => {
@@ -127,6 +128,7 @@ const AdminCouponList = () => {
             </div>
           </div>
         </div>
+        <EditCouponArea />
       </div>
     </section>
   );

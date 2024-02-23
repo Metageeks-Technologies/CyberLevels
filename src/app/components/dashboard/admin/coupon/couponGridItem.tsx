@@ -1,5 +1,6 @@
 import { ICoupon } from "@/types/coupon-type";
 import React from "react";
+import ActionDropdown from "./ActionDropdownForCoupon";
 
 const CouponGridItem = ({ key, item ,style_2=true}: { key: number; item: ICoupon ,style_2?: boolean;}) => {
   const date1 = new Date(item.expirationDate ?? new Date());
@@ -24,10 +25,7 @@ const CouponGridItem = ({ key, item ,style_2=true}: { key: number; item: ICoupon
                   aria-expanded="false"
                 >
                 <span>
-                  {/* {/* <ActionDropdown
-                    Template={template}
-                    // templateId={template._id!} *
-                  /> */}
+                  <ActionDropdown id={item?._id}/>
                 </span>
                 </button>
               </div>
