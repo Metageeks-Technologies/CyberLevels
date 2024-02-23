@@ -28,6 +28,7 @@ export const getAllCoupons = async (dispatch:AppDispatch,page:number) => {
     } catch (error) {
         const e = error as AxiosError
         dispatch(couponRequestFail(e.message))
-        notifyError("Coupon formation failed.")
+        console.log(e.message);
+        // notifyError("Coupon formation failed.")
     }
 }

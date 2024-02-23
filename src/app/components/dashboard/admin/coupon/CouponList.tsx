@@ -24,9 +24,9 @@ const AdminCouponList = () => {
     dispatch(setPage(event.selected + 1));
   };
   return (
-    <section className="job-listing-three pt-160 lg-pt-80 pb-160 xl-pb-150 lg-pb-80">
+    <section className="job-listing-three lg-pt-80 pb-160 xl-pb-150 lg-pb-80">
       <div className="container">
-        <div className="col-xl-9 col-lg-8">
+        <div className="">
           <div className="job-post-item-wrapper ms-xxl-5 ms-xl-3">
             {/* <div className="col-xl-3 col-lg-4">
             <button
@@ -83,7 +83,7 @@ const AdminCouponList = () => {
                       <div className="row">
                         {coupons?.map((item: any) => (
                           // <CompanyListItem key={item._id} item={item} />
-                          <div key={item._id} className="col-sm-6 mb-30">
+                          <div key={item._id} className="col-sm-4 mb-30">
                             <CouponGridItem key={item._id} item={item} />
                           </div>
                           // <p>Hello</p>
