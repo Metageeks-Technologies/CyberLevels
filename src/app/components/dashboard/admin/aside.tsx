@@ -123,6 +123,13 @@ const nav_data: {
     link: "/dashboard/admin-dashboard/blog",
     title: "blog",
   },
+  {
+    id: 14,
+    icon: nav_5,
+    icon_active: nav_5_active,
+    link: "/dashboard/admin-dashboard/coupon",
+    title: "Coupons",
+  },
 ];
 // props type
 type IProps = {

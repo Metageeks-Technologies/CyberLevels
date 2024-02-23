@@ -41,7 +41,12 @@ const JobListThree = ({
   };
 
   useEffect(() => {
-    getJObPosts(dispatch, {...filterState,jobCode:searchParams.get("jobCode") || ""}, page, currUser ? currUser : "");
+    getJObPosts(
+      dispatch,
+      { ...filterState, jobCode: searchParams.get("jobCode") || "" },
+      page,
+      currUser ? currUser : ""
+    );
   }, [
     location,
     jobCategory,

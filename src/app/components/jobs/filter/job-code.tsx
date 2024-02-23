@@ -36,15 +36,12 @@ const SearchJobCode = () => {
   //     dispatch(setJobCode(searchParams.get("jobCode") as string));
   // },[localSearch])
   useEffect(() => {
-   
-      setLocalSearch(searchParams.get("jobCode") || "");
-      
-    
+    setLocalSearch(searchParams.get("jobCode") || "");
   }, [searchParams.get("jobCode")]);
 
   useEffect(() => {
-    router.push(`job-list-v1?jobCode=${localSearch}`)
-  },[localSearch])
+    router.push(`job-list-v1?jobCode=${localSearch}`);
+  }, [localSearch]);
   return (
     <div>
       <a
