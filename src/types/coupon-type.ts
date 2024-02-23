@@ -1,5 +1,5 @@
 export interface ICoupon {
-    id: number;
+    _id: string;
    code:string;
    expirationDate:Date | null;
    discountPercentage:number;
