@@ -203,8 +203,9 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                       // onClick={() => handleViewClick(item._id)}
                       className="title fw-500 tran3s"
                     >
-                      {item.title?.slice(0, 22)}{" "}
-                      {item.title?.length > 20 ? ".." : ""}
+                      {`${item.title?.slice(0, 20)} ${
+                      item.title?.length > 20 ? ".." : ""
+                    }(${item.jobCode})`}
                     </div>
                   </div>
                 </div>

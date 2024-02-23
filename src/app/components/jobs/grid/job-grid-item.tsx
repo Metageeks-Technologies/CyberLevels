@@ -258,6 +258,11 @@ const JobGridItem = ({
                 className="title fw-500 tran3s"
               >
                 {item.title}
+                
+              </div>
+              <div
+              className="title fw-500 tran3s">
+              {item.jobCode}
               </div>
             </div>
             <div className="job-salary">
