@@ -7,6 +7,8 @@ import { getEmploySub } from "@/redux/features/subscription/api";
 import { IEmployerSub, Price } from "@/types/template";
 import { notifyError } from "@/utils/toast";
 import { getDate } from "@/utils/helper";
+import { valetedCoupon } from "@/redux/features/subscription/slice";
+import CouponModel from "../../common/popup/coupon-model";
 declare global {
   interface Window {
     Razorpay: any;
@@ -20,6 +22,7 @@ type IProps = {
 const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
   const { currEmployer } = useAppSelector((s) => s.employer);
   const subscription = currEmployer?.subscription as IEmployerSub;
+  const { coupon } = useAppSelector((s) => s.subscription);
 
   const checkoutHandler = async (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -31,7 +34,10 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
       return;
     }
     const bodyObj = {
-      amount: price.amount,
+      amount: coupon
+        ? price?.amount -
+          Math.floor((price?.amount * coupon.discountPercentage) / 100)
+        : price?.amount,
       currency: price.currency.abbreviation,
       duration: price.duration,
       user: currEmployer?._id,
@@ -75,6 +81,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
       alert(`Payment failed: ${response.error.code}`);
     });
     razor.open();
+    dispatch(valetedCoupon(null));
   };
 
   const dispatch = useAppDispatch();
@@ -238,7 +245,11 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                           subscription._id === item._id ? (
                             <button
                               className=" tran3s w-100 mt-30 mx-auto current-plan"
-                              style={{lineHeight:'54px',fontWeight:'500',borderRadius:'30px'}}
+                              style={{
+                                lineHeight: "54px",
+                                fontWeight: "500",
+                                borderRadius: "30px",
+                              }}
                             >
                               Current Plan
                             </button>
@@ -280,6 +291,8 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
           </div>
         </div>
       )}
+
+      <CouponModel />
     </>
   );
 };

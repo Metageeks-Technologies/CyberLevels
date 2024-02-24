@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { ICandidateSub, IEmployerSub } from '@/types/template';
+import { IDiscountCoupon } from '@/types/subscription';
 
 export interface templateState {
     submitCandidateSub: IEmployerSub | null,
@@ -9,6 +10,7 @@ export interface templateState {
     candidateSub: ICandidateSub[],
     error: string | null,
     loading: boolean,
+    coupon: IDiscountCoupon | null,
 }
 
 const initialState: templateState = {
@@ -18,6 +20,7 @@ const initialState: templateState = {
     candidateSub: [],
     error: null,
     loading: false,
+    coupon: null,
 }
 
 export const subscriptionSlice = createSlice({
@@ -57,7 +60,11 @@ export const subscriptionSlice = createSlice({
             state.loading = false;
             state.error = null;
         },
-
+        valetedCoupon: (state, action: PayloadAction<IDiscountCoupon | null>) => {
+            state.coupon = action.payload;
+            state.loading = false;
+            state.error = null;
+        }
     },
 })
 
@@ -68,7 +75,8 @@ export const {
     getCandidateSubSuccess,
     getEmploySubSuccess,
     submitCandidateSubSuccess,
-    submitEmploySubSuccess
+    submitEmploySubSuccess,
+    valetedCoupon
 
 } = subscriptionSlice.actions
 

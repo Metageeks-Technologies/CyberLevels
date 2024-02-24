@@ -1,9 +1,9 @@
 import instance from "@/lib/axios";
-import { requestFail, requestStart, requestSuccess, submitCandidateSubSuccess, getEmploySubSuccess, submitEmploySubSuccess, getCandidateSubSuccess } from "./slice"
+import { requestFail, requestStart, requestSuccess, submitCandidateSubSuccess, getEmploySubSuccess, submitEmploySubSuccess, getCandidateSubSuccess, valetedCoupon } from "./slice"
 import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { IFilterState } from "../filterJobPostSlice";
-import { notifyError, notifySuccess } from "@/utils/toast";
+import { notifyError, notifyInfo, notifySuccess } from "@/utils/toast";
 
 
 export const submitCandidateSub = async (dispatch: AppDispatch, bodyObj: any) => {
@@ -101,4 +101,20 @@ export const updateEmployerSubscription = async (dispatch: AppDispatch, bodyObj:
         const e = error as AxiosError;
         dispatch(requestFail(e.message));
     }
+}
+
+export const isValidCoupon = async (dispatch: AppDispatch, id: string) => {
+    dispatch(requestStart());
+    try {
+        const { data } = await instance(`/coupon/isValid/${id}`);
+        dispatch(valetedCoupon(data.coupon));
+        return data.coupon;
+    } catch (error) {
+        const e = error as AxiosError;
+        const response = e.response as any;
+        // console.log(e);
+        notifyError(response.data.message);
+        dispatch(requestFail(response.data.message));
+    }
+
 }
