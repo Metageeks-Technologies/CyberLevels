@@ -29,6 +29,8 @@ import nav_8 from "@/assets/dashboard/images/icon/icon_8.svg";
 import LogoutModal from "../../common/popup/logout-modal";
 import { logoutAdmin } from "@/redux/features/user/api";
 import { useAppDispatch } from "@/redux/hook";
+import nav_10 from "@/assets/dashboard/images/icon/icon_41.svg";
+import nav_10_active from "@/assets/dashboard/images/icon/icon_41_active.svg";
 
 // nav data
 const nav_data: {
