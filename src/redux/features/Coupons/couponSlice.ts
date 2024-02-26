@@ -25,7 +25,7 @@ const initialState: InitialState = {
 }
 
 export const couponSlice = createSlice({
-    name: 'blogSlice',
+    name: 'couponsSlice',
     initialState,
     reducers: {
         couponRequestStart: (state) => {
