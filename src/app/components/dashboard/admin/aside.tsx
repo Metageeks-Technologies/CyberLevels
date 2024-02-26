@@ -29,6 +29,8 @@ import nav_8 from "@/assets/dashboard/images/icon/icon_8.svg";
 import LogoutModal from "../../common/popup/logout-modal";
 import { logoutAdmin } from "@/redux/features/user/api";
 import { useAppDispatch } from "@/redux/hook";
+import nav_10 from "@/assets/dashboard/images/icon/icon_41.svg";
+import nav_10_active from "@/assets/dashboard/images/icon/icon_41_active.svg";
 
 // nav data
 const nav_data: {
@@ -129,6 +131,13 @@ const nav_data: {
     icon_active: nav_5_active,
     link: "/dashboard/admin-dashboard/coupon",
     title: "Coupons",
+  },
+  {
+    id: 15,
+    icon: nav_7,
+    icon_active: nav_7_active,
+    link: "/dashboard/admin-dashboard/payment",
+    title: "Payments",
   },
 ];
 // props type
