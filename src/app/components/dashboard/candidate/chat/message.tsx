@@ -1,6 +1,8 @@
 import { time } from "console";
 import "./message.css";
 import { format } from "timeago.js";
+import { useAppSelector } from "@/redux/hook";
+import { RootState } from "@/redux/store";
 
 const StyledResponse = ({ text }: { text: string }) => {
   const textArr = text.split("\n");
@@ -23,6 +25,11 @@ export default function Message({
   own: boolean;
   time: Date;
 }) {
+  const { currEmployer } = useAppSelector((state: RootState) => state.employer);
+  const { currCandidate } = useAppSelector(
+    (state: RootState) => state.candidate.candidateDashboard
+  );
+
   return (
     <div className={own ? "message own" : "message"}>
       {own ? (
@@ -34,7 +41,7 @@ export default function Message({
           <div className="messageTop">
             <img
               className="messageImg "
-              src="https://images.pexels.com/photos/3686769/pexels-photo-3686769.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+              src={currEmployer?.avatar || currCandidate?.avatar}
               alt=""
             />
           </div>
@@ -44,7 +51,7 @@ export default function Message({
           <div className="messageTop">
             <img
               className="messageImg "
-              src="https://images.pexels.com/photos/3686769/pexels-photo-3686769.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
               alt=""
             />
           </div>

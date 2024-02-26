@@ -30,7 +30,7 @@ const EmployerListItem = ({
         } ${style_2 ? "border-0" : ""} list-layout mb-25 `}
       >
         <div className="d-flex align-items-center">
-          <div className="cadidate-avatar online position-relative d-flex me-auto ms-auto" style={{paddingTop:"7px"}}>
+          <div className="cadidate-avatar position-relative d-flex me-auto ms-auto" style={{paddingTop:"7px"}}>
             <Link href="/candidate-profile-v2" className="rounded-circle">
               <Image
                 src={item?.avatar || job_img_1}

@@ -71,7 +71,7 @@ const EditCouponArea = () => {
             ></button>
             <div>
               <div className="bg-white card-box border-20">
-              <h2 className="main-title text-center">Create Coupon</h2>
+              <h2 className="main-title text-center">Edit Coupon</h2>
                 {/* <h4 className="dash-title-three">Job Details</h4> */}
                 <div className="dash-input-wrapper mb-30">
                   <label htmlFor="">Coupon Code*</label>
