@@ -12,7 +12,7 @@ const {candidateName} = useAppSelector((state) => state.userFilter);
 //   const [text,setText] = useState("");
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
   
-      dispatch(setCandidateName(e.target.value));
+      dispatch(setCandidateName(e.target.value || ""));
   
   };
   return (
