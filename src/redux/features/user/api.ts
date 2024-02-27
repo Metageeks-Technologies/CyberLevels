@@ -36,6 +36,25 @@ export const loginWithGoogle = async (dispatch: AppDispatch, bodyObj: any) => {
     }
 }
 
+export const employerLoginWithPass = async (dispatch: AppDispatch, bodyObj: any) => {
+
+    dispatch(getUserStart());
+    try {
+        const { data } = await instance.post(
+            "/employer/auth/login",
+            bodyObj,
+        );
+        dispatch(getUserSuccess({ user: data.user._id, userRole: data.user.role, avatar: data.user.avatar, name: data.user.name }));
+        dispatch(getEmployerSuccess(data.user))
+        return true;
+    } catch (error) {
+        const e = error as AxiosError;
+        dispatch(getUserFail(e.message));
+        // console.log(error);
+        return false
+    }
+}
+
 export const loginWithLn = async (dispatch: AppDispatch, bodyObj: any) => {
 
     const formData = new URLSearchParams(bodyObj).toString();

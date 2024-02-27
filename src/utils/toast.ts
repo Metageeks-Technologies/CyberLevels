@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 
 const notifySuccess = (message: string) =>
   toast.success(message, {
-    position: 'bottom-left',
+    position: 'top-center',
     autoClose: 1200,
     hideProgressBar: false,
     closeOnClick: true,
@@ -13,7 +13,7 @@ const notifySuccess = (message: string) =>
 
 const notifyError = (message: string) =>
   toast.error(message, {
-    position: 'bottom-left',
+    position: 'top-center',
     autoClose: 1200,
     hideProgressBar: false,
     closeOnClick: true,
@@ -23,7 +23,7 @@ const notifyError = (message: string) =>
   });
 const notifyWarn = (message: string) =>
   toast.warn(message, {
-    position: 'bottom-left',
+    position: 'top-center',
     autoClose: 1200,
     hideProgressBar: false,
     closeOnClick: true,
@@ -33,7 +33,7 @@ const notifyWarn = (message: string) =>
   });
 const notifyInfo = (message: string) =>
   toast.info(message, {
-    position: 'bottom-left',
+    position: 'top-center',
     autoClose: 1200,
     hideProgressBar: false,
     closeOnClick: true,

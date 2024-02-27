@@ -6,6 +6,7 @@ import ErrorMsg from "@/app/components/common/error-msg";
 import icon from "@/assets/images/icon/icon_60.svg";
 import { useDispatch } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { createEmployer } from "@/redux/features/admin/api";
 
 type IFormData = {
   fullName: string;
@@ -33,13 +34,14 @@ const CreateEmployerModal = () => {
     reset,
   } = useForm<IFormData>({ resolver: yupResolver(schema) });
   // on submit
-  const onSubmit = (data: IFormData) => {
-    if (data) {
-      alert("Login successfully!");
-    }
-
+  const onSubmit = async (data: IFormData) => {
+    const bodyObj = {
+      name: data.fullName,
+      ...data,
+    };
+    await createEmployer(dispatch, bodyObj);
     console.log(data);
-    // reset();
+    reset();
   };
 
   return (
@@ -128,6 +130,8 @@ const CreateEmployerModal = () => {
                   <div className="col-12">
                     <button
                       type="submit"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
                       className="btn-eleven fw-500 tran3s d-block mt-20"
                     >
                       Create

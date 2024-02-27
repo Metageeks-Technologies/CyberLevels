@@ -25,6 +25,7 @@ import { AppDispatch } from "@/redux/store";
 import { setUploadProgress } from "../globalSlice";
 import { updateLogo } from "../companySlice";
 import { IFilterState } from "../user/filterSlice/userFilterSlice";
+import { notifyError, notifyInfo } from "@/utils/toast";
 
 export const getCurrAdmin = async (dispatch: AppDispatch, id: string) => {
   dispatch(requestStart());
@@ -37,12 +38,12 @@ export const getCurrAdmin = async (dispatch: AppDispatch, id: string) => {
   }
 };
 
-export const getAllCandidate = async (dispatch: AppDispatch, bodyObj: any,filter:IFilterState) => {
-  const {type,candidateName} = filter;
+export const getAllCandidate = async (dispatch: AppDispatch, bodyObj: any, filter: IFilterState) => {
+  const { type, candidateName } = filter;
   dispatch(requestStart());
   try {
     const { data } = await instance.get(`/admin/candidate`, {
-      params: {...bodyObj,name:candidateName,type},
+      params: { ...bodyObj, name: candidateName, type },
     });
     dispatch(
       getCandidateSuccess({
@@ -57,9 +58,9 @@ export const getAllCandidate = async (dispatch: AppDispatch, bodyObj: any,filter
   }
 };
 
-export const deleteCandidateByAdmin = async (dispatch:AppDispatch,id:string,bodyObj:any) => {
+export const deleteCandidateByAdmin = async (dispatch: AppDispatch, id: string, bodyObj: any) => {
   try {
-    const data = await instance.patch(`/candidate/deleteByAdmin/${id}`,bodyObj);
+    const data = await instance.patch(`/candidate/deleteByAdmin/${id}`, bodyObj);
 
   } catch (error) {
     const e = error as AxiosError;
@@ -67,21 +68,38 @@ export const deleteCandidateByAdmin = async (dispatch:AppDispatch,id:string,body
   }
 }
 
-export const deletedEmployerByAdmin = async (dispatch:AppDispatch,id:string,bodyObj:any) => {
+export const deletedEmployerByAdmin = async (dispatch: AppDispatch, id: string, bodyObj: any) => {
   try {
-    const data = await instance.patch(`employer/updateEmployerByAdmin/${id}`,bodyObj);
-    
+    const data = await instance.patch(`employer/updateEmployerByAdmin/${id}`, bodyObj);
+
   } catch (error) {
     const e = error as AxiosError;
     dispatch(requestFail(e.message));
   }
 }
 
-export const getAllEmployer = async (dispatch: AppDispatch, bodyObj: any,filter:IFilterState) => {
-  const {type,candidateName} = filter;
+export const createEmployer = async (dispatch: AppDispatch, bodyObj: any) => {
+
+  try {
+
+    const data = await instance.post(`employer/auth/signup`, bodyObj);
+    notifyInfo("Employer created successfully");
+
+
+  } catch (error) {
+    const e = error as AxiosError;
+    console.log(e);
+    notifyError("something went wrong, please try again");
+    dispatch(requestFail(e.message));
+  }
+}
+
+
+export const getAllEmployer = async (dispatch: AppDispatch, bodyObj: any, filter: IFilterState) => {
+  const { type, candidateName } = filter;
   dispatch(requestStart());
   try {
-    const { data } = await instance.get("/admin/employer", { params: {...bodyObj,type,name:candidateName} });
+    const { data } = await instance.get("/admin/employer", { params: { ...bodyObj, type, name: candidateName } });
     dispatch(
       getEmployerSuccess({
         employerFA: data.result,

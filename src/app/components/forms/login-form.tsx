@@ -6,6 +6,9 @@ import { Resolver, useForm } from "react-hook-form";
 import ErrorMsg from "../common/error-msg";
 import icon from "@/assets/images/icon/icon_60.svg";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { employerLoginWithPass } from "@/redux/features/user/api";
+import { useAppDispatch } from "@/redux/hook";
+import { notifyError, notifySuccess } from "@/utils/toast";
 
 // form data type
 type IFormData = {
@@ -41,6 +44,7 @@ const resolver: Resolver<IFormData> = async (values) => {
 const LoginForm = () => {
   const [showPass, setShowPass] = useState<boolean>(false);
   // react hook form
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
@@ -48,9 +52,13 @@ const LoginForm = () => {
     reset,
   } = useForm<IFormData>({ resolver: yupResolver(schema) });
   // on submit
-  const onSubmit = (data: IFormData) => {
-    if (data) {
-      alert("Login successfully!");
+  const onSubmit = async (data: IFormData) => {
+    try {
+      await employerLoginWithPass(dispatch, data);
+      notifySuccess("Login successful");
+    } catch (error) {
+      notifyError("Login failed, try again.");
+      console.log(error);
     }
     reset();
   };
@@ -107,6 +115,8 @@ const LoginForm = () => {
         <div className="col-12">
           <button
             type="submit"
+            data-bs-dismiss="modal"
+            aria-label="Close"
             className="btn-eleven fw-500 tran3s d-block mt-20"
           >
             Login
