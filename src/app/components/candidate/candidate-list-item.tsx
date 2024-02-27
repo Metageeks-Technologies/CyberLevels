@@ -45,7 +45,7 @@ const CandidateListItem = ({
         } list-layout mb-25`}
       >
         <div className="d-flex">
-          <div className="cadidate-avatar online position-relative d-block me-auto ms-auto">
+          <div className="cadidate-avatar position-relative d-block me-auto ms-auto">
             {/* <Link href="/candidate-profile-v2" className="rounded-circle"> */}
               <Image
                 src={item?.avatar}

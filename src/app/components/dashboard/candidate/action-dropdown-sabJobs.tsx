@@ -65,7 +65,7 @@ const ActionDropdown = ({ id }: { id: string }) => {
           type="button"
           onClick={handleTerminateClick}
         >
-          <Image src={edit} alt="icon" className="lazy-img" /> Terminate
+          <Image src={edit} alt="icon" className="lazy-img" /> Expire
         </button>
       </li>
     </ul>

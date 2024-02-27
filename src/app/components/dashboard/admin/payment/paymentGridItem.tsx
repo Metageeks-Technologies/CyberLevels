@@ -11,13 +11,13 @@ const PaymentGridItem = ({
   item: any;
   style_2?: boolean;
 }) => {
-//   const date1 = new Date(item.expirationDate ?? new Date());
-//   const options2: Intl.DateTimeFormatOptions = {
-//     day: "numeric",
-//     month: "short",
-//     year: "numeric",
-//   };
-//   const readableStrings = date1.toLocaleDateString(undefined, options2);
+  const date1 = new Date(item.createdAt ?? new Date());
+  const options2: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  };
+  const readableStrings = date1.toLocaleDateString(undefined, options2);
 
   return (
     <>
@@ -39,36 +39,53 @@ const PaymentGridItem = ({
               </span>
             </button>
           </div> */}
+          <div className=" text-center mb-3"
+          style={{fontSize:'large', color:'#31795A', fontWeight:'900'}}>
+            {item.productModel}
+          </div>
+          <div className="d-flex align-items-center  mt-auto mb-3">
+          Customer Name:
+            <div
+              className="job-location d-flex ms-1 text-decoration-underline "
+              style={{  fontWeight: "500" }}
+            >
+              {/* <div onClick={() => handleViewClick(item._id)}> */}
+               {item?.user?.firstName} {item?.user?.lastName}
+            </div>
+          </div>
+          <div className="d-flex">
+          Order Id: 
           <div
             // onClick={() => handleViewClick(item._id)}
-            className=" fw-500 tran3s"
-          >
-            {`${item.razorpayOrderId?.slice(0, 20)} ${item.razorpayOrderId?.length > 20 ? ".." : ""}`}
+            className=" fw-500 tran3s mb-3 ms-1"
+            >
+            {item.razorpayOrderId}
           </div>
-          <div className="mb-3 d-flex" style={{ height: "80px" }}>
-            <span className="fw-500 text-dark">
-              {item.amount}
+            </div>
+            <div className="d-flex ">
+          Payment Id:
+          <div
+            // onClick={() => handleViewClick(item._id)}
+            className=" fw-500 tran3s mb-3 ms-1"
+          >
+             {item.razorpayPaymentId}
+          </div>
+          </div>
+          <div className="mb-3 d-flex">
+          Purchase Amount:
+            <span className=" fw-500 text-dark ms-1">
+              {item.amount} {item.currency} {item.duration}
               {/* {`${item?.description?.slice(0, 20)} ${item?.description?.length > 20 ? ".." : ""}`} */}
             </span>
           </div>
-          <div className="d-flex align-items-center justify-content-center mt-auto">
-            <div
-              className="job-location d-flex justify-content-center"
-              style={{ fontSize: "x-large", color: "red", fontWeight: "600" }}
+                   
+          <div  className="d-flex align-items-center  mt-3">
+            Purchased On:
+            <div  className=" tran3s  fw-500 p-2 ms-1 text-decoration-underline  "
+            // style={{ background:'#31795A', color:'#fff', borderRadius:'15px'}}
             >
-              {/* <div onClick={() => handleViewClick(item._id)}> */}
-              {item?.user?.firstName}
+             {readableStrings}
             </div>
-          </div>
-
-          <div
-            // href={`/job-details-v1/${item._id}`}
-            // href={"/dashboard/candidate-dashboard/membership"}
-            className="apply-btn text-center tran3s mt-3"
-            style={{ width: "100%" }}
-            // onClick={() => handleViewClick(item._id)}
-          >
-            {item.currency}
           </div>
         </div>
       </div>

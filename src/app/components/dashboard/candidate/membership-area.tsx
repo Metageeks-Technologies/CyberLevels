@@ -7,6 +7,8 @@ import { getCandidateSub } from "@/redux/features/subscription/api";
 import { ICandidateSub, Price } from "@/types/template";
 import { notifyError } from "@/utils/toast";
 import { getDate } from "@/utils/helper";
+import { valetedCoupon } from "@/redux/features/subscription/slice";
+import CouponModel from "../../common/popup/coupon-model";
 declare global {
   interface Window {
     Razorpay: any;
@@ -23,6 +25,8 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
   );
   const subscription = currCandidate?.subscription;
 
+  const { coupon } = useAppSelector((s) => s.subscription);
+
   const checkoutHandler = async (
     event: React.MouseEvent<HTMLButtonElement>,
     sub: ICandidateSub,
@@ -33,7 +37,10 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
       return;
     }
     const bodyObj = {
-      amount: price?.amount,
+      amount: coupon
+        ? price?.amount -
+          Math.floor((price?.amount * coupon.discountPercentage) / 100)
+        : price?.amount,
       currency: price?.currency.abbreviation,
       duration: price?.duration,
       user: currCandidate?._id,
@@ -41,6 +48,8 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
       product: sub._id,
       productModel: "CandidateSub",
     };
+
+    console.log("bodyObj", bodyObj);
 
     const {
       data: { keyId },
@@ -77,6 +86,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
       alert(`Payment failed: ${response.error.code}`);
     });
     razor.open();
+    dispatch(valetedCoupon(null));
   };
 
   const dispatch = useAppDispatch();
@@ -244,7 +254,12 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                           subscription._id === item._id ? (
                             <button
                               className=" tran3s w-100 mt-30 mx-auto current-plan"
-                              style={{lineHeight:'54px',fontWeight:'500',borderRadius:'30px',cursor:'initial'}}
+                              style={{
+                                lineHeight: "54px",
+                                fontWeight: "500",
+                                borderRadius: "30px",
+                                cursor: "initial",
+                              }}
                             >
                               Current Plan
                             </button>
@@ -262,21 +277,38 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                               Choose Plan
                             </button>
                           )}
-                          {/* <button
-                            onClick={(e) =>
-                              checkoutHandler(
-                                e,
-                                item,
-                                item.price[isYearly ? 1 : 0]
-                              )
-                            }
-                            className="get-plan-btn tran3s w-100 mt-30 mx-auto "
-                          >
-                            {subscription.hasOwnProperty("_id") &&
-                            subscription._id === item._id
-                              ? "Current Plan"
-                              : "Choose Plan"}
-                          </button> */}
+                          {item.subscriptionType !== "foundational" &&
+                          subscription.hasOwnProperty("_id") &&
+                          subscription._id !== item._id ? (
+                            <>
+                              {!coupon && (
+                                <button
+                                  style={{
+                                    color: "#005025",
+                                    textDecoration: "underline",
+                                    textUnderlineOffset: "0.1em",
+                                  }}
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#couponModal"
+                                  type="button"
+                                  className="mt-3 mx-auto"
+                                >
+                                  apply coupon
+                                </button>
+                              )}
+                              {coupon && (
+                                <>
+                                  <p className="text-center fw-8 ">
+                                    {coupon.code || ""} is Applied
+                                  </p>
+                                  <p>
+                                    {coupon.discountPercentage}% discount on
+                                    currant plan
+                                  </p>
+                                </>
+                              )}
+                            </>
+                          ) : null}
                         </div>
                       </div>
                     ))
@@ -286,6 +318,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
           </div>
         </div>
       )}
+      <CouponModel />
     </>
   );
 };

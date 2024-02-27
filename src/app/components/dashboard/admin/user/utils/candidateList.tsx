@@ -45,7 +45,7 @@ const CandidateListItem = ({
         } ${style_2 ? "border-0" : ""} list-layout mb-25 `}
       >
         <div className="d-flex align-items-center">
-          <div className="cadidate-avatar online position-relative d-flex me-auto ms-auto" style={{paddingTop:"7px"}}>
+          <div className="cadidate-avatar position-relative d-flex me-auto ms-auto" style={{paddingTop:"7px"}}>
             <Link 
               target="_blank"
               href={`/candidate-profile-v1/${item._id}`} 
@@ -90,8 +90,8 @@ const CandidateListItem = ({
                 </div>
               </div>
               <div className="col-xl-3 col-md-4 col-sm-6">
-                <div className="candidate-info">
-                <span>{item.gender}</span>
+                <div className="candidate-info d-flex justify-content-center">
+                
                   <div>{item.phoneNumber}</div>
                   {/* <div>
                     {item.location.city},{item.location.country}
