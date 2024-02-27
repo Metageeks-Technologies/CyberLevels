@@ -9,6 +9,7 @@ export interface IFilterState {
   status:string;
   matchPercent: string;
   type:string;
+  date:Date|null;
 //   jobCode: string;
 }
 
@@ -19,6 +20,7 @@ const initialState: IFilterState = {
     status:"",
     matchPercent: "",
     type:"",
+    date:null,
 };
 
 export const userFilterSlice = createSlice({
@@ -32,16 +34,19 @@ export const userFilterSlice = createSlice({
     setType : (state,action:PayloadAction<string>) =>{
         state.type = action.payload;
     },
-    
+    setDate:(state,action:PayloadAction<Date>) =>{
+      state.date = action.payload;
+    },
 
     resetFilter: (state) => {
         state.candidateName= "";
         state.type="";
+        state.date=null;
     },
   },
 });
 
-export const { resetFilter,  setCandidateName,setType} =
+export const { resetFilter,  setCandidateName,setType,setDate} =
 userFilterSlice.actions;
 
 export default userFilterSlice.reducer;

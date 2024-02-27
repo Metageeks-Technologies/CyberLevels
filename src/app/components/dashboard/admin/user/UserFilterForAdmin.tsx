@@ -5,6 +5,7 @@ import { useAppDispatch } from "@/redux/hook";
 import SearchCandidateNameFilter from "./filterUser/SearchCandidateNameFilter";
 import { resetFilter } from "@/redux/features/user/filterSlice/userFilterSlice";
 import FilterType from "./filterUser/FilterTypeArea";
+import SearchDate from "./filterUser/createdAtFilter";
 
 
 // prop type
@@ -51,7 +52,7 @@ const UserFilterForAdmin = () => {
                     <FilterType />
                   </div>
                   <div className="col-lg-3 col-sm-6">
-                    {/* <MatchPercentFilter /> */}
+                    <SearchDate />
                   </div>
                   <div className="col-lg-3 col-sm-6">
                     {/* <JobAppFilterStatus /> */}
