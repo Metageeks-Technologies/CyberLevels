@@ -39,11 +39,12 @@ export const getCurrAdmin = async (dispatch: AppDispatch, id: string) => {
 };
 
 export const getAllCandidate = async (dispatch: AppDispatch, bodyObj: any, filter: IFilterState) => {
-  const { type, candidateName } = filter;
+  const { type, candidateName, date } = filter;
+  const d = date?.toString();
   dispatch(requestStart());
   try {
     const { data } = await instance.get(`/admin/candidate`, {
-      params: { ...bodyObj, name: candidateName, type },
+      params: { ...bodyObj, name: candidateName, type, date: d },
     });
     dispatch(
       getCandidateSuccess({
@@ -96,10 +97,11 @@ export const createEmployer = async (dispatch: AppDispatch, bodyObj: any) => {
 
 
 export const getAllEmployer = async (dispatch: AppDispatch, bodyObj: any, filter: IFilterState) => {
-  const { type, candidateName } = filter;
+  const { type, candidateName, date } = filter;
+  const d = date?.toString();
   dispatch(requestStart());
   try {
-    const { data } = await instance.get("/admin/employer", { params: { ...bodyObj, type, name: candidateName } });
+    const { data } = await instance.get("/admin/employer", { params: { ...bodyObj, type, name: candidateName, date: d } });
     dispatch(
       getEmployerSuccess({
         employerFA: data.result,

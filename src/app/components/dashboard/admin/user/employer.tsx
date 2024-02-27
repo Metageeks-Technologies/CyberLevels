@@ -12,10 +12,10 @@ const EmployerList = () => {
     useAppSelector((state) => state.admin);
   const dispatch = useAppDispatch();
   const filter = useAppSelector((state) => state.userFilter);
-  const { candidateName, type } = filter;
+  const { candidateName, type, date } = filter;
   useEffect(() => {
-    getAllEmployer(dispatch, { page: pageFE, limit: 8 },filter);
-  }, [pageFE,candidateName, type]);
+    getAllEmployer(dispatch, { page: pageFE, limit: 8 }, filter);
+  }, [pageFE, candidateName, type,date]);
   const itemsPerPage = 8;
 
   const handlePageClick = (event: { selected: number }) => {
@@ -47,7 +47,8 @@ const EmployerList = () => {
               <div className="">
                 <div className="upper-filter d-flex justify-content-between align-items-center mb-20">
                   <div className="total-job-found">
-                    All <span className="text-dark fw-500">{totalEmployer}</span>{" "}
+                    All{" "}
+                    <span className="text-dark fw-500">{totalEmployer}</span>{" "}
                     employers found
                   </div>
                 </div>
