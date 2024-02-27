@@ -23,13 +23,14 @@ const AdminPaymentList = () => {
   ); 
   const { currUser } = useAppSelector((state) => state.persistedReducer.user); 
   useEffect(() => {
-    getAllPayments(dispatch, page,productModel);
+    getAllPayments(dispatch, page ,productModel);
   }, [page, currUser,productModel]);
   const handlePageClick = (event: { selected: number }) => {
     dispatch(setPage(event.selected + 1));
   };
   const [isCandidate, setIsCandidate] = useState(true);
   const handleToggle = (title:string) => {
+    dispatch(setPage(1));
     dispatch(setProductModel(title));
     setIsCandidate((prev) =>!prev);
   };
