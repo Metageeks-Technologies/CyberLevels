@@ -2,7 +2,7 @@
 import PaymentGridItem from "@/app/components/dashboard/admin/payment/paymentGridItem";
 import SearchItems from "@/app/components/search-area/search-items";
 import { getAllCoupons } from "@/redux/features/Coupons/api";
-import { setPage } from "@/redux/features/payments/Slice";
+import {  setPage, setProductModel } from "@/redux/features/payments/Slice";
 // import { setPage } from "@/redux/features/Coupons/couponSlice";
 import { getAllPayments } from "@/redux/features/payments/api";
 // import { getAllBlog } from '@/redux/features/admin/api';
@@ -18,19 +18,20 @@ import React, { useEffect, useState } from "react";
 
 const AdminPaymentList = () => {
   const dispatch = useAppDispatch();
-  const { payments, page, loading, totalPages, totalPayments } = useAppSelector(
+  const { payments, page, loading, totalPages, totalPayments, productModel } = useAppSelector(
     (state) => state.payment
   ); 
   const { currUser } = useAppSelector((state) => state.persistedReducer.user); 
   useEffect(() => {
-    getAllPayments(dispatch, page);
-  }, [page, currUser]);
+    getAllPayments(dispatch, page,productModel);
+  }, [page, currUser,productModel]);
   const handlePageClick = (event: { selected: number }) => {
     dispatch(setPage(event.selected + 1));
   };
   const [isCandidate, setIsCandidate] = useState(true);
-  const handleToggle = () => {
-    setIsCandidate((prev) => !prev);
+  const handleToggle = (title:string) => {
+    dispatch(setProductModel(title));
+    setIsCandidate((prev) =>!prev);
   };
 //   console.log(payments)
   return (
@@ -38,13 +39,13 @@ const AdminPaymentList = () => {
     <div className="d-flex align-items-center justify-content-between mb-40 lg-mb-30">
           <div className="subscription-tab align-content-center py-2  d-flex gap-3 px-2">
             <p
-              onClick={handleToggle}
+              onClick={() => handleToggle("CandidateSub")}
               className={`p-1 px-2 ${isCandidate && "active"}`}
             >
               Candidate
             </p>
             <p
-              onClick={handleToggle}
+              onClick={() => handleToggle("EmployerSub")}
               className={`p-1 px-2 ${!isCandidate && "active"}`}
             >
               Employer
