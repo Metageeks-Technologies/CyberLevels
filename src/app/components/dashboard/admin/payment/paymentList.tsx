@@ -30,6 +30,7 @@ const AdminPaymentList = () => {
   };
   const [isCandidate, setIsCandidate] = useState(true);
   const handleToggle = (title:string) => {
+    dispatch(setPage(1));
     dispatch(setProductModel(title));
     setIsCandidate((prev) =>!prev);
   };

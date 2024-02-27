@@ -112,10 +112,10 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
 
         <h2 className="main-title">Dashboard</h2>
         <div className="row">
-          <CardItem img={icon_1} title="Total Candidates" value={totalCandidate.toString()} />
-          <CardItem img={icon_2} title="Total Employers" value={totalEmployer.toString()} />
-          <CardItem img={icon_3} title="JobPosts" value={totalJobPost?.toString()} />
-          <CardItem img={icon_4} title="Total Companies" value={totalCompany.toString()} />
+          <CardItem img={icon_1} title="Candidates" value={totalCandidate.toString()} />
+          <CardItem img={icon_2} title="Employers" value={totalEmployer.toString()} />
+          <CardItem img={icon_3} title="Job Posts" value={totalJobPost?.toString()} />
+          <CardItem img={icon_4} title="Companies" value={totalCompany.toString()} />
         </div>
 
         <div className="row d-flex pt-0 lg-pt-10">
