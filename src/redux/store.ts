@@ -25,6 +25,7 @@ import employerJobPostFilterSlice from './features/employer/employerJobPostFilte
 import candidateFilterByJobPostSlice from './features/jobApp/filter-candidates-by-jobapp/candidateFilterByJobPostSlice';
 import couponSlice from './features/Coupons/couponSlice';
 import paymentSlice  from './features/payments/Slice';
+import userFilterSlice from './features/user/filterSlice/userFilterSlice';
 
 const rootReducer = combineReducers({
   user: userSlice
@@ -74,6 +75,7 @@ export const store = configureStore({
     employerCandidateByJobAppFilter:candidateFilterByJobPostSlice,
     coupon: couponSlice,
     payment:paymentSlice,
+    userFilter:userFilterSlice,
   },
 
 })

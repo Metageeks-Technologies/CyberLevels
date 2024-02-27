@@ -15,10 +15,13 @@ const CandidateList = () => {
   const { candidatesFA, pageFC, totalCandidate, totalNumOfPageFC, loading } =
     useAppSelector((state) => state.admin);
   const dispatch = useAppDispatch();
-
+  const filter = useAppSelector((state) => state.userFilter);
+  const { candidateName, type } = filter;
   useEffect(() => {
-    getAllCandidate(dispatch, { page: pageFC, limit: 8 });
-  }, [pageFC]);
+    setTimeout(() => {
+      getAllCandidate(dispatch, { page: pageFC, limit: 8 },filter);
+    }, 1000);
+  }, [pageFC, candidateName, type]);
   const itemsPerPage = 8;
 
   const handlePageClick = (event: { selected: number }) => {
@@ -50,7 +53,8 @@ const CandidateList = () => {
               <div className="">
                 <div className="upper-filter d-flex justify-content-between align-items-center mb-20">
                   <div className="total-job-found">
-                    All <span className="text-dark fw-500">{totalCandidate}</span>{" "}
+                    All{" "}
+                    <span className="text-dark fw-500">{totalCandidate}</span>{" "}
                     candidates found
                   </div>
                   {/* <div className="d-flex align-items-center">

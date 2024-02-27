@@ -11,10 +11,11 @@ const EmployerList = () => {
   const { employerFA, totalEmployer, pageFE, totalNumOfPageFE, loading } =
     useAppSelector((state) => state.admin);
   const dispatch = useAppDispatch();
-
+  const filter = useAppSelector((state) => state.userFilter);
+  const { candidateName, type } = filter;
   useEffect(() => {
-    getAllEmployer(dispatch, { page: pageFE, limit: 8 });
-  }, [pageFE]);
+    getAllEmployer(dispatch, { page: pageFE, limit: 8 },filter);
+  }, [pageFE,candidateName, type]);
   const itemsPerPage = 8;
 
   const handlePageClick = (event: { selected: number }) => {
