@@ -20,6 +20,7 @@ import job_img_1 from "@/assets/images/logo/media_22.png";
 import Link from "next/link";
 import AdminAreaChart from "@/ui/AdminAreaChart";
 import { getItemsByJoiningDate } from "@/redux/features/candidate/api";
+import { getAllCandidate, getAllCompany, getAllEmployer } from "@/redux/features/admin/api";
 // import AdminDashboardChart from "@/utils/AdminDashboardChart";
 
 // props type
@@ -31,6 +32,7 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
   // const job_items = [...job_data.reverse().slice(0, 6)];
   const dispatch = useAppDispatch();
   const { allJobPostAdmin, page } = useAppSelector((state) => state.jobPost);
+  const {totalCandidate,pageFC,pageFE,totalEmployer,pageFCom, totalCompany}=useAppSelector((state)=>state.admin);
   const [selectedUserType, setSelectedUserType] = useState<string>("candidate");
   const [viewsDataDay, setViewsDataDay] = useState<[number] | any>();
   const [viewsDataMonth, setViewsDataMonth] = useState<[number] | any>();
@@ -43,8 +45,18 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
   };
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
   useEffect(() => {
-    getAllJobPosts(dispatch, 1, filterObj,currUser!);
+    getAllJobPosts(dispatch, 1, filterObj,"");
   }, []);
+  useEffect(() => {
+    getAllCandidate(dispatch, { page: pageFC, limit: 8 });
+  }, [pageFC]);
+  useEffect(() => {
+    getAllEmployer(dispatch, { page: pageFE, limit: 8 });
+  }, [pageFE]);
+  useEffect(() => {
+    getAllCompany(dispatch, { page: pageFCom, limit: 8 });     
+    },[pageFCom]);
+  
   useEffect(() => {
     const fetchData = async () => {
       const dayViews = await getItemsByJoiningDate(
@@ -87,12 +99,12 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
         {/* header end */}
 
         <h2 className="main-title">Dashboard</h2>
-        {/* <div className="row">
-          <CardItem img={icon_1} title="Total Visitor" value="1.7k+" />
-          <CardItem img={icon_2} title="Shortlisted" value="03" />
-          <CardItem img={icon_3} title="Views" value="2.1k" />
-          <CardItem img={icon_4} title="Applied Job" value="07" />
-        </div> */}
+        <div className="row">
+          <CardItem img={icon_1} title="Total Candidates" value={totalCandidate.toString()} />
+          <CardItem img={icon_2} title="Total Employers" value={totalEmployer.toString()} />
+          <CardItem img={icon_3} title="JobPosts" value={allJobPostAdmin.length?.toString()} />
+          <CardItem img={icon_4} title="Total Companies" value={totalCompany.toString()} />
+        </div>
 
         <div className="row d-flex pt-0 lg-pt-10">
           <div className="col-xl-7 col-lg-6 d-flex flex-column">
