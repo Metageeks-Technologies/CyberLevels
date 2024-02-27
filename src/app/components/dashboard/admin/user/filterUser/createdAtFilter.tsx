@@ -20,10 +20,10 @@ const SearchDate = () => {
   return (
     <div className="filter-block pb-50 lg-pb-20">
       <div className="filter-title fw-500 text-dark">Date</div>
-      <form className="input-box position-relative" style={{height:"45px"}} >
+      <form className=" position-relative" style={{height:"45px"}} >
         <DatePicker
-          className="h-full block"
-          
+          className="w-full block d-flex h-45 date"
+        
           placeholderText="DD/MM/YYYY"
           name="deadlineDate"
           selected={new Date(date!) || ""}
