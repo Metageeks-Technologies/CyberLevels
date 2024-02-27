@@ -79,7 +79,9 @@ const EmployerListItem = ({
               </div>
               <div className="col-xl-2 col-md-4">
                 <div className="d-flex justify-content-lg-end">
+                <Link href={`/company-details/${item?.company?.companyId}`}>
                   {item.company?.name}
+                  </Link>
                 </div>
               </div>
               <div className="col-xl">

@@ -91,7 +91,7 @@ const CompanyList = () => {
             
           </div> */}
 
-          <div className=" w-100 ">
+          <div className=" w-100 mt-3 ">
             {!loading ? (
               <div className="">
                 <div className="upper-filter d-flex justify-content-between align-items-center mb-20">
