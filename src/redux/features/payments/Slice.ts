@@ -7,6 +7,7 @@ export interface InitialState {
   totalPayments:number;
   totalPages:number;
   page: number;
+  productModel:string;
 }
 
 const initialState: InitialState = {
@@ -16,6 +17,7 @@ const initialState: InitialState = {
   page: 1,
   totalPayments:0,
   totalPages:0,
+  productModel:"CandidateSub"
 };
 
 export const paymentSlice = createSlice({
@@ -40,6 +42,10 @@ export const paymentSlice = createSlice({
       state.loading = false;
       state.page = action.payload;
     },
+    setProductModel:(state,action:PayloadAction<string>) => {
+      state.loading = false;
+      state.productModel = action.payload;
+    },
   },
 });
 
@@ -48,6 +54,7 @@ export const {
   paymentRequestFail,
   getAllPaymentSuccess,
   setPage,
+  setProductModel
 } = paymentSlice.actions;
 
 export default paymentSlice.reducer;

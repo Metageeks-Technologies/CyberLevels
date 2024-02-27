@@ -31,7 +31,7 @@ const EmployerListItem = ({
       >
         <div className="d-flex align-items-center">
           <div className="cadidate-avatar position-relative d-flex me-auto ms-auto" style={{paddingTop:"7px"}}>
-            <Link href="/candidate-profile-v2" className="rounded-circle">
+            {/* <Link href="/candidate-profile-v2" className="rounded-circle"> */}
               <Image
                 src={item?.avatar || job_img_1}
                 width={60}
@@ -39,16 +39,16 @@ const EmployerListItem = ({
                 alt="image"
                 className="lazy-img rounded-circle"
               />
-            </Link>
+            {/* </Link> */}
           </div>
           <div className="right-side justify-content-center ">
             <div className="row gx-1 align-items-center justify-content-center ">
               <div className="col-xl-3">
                 <div className="position-relative">
                   <h4 className="candidate-name mb-0">
-                    <Link href="/candidate-profile-v2" className="tran3s">
+                    {/* <Link href="/candidate-profile-v2" className="tran3s"> */}
                       {item.firstName + " " + item.lastName}
-                    </Link>
+                    {/* </Link> */}
                   </h4>
                   {/* <div className="candidate-post">{item.title}</div> */}
                   {/* <ul className="cadidate-skills style-none d-flex align-items-center">
