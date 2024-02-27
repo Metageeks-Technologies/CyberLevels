@@ -6,6 +6,7 @@ import DashboardHeader from "../candidate/dashboard-header";
 import CandidateList from "./user/candidates";
 import EmployerList from "./user/employer";
 import CreateEmployerModal from "./user/utils/addemployerpopup";
+import UserFilterForAdmin from "./user/UserFilterForAdmin";
 
 // props type
 type IProps = {
@@ -50,8 +51,18 @@ const UserList = ({ setIsOpenSidebar }: IProps) => {
               Create employer
             </button>
           </div>
-            <div className="text-dark fw-500 me-2">Short by:</div>
-            <ShortSelect />
+            {/* <div className="text-dark fw-500 me-2">Short by:</div> */}
+            {/* <ShortSelect /> */}
+            {/* filter */}
+            <button
+              type="button"
+              className="filter-btn fw-500 tran3s me-3"
+              data-bs-toggle="modal"
+              data-bs-target="#adminUserFilter"
+            >
+              <i className="bi bi-funnel"></i>
+              Filter
+            </button>
             </div>
         </div>
 
@@ -60,6 +71,7 @@ const UserList = ({ setIsOpenSidebar }: IProps) => {
         </div>
       </div>
       <CreateEmployerModal />
+      <UserFilterForAdmin />
     </div>
   );
 };
