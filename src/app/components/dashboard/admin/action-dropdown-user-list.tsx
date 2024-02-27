@@ -14,6 +14,7 @@ const ActionDropdown = ({ id,role }: { id: string,role:string }) => {
   const dispatch = useAppDispatch();
   const {pageFC} =
     useAppSelector((state) => state.admin);
+    const filterUser = useAppSelector((state) => state.userFilter)
     const { pageFE } =
     useAppSelector((state) => state.admin);
     const [showModelProperties, setShowModelProperties] = useState(false);
@@ -26,11 +27,11 @@ const ActionDropdown = ({ id,role }: { id: string,role:string }) => {
     if(role==="candidate"){
 
         await deleteCandidateByAdmin(dispatch, id, { isDeleted: true });
-        await getAllCandidate(dispatch, { page: pageFC, limit: 8 });
+        await getAllCandidate(dispatch, { page: pageFC, limit: 8 },filterUser);
     }
     else{
         await deletedEmployerByAdmin(dispatch,id,{isDeleted:true})
-        await getAllEmployer(dispatch, { page: pageFE, limit: 8 });
+        await getAllEmployer(dispatch, { page: pageFE, limit: 8 },filterUser);
     }
     notifySuccess("User deleted successfully");
   

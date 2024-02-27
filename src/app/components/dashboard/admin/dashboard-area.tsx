@@ -43,19 +43,31 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
   const handleJobs = (item: { value: string; label: string }) => {
     setSelectedUserType(item.value);
   };
+  const { totalJobPost } =
+    useAppSelector((state) => state.jobPost);
+  const filterUser = useAppSelector((state) => state.userFilter)
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
   useEffect(() => {
     getAllJobPosts(dispatch, 1, filterObj,"");
   }, []);
+  const filterState = useAppSelector((state) => state.filter);
   useEffect(() => {
-    getAllCandidate(dispatch, { page: pageFC, limit: 8 });
-  }, [pageFC]);
-  useEffect(() => {
-    getAllEmployer(dispatch, { page: pageFE, limit: 8 });
-  }, [pageFE]);
-  useEffect(() => {
-    getAllCompany(dispatch, { page: pageFCom, limit: 8 });     
-    },[pageFCom]);
+    getAllCompany(dispatch, { page: pageFCom, limit: 8 });   
+    getAllEmployer(dispatch, { page: pageFE, limit: 8 },filterUser);
+    getAllCandidate(dispatch, { page: pageFC, limit: 8 },filterUser);
+    getJObPosts(
+      dispatch,
+      filterState,
+      page,
+      ""
+    );
+  }, [currUser]);
+  // useEffect(() => {
+   
+  // }, [currUser]);
+  // useEffect(() => {
+     
+  //   },[currUser]);
   
   useEffect(() => {
     const fetchData = async () => {
@@ -102,7 +114,7 @@ const AdminDashboardArea = ({ setIsOpenSidebar }: IProps) => {
         <div className="row">
           <CardItem img={icon_1} title="Total Candidates" value={totalCandidate.toString()} />
           <CardItem img={icon_2} title="Total Employers" value={totalEmployer.toString()} />
-          <CardItem img={icon_3} title="JobPosts" value={allJobPostAdmin.length?.toString()} />
+          <CardItem img={icon_3} title="JobPosts" value={totalJobPost?.toString()} />
           <CardItem img={icon_4} title="Total Companies" value={totalCompany.toString()} />
         </div>
 
