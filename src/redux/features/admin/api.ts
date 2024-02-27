@@ -24,6 +24,7 @@ import axios, { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { setUploadProgress } from "../globalSlice";
 import { updateLogo } from "../companySlice";
+import { IFilterState } from "../user/filterSlice/userFilterSlice";
 
 export const getCurrAdmin = async (dispatch: AppDispatch, id: string) => {
   dispatch(requestStart());
@@ -36,11 +37,12 @@ export const getCurrAdmin = async (dispatch: AppDispatch, id: string) => {
   }
 };
 
-export const getAllCandidate = async (dispatch: AppDispatch, bodyObj: any) => {
+export const getAllCandidate = async (dispatch: AppDispatch, bodyObj: any,filter:IFilterState) => {
+  const {type,candidateName} = filter;
   dispatch(requestStart());
   try {
-    const { data } = await instance.get("/admin/candidate", {
-      params: bodyObj,
+    const { data } = await instance.get(`/admin/candidate`, {
+      params: {...bodyObj,name:candidateName,type},
     });
     dispatch(
       getCandidateSuccess({
@@ -57,7 +59,7 @@ export const getAllCandidate = async (dispatch: AppDispatch, bodyObj: any) => {
 
 export const deleteCandidateByAdmin = async (dispatch:AppDispatch,id:string,bodyObj:any) => {
   try {
-    const data = await instance.patch(`/candidate//deleteByAdmin/${id}`,bodyObj);
+    const data = await instance.patch(`/candidate/deleteByAdmin/${id}`,bodyObj);
 
   } catch (error) {
     const e = error as AxiosError;
@@ -75,10 +77,11 @@ export const deletedEmployerByAdmin = async (dispatch:AppDispatch,id:string,body
   }
 }
 
-export const getAllEmployer = async (dispatch: AppDispatch, bodyObj: any) => {
+export const getAllEmployer = async (dispatch: AppDispatch, bodyObj: any,filter:IFilterState) => {
+  const {type,candidateName} = filter;
   dispatch(requestStart());
   try {
-    const { data } = await instance.get("/admin/employer", { params: bodyObj });
+    const { data } = await instance.get("/admin/employer", { params: {...bodyObj,type,name:candidateName} });
     dispatch(
       getEmployerSuccess({
         employerFA: data.result,
@@ -99,7 +102,7 @@ export const getAllCompany = async (
 ) => {
   dispatch(requestStart());
   try {
-    const { data } = await instance.get(`/admin/company/${id}`, {
+    const { data } = await instance.get(`/admin/company?id=${id}`, {
       params: bodyObj,
     });
     dispatch(

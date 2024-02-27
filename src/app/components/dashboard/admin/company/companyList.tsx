@@ -18,13 +18,16 @@ const CompanyList = () => {
   const { companyFA, pageFCom, totalCompany, totalNumOfPageFCom, loading } =
     useAppSelector((state) => state.admin);
   const dispatch = useAppDispatch();
- 
+  const [viewCompanyState, setCompanyState] = useState("all");
   useEffect(() => {
-    
     if (currUser) {
+      if (viewCompanyState === "all")
+        getAllCompany(dispatch, { page: pageFCom, limit: 8 }, "");
+      else {
         getAllCompany(dispatch, { page: pageFCom, limit: 8 }, currUser);
+      }
     }
-}, [pageFCom, currUser]);
+  }, [pageFCom, currUser, viewCompanyState]);
   const itemsPerPage = 8;
 
   const handlePageClick = (event: { selected: number }) => {
@@ -35,6 +38,43 @@ const CompanyList = () => {
   return (
     <section className="candidates-profile lg-pt-80 pb-160 xl-pb-150 lg-pb-80">
       <div className="container">
+        <div className="d-flex ms-auto xs-mt-30">
+          <div
+            className="nav nav-tabs tab-filter-btn me-4"
+            id="nav-tab"
+            role="tablist"
+          >
+            <button
+              className="nav-link active"
+              data-bs-toggle="tab"
+              data-bs-target="#a11"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              onClick={() => {
+                setCompanyState("all");
+                dispatch(setPage(1));
+              }}
+            >
+              All
+            </button>
+            <button
+              className="nav-link"
+              data-bs-toggle="tab"
+              data-bs-target="#a12"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              onClick={() => {
+                setCompanyState("my");
+                dispatch(setPage(1));
+              }}
+            >
+              My Companies
+            </button>
+          </div>
+        </div>
+
         <div className="row">
           {/* <div className="col-xl-3 col-lg-4">
             <button
@@ -61,31 +101,59 @@ const CompanyList = () => {
                   </div>
                 </div>
 
-                <div
+                {viewCompanyState === "all" && <div
                   className={`accordion-box list-style ${
                     "list" === "list" ? "show" : ""
                   }`}
+                  id="a11"
                 >
                   {companyFA?.length === 0 && (
-                      <p
-                        style={{
-                          fontWeight: "bold",
-                          textAlign: "center",
-                          fontSize: "1.5em",
-                          width: "100%",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          color: "#888",
-                        }}
-                      >
-                        No Companies yet!
-                      </p>
-                    )}
+                    <p
+                      style={{
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        fontSize: "1.5em",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: "#888",
+                      }}
+                    >
+                      No Companies yet!
+                    </p>
+                  )}
                   {companyFA?.map((item) => (
                     <CompanyListItem key={item._id} item={item} />
                   ))}
-                </div>
+                </div>}
+
+                {viewCompanyState==="my" && <div
+                  className={`accordion-box list-style ${
+                    "list" === "list" ? "show" : ""
+                  }`}
+                  id="a12"
+                >
+                  {companyFA?.length === 0 && (
+                    <p
+                      style={{
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        fontSize: "1.5em",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: "#888",
+                      }}
+                    >
+                      No Companies yet!
+                    </p>
+                  )}
+                  {companyFA?.map((item) => (
+                    <CompanyListItem key={item._id} item={item} />
+                  ))}
+                </div>}
                 {companyFA.length !== 0 && (
                   <div className="pt-30 lg-pt-20 d-sm-flex align-items-center justify-content-between">
                     <p className="m0 order-sm-last text-center text-sm-start xs-pb-20">

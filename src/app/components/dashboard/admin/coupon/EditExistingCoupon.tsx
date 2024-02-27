@@ -16,7 +16,7 @@ const EditCouponArea = () => {
   const { coupons, currCouponEdit, page } = useAppSelector((state) => state.coupon);
   const [currCoupon, setCurrCoupon] = useState<ICoupon | null>(null);
   useEffect(() => {
-    const coupon = coupons.find((co) => co._id === currCouponEdit); 
+    const coupon = coupons?.find((co) => co._id === currCouponEdit); 
     setCurrCoupon(coupon!);
   }, [currCouponEdit]);
   const dispatch = useAppDispatch();
