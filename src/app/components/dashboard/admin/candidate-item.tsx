@@ -89,7 +89,7 @@ const CandidateItem = ({ item }: { item: ICandidate }) => {
   return (
     <div className="candidate-profile-card list-layout border-0 mb-25">
       <div className="d-flex">
-        <div className="cadidate-avatar online position-relative d-block me-auto ms-auto">
+        <div className="cadidate-avatar position-relative d-block me-auto ms-auto">
           <a href="#" className="rounded-circle">
             <Image
               src={job_img_1}

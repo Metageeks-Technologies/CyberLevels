@@ -89,7 +89,7 @@ const AdminPaymentList = () => {
                       <div className="row">
                         {payments?.map((item: any) => (
                           // <CompanyListItem key={item._id} item={item} />
-                          <div key={item._id} className="col-sm-4 mb-30">
+                          <div key={item._id} className="col-sm-6 mb-30">
                             {/* <CouponGridItem key={item._id} item={item} /> */}
                             <PaymentGridItem key={item._id} item={item}/>
                           </div>

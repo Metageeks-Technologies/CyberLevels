@@ -60,7 +60,7 @@ const CandidateGridItem = ({
             <i className="bi bi-heart"></i>
           )}
         </button>
-        <div className="cadidate-avatar online position-relative d-block m-auto">
+        <div className="cadidate-avatar position-relative d-block m-auto">
           {/* <Link href="/candidate-profile-v1" className="rounded-circle"> */}
             <Image
               src={item?.avatar}

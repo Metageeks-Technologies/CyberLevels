@@ -47,7 +47,7 @@ const CompanyListItem = ({
       >
         <div className="d-flex align-items-center">
           <div
-            className="cadidate-avatar online position-relative d-flex me-auto ms-auto"
+            className="cadidate-avatar position-relative d-flex me-auto ms-auto"
             style={{ paddingTop: "7px" }}
           >
             <Link href={`/company-details/${item._id}`} className="rounded-circle">
