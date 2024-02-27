@@ -84,7 +84,7 @@ useEffect(()=>{
     <div className="bg-white card-box border-20 ">
       <div className="d-flex justify-content-between ">
         <div className="user-avatar-setting d-flex align-items-center mb-30">
-          <img
+          {/* <img
             width={50}
             height={50}
             src={currCandidate?.avatar}
@@ -95,7 +95,7 @@ useEffect(()=>{
             // }
             alt="avatar"
             className="lazy-img user-img"
-          />
+          /> */}
           {/* {!file && (
           <div className=" upload-btn position-relative tran3s ms-4 me-3">
             <DropZone

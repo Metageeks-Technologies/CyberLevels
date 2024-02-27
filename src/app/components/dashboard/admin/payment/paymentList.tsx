@@ -10,7 +10,7 @@ import { getAllPayments } from "@/redux/features/payments/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import Loader from "@/ui/loader";
 import Pagination from "@/ui/pagination";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import couponGridItem from "./couponGridItem"
 // import CouponGridItem from "./couponGridItem";
 // import EditCouponArea from "./EditExistingCoupon";
@@ -28,8 +28,30 @@ const AdminPaymentList = () => {
   const handlePageClick = (event: { selected: number }) => {
     dispatch(setPage(event.selected + 1));
   };
+  const [isCandidate, setIsCandidate] = useState(true);
+  const handleToggle = () => {
+    setIsCandidate((prev) => !prev);
+  };
 //   console.log(payments)
   return (
+    <>
+    <div className="d-flex align-items-center justify-content-between mb-40 lg-mb-30">
+          <div className="subscription-tab align-content-center py-2  d-flex gap-3 px-2">
+            <p
+              onClick={handleToggle}
+              className={`p-1 px-2 ${isCandidate && "active"}`}
+            >
+              Candidate
+            </p>
+            <p
+              onClick={handleToggle}
+              className={`p-1 px-2 ${!isCandidate && "active"}`}
+            >
+              Employer
+            </p>
+          </div>
+        </div>
+        
     <section className="job-listing-three lg-pt-80 pb-160 xl-pb-150 lg-pb-80">
       <div className="container">
         <div className="">
@@ -87,14 +109,28 @@ const AdminPaymentList = () => {
                     }`}
                     >
                       <div className="row">
-                        {payments?.map((item: any) => (
+                      {payments
+                          ?.filter((item: any) => {
+                            if (isCandidate) {
+                              
+                              return item.userModel === "Candidate";
+                            } else {
+                              return item.userModel === "Employer";
+                            }
+                          })
+                          .map((item: any) => (
+                            <div key={item._id} className="col-sm-6 mb-30">
+                              <PaymentGridItem key={item._id} item={item} />
+                            </div>
+                          ))}
+                        {/* {payments?.map((item: any) => (
                           // <CompanyListItem key={item._id} item={item} />
                           <div key={item._id} className="col-sm-6 mb-30">
-                            {/* <CouponGridItem key={item._id} item={item} /> */}
+                            {/* <CouponGridItem key={item._id} item={item} /> *
                             <PaymentGridItem key={item._id} item={item}/>
                           </div>
                           // <p>Hello</p>
-                        ))}
+                        ))} */}
                       </div>
                     </div>
                   </div>
@@ -137,6 +173,7 @@ const AdminPaymentList = () => {
         {/* <EditCouponArea /> */}
       </div>
     </section>
+    </>
   );
 };
 
