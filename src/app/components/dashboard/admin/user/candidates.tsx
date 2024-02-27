@@ -16,12 +16,12 @@ const CandidateList = () => {
     useAppSelector((state) => state.admin);
   const dispatch = useAppDispatch();
   const filter = useAppSelector((state) => state.userFilter);
-  const { candidateName, type } = filter;
+  const { candidateName, type, date } = filter;
   useEffect(() => {
     setTimeout(() => {
       getAllCandidate(dispatch, { page: pageFC, limit: 8 },filter);
     }, 1000);
-  }, [pageFC, candidateName, type]);
+  }, [pageFC, candidateName, type,date]);
   const itemsPerPage = 8;
 
   const handlePageClick = (event: { selected: number }) => {
