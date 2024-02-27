@@ -44,6 +44,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
       userModel: "Employer",
       product: sub._id,
       productModel: "EmployerSub",
+      coupon: coupon?._id || "",
     };
 
     const {
@@ -255,6 +256,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                             </button>
                           ) : (
                             <button
+                              disabled={item.subscriptionType === "essential"}
                               onClick={(e) =>
                                 checkoutHandler(
                                   e,
@@ -262,7 +264,10 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                                   item.price[isYearly ? 1 : 0]
                                 )
                               }
-                              className="get-plan-btn tran3s w-100 mt-30 mx-auto "
+                              className={`get-plan-btn tran3s w-100 mt-30 mx-auto ${
+                                item.subscriptionType === "essential" &&
+                                "disabled"
+                              }`}
                             >
                               Choose Plan
                             </button>

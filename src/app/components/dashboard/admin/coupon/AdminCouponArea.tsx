@@ -18,7 +18,8 @@ const AdminCouponArea = () => {
   const [description, setDescription] = useState<string>("");
   const [code, setCode] = useState<string>("");
   const [discountPercentage, setDiscountPercentage] = useState<number>(0);
-//   const [content, setContent] = useState<string>("");
+  const [maxUseLimit, setMaxUseLimit] = useState<number>(1);
+  //   const [content, setContent] = useState<string>("");
   const { loading } = useAppSelector((state) => state.blog);
   const [expirationDate, setExpirationDate] = useState<Date | null>(null);
   const handleSubmit = async () => {
@@ -27,8 +28,8 @@ const AdminCouponArea = () => {
       code,
       discountPercentage,
       expirationDate,
-      description
-      
+      description,
+      maxUseLimit,
     };
 
     await createCoupon(dispatch, bodyObj);
@@ -37,6 +38,7 @@ const AdminCouponArea = () => {
     setDiscountPercentage(0);
     setDescription("");
     setExpirationDate(null);
+    setMaxUseLimit(1);
   };
   return (
     <div>
@@ -58,7 +60,22 @@ const AdminCouponArea = () => {
             type="number"
             placeholder="Discount Percentage"
             value={discountPercentage}
-            onChange={(e) => setDiscountPercentage(parseInt(e.target.value)>100?100:parseInt(e.target.value))}
+            onChange={(e) =>
+              setDiscountPercentage(
+                parseInt(e.target.value) > 100 ? 100 : parseInt(e.target.value)
+              )
+            }
+            min={0}
+            max={100}
+          />
+        </div>
+        <div className="dash-input-wrapper mb-30">
+          <label htmlFor="">Max Use Limit*</label>
+          <input
+            type="number"
+            placeholder="Max Use Limit"
+            value={maxUseLimit}
+            onChange={(e) => setMaxUseLimit(parseInt(e.target.value))}
             min={0}
             max={100}
           />

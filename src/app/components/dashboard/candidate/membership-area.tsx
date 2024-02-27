@@ -47,6 +47,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
       userModel: "Candidate",
       product: sub._id,
       productModel: "CandidateSub",
+      coupon: coupon?._id || "",
     };
 
     console.log("bodyObj", bodyObj);
@@ -264,7 +265,22 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                               Current Plan
                             </button>
                           ) : (
+                            // <button
+                            //   onClick={(e) =>
+                            //     checkoutHandler(
+                            //       e,
+                            //       item,
+                            //       item.price[isYearly ? 1 : 0]
+                            //     )
+                            //   }
+                            //   className="get-plan-btn tran3s w-100 mt-30 mx-auto "
+                            // >
+                            //   Choose Plan
+                            // </button>
                             <button
+                              disabled={
+                                item.subscriptionType === "foundational"
+                              }
                               onClick={(e) =>
                                 checkoutHandler(
                                   e,
@@ -272,7 +288,10 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                                   item.price[isYearly ? 1 : 0]
                                 )
                               }
-                              className="get-plan-btn tran3s w-100 mt-30 mx-auto "
+                              className={`get-plan-btn tran3s w-100 mt-30 mx-auto ${
+                                item.subscriptionType === "foundational" &&
+                                "disabled"
+                              }`}
                             >
                               Choose Plan
                             </button>
