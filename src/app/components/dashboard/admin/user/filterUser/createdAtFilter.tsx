@@ -22,7 +22,7 @@ const SearchDate = () => {
       <div className="filter-title fw-500 text-dark">Date</div>
       <form className=" position-relative" style={{height:"45px"}} >
         <DatePicker
-          className="w-full block d-flex h-45 date"
+          className="w-full block d-flex h-45 date1"
         
           placeholderText="DD/MM/YYYY"
           name="deadlineDate"

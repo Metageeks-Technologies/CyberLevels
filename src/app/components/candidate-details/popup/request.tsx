@@ -4,15 +4,17 @@ import { useAppSelector } from "@/redux/hook";
 import { useDispatch } from "react-redux";
 // import { getJobPostsForEmployer } from "@/redux/features/jobPost/api";
 import { addNotificationToCandidate } from "@/redux/features/employer/api";
+import { getJobPostsForEmployer } from "@/redux/features/jobPost/api";
 
 const RequestModal = ({ candidateId }: { candidateId: string }) => {
   const dispatch = useDispatch();
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
   const { socket } = useAppSelector((state) => state.global);
 
-  const {jobPostForEmployerDashboard:jobs} = useAppSelector(
+  const {jobPostsForEmployer:jobs} = useAppSelector(
     (state) => state.jobPost
   );
+  const filterState = useAppSelector((state) => state.emplyerJobPostFilter);
 
   const handleClick = (jobId: string, JobTitle: string) => {
     if (!currUser) return;
@@ -25,9 +27,9 @@ const RequestModal = ({ candidateId }: { candidateId: string }) => {
     addNotificationToCandidate(dispatch, bodyObj, socket);
   };
 
-  // useEffect(() => {
-  //   if (currUser) getJobPostsForEmployer(dispatch, currUser);
-  // }, []);
+  useEffect(() => {
+    if (currUser) getJobPostsForEmployer(dispatch, currUser,1,{...filterState,status:"active"});
+  }, []);
 
   return (
     <div
@@ -45,7 +47,7 @@ const RequestModal = ({ candidateId }: { candidateId: string }) => {
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
-            <div className="text-center">
+            <div className="text-center mb-3">
               <h3>Select Job</h3>
             </div>
 

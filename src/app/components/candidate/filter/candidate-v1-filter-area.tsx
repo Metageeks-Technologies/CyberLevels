@@ -108,7 +108,7 @@ const CandidateV1FilterArea = () => {
           </div>
         </div> */}
 
-        <div className="filter-block bottom-line pb-25 mt-25">
+        {/* <div className="filter-block bottom-line pb-25 mt-25">
           <a
             className="filter-title fw-500 text-dark collapsed"
             data-bs-toggle="collapse"
@@ -121,7 +121,7 @@ const CandidateV1FilterArea = () => {
           <div className="collapse" id="collapseCType">
             <CandidateType />
           </div>
-        </div>
+        </div> */}
 
         {/* <div className="filter-block bottom-line pb-25 mt-25">
           <a

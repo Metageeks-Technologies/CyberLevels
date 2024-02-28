@@ -32,6 +32,7 @@ import LogoutButton from "../candidate/LogoutButton";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
 import { useAppSelector } from "@/redux/hook";
+import userLogo from "@/assets/images/logo/user-icon.png";
 
 // nav data
 const nav_data: {
@@ -119,9 +120,9 @@ const EmployAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
           <div className="user-data">
             <div className="user-avatar mx-auto position-relative rounded-circle">
               <Image
-                src={user?.avatar !== "" ? (user?.avatar as string) : avatar}
-                width={50}
-                height={50}
+                src={user?.avatar !== "" ? (user?.avatar as string) : userLogo}
+                width={100}
+                height={100}
                 alt="avatar"
                 className="lazy-img user-img"
                 style={{ height: "auto" }}

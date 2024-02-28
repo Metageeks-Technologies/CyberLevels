@@ -13,6 +13,7 @@ import DashboardHeader from "../candidate/dashboard-header";
 import Location from "./profile/Location";
 import Social from "./profile/Social";
 import Profile from "./profile/Profile";
+import userLogo from "@/assets/images/logo/user-icon.png";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -75,9 +76,9 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
                     height={50}
                     // src={user?.avatar}
                     src={
-                      user?.avatar !== "none" || false
+                      user?.avatar !== ""
                         ? (user?.avatar as string)
-                        : avatar
+                        : userLogo
                     }
                     alt="avatar"
                     className="lazy-img user-img"

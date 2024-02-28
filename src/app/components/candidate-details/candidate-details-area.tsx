@@ -114,7 +114,7 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
                     >
                       Download CV
                     </a> */}
-                      {candidate.resumes.length > 1 && (
+                      {candidate.resumes.length > 0 && (
                         <ResumeDownloadButton
                           text={"Download CV"}
                           style="btn-ten fw-500 text-white w-100 text-center tran3s mt-15"
@@ -122,7 +122,7 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
                           s3Key={candidate.resumes[0].s3Key}
                         />
                       )}
-                      {(userRole === "employer" &&
+                      {/* {(userRole === "employer" &&
                         currEmployer?.subscription?.offering
                           ?.isRequestApplicable === true) ||
                         (userRole === "admin") && (
@@ -145,7 +145,27 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
                           >
                             {false ? "Applied" : "Send request"}
                           </button>
-                        )}
+                        )} */}
+                        { userRole === "employer" &&
+                         currEmployer?.subscription?.offering?.isRequestApplicable === false ?(
+                           <button
+                             className="btn-ten fw-500 text-white w-100 text-center tran3s mt-15"
+                             onClick={handleGetDetails}
+                           >
+                             {false ? "Applied" : "Send request"}
+                           </button>
+                      ) : (
+                        // userRole === "employer" || userRole === "admin" && (
+                          <button
+                            className="btn-ten fw-500 text-white w-100 text-center tran3s mt-15"
+                            data-bs-toggle="modal"
+                            data-bs-target="#requestModal"
+                          >
+                            Send Request
+                          </button>
+                       
+                        // )
+                      )}
                     </div>
 
                     {/* <h4 className="sidebar-title">Email James Brower.</h4>
