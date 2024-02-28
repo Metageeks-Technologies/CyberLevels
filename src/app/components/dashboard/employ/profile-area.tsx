@@ -13,6 +13,7 @@ import DashboardHeader from "../candidate/dashboard-header";
 import Location from "./profile/Location";
 import Social from "./profile/Social";
 import Profile from "./profile/Profile";
+import ChangePasswordAreaForEmployer from "./ChangePasswordArea";
 import userLogo from "@/assets/images/logo/user-icon.png";
 // props type
 type IProps = {
@@ -161,6 +162,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
             {/*location start */}
             <Location />
             {/*location end */}
+            {currEmployer?.provider==="Admin" && <ChangePasswordAreaForEmployer />}
           </div>
         </div>
       )}

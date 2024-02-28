@@ -177,3 +177,18 @@ export const addJobCategoryToDB = async (
         return false;
     }
 };
+
+export const changePassword = async(dispatch:AppDispatch,bodyObj:any) => {
+    dispatch(requestStartDash());
+    try {
+        const {data} = await instance.patch(`/employer/forgetPassword`,bodyObj);
+        notifySuccess("Password Changed Successfully");
+        dispatch(requestSuccessDash());
+
+    } catch (error) {
+         const e = error as AxiosError;
+        dispatch(requestFailDash(e.message))
+        notifyError(e.message)
+
+    }
+}
