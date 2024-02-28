@@ -120,7 +120,7 @@ const CandidateListItem = ({
                     <span></span>
                   </button>
                   {/* action dropdown start */}
-                  <ActionDropdown role="candidate"id={item._id} />
+                  <ActionDropdown role="candidate" id={item._id} />
                   {/* <EditCompanyModal /> */}
                   {/* action dropdown end */}
                 </div>

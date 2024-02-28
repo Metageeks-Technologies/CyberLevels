@@ -13,6 +13,7 @@ import DashboardHeader from "../candidate/dashboard-header";
 import Location from "./profile/Location";
 import Social from "./profile/Social";
 import Profile from "./profile/Profile";
+import ChangePasswordAreaForEmployer from "./ChangePasswordArea";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -160,6 +161,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
             {/*location start */}
             <Location />
             {/*location end */}
+            {currEmployer?.provider==="Admin" && <ChangePasswordAreaForEmployer />}
           </div>
         </div>
       )}

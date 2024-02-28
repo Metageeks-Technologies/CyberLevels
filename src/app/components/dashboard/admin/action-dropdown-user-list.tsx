@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import edit from "@/assets/dashboard/images/icon/icon_20.svg";
 import delete_icon from "@/assets/dashboard/images/icon/icon_21.svg";
@@ -12,6 +13,9 @@ import { notifySuccess } from "@/utils/toast";
 const ActionDropdown = ({ id,role }: { id: string,role:string }) => {
   const { currUser } = useAppSelector((state) => state.persistedReducer.user);
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    console.log(id)
+  },[id])
   const {pageFC} =
     useAppSelector((state) => state.admin);
     const filterUser = useAppSelector((state) => state.userFilter)
