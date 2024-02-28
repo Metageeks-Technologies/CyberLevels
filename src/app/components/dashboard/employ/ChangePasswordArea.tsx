@@ -1,5 +1,6 @@
 import { changePassword } from "@/redux/features/employer/api";
-import { useAppDispatch } from "@/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import Loader from "@/ui/loader";
 import { notifyError } from "@/utils/toast";
 import React, { useState } from "react";
 
@@ -8,6 +9,7 @@ const ChangePasswordAreaForEmployer = () => {
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const {loading} = useAppSelector((state) => state.employer)
     const dispatch = useAppDispatch();
     const handleChangePassword = async () => {
         if(!currentPassword){
@@ -27,7 +29,8 @@ const ChangePasswordAreaForEmployer = () => {
             newPassword,
             confirmPassword,
         }
-        await changePassword(dispatch,bodyObj)
+        await changePassword(dispatch,bodyObj);
+
     }
   return (
     <div className="mt-45">
@@ -36,7 +39,7 @@ const ChangePasswordAreaForEmployer = () => {
         <h2 className="main-title">Change Password</h2>
 
         <div className="bg-white card-box border-20">
-          <form action="#">
+          <form >
             <div className="row">
               <div className="col-12">
                 <div className="dash-input-wrapper mb-20">
@@ -59,8 +62,8 @@ const ChangePasswordAreaForEmployer = () => {
             </div>
 
             <div className="button-group d-inline-flex align-items-center">
-              <button className="dash-btn-two tran3s rounded-3" onClick={handleChangePassword}>
-                Save & Updated
+              <button className="dash-btn-two tran3s rounded-3" onClick={handleChangePassword} type="button">
+                {loading? <Loader />:"Save & Updated"}
               </button>
             </div>
           </form>
