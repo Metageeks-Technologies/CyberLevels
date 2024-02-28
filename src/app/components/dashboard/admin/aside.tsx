@@ -31,7 +31,7 @@ import { logoutAdmin } from "@/redux/features/user/api";
 import { useAppDispatch } from "@/redux/hook";
 import nav_10 from "@/assets/dashboard/images/icon/icon_41.svg";
 import nav_10_active from "@/assets/dashboard/images/icon/icon_41_active.svg";
-
+import userLogo from "@/assets/images/logo/user-icon.png";
 // nav data
 const nav_data: {
   id: number;
@@ -169,14 +169,16 @@ const AdminAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
           <div className="user-data">
             <div
               style={{ background: "white" }}
-              className="user-avatar online position-relative rounded-circle"
+              className="user-avatar position-relative rounded-circle"
             >
               <Image
-                src={avatar}
-                alt="avatar"
-                className="lazy-img"
-                style={{ height: "auto" }}
-              />
+                        src={ userLogo}
+                        alt="avatar"
+                        width={100}
+                        height={100}
+                        className="lazy-img rounded-circle"
+                        style={{ height: "auto" }}
+                      />
             </div>
             <div className="user-name-data">
               <button
@@ -187,7 +189,7 @@ const AdminAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
                 data-bs-auto-close="outside"
                 aria-expanded="false"
               >
-                John Doe
+                Admin
               </button>
               <ul className="dropdown-menu" aria-labelledby="profile-dropdown">
                 {/* <li>
@@ -282,18 +284,18 @@ const AdminAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
               </li> */}
             </ul>
           </nav>
-          <div className="profile-complete-status">
+          {/* <div className="profile-complete-status">
             <div className="progress-value fw-500">87%</div>
             <div className="progress-line position-relative">
               <div className="inner-line" style={{ width: "80%" }}></div>
             </div>
             <p>Profile Complete</p>
-          </div>
+          </div> */}
 
-          <a href="#" className="d-flex w-100 align-items-center logout-btn">
+          {/* <a href="#" className="d-flex w-100 align-items-center logout-btn">
             <Image src={logout} alt="icon" className="lazy-img" />
             <span>Logout</span>
-          </a>
+          </a> */}
         </div>
       </aside>
       {/* LogoutModal star */}
