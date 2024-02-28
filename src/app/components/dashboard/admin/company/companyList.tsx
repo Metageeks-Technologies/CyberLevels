@@ -18,7 +18,7 @@ const CompanyList = () => {
   const { companyFA, pageFCom, totalCompany, totalNumOfPageFCom, loading } =
     useAppSelector((state) => state.admin);
   const dispatch = useAppDispatch();
-  const [viewCompanyState, setCompanyState] = useState("all");
+  const [viewCompanyState, setCompanyState] = useState("my");
   useEffect(() => {
     if (currUser) {
       if (viewCompanyState === "all")
@@ -29,7 +29,7 @@ const CompanyList = () => {
     }
   }, [pageFCom, currUser, viewCompanyState]);
   const itemsPerPage = 8;
-
+const {userRole} = useAppSelector((state) => state.persistedReducer.user);
   const handlePageClick = (event: { selected: number }) => {
     dispatch(setPage(event.selected + 1));
   };
@@ -38,12 +38,13 @@ const CompanyList = () => {
   return (
     <section className="candidates-profile lg-pt-80 pb-160 xl-pb-150 lg-pb-80">
       <div className="container">
+        {userRole === "admin" && 
         <div className="d-flex ms-auto xs-mt-30">
           <div
             className="nav nav-tabs tab-filter-btn me-4"
             id="nav-tab"
             role="tablist"
-          >
+            >
             <button
               className="nav-link active"
               data-bs-toggle="tab"
@@ -52,11 +53,11 @@ const CompanyList = () => {
               role="tab"
               aria-selected="true"
               onClick={() => {
-                setCompanyState("all");
+                setCompanyState("my");
                 dispatch(setPage(1));
               }}
-            >
-              All
+              >
+              My Companies
             </button>
             <button
               className="nav-link"
@@ -66,14 +67,15 @@ const CompanyList = () => {
               role="tab"
               aria-selected="false"
               onClick={() => {
-                setCompanyState("my");
+                setCompanyState("all");
                 dispatch(setPage(1));
               }}
-            >
-              My Companies
+              >
+              All
             </button>
           </div>
         </div>
+        }
 
         <div className="row">
           {/* <div className="col-xl-3 col-lg-4">
