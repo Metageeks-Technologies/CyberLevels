@@ -146,6 +146,7 @@ export interface IEmployer {
     savedCandidates: string[],
     createdAt: string,
     updatedAt: string,
+    notifications: INotification[]
     _id: string,
     __v: number,
     subscription: IEmployerSub,

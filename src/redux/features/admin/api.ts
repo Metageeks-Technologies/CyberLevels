@@ -25,7 +25,7 @@ import { AppDispatch } from "@/redux/store";
 import { setUploadProgress } from "../globalSlice";
 import { updateLogo } from "../companySlice";
 import { IFilterState } from "../user/filterSlice/userFilterSlice";
-import { notifyError, notifyInfo } from "@/utils/toast";
+import { notifyError, notifyInfo, notifySuccess } from "@/utils/toast";
 
 export const getCurrAdmin = async (dispatch: AppDispatch, id: string) => {
   dispatch(requestStart());
@@ -227,10 +227,13 @@ export const updateCompany = async (dispatch: AppDispatch, companyId: string, bo
   }
   try {
     const { data } = await instance.patch(`/company/${companyId}`, { bodyObj, logoMetadata })
+    
     if (data) {
 
       dispatch(companyUpdateSuccess(data.company));
-
+      if(bodyObj.isDeleted === true ){
+        notifySuccess("Company deleted successfully");
+      }
       const companyId = data.company._id;
       console.log(data);
       const uploadRes = await axios.put(data.url, file, {
@@ -245,6 +248,7 @@ export const updateCompany = async (dispatch: AppDispatch, companyId: string, bo
       if (uploadRes) {
         const { data } = await instance.patch(`/company/logo`, { companyId, s3Key: `profile/company/${companyId}.${logoMetadata.extension}` });
         dispatch(updateLogo(data.logo));
+        
 
       }
     }
@@ -253,6 +257,8 @@ export const updateCompany = async (dispatch: AppDispatch, companyId: string, bo
   } catch (error) {
     const e = error as AxiosError;
     dispatch(blogRequestFail(e.message));
+    console.log(e);
+    notifyError(`${(e.response?.data as any).message}`)
   }
 }
 
