@@ -8,7 +8,7 @@ const DeepMenus = () => {
 
   return (
     <>
-      <ul className="deep-nav list-unstyled  d-flex text-secondary ">
+      <ul className="deep-nav list-unstyled mb-0 d-flex text-secondary ">
         {menuData.map((obj, index) => {
           return (
             <li className="nav-item ">

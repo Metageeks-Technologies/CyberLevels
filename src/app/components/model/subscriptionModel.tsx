@@ -89,9 +89,9 @@ const SubscriptionModal = () => {
 
   return (
     <div
-      style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}
+      style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
       className={`modal-backdrop  fade ${
-        subscriptionModel ? "show opacity-100" : ""
+        subscriptionModel ? "show" : ""
       }`}
       onClick={handleClose}
     >
@@ -100,7 +100,7 @@ const SubscriptionModal = () => {
         id="subscriptionModal"
         tabIndex={-1}
         aria-hidden={!subscriptionModel}
-        style={{ overflowY: "hidden" }}
+        // style={{ overflowY: "hidden" }}
         onClick={(event) => event.stopPropagation()}
       >
         <div className="modal-dialog modal-fullscreen modal-dialog-centered">

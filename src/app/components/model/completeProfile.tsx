@@ -31,12 +31,16 @@ const ProfileCompleteModal = () => {
                 className="btn-close"
                 onClick={() => dispatch(setProfileCompleteModel(false))}
               ></button>
-              <div className="form-wrapper m-auto px-5 ">
-                <div className="text-center">
+              <div className="form-wrapper m-auto ">
+                <div className="text-center d-none d-sm-block">
                   <h2 className=" mb-3 py-3">Complete your profile</h2>
                 </div>
+                <div className="text-center d-sm-none">
+                <h3 className=" mb-3 py-3" style={{color:'#244034', fontWeight:'normal'}}>Complete your profile</h3>
+                </div>
+
                 <div className="d-flex row  mx-auto mb-3  ">
-                  <div className="d-flex align-items-start   gap-3  ">
+                  <div className="d-flex align-items-center   gap-3  ">
                     <h1>
                       <i className="bi  bi-person-check"></i>
                     </h1>

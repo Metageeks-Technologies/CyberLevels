@@ -21,8 +21,8 @@ const CandidateItem = ({ item }: { item: ICandidate }) => {
             />
           </a>
         </div>
-        <div className="right-side">
-          <div className="row gx-1 align-items-center">
+        <div className="right-side justify-content-center">
+          <div className="row gx-1 align-items-center justify-content-center">
             <div className="col-xl-4">
               <div className="position-relative">
                 <h4 className="candidate-name mb-0">
@@ -31,7 +31,8 @@ const CandidateItem = ({ item }: { item: ICandidate }) => {
                   </a>
                 </h4>
                 <div className="candidate-post">{item.email}</div>
-                <ul className="cadidate-skills style-none d-flex align-items-center">
+                <div className="candidate-info">
+                <ul className="cadidate-skills style-none d-flex align-items-center skillWrapper ">
                   {item.skills.slice(0, 4).map((val) => (
                     <li className=" text-nowrap " key={val}>
                       {val}
@@ -41,7 +42,8 @@ const CandidateItem = ({ item }: { item: ICandidate }) => {
                     <li className="more">{item.skills?.length - 4}+</li>
                   )}
                 </ul>
-              </div>
+                </div>
+              </div>              
             </div>
             <div className="col-xl-4 col-md-4 col-sm-6">
               <div className="candidate-info">
@@ -80,6 +82,7 @@ const CandidateItem = ({ item }: { item: ICandidate }) => {
                 </div>
               </div>
             </div>
+            
           </div>
         </div>
       </div>

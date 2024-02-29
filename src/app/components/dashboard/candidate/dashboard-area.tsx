@@ -165,7 +165,7 @@ const DashboardArea = ({ setIsOpenSidebar }: IProps) => {
             <div className="user-activity-chart bg-white border-20 mt-30 h-100">
               <h4 className="dash-title-two">Profile Views</h4>
               <div
-                className="flex px-4 md:px-6 lg:px-8 xl:px-10 "
+                className="flex px-2 md:px-6 lg:px-8 xl:px-10 "
                 style={{
                   display: "flex",
                   justifyContent: "space-between",

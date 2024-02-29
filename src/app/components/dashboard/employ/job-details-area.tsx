@@ -40,9 +40,10 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
           <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
           {/* header end */}
 
-          <div className="d-sm-flex align-items-center justify-content-between mb-30 lg-mb-30" style={{paddingLeft:"25px"}}>
-            <div className=" d-flex">
-              <h2 className="main-title m0">
+          <div className="d-flex d-sm-flex align-items-center justify-content-between mb-30 lg-mb-30" style={{paddingLeft:"25px"}}>
+            {/* <div className=" d-flex justify-content-between align-items-center"> */}
+              <div className="d-flex">
+              <h2 className="main-title m0 d-flex">
                 <Link
                   style={{ color: "#31795A" }}
                   className=""
@@ -51,42 +52,12 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                   My Jobs
                 </Link>
               </h2>
-              <div className="" style={{ fontSize: "x-large" }}>
+              <div className="" style={{ fontSize: "x-large" }} >
                 /{currJobPost?.title} ({currJobPost?.jobCode})
               </div>
-            </div>
-            {/* <div className="d-flex ms-auto xs-mt-30">
-            <div
-              className="nav nav-tabs tab-filter-btn me-4"
-              id="nav-tab"
-              role="tablist"
-            >
-              <button
-                className="nav-link active"
-                data-bs-toggle="tab"
-                data-bs-target="#a1"
-                type="button"
-                role="tab"
-                aria-selected="true"
-              >
-                All
-              </button>
-              <button
-                className="nav-link"
-                data-bs-toggle="tab"
-                data-bs-target="#a2"
-                type="button"
-                role="tab"
-                aria-selected="false"
-              >
-                New
-              </button>
-            </div>
-            <div className="short-filter d-flex align-items-center ms-auto">
-              <div className="text-dark fw-500 me-2">Short by:</div>
-              <EmployShortSelect />
-            </div>
-          </div> */}
+              </div>
+            
+            <div className="d-flex justify-content-end">
             <button
               type="button"
               className="filter-btn fw-500 tran3s me-3"
@@ -96,6 +67,8 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
               <i className="bi bi-funnel"></i>
               Filter
             </button>
+            </div>
+            {/* </div> */}
           </div>
 
           <div className="bg-white card-box border-20">

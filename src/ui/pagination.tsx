@@ -20,7 +20,7 @@ const Pagination = ({ handlePageClick, pageCount, currPage }: IProps) => {
       <div className="pagination-one d-flex align-items-center justify-content-center justify-content-sm-start style-none">
         <ReactPaginate
           initialPage={currPage - 1}
-          className="pagination-one d-flex align-items-center justify-content-center justify-content-sm-start style-none"
+          className="pagination-one d-flex align-items-center justify-content-start justify-content-sm-start style-none"
           breakLabel="..."
           activeClassName="active"
           nextLabel={

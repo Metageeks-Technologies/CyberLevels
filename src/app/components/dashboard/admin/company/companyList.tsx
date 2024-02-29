@@ -36,7 +36,7 @@ const {userRole} = useAppSelector((state) => state.persistedReducer.user);
   //   console.log("candidatesFA", companyFA);
 
   return (
-    <section className="candidates-profile lg-pt-80 pb-160 xl-pb-150 lg-pb-80">
+    <section className="candidates-profile sm-pt-10 lg-pt-80 pb-160 xl-pb-150 lg-pb-80">
       <div className="container">
         {userRole === "admin" && 
         <div className="d-flex ms-auto xs-mt-30">
