@@ -69,7 +69,7 @@ const JobListThree = ({
     <>
       <section
         id="find-jobs"
-        className="job-listing-three pt-160 lg-pt-80 pb-160 xl-pb-150 lg-pb-80"
+        className="job-listing-three pt-160 lg-pt-140 pb-160 xl-pb-150 lg-pb-80"
       >
         <div className="container">
           <div className="row">

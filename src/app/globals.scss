@@ -699,3 +699,12 @@ div[data-preview] p {
   background: #fafafa;
   border-color: #ededed;
 }
+
+.skillWrapper{
+  flex-wrap: nowrap;
+}
+@media screen and (max-width: 768px) {
+  .skillWrapper{
+    flex-wrap: wrap;
+  }
+}

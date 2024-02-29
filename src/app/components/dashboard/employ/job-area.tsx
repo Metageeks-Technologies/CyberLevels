@@ -59,7 +59,7 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
         <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
         {/* header end */}
 
-        <div className="d-sm-flex align-items-center justify-content-between mb-20 lg-mb-30">
+        <div className="d-flex d-sm-flex align-items-center justify-content-between mb-20 lg-mb-30">
           {/* <h2 className="main-title m0">My Jobs</h2> */}
           <DeepMenus />
           {/* <div className="d-flex ms-auto xs-mt-30">

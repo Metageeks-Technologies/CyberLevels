@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Menus from "./component/menus";
 import logo from "@/assets/images/logo/CL_Logo.png";
+import icon from "@/assets/images/fav-icon/icon.png";
 import userLogo from "@/assets/images/logo/user-icon.png";
 import CategoryDropdown from "./component/category-dropdown";
 import LoginModal from "@/app/components/common/popup/login-modal";
@@ -41,15 +42,20 @@ const Header = () => {
         <div className="inner-content position-relative">
           <div className="top-header">
             <div className="d-flex align-items-center">
-              <div className="logo order-lg-0">
+              <div className="logo d-none d-sm-block order-lg-0">
                 <Link href="/" className="d-flex align-items-center">
                   <Image src={logo} alt="logo" priority />
+                </Link>
+              </div>
+              <div className="logo d-sm-none order-lg-0">
+                <Link href="/" className="d-flex align-items-center">
+                  <Image src={icon} alt="logo" priority />
                 </Link>
               </div>
               <div className="right-widget ms-auto order-lg-3">
                 <ul className="d-flex align-items-center style-none">
                   {isAuthenticated && (
-                    <li className="d-none d-md-block">
+                    <li className="d-flex d-md-block">
                       <Link
                         href={`dashboard/${userRole}-dashboard`}
                         className="job-post-btn tran3s"
@@ -59,7 +65,7 @@ const Header = () => {
                     </li>
                   )}
                   {isAuthenticated ? (
-                    <li>
+                    <li className="d-none d-md-block">
                       <button onClick={handleLogout} className="login-btn-one">
                         Logout
                       </button>
@@ -79,21 +85,21 @@ const Header = () => {
                   {isAuthenticated && (
                     <li
                       style={{ width: "50px", height: "50px" }}
-                      className="rounded user-avatar rounded-circle"
+                      className="rounded user-avatar rounded-circle me-2"
                     >
                       <Image
                         src={avatar && avatar !== "none" ? avatar : userLogo}
                         alt="avatar"
                         width={50}
                         height={50}
-                        className="lazy-img rounded-circle ms-3"
-                        style={{ height: "auto" }}
+                        className="lazy-img rounded-circle ms-3 "
+                        // style={{ height: "auto" }}
                       />
                       {/* <span className="login-btn-one ms-3">{name}</span> */}
                     </li>
                   )}
                   {userRole && userRole !== "candidate" && (
-                    <li className="d-none d-md-block ms-4">
+                    <li className="d-flex d-md-block ms-4">
                       <Link href="/candidates-v1" className="btn-one">
                         Hire Top Talents
                       </Link>
@@ -122,6 +128,7 @@ const Header = () => {
                         </Link>
                       </div>
                     </li>
+                   
                     {/* <li className="nav-item dropdown category-btn mega-dropdown-sm">
                       <a
                         className="nav-link dropdown-toggle"
@@ -139,6 +146,14 @@ const Header = () => {
                     </li> */}
                     {/* menus start */}
                     <Menus />
+                    {isAuthenticated && (
+                    <li className="d-block d-md-none">
+                      <button onClick={handleLogout} className="login-btn-one">
+                        Logout
+                      </button>
+                    </li>
+                  )}
+                    
                     {/* menus end */}
                     {/* <li className="d-md-none">
                       <Link href="/register" className="job-post-btn tran3s">

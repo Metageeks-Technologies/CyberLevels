@@ -35,7 +35,7 @@ const CompanyV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
   };
   return (
     <>
-      <section className="company-profiles pt-160 lg-pt-80 pb-160 xl-pb-150 lg-pb-80">
+      <section className="company-profiles pt-160 lg-pt-140 pb-160 xl-pb-150 lg-pb-80">
         <div className="container">
           <div className="row">
             <div className="col-xl-3 col-lg-4">
@@ -129,7 +129,7 @@ const CompanyV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
 
                   {companies && (
                     <div className="pt-30 lg-pt-20 d-sm-flex align-items-center justify-content-between">
-                      <p className="m0 order-sm-last text-center text-sm-start xs-pb-20">
+                      <p className="m0 order-last text-center text-sm-start xs-pb-20 align-items-center">
                         Showing{" "}
                         <span className="text-dark fw-500">
                           {totalCompanies > 0 ? (page - 1) * 8 + 1 : 0}

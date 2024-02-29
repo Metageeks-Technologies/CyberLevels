@@ -118,14 +118,14 @@ const EmployAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
             </button>
           </div>
           <div className="user-data">
-            <div className="user-avatar mx-auto position-relative rounded-circle">
+            <div className="d-flex justify-content-center align-items-center user-avatar position-relative rounded-circle">
               <Image
                 src={user?.avatar !== "" ? (user?.avatar as string) : userLogo}
-                width={100}
-                height={100}
+                width={70}
+                height={70}
                 alt="avatar"
                 className="lazy-img user-img"
-                style={{ height: "auto" }}
+                // style={{ height: "auto" }}
               />
             </div>
             <div className="user-name-data user-name">

@@ -55,7 +55,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
   };
 
   const handleFile = (file: File | null) => {
-    setFile(file);
+    dispatch(setFile(file));
   };
 
   return (
@@ -99,12 +99,17 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
                   {file && (
                     <>
                       <div className="d-flex flex-column justify-content-center   ">
+                      <div className="btn-group">
                         <button
                           onClick={handleProfilePhoto}
                           className="upload-btn position-relative tran3s ms-4 me-3"
                         >
                           {"Save"}
                         </button>
+                        <button onClick={() => dispatch(setFile(null))}>
+                          Cancel
+                        </button>
+                      </div>
                         <div className="ms-4 mt-1 ">
                           <small>
                             Upload square image in .png, .jpeg, max 1mb sized
