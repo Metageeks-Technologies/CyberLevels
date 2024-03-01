@@ -25,7 +25,7 @@ const AdminCouponList = () => {
     dispatch(setPage(event.selected + 1));
   };
   return (
-    <section className="job-listing-three lg-pt-80 pb-160 xl-pb-150 lg-pb-80">
+    <section className="job-listing-three pb-160 xl-pb-150 lg-pb-80">
       <div className="container">
         <div className="">
           <div className="job-post-item-wrapper ms-xxl-5 ms-xl-3">

@@ -25,8 +25,8 @@ const UserList = ({ setIsOpenSidebar }: IProps) => {
         <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
         {/* header end */}
 
-        <div className="d-flex align-items-center justify-content-between mb-40 lg-mb-30">
-          <div className="subscription-tab align-content-center py-2  d-flex gap-3 px-2">
+        <div className="d-flex-col d-sm-flex align-items-center justify-content-between mb-40 lg-mb-30">
+          <div className="subscription-tab align-content-center py-2  d-flex gap-3 px-2" style={{width:'fit-content'}}>
             <p
               onClick={handleToggle}
               className={`p-1 px-2 ${isCandidate && "active"}`}
@@ -40,7 +40,7 @@ const UserList = ({ setIsOpenSidebar }: IProps) => {
               Employer
             </p>
           </div>
-          <div className="short-filter d-flex align-items-center">
+          <div className="short-filter d-flex align-items-center justify-content-between mt-3 mt-sm-0">
           <div className="short-filter d-flex align-items-center dash-btn-one me-3 ">
             <button
               data-bs-toggle="modal"

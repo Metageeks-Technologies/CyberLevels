@@ -24,7 +24,7 @@ const EmployerList = () => {
   console.log("candidatesFA", employerFA);
 
   return (
-    <section className="candidates-profile lg-pt-80 pb-160 xl-pb-150 lg-pb-80">
+    <section className="candidates-profile pb-160 xl-pb-150 lg-pb-80">
       <div className="container">
         <div className="row">
           {/* <div className="col-xl-3 col-lg-4">

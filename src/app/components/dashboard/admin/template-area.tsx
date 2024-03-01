@@ -293,7 +293,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
     <div className="dashboard-body ">
       <div className="position-relative">
         <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
-        <div className="d-flex justify-content-between align-items-center  ">
+        <div className="d-flex-col d-sm-flex justify-content-between align-items-center  ">
           <div className=" d-flex gap-3 py-4">
             <h2 className="main-title mb-0">Templates</h2>
             <button
@@ -374,7 +374,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                         </div>
           </div>
 
-          <div className="subscription-tab align-content-center py-2  d-flex px-2 ms-auto">
+          <div className="subscription-tab justify-content-start align-content-center py-2  d-flex px-2 " style={{width:'fit-content'}}>
             <p
               onClick={() => handleToggle("candidate")}
               className={`p-1 px-2 ${isCandidate && "active"}`}
@@ -414,7 +414,7 @@ const AdminTemplateArea = ({ setIsOpenSidebar }: IProps) => {
                   </span>
                 </div>
               )}
-              <div className="col-md-11 d-flex ">
+              <div className="col-md-11 d-flex-col d-sm-flex ">
                 <div className="col">
                   <button
                     className="  fw-medium  "
