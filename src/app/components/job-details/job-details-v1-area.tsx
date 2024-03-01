@@ -99,8 +99,8 @@ const JobDetailsV1Area = ({
             <div className="col-xxl-9 col-xl-8">
               <div className="details-post-data row hello me-xxl-5 pe-xxl-4">
                 {currCandidate ? (
-                <div className="d-flex justify-content-between  ">
-                  <div className="col-6 ">
+                <div className="d-sm-flex justify-content-between  ">
+                  <div className="col-sm-6 ">
                     <div className="post-date">
                       {readableString} by
                       <a className="fw-500 ms-2  text-dark">{company?.name}</a>
@@ -134,7 +134,7 @@ const JobDetailsV1Area = ({
                     </div>
                   </div>
                   {job.matchScore !== -1 && 
-                  <div className="gap-3 col-6 ">
+                  <div className="gap-3 col-sm-6 mt-3 ">
                     {job.matchScore != undefined && (
                       <div className="job-match">
                         <span

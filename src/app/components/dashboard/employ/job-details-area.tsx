@@ -42,7 +42,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
 
           <div className="d-flex d-sm-flex align-items-center justify-content-between mb-30 lg-mb-30" style={{paddingLeft:"25px"}}>
             {/* <div className=" d-flex justify-content-between align-items-center"> */}
-              <div className="d-flex">
+              <div className=" d-block d-lg-flex">
               <h2 className="main-title m0 d-flex">
                 <Link
                   style={{ color: "#31795A" }}
@@ -52,7 +52,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                   My Jobs
                 </Link>
               </h2>
-              <div className="" style={{ fontSize: "x-large" }} >
+              <div className="d-flex align-items-end" style={{ fontSize: "large" }} >
                 /{currJobPost?.title} ({currJobPost?.jobCode})
               </div>
               </div>

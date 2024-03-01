@@ -32,7 +32,7 @@ const AdminBlogListItem = ({
           </div> */}
           <div className="  ">
             <div className="row gx-1 align-items-center  ">
-              <div className=" col-xl-3">
+              <div className="col-xl-3 col-md-3 col-sm-3">
                 <div className="position-relative">
                   <h4 className="candidate-name mb-0">
                     <Link 
@@ -44,14 +44,14 @@ const AdminBlogListItem = ({
                   </h4>
                 </div>
               </div>
-              <div className="col-xl-3 col-md-4 col-sm-6">
-                <div className="candidate-info d-flex justify-content-center">
+              <div className="col-xl-3 col-md-2 col-sm-3">
+                <div className="candidate-info d-flex justify-content-sm-center">
                   {/* <span>{item.email}</span> */}
                   <div>{item.createdBy.name}</div>
                 </div>
               </div>
-              <div className="col-xl-2 col-md-4 col-sm-6">
-                <div className="candidate-info d-flex justify-content-center">
+              <div className="col-xl-2 col-md-2 col-sm-6">
+                <div className="candidate-info d-flex justify-content-sm-center">
                   <div>{getDate(item.createdAt.toString())}</div>
                 </div>
               </div>
@@ -67,7 +67,7 @@ const AdminBlogListItem = ({
                   </Link>
                 </div>
               </div>
-              <div className="col-xl-1 col-md-4">
+              <div className="col-xl-1 col-md-1 col-sm-3">
 
           <div className="action-dots float-end">
           <button

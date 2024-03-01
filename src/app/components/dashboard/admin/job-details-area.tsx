@@ -39,9 +39,10 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
           <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
           {/* header end */}
 
-          <div className="d-sm-flex align-items-center justify-content-between mb-30 lg-mb-30" style={{paddingLeft:"25px"}}>
-            <div className=" d-flex">
-              <h2 className="main-title m0">
+          <div className="d-flex d-sm-flex align-items-center justify-content-between mb-30 lg-mb-30" style={{paddingLeft:"25px"}}>
+            <div className=" d-block d-lg-flex">
+              <div>
+              <h2 className="main-title m0 d-flex">
                 <Link
                   style={{ color: "#31795A" }}
                   className=""
@@ -50,7 +51,8 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
                   My Jobs
                 </Link>
               </h2>
-              <div className="" style={{ fontSize: "x-large" }}>
+              </div>
+              <div className="d-flex align-items-end" style={{ fontSize: "large" }}>
                 /{currJobPost?.title} ({currJobPost?.jobCode})
               </div>
             </div>
@@ -86,6 +88,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
               <EmployShortSelect />
             </div>
           </div> */}
+          <div className="d-flex justify-content-end">
             <button
               type="button"
               className="filter-btn fw-500 tran3s me-3"
@@ -95,6 +98,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
               <i className="bi bi-funnel"></i>
               Filter
             </button>
+            </div>
           </div>
 
           <div className="bg-white card-box border-20">

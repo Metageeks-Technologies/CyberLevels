@@ -85,21 +85,21 @@ const Header = () => {
                   {isAuthenticated && (
                     <li
                       style={{ width: "50px", height: "50px" }}
-                      className="rounded user-avatar rounded-circle me-2"
+                      className="rounded user-avatar rounded-circle "
                     >
                       <Image
                         src={avatar && avatar !== "none" ? avatar : userLogo}
                         alt="avatar"
                         width={50}
                         height={50}
-                        className="lazy-img rounded-circle ms-3 "
+                        className="lazy-img rounded-circle  "
                         // style={{ height: "auto" }}
                       />
                       {/* <span className="login-btn-one ms-3">{name}</span> */}
                     </li>
                   )}
                   {userRole && userRole !== "candidate" && (
-                    <li className="d-flex d-md-block ms-4">
+                    <li className="d-none d-md-block ">
                       <Link href="/candidates-v1" className="btn-one">
                         Hire Top Talents
                       </Link>
@@ -128,6 +128,13 @@ const Header = () => {
                         </Link>
                       </div>
                     </li>
+                    {userRole && userRole !== "candidate" && (
+                    <li className="d-block d-md-none mb-3">
+                      <Link href="/candidates-v1" className="btn-one">
+                        Hire Top Talents
+                      </Link>
+                    </li>
+                  )}
                    
                     {/* <li className="nav-item dropdown category-btn mega-dropdown-sm">
                       <a
@@ -147,7 +154,7 @@ const Header = () => {
                     {/* menus start */}
                     <Menus />
                     {isAuthenticated && (
-                    <li className="d-block d-md-none">
+                    <li className="d-block d-md-none mt-3">
                       <button onClick={handleLogout} className="login-btn-one">
                         Logout
                       </button>

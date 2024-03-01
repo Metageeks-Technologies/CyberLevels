@@ -23,7 +23,7 @@ const FooterOne = ({
       <div className="container">
         <div className="inner-wrapper">
           <div className="row">
-            <div className="col-lg-2 col-md-3 footer-intro mb-15">
+            <div className="col-6 col-lg-2 col-md-3 footer-intro mb-15">
               <div className="logo mb-15">
                 <Link href="/" className="d-flex align-items-center">
                   <Image src={logo} alt="logo" priority />
@@ -32,15 +32,15 @@ const FooterOne = ({
               <Image
                 src={shape}
                 alt="shape"
-                className="lazy-img mt-80 sm-mt-30 sm-mb-20"
+                className="lazy-img mt-80 sm-mt-30 col-sm-4 sm-mb-20"
               />
             </div>
             {/* widget one */}
-            <WidgetOne style_2={style_2} cls="col-lg-3 col-md-3 col-sm-4" />
+            <WidgetOne style_2={style_2} cls="col-6 col-lg-3 col-md-3 col-sm-4" />
             {/* widget two */}
-            <WidgetTwo style_2={style_2} cls="col-lg-3 col-md-3 col-sm-4" />
+            <WidgetTwo style_2={style_2} cls="col-6 col-lg-3 col-md-3 col-sm-4" />
             {/* widget three */}
-            <WidgetThree style_2={style_2} cls="col-lg-3 col-md-3 col-sm-4" />
+            <WidgetThree style_2={style_2} cls="col-6 col-lg-3 col-md-3 col-sm-4" />
             {/* widget end */}
             {/* <div className="col-lg-4 mb-20 footer-newsletter">
               <h5 className={`footer-title ${style_2 ? "text-white" : ""}`}>
@@ -72,7 +72,7 @@ const FooterOne = ({
           <div className="row align-items-center">
             <div className="col-lg-4 order-lg-3 mb-15">
               <ul className="style-none d-flex order-lg-last justify-content-center justify-content-lg-end social-icon">
-                {/* <SocialLinks /> */}
+                <SocialLinks />
               </ul>
             </div>
             <div className="col-lg-4 order-lg-1 mb-15">
