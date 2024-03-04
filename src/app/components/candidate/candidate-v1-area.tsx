@@ -33,7 +33,7 @@ const CandidateV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
 
   return (
     <>
-      <section className="candidates-profile pt-170 lg-pt-80 pb-160 xl-pb-150 lg-pb-80">
+      <section className="candidates-profile pt-160 lg-pt-140 pb-160 xl-pb-150 lg-pb-80">
         <div className="container">
           <div className="row">
             <div className="col-xl-3 col-lg-4">

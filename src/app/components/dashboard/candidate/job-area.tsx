@@ -92,10 +92,10 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                     <thead>
                       <tr>
                         <th className="col-xl-3 col-md-4 col-sm-6" scope="col">Title</th>
-                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">Job Created</th>
+                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">Job Created at</th>
                         <th className="col-xl-2 col-md-4 col-sm-6" scope="col">Salary</th>
                         <th className="col-xl-2 col-md-4 col-sm-6" scope="col">Status</th>
-                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">Updated At</th>
+                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">Applied at</th>
                         <th className="col-xl-1 col-md-4 col-sm-6" scope="col">Options</th>
                       </tr>
                     </thead>
@@ -113,6 +113,7 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                               jobId={app.jobPost._id}
                               jobAppId={app._id}
                               title={app.jobPost.title}
+                              jobCode={app.jobPost.jobCode}
                               info={`${app.jobPost.jobType[0]} . ${app.jobPost.location}`}
                               application={`$ ${app.jobPost.salary.minimum} - ${app.jobPost.salary.maximum} K /month`}
                               date={app.jobPost?.createdAt}

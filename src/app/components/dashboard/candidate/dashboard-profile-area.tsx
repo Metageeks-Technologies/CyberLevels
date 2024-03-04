@@ -5,10 +5,10 @@ import { updateAvatar } from "@/redux/features/candidate/api";
 import { setFile, setUploadProgress } from "@/redux/features/globalSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { ICandidate } from "@/types/user-type";
-import { notifyError } from "@/utils/toast";
+import { notifyError, notifySuccess } from "@/utils/toast";
 import Image from "next/image";
 import avatar from "@/assets/dashboard/images/avatar_04.jpg";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardHeader from "./dashboard-header";
 import Location from "./profile/Location";
 import Social from "./profile/OnTheWeb";
@@ -71,6 +71,18 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
   const handlePhotoChange = (file: File | null) => {
     dispatch(setPhotoFile(file));
   };
+     
+     const [profileCompletedNotificationShown, setProfileCompletedNotificationShown] = useState(false);
+
+     useEffect(() => {
+       if (user?.isProfileCompleted && !profileCompletedNotificationShown) {
+        
+         notifySuccess("Your profile is completed");
+        
+         setProfileCompletedNotificationShown(true);
+       }
+     }, [user?.isProfileCompleted, profileCompletedNotificationShown]);
+   
 
   return (
     <>

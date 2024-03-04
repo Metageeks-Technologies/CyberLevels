@@ -114,14 +114,14 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
                     >
                       Download CV
                     </a> */}
-                      {candidate.resumes.length > 0 && (
+                      {/* {candidate.resumes.length > 0 && (
                         <ResumeDownloadButton
                           text={"Download CV"}
                           style="btn-ten fw-500 text-white w-100 text-center tran3s mt-15"
                           fileName={candidate.resumes[0]?.name}
                           s3Key={candidate.resumes[0].s3Key}
                         />
-                      )}
+                      )} */}
                       {/* {(userRole === "employer" &&
                         currEmployer?.subscription?.offering
                           ?.isRequestApplicable === true) ||

@@ -41,13 +41,22 @@ const SavedCompanyArea = ({ setIsOpenSidebar, savedCompanies }: IProps) => {
         <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
         {/* header end */}
 
-        <div className="d-flex align-items-center justify-content-between mb-40 lg-mb-30">
+        <div className="d-block d-sm-flex align-items-center justify-content-between mb-40 lg-mb-30">
           <h2 className="main-title m0">Favorite Companies</h2>
           {/* <div className="short-filter d-flex align-items-center">
             <div className="text-dark fw-500 me-2">Sort by:</div>
             <ShortSelect />
           </div> */}
+          <div className="justify-content-end d-block d-sm-flex mt-3 mt-sm-0">
+          <Link
+          href='/company-v2'>
+          <button className="btn-two tran3s">
+            Visit companies
+          </button>
+          </Link>
         </div>
+        </div>
+        
 
         <div className="wrapper">
           {loading && <Loader />}

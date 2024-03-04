@@ -158,13 +158,22 @@ const CandidateV1FilterArea = () => {
             </div>
           </div>
         </div> */}
-
+        <div className="d-block d-lg-none">
+        <button
+        type="button"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"
+        className="btn-ten fw-500 text-white w-100 text-center tran3s mt-30">
+          Apply
+        </button>
+        </div>
         <button
           onClick={handleReset}          
           className="btn-ten fw-500 text-white w-100 text-center tran3s mt-30"
-        >
+          >
           Reset Filter
         </button>
+            
       </div>
     </div>
   );

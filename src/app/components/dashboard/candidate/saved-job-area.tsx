@@ -34,12 +34,20 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
         <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
         {/* header end */}
 
-        <div className="d-flex align-items-center justify-content-between mb-40 lg-mb-30">
+        <div className="d-block d-sm-flex align-items-center justify-content-between mb-40 lg-mb-30">
           <h2 className="main-title m0">Saved Job</h2>
           {/* <div className="short-filter d-flex align-items-center">
             <div className="text-dark fw-500 me-2">Short by:</div>
             <ShortSelect />
           </div> */}
+          <div className="justify-content-end d-block d-sm-flex mt-3 mt-sm-0">
+          <Link
+          href='/job-list-v1'>
+          <button className="btn-two tran3s">
+            Visit Jobs
+          </button>
+          </Link>
+        </div>
         </div>
 
         <div className="wrapper">

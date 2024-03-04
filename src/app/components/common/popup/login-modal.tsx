@@ -12,10 +12,23 @@ import {
 
 const LoginModal = () => {
   const [activeTab, setActiveTab] = useState("candidate");
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
   };
   const dispatch = useDispatch();
+
+  const handleCheckboxChange = () => {
+    setIsCheckboxChecked((prev) => !prev);
+  };
+
+  const googleHref = isCheckboxChecked
+    ? `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/candidate/auth/google`
+    : "#";
+
+    const linkedinHref = isCheckboxChecked
+    ? `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/candidate/auth/linkedin`
+    : "#";
 
   return (
     <div
@@ -73,7 +86,7 @@ const LoginModal = () => {
               </ul>
             </div>
             <div className="form-wrapper m-auto">
-              {activeTab === "employer" && <LoginForm />}
+              {activeTab === "employer" && isCheckboxChecked && <LoginForm />}
               {activeTab === "employer" ? (
                 <div className="d-flex align-items-center mt-30 mb-10">
                   <div className="line"></div>
@@ -89,64 +102,61 @@ const LoginModal = () => {
                   <div className="line"></div>
                 </div>
               )}
-              <div className="row " style={{ padding: "20px" }}>
+              <div className="ms-3 ">
+        <label>
+          <input
+            type="checkbox"
+            checked={isCheckboxChecked}
+            onChange={handleCheckboxChange}
+            className="me-2"
+          />
+           I hereby accepts all the conditions.
+        </label>
+      </div>
+              <div className="row " style={{ padding: "20px" }}>              
                 <div className="col-md-6 ">
-                  <a
-                    onClick={() => {
-                      // const width = 600;
-                      // const height = 400;
-                      // const left = window.innerWidth / 2 - width / 2;
-                      // const top = window.innerHeight / 2 - height / 2;
-
-                      // window.open(
-                      //   `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/candidate/auth/google`,
-                      //   "_blank",
-                      //   `width=${width}, height=${height}, left=${left}, top=${top}`
-                      // );
-
-                      dispatch(setLoggerWithGoogle(activeTab));
-                    }}
-                    href={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/candidate/auth/google`}
-                    className="social-use-btn d-flex align-items-center justify-content-center tran3s w-100 mt-10"
-                    style={{ padding: "20px" }}
-                  >
-                    <Image src={google} alt="google-img" />
-                    <span className="ps-2">Login with Google</span>
-                  </a>
+                <a
+          onClick={() => {
+            if (isCheckboxChecked) {
+              dispatch(setLoggerWithGoogle(activeTab));
+            }
+          }}
+          href={googleHref}
+          className={`social-use-btn d-flex align-items-center justify-content-center tran3s w-100 mt-10 ${
+            !isCheckboxChecked ? "disabled " : ""
+          }`}
+          style={{ padding: "20px",  backgroundColor: !isCheckboxChecked ? "lightgrey" : ""   }}
+        >
+          <Image src={google} alt="google-img" />
+          <span className="ps-2">Login with Google</span>
+        </a>
                 </div>
                 <div className="col-md-6">
-                  <a
-                    onClick={() => {
-                      // const width = 600;
-                      // const height = 400;
-                      // const left = window.innerWidth / 2 - width / 2;
-                      // const top = window.innerHeight / 2 - height / 2;
-
-                      // window.open(
-                      //   `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/candidate/auth/linkedin`,
-                      //   "_blank",
-                      //   `width=${width}, height=${height}, left=${left}, top=${top}`
-                      // );
-
-                      dispatch(setLoggerWithLn(activeTab));
-                    }}
-                    href={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/candidate/auth/linkedin`}
-                    className="social-use-btn d-flex align-items-center justify-content-center tran3s w-100 mt-10"
-                    style={{ padding: "20px" }}
-                  >
-                    <Image
-                      height={30}
-                      width={30}
-                      src={
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/LinkedIn_icon_circle.svg/800px-LinkedIn_icon_circle.svg.png"
-                      }
-                      alt="linkedIn-img"
-                    />
-                    <span className="ps-2 " style={{ whiteSpace: "nowrap" }}>
-                      Login with LinkedIn
-                    </span>
-                  </a>
-                </div>
+        <a
+          onClick={() => {
+            if (isCheckboxChecked) {
+              dispatch(setLoggerWithLn(activeTab));
+            }
+          }}
+          href={linkedinHref}
+          className={`social-use-btn d-flex align-items-center justify-content-center tran3s w-100 mt-10 ${
+            !isCheckboxChecked ? "disabled" : ""
+          }`}
+          style={{ padding: "20px",  backgroundColor: !isCheckboxChecked ? "lightgrey" : ""  }}
+        >
+          <Image
+            height={30}
+            width={30}
+            src={
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/LinkedIn_icon_circle.svg/800px-LinkedIn_icon_circle.svg.png"
+            }
+            alt="linkedIn-img"
+          />
+          <span className="ps-2 " style={{ whiteSpace: "nowrap" }}>
+            Login with LinkedIn
+          </span>
+        </a>
+      </div>
               </div>
               {/* <p className="text-center mt-10">
                 Do not have an account?{" "}

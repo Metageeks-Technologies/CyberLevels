@@ -69,7 +69,7 @@ const nav_data: {
     icon: nav_5,
     icon_active: nav_5_active,
     link: "/dashboard/employer-dashboard/submit-job",
-    title: "Submit Job",
+    title: "Create Job",
   },
   {
     id: 8,

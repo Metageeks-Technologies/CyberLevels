@@ -84,7 +84,7 @@ const Header = () => {
                   )}
                   {isAuthenticated && (
                     <li
-                      style={{ width: "50px", height: "50px" }}
+                      style={{ width: "50px", height: "50px" , marginRight:'10px'}}
                       className="rounded user-avatar rounded-circle "
                     >
                       <Image
@@ -92,7 +92,7 @@ const Header = () => {
                         alt="avatar"
                         width={50}
                         height={50}
-                        className="lazy-img rounded-circle  "
+                        className="lazy-img rounded-circle "
                         // style={{ height: "auto" }}
                       />
                       {/* <span className="login-btn-one ms-3">{name}</span> */}
@@ -107,7 +107,7 @@ const Header = () => {
                   )}
                 </ul>
               </div>
-              <nav className="navbar navbar-expand-lg p0 ms-lg-5 ms-3 order-lg-2">
+              <nav className="navbar navbar-expand-lg p0 ms-sm-2 order-lg-2">
                 <button
                   className="navbar-toggler d-block d-lg-none"
                   type="button"
