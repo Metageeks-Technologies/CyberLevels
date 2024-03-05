@@ -7,7 +7,7 @@ const Skills = ({ skills }: { skills: string[] }) => {
         <li key={`${val}-${i}`}>{val}</li>
       ))}
       {/* <li className="more">3+</li> */}
-    </ul>
+    </ul> 
   );
 };
 
