@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import JobLocations from "./job-locations";
 import JobType from "./job-type";
 import JobExperience from "./job-experience";
@@ -13,6 +13,7 @@ import JobLocationSelect from "./job-location-select";
 import SearchJobCodeFilter from "../../jobs/filter/my-jobpost-filter-employer/search-jobcode-filter";
 import SearchJobCode from "./job-code";
 import { useRouter } from "next/navigation";
+import SearchLocation from "./SearchLocation";
 // prop type
 type IProps = {
   priceValue: number[];
@@ -28,6 +29,7 @@ const FilterArea = ({
 }: IProps) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [location, setLocation] = useState<string[]>([]);
   // handleReset
   const handleReset = () => {
     dispatch(resetFilter());
@@ -80,6 +82,9 @@ const FilterArea = ({
           <div className="collapse show" id="collapseJobType">
             <JobType />
           </div>
+        </div>
+        <div className="filter-block bottom-line pb-25 mt-25">
+          <SearchLocation location={location} setLocationFilter={setLocation} />
         </div>
         {/* <!-- /.filter-block --> */}
         {/* <!-- /.filter-block --> */}

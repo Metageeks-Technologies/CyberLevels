@@ -62,6 +62,9 @@ const EmployJobItem = ({
             s3Key={
               appliedResume?.s3Key || (resumes?.length ? resumes[0].s3Key : "")
             }
+            id={appId}
+            candidateId={id}
+            jobPostId={jobPostId}
           />
           <FileArrowDown size={24} color="black" />
         </div>
