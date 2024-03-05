@@ -67,10 +67,11 @@ const DashboardHeader = ({ setIsOpenSidebar }: IProps) => {
   const { currCandidate } = useAppSelector(
     (state) => state.candidate.candidateDashboard
   );
+  const {currEmployer} = useAppSelector((state) => state.employer)
   // const t=currCandidate?.notifications[0].timestamp
-  const unreadNotification = currCandidate?.notifications.filter(
+  const unreadNotification = currCandidate? currCandidate?.notifications.filter(
     (n) => n.isRead === false
-  );
+  ):currEmployer?.notifications.filter( (n) => n.isRead === false);
   // unreadNotification?.forEach((notification) => {
   //   notification.timestamp = new Date(notification.timestamp);
   // });

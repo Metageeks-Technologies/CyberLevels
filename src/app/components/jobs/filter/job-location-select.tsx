@@ -22,7 +22,7 @@ export function JobLocationSelectItems({
       {LocationOption.map((l, index) => (
         <li key={index}>
           <input
-            onChange={() => dispatch(setLocation(l))}
+            onChange={() => dispatch(setLocation([l]))}
             type="checkbox"
             name={l}
             defaultValue={l}

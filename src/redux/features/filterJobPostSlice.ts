@@ -31,12 +31,8 @@ export const filterSlice = createSlice({
   name: "counter",
   initialState,
   reducers: {
-    setLocation: (state, action: PayloadAction<string>) => {
-      if (state.location.includes(action.payload)) {
-        state.location = state.location.filter(ele => ele !== action.payload);
-      } else {
-        state.location.push(action.payload);
-      }
+    setLocation: (state, action: PayloadAction<string[]>) => {
+      state.location = action.payload;
     },
     setJobType: (state, action: PayloadAction<string>) => {
       if (state.jobType.includes(action.payload)) {
