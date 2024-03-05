@@ -56,7 +56,10 @@ const SavedCompanyArea = ({ setIsOpenSidebar, savedCompanies }: IProps) => {
           </Link>
         </div>
         </div>
-        
+        <div className="mb-20">
+          <h4 style={{fontWeight:'100', fontSize:'large'}}>Navigate through your favorite companies effortlessly..</h4>
+          </div>
+
 
         <div className="wrapper">
           {loading && <Loader />}

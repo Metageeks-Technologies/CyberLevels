@@ -193,7 +193,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
               <div className="row justify-content-center">
                 {employSub.length > 0
                   ? employSub.map((item) => (
-                      <div className="col-lg-4 col-md-6">
+                      <div className="col-lg-5 col-md-6">
                         <div className="pricing-card-one mt-25">
                           <div className="pack-name">
                             {item.subscriptionType}
@@ -291,6 +291,91 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                       </div>
                     ))
                   : null}
+               <div className="col-lg-5 col-md-6">
+                  <div className="pricing-card-one mt-25">
+                    <div className="pack-name mb-20">
+                    Enterprise Plan
+                    </div>
+                    <div className="price fw-500" style={{fontSize:'x-large'}}>
+                    Tailored Solutions
+                    </div>
+                    <ul className="style-none">
+                      <li>
+                      Customized recruitment solutions based on company needs.
+                      </li>
+                      <li>
+                      Unlimited access to premium features.
+                      </li>
+                      <li>
+                      API integration with the company's ATS (Applicant Tracking System).
+                      </li>
+                      <li>
+                      On-site recruitment events and career fairs.
+                      </li>
+                      <li>
+                      Customized training sessions for the recruiting team.
+                      </li>
+                      <li>
+                      Executive recruiting assistance for key positions.
+                      </li>
+                      <li>
+                      Exclusive industry partnerships and networking events.
+                      </li>
+
+                    </ul>
+                    <button
+                            className=" tran3s w-100 mt-30 mx-auto current-plan"
+                            style={{
+                              lineHeight: "25px",
+                              fontWeight: "500",
+                              borderRadius: "30px",
+                              cursor: "initial",
+                            }}
+                          >
+                           Please reach out to us to discuss this product and pricing at info@cyberlevels.com
+                          </button>
+                  </div>
+                  </div>
+                  <div className="col-lg-5 col-md-6">
+                  <div className="pricing-card-one mt-25">
+                    <div className="pack-name mb-20">
+                    Pay-Per-Feature Add-ons
+                    </div>
+                    <div className="price fw-500" style={{fontSize:'x-large'}}>
+                    Additional Enhancements
+                    </div>
+                    <ul className="style-none">
+                      <li>
+                      Skill testing and assessment for candidates.
+                      </li>
+                      <li>
+                      Video interviewing & assessment.
+                      </li>
+                      <li>
+                      Access to premium talent pools.
+                      </li>
+                      <li>
+                      Social media promotion for job listings.
+                      </li>
+                      <li>
+                      Enhanced job distribution to partner sites.
+                      </li>
+                      
+                    </ul>
+                    <button
+                            className=" tran3s w-100 mt-30 mx-auto current-plan"
+                            style={{
+                              lineHeight: "25px",
+                              fontWeight: "500",
+                              borderRadius: "30px",
+                              cursor: "initial",
+                            }}
+                          >
+                           Please reach out to us to discuss this product and pricing at info@cyberlevels.com
+                          </button>
+                  </div>
+                  </div>
+                  
               </div>
             </section>
           </div>

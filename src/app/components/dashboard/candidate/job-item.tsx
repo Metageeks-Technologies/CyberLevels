@@ -36,7 +36,7 @@ const CandidateJobItem = ({
         <td>
           <Link href={`/job-details-v1/${jobId}`}>
           <div className="job-name fw-500">{title},</div>
-          <div>{jobCode}</div>
+          <div>({jobCode})</div>
           </Link>
           <div className="info1">{info}</div>
         </td>

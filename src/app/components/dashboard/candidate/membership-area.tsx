@@ -39,7 +39,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
     const bodyObj = {
       amount: coupon
         ? price?.amount -
-          Math.floor((price?.amount * coupon.discountPercentage) / 100)
+        Math.floor((price?.amount * coupon.discountPercentage) / 100)
         : price?.amount,
       currency: price?.currency.abbreviation,
       duration: price?.duration,
@@ -198,140 +198,229 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
               <div className="row justify-content-center">
                 {candidateSub.length > 0
                   ? candidateSub.map((item) => (
-                      <div className="col-lg-4 col-md-6">
-                        <div className="pricing-card-one mt-25">
-                          <div className="pack-name">
-                            {item.subscriptionType}
-                          </div>
-                          {item.price.length && item.price.length > 1 ? (
-                            <div className="price fw-500">
-                              {!isYearly ? (
-                                <>
-                                  <sub>{item.price[0].currency.symbol}</sub>{" "}
-                                  {item.price[0].amount}
-                                </>
-                              ) : (
-                                <>
-                                  {" "}
-                                  <sub>{item.price[1].currency.symbol}</sub>
-                                  {item.price[1].amount}
-                                </>
-                              )}
-                            </div>
-                          ) : (
-                            <div className="price fw-500">
-                              <sub>{item.price[0].currency.symbol}</sub>{" "}
-                              {item.price[0].amount}
-                            </div>
-                          )}
-                          <ul className="style-none">
-                            <li>
-                              {item.offering.jobApplicationLimit !== -1
-                                ? item.offering.jobApplicationLimit
-                                : "unlimited"}{" "}
-                              jobs can be Applied per month
-                            </li>
-                            <li>{item.offering.aiTokenLimit} Ai tokens</li>
-                            <li>Full job search</li>
-                            <li>Job Suggestions based on skills</li>
-                            <li>
-                              blogs: Updates on News in Cybersecurity Trends
-                            </li>
-                            <li>Job list newsletter </li>
-                            <li>Applied job tracking</li>
-                            {item.subscriptionType === "foundational" ? (
+                    <div className="col-lg-5 col-md-6">
+                      <div className="pricing-card-one mt-25">
+                        <div className="pack-name">
+                          {item.subscriptionType}
+                        </div>
+                        {item.price.length && item.price.length > 1 ? (
+                          <div className="price fw-500">
+                            {!isYearly ? (
                               <>
-                                <li>Limited Companies details</li>
+                                <sub>{item.price[0].currency.symbol}</sub>{" "}
+                                {item.price[0].amount}
                               </>
                             ) : (
                               <>
-                                <li>Saved Jobs and Favorite Companies</li>
-                                <li>Detailed Companies details</li>
-                                <li>Feedback feature for each applied job</li>
+                                {" "}
+                                <sub>{item.price[1].currency.symbol}</sub>
+                                {item.price[1].amount}
                               </>
                             )}
-                          </ul>
-                          {subscription.hasOwnProperty("_id") &&
-                          subscription._id === item._id ? (
-                            <button
-                              className=" tran3s w-100 mt-30 mx-auto current-plan"
-                              style={{
-                                lineHeight: "54px",
-                                fontWeight: "500",
-                                borderRadius: "30px",
-                                cursor: "initial",
-                              }}
-                            >
-                              Current Plan
-                            </button>
+                          </div>
+                        ) : (
+                          <div className="price fw-500">
+                            <sub>{item.price[0].currency.symbol}</sub>{" "}
+                            {item.price[0].amount}
+                          </div>
+                        )}
+                        <ul className="style-none">
+                          <li>
+                            {item.offering.jobApplicationLimit !== -1
+                              ? item.offering.jobApplicationLimit
+                              : "unlimited"}{" "}
+                            jobs can be Applied per month
+                          </li>
+                          <li>{item.offering.aiTokenLimit} Ai tokens</li>
+                          <li>Full job search</li>
+                          <li>Job Suggestions based on skills</li>
+                          <li>
+                            blogs: Updates on News in Cybersecurity Trends
+                          </li>
+                          <li>Job list newsletter </li>
+                          <li>Applied job tracking</li>
+                          {item.subscriptionType === "foundational" ? (
+                            <>
+                              <li>Limited Companies details</li>
+                            </>
                           ) : (
-                            // <button
-                            //   onClick={(e) =>
-                            //     checkoutHandler(
-                            //       e,
-                            //       item,
-                            //       item.price[isYearly ? 1 : 0]
-                            //     )
-                            //   }
-                            //   className="get-plan-btn tran3s w-100 mt-30 mx-auto "
-                            // >
-                            //   Choose Plan
-                            // </button>
-                            <button
-                              disabled={
-                                item.subscriptionType === "foundational"
-                              }
-                              onClick={(e) =>
-                                checkoutHandler(
-                                  e,
-                                  item,
-                                  item.price[isYearly ? 1 : 0]
-                                )
-                              }
-                              className={`get-plan-btn tran3s w-100 mt-30 mx-auto ${
-                                item.subscriptionType === "foundational" &&
-                                "disabled"
-                              }`}
-                            >
-                              Choose Plan
-                            </button>
+                            <>
+                              <li>Saved Jobs and Favorite Companies</li>
+                              <li>Detailed Companies details</li>
+                              <li>Feedback feature for each applied job</li>
+                            </>
                           )}
-                          {item.subscriptionType !== "foundational" &&
+                        </ul>
+                        {subscription.hasOwnProperty("_id") &&
+                          subscription._id === item._id ? (
+                          <button
+                            className=" tran3s w-100 mt-30 mx-auto current-plan"
+                            style={{
+                              lineHeight: "54px",
+                              fontWeight: "500",
+                              borderRadius: "30px",
+                              cursor: "initial",
+                            }}
+                          >
+                            Current Plan
+                          </button>
+                        ) : (
+                          // <button
+                          //   onClick={(e) =>
+                          //     checkoutHandler(
+                          //       e,
+                          //       item,
+                          //       item.price[isYearly ? 1 : 0]
+                          //     )
+                          //   }
+                          //   className="get-plan-btn tran3s w-100 mt-30 mx-auto "
+                          // >
+                          //   Choose Plan
+                          // </button>
+                          <button
+                            disabled={
+                              item.subscriptionType === "foundational"
+                            }
+                            onClick={(e) =>
+                              checkoutHandler(
+                                e,
+                                item,
+                                item.price[isYearly ? 1 : 0]
+                              )
+                            }
+                            className={`get-plan-btn tran3s w-100 mt-30 mx-auto ${item.subscriptionType === "foundational" &&
+                              "disabled"
+                              }`}
+                          >
+                            Choose Plan
+                          </button>
+                        )}
+                        {item.subscriptionType !== "foundational" &&
                           subscription.hasOwnProperty("_id") &&
                           subscription._id !== item._id ? (
-                            <>
-                              {!coupon && (
-                                <button
-                                  style={{
-                                    color: "#005025",
-                                    textDecoration: "underline",
-                                    textUnderlineOffset: "0.1em",
-                                  }}
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#couponModal"
-                                  type="button"
-                                  className="mt-3 mx-auto"
-                                >
-                                  apply coupon
-                                </button>
-                              )}
-                              {coupon && (
-                                <>
-                                  <p className="text-center fw-8 ">
-                                    {coupon.code || ""} is Applied
-                                  </p>
-                                  <p>
-                                    {coupon.discountPercentage}% discount on
-                                    currant plan
-                                  </p>
-                                </>
-                              )}
-                            </>
-                          ) : null}
-                        </div>
+                          <>
+                            {!coupon && (
+                              <button
+                                style={{
+                                  color: "#005025",
+                                  textDecoration: "underline",
+                                  textUnderlineOffset: "0.1em",
+                                }}
+                                data-bs-toggle="modal"
+                                data-bs-target="#couponModal"
+                                type="button"
+                                className="mt-3 mx-auto"
+                              >
+                                apply coupon
+                              </button>
+                            )}
+                            {coupon && (
+                              <>
+                                <p className="text-center fw-8 ">
+                                  {coupon.code || ""} is Applied
+                                </p>
+                                <p>
+                                  {coupon.discountPercentage}% discount on
+                                  currant plan
+                                </p>
+                              </>
+                            )}
+                          </>
+                        ) : null}
                       </div>
-                    ))
+                    </div>
+                  ))
                   : null}
+                <div className="col-lg-5 col-md-6">
+                  <div className="pricing-card-one mt-25">
+                    <div className="pack-name mb-20">
+                      Premium Plan
+                    </div>
+                    <div className="price fw-500" style={{fontSize:'x-large'}}>
+                    Advanced Career Toolkit
+                    </div>
+                    <ul className="style-none">
+                      <li>
+                        Unlimited access to job alerts and recommendations.
+                      </li>
+                      <li>
+                        Featured resume placement for increased visibility.
+                      </li>
+                      <li>
+                        Advanced skill assessment and certification opportunities.
+                      </li>
+                      <li>
+                        Personalized interview coaching sessions.
+                      </li>
+                      <li>
+                        Networking events and webinars
+                      </li>
+                      <li>
+                        Customized career strategy consultation
+                      </li>
+                      <li>
+                        Applied recommended Jobs on behalf of you by dedicated advisor.
+                      </li>
+
+                    </ul>
+                    <button
+                            className=" tran3s w-100 mt-30 mx-auto current-plan"
+                            style={{
+                              lineHeight: "25px",
+                              fontWeight: "500",
+                              borderRadius: "30px",
+                              cursor: "initial",
+                            }}
+                          >
+                           Please reach out to us to discuss this product and pricing at info@cyberlevels.com
+                          </button>
+                  </div>
+                </div>
+                <div className="col-lg-5 col-md-6">
+                  <div className="pricing-card-one mt-25">
+                    <div className="pack-name mb-20">
+                    Pro Plan
+                    </div>
+                    <div className="price fw-500" style={{fontSize:'x-large'}}>
+                    Executive Advantage
+                    </div>
+                    <ul className="style-none">
+                      <li>
+                      Executive-level job matching and recommendations.
+                      </li>
+                      <li>
+                      Exclusive access to high-profile job listings.
+                      </li>
+                      <li>
+                      Personalized job search assistance from a dedicated advisor.
+                      </li>
+                      <li>
+                      Personalized career coaching sessions.
+                      </li>
+                      <li>
+                      Networking with industry leaders and mentors.
+                      </li>
+                      <li>
+                      Priority consideration for executive search services.
+                      </li>
+                      <li>
+                      VIP customer support with a dedicated account manager.
+                      </li>
+
+                    </ul>
+                    <button
+                            className=" tran3s w-100 mt-30 mx-auto current-plan"
+                            style={{
+                              lineHeight: "25px",
+                              fontWeight: "500",
+                              borderRadius: "30px",
+                              cursor: "initial",
+                            }}
+                          >
+                           Please reach out to us to discuss this product and pricing at info@cyberlevels.com
+                          </button>
+                  </div>
+                </div>
               </div>
             </section>
           </div>

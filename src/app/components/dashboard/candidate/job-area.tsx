@@ -55,8 +55,9 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
           <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
           {/* header end */}
 
-          <div className="d-sm-flex align-items-center justify-content-between mb-40 lg-mb-30">
+          <div className="d-sm-flex align-items-center justify-content-between mb-30 lg-mb-30">
             <h2 className="main-title m0">Applied Jobs</h2>
+            
             <div className="d-flex ms-auto xs-mt-30">
               {/* <div
               className="nav nav-tabs tab-filter-btn me-4"
@@ -90,7 +91,9 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
             </div> */}
             </div>
           </div>
-
+          <div className="mb-20">
+          <h4 style={{fontWeight:'100', fontSize:'large'}}>Keep track of positions you've applied </h4>
+          </div>
           <div className="bg-white card-box border-20">
             <div className="tab-content" id="nav-tabContent">
               <div
