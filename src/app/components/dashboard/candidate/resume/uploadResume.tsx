@@ -2,7 +2,7 @@
 import React from "react";
 import DropZone from "@/layouts/dropZone";
 import { notifyError } from "@/utils/toast";
-import { deleteResume, uploadResume } from "@/redux/features/candidate/api";
+import { deleteResume, getCurrCandidate, uploadResume } from "@/redux/features/candidate/api";
 import {
   setResumeFile,
   setResumeUploadProgress,
@@ -21,6 +21,7 @@ const UploadResume = ({
   const { currCandidate, loading } = useAppSelector(
     (store) => store.candidate.candidateDashboard
   );
+  const {currUser} = useAppSelector((state) => state.persistedReducer.user) 
   const dispatch = useAppDispatch();
   const handleSubmit = async () => {
     if (!currCandidate) {
@@ -49,11 +50,12 @@ const UploadResume = ({
       candidateName: currCandidate.firstName + " " + currCandidate.lastName,
     };
     await uploadResume(dispatch, file, metaData);
+    await getCurrCandidate(dispatch,currUser as string)
     dispatch(setResumeFile(null));
     dispatch(setResumeUploadProgress(0));
   };
 
-  const handleDelete = (s3Key: string, resumeId: string) => {
+  const handleDelete = async (s3Key: string, resumeId: string) => {
     if (!currCandidate) {
       notifyError("please Login to upload your resume.");
       return;
@@ -65,7 +67,8 @@ const UploadResume = ({
       candidateId: currCandidate._id,
     };
     console.log(metaData);
-    deleteResume(dispatch, metaData);
+    await deleteResume(dispatch, metaData);
+    await getCurrCandidate(dispatch,currUser as string);
   };
   const handleResumeChange = (file: File | null) => {
     dispatch(setResumeFile(file));
