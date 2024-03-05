@@ -16,25 +16,36 @@ import SubscriptionModal from "../../model/subscriptionModel";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
-
 };
 
 const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
   // console.log(jobApps);
   const dispatch = useAppDispatch();
-  const { allJobAppByCandidateWithJobPostPagination, currentPage, totalPages, itemsPerPage,totalJobsApplied,loading } = useAppSelector(
-    (state) => state.jobApplication
-    );
-    const { subscriptionModel } = useAppSelector((state) => state.model);
-  const {currCandidate} = useAppSelector((state) => state.candidate.candidateDashboard)
-    useEffect(() => {
-      if(currCandidate)
-      getallJobAppByCandidateWithJobPost(dispatch,currCandidate?._id,currentPage,"true");
-    },[currentPage,currCandidate])
-    // console.log(allJobAppByCandidateWithJobPostPagination);
-    const handlePageClick = (event: { selected: number }) => {
-      dispatch(setPage(event.selected + 1));
-    };
+  const {
+    allJobAppByCandidateWithJobPostPagination,
+    currentPage,
+    totalPages,
+    itemsPerPage,
+    totalJobsApplied,
+    loading,
+  } = useAppSelector((state) => state.jobApplication);
+  const { subscriptionModel } = useAppSelector((state) => state.model);
+  const { currCandidate } = useAppSelector(
+    (state) => state.candidate.candidateDashboard
+  );
+  useEffect(() => {
+    if (currCandidate)
+      getallJobAppByCandidateWithJobPost(
+        dispatch,
+        currCandidate?._id,
+        currentPage,
+        "true"
+      );
+  }, [currentPage, currCandidate]);
+  // console.log(allJobAppByCandidateWithJobPostPagination);
+  const handlePageClick = (event: { selected: number }) => {
+    dispatch(setPage(event.selected + 1));
+  };
 
   return (
     <>
@@ -91,42 +102,60 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
                   <table className="table job-alert-table">
                     <thead>
                       <tr>
-                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">Title</th>
-                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">Job Created at</th>
-                        <th className="col-xl-2 col-md-4 col-sm-6" scope="col">Salary</th>
-                        <th className="col-xl-2 col-md-4 col-sm-6" scope="col">Status</th>
-                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">Applied at</th>
-                        <th className="col-xl-1 col-md-4 col-sm-6" scope="col">Options</th>
+                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">
+                          Title
+                        </th>
+                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">
+                          Applied On
+                        </th>
+                        <th className="col-xl-2 col-md-4 col-sm-6" scope="col">
+                          Salary
+                        </th>
+                        <th className="col-xl-2 col-md-4 col-sm-6" scope="col">
+                          Status
+                        </th>
+                        <th className="col-xl-3 col-md-4 col-sm-6" scope="col">
+                          Updated On
+                        </th>
+                        <th className="col-xl-1 col-md-4 col-sm-6" scope="col">
+                          Options
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="border-0">
-                      {!loading && allJobAppByCandidateWithJobPostPagination?.map((app) => {
-                        // let ceratedAt: Date | string = new Date(app.createdAt);
-                        // ceratedAt = ceratedAt.toLocaleDateString();
+                      {!loading &&
+                        allJobAppByCandidateWithJobPostPagination?.map(
+                          (app) => {
+                            // let ceratedAt: Date | string = new Date(app.createdAt);
+                            // ceratedAt = ceratedAt.toLocaleDateString();
 
-                        let updatedAt: Date | string = new Date(app.updatedAt);
-                        updatedAt = updatedAt.toLocaleDateString();
+                            let updatedAt: Date | string = new Date(
+                              app.updatedAt
+                            );
+                            updatedAt = updatedAt.toLocaleDateString();
 
-                        if (typeof app.jobPost !== "string") {
-                          return (
-                            <CandidateJobItem
-                              jobId={app.jobPost._id}
-                              jobAppId={app._id}
-                              title={app.jobPost.title}
-                              jobCode={app.jobPost.jobCode}
-                              info={`${app.jobPost.jobType[0]} . ${app.jobPost.location}`}
-                              application={`$ ${app.jobPost.salary.minimum} - ${app.jobPost.salary.maximum} K /month`}
-                              date={app.jobPost?.createdAt}
-                              status={app.status}
-                              updatedAt={updatedAt}
-                            />
-                          );
-                        }
-                      })}
+                            if (typeof app.jobPost !== "string") {
+                              return (
+                                <CandidateJobItem
+                                  jobId={app.jobPost._id}
+                                  jobAppId={app._id}
+                                  title={app.jobPost.title}
+                                  jobCode={app.jobPost.jobCode}
+                                  info={`${app.jobPost.jobType[0]} . ${app.jobPost.location}`}
+                                  application={`$ ${app.jobPost.salary.minimum} - ${app.jobPost.salary.maximum} K /month`}
+                                  date={app.createdAt}
+                                  status={app.status}
+                                  updatedAt={updatedAt}
+                                />
+                              );
+                            }
+                          }
+                        )}
                     </tbody>
                   </table>
-                  {loading && (<Loader />)}
-                      {!loading && allJobAppByCandidateWithJobPostPagination?.length === 0 && (
+                  {loading && <Loader />}
+                  {!loading &&
+                    allJobAppByCandidateWithJobPostPagination?.length === 0 && (
                       <p
                         style={{
                           fontWeight: "bold",
@@ -195,12 +224,12 @@ const EmployJobArea = ({ setIsOpenSidebar }: IProps) => {
             </div>
           </div>
           {totalJobsApplied > itemsPerPage && (
-                        <Pagination
-                          pageCount={totalPages}
-                          handlePageClick={handlePageClick}
-                          currPage={currentPage}
-                        />
-                      )}
+            <Pagination
+              pageCount={totalPages}
+              handlePageClick={handlePageClick}
+              currPage={currentPage}
+            />
+          )}
         </div>
       </div>
       <ChatModal />

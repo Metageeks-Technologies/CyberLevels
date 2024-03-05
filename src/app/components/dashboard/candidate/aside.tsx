@@ -18,7 +18,7 @@ import type { RootState } from "@/redux/store";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import LogoutModal from "../../common/popup/logout-modal";
 import LogoutButton from "./LogoutButton";
@@ -115,7 +115,11 @@ const CandidateAside = ({ isOpenSidebar, setIsOpenSidebar }: IProps) => {
   const { currCandidate } = useSelector(
     (state: RootState) => state.candidate.candidateDashboard
   );
-  const user = currCandidate;
+  let user = currCandidate;
+  useEffect(() => {
+    user = currCandidate
+  },[currCandidate])
+
   return (
     <>
       <aside className={`dash-aside-navbar ${isOpenSidebar ? "show" : ""}`}>
