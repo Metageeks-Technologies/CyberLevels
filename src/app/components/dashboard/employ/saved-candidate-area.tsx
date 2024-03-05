@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import Pagination from "@/ui/pagination";
 import { setPage } from "@/redux/features/employer/dashboardSlice";
 import Loader from "@/ui/loader";
+import Link from "next/link";
 
 // props type
 type IProps = {
@@ -29,12 +30,22 @@ const SavedCandidateArea = ({ setIsOpenSidebar, savedCandidates }: IProps) => {
         <DashboardHeader setIsOpenSidebar={setIsOpenSidebar} />
         {/* header end */}
 
-        <div className="d-flex align-items-center justify-content-between mb-40 lg-mb-30">
+        <div className="d-block d-sm-flex align-items-center justify-content-between mb-40 lg-mb-30">
+          <div>
           <h2 className="main-title m0">Saved Candidate</h2>
+          </div>
           {/* <div className="short-filter d-flex align-items-center">
             <div className="text-dark fw-500 me-2">Short by:</div>
             <EmployShortSelect />
           </div> */}
+           <div className="justify-content-end d-block d-sm-flex mt-3 mt-sm-0">
+          <Link
+          href='/candidates-v1'>
+          <button className="btn-two tran3s">
+            Visit Candidates
+          </button>
+          </Link>
+        </div>
         </div>
 
         <div className="wrapper">

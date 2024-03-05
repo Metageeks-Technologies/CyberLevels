@@ -5,6 +5,7 @@ import Link from "next/link";
 
 const CandidateJobItem = ({
   title,
+  jobCode,
   info,
   date,
   application,
@@ -14,6 +15,7 @@ const CandidateJobItem = ({
   jobId,
 }: {
   title: string;
+  jobCode: string;
   info: string;
   date: string;
   application: string;
@@ -33,7 +35,8 @@ const CandidateJobItem = ({
       >
         <td>
           <Link href={`/job-details-v1/${jobId}`}>
-          <div className="job-name fw-500">{title}</div>
+          <div className="job-name fw-500">{title},</div>
+          <div>{jobCode}</div>
           </Link>
           <div className="info1">{info}</div>
         </td>

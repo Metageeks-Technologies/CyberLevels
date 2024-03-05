@@ -60,12 +60,12 @@ const CandidateGridItem = ({
             <i className="bi bi-heart"></i>
           )}
         </button>
-        <div className="cadidate-avatar position-relative d-block m-auto">
+        <div className="cadidate-avatar position-relative d-block m-auto mb-2">
           {/* <Link href="/candidate-profile-v1" className="rounded-circle"> */}
             <Image
               src={item?.avatar}
               alt="image"
-              className="lazy-img rounded-circle"
+              className="lazy-img rounded-circle "
               height={80}
               width={80}
             />
