@@ -1,7 +1,9 @@
 import { ICandidate } from "@/types/user-type";
-import React from "react";
+import React, { useState } from "react";
 
 const CandidateBio = ({ candidate }: { candidate: ICandidate }) => {
+  const abbreviatedEmail =
+  (candidate.email?.substring(0, 3) || "") + "***@gmail.com";
   return (
     <ul className="style-none">
       <li>
@@ -17,7 +19,7 @@ const CandidateBio = ({ candidate }: { candidate: ICandidate }) => {
       <li>
         <span>Email: </span>
         <div>
-          <a href="mailto:me@support.com">{candidate.email}</a>
+          <a>{abbreviatedEmail}</a>
         </div>
       </li>
       <li>
@@ -34,7 +36,7 @@ const CandidateBio = ({ candidate }: { candidate: ICandidate }) => {
         <span>Expected Salary: </span>
         <div>{candidate?.expectedSalary?.currency?.symbol}{candidate?.expectedSalary?.min}-{candidate?.expectedSalary?.currency?.symbol}{candidate?.expectedSalary?.max} {candidate?.expectedSalary?.period}</div>
       </li>
-      <li>
+      {/* <li>
         <span>Social:</span>
         <div>
           <a 
@@ -58,7 +60,7 @@ const CandidateBio = ({ candidate }: { candidate: ICandidate }) => {
             <i className="bi bi-linkedin"></i>
           </a>
         </div>
-      </li>
+      </li> */}
     </ul>
   );
 };

@@ -49,7 +49,10 @@ const SavedJobArea = ({ setIsOpenSidebar, savedJobs }: IProps) => {
           </Link>
         </div>
         </div>
-
+        
+        <div className="mb-20">
+          <h4 style={{fontWeight:'100', fontSize:'large'}}>Rediscover the gems of job opportunities you've marked as favorites..</h4>
+          </div>
         <div className="wrapper">
           {loading && <Loader />}
           {!loading && savedJobs?.length === 0 && (

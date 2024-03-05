@@ -102,17 +102,7 @@ const LoginModal = () => {
                   <div className="line"></div>
                 </div>
               )}
-              <div className="ms-3 ">
-        <label>
-          <input
-            type="checkbox"
-            checked={isCheckboxChecked}
-            onChange={handleCheckboxChange}
-            className="me-2"
-          />
-           I hereby accepts all the conditions.
-        </label>
-      </div>
+              
               <div className="row " style={{ padding: "20px" }}>              
                 <div className="col-md-6 ">
                 <a
@@ -165,6 +155,17 @@ const LoginModal = () => {
                 </Link>
               </p> */}
             </div>
+            <div className="d-flex justify-content-center " style={{fontSize:'small'}}>
+        <label>
+          <input
+            type="checkbox"
+            checked={isCheckboxChecked}
+            onChange={handleCheckboxChange}
+            className="me-2"
+          />
+           I hereby accepts all the Terms and Conditions.
+        </label>
+      </div>
           </div>
         </div>
       </div>

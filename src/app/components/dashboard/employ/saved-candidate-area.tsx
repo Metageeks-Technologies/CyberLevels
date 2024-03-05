@@ -47,7 +47,10 @@ const SavedCandidateArea = ({ setIsOpenSidebar, savedCandidates }: IProps) => {
           </Link>
         </div>
         </div>
-
+        <div className="mb-20">
+          <h4 style={{fontWeight:'100', fontSize:'large'}}>Navigate through your saved candidates with ease..</h4>
+          </div>
+        
         <div className="wrapper">
         {loading && (<Loader />)}
           {!loading && savedCandidates?.map((item) => (
