@@ -156,14 +156,26 @@ const LoginModal = () => {
               </p> */}
             </div>
             <div className="d-flex justify-content-center " style={{fontSize:'small'}}>
-        <label>
+        <label className="d-flex">
           <input
             type="checkbox"
             checked={isCheckboxChecked}
             onChange={handleCheckboxChange}
-            className="me-2"
+            className="me-2 d-flex"
           />
-           I hereby accepts all the Terms and Conditions.
+          <div className="d-flex">
+           I hereby accepts all the 
+           </div>
+           <Link href='/privacy-policy'>
+            <button
+           data-bs-dismiss="modal"
+              aria-label="Close"
+              >
+           <div className="d-flex ms-1" style={{color:'#0606c6', textDecorationLine:'underline'}}>
+            Terms and Conditions.
+           </div>
+            </button>
+           </Link>
         </label>
       </div>
           </div>

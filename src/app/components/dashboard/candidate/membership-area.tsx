@@ -367,9 +367,10 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                             className=" tran3s w-100 mt-30 mx-auto current-plan"
                             style={{
                               lineHeight: "25px",
-                              fontWeight: "500",
+                              // fontWeight: "500",
                               borderRadius: "30px",
                               cursor: "initial",
+                              padding:'revert'
                             }}
                           >
                            Please reach out to us to discuss this product and pricing at info@cyberlevels.com
@@ -412,9 +413,10 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                             className=" tran3s w-100 mt-30 mx-auto current-plan"
                             style={{
                               lineHeight: "25px",
-                              fontWeight: "500",
+                              // fontWeight: "500",
                               borderRadius: "30px",
                               cursor: "initial",
+                              padding:'revert'
                             }}
                           >
                            Please reach out to us to discuss this product and pricing at info@cyberlevels.com
