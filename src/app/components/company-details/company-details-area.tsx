@@ -6,8 +6,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Funding from "./Funding";
 import CompanyReviews from "./company-reviews";
-import { setSubscriptionModel } from "@/redux/features/model/slice";
+import { setPlanExhaustedModel, setSubscriptionModel } from "@/redux/features/model/slice";
 import SubscriptionModal from "../model/subscriptionModel";
+import ExhaustedPlanModal from "../model/ExhaustedPlanModel";
 
 const CompanyDetailsArea = ({ id, url }: { id: string; url: string }) => {
   const URL = `${process.env.NEXT_PUBLIC_HOME_ENDPOINT}${url}`;
@@ -29,10 +30,11 @@ const CompanyDetailsArea = ({ id, url }: { id: string; url: string }) => {
     // Clean up the timeout to avoid memory leaks
     // return () => clearTimeout(timeoutId);
   }, [id]);
+  const { planExhaustedModel,planExhaustedString } = useAppSelector((state) => state.model);
   const handleGetDetails = () => {
     // getCompanyDetails(dispatch, id);
 
-    dispatch(setSubscriptionModel(true));
+    dispatch(setPlanExhaustedModel({value:true,plan:"Company View"}));
     setModalShown(true);
   };
   let date = new Date();
@@ -286,6 +288,7 @@ const CompanyDetailsArea = ({ id, url }: { id: string; url: string }) => {
                   </div>
                 </div>
               </div>
+              {planExhaustedModel && <ExhaustedPlanModal />}
             </div>
           </div>
         </section>

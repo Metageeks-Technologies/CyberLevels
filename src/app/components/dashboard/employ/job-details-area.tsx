@@ -13,6 +13,7 @@ import CandidateFilterByJobApp from "../../common/popup/candidateFilterByJobApp"
 import { IJobPost } from "@/types/jobPost-type";
 import Loader from "@/ui/loader";
 import SubscriptionModalForEmployer from "../../model/subscriptionModelEmployer";
+import ExhaustedPlanModal from "../../model/ExhaustedPlanModel";
 
 // props type
 type IProps = {
@@ -25,6 +26,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
   const [currJobPost, setCurrJobPost] = useState<IJobPost | null>();
   const { loading } = useAppSelector((state) => state.jobApplication);
   const {subscriptionModelEmployer} = useAppSelector((state) => state.model)
+  const { planExhaustedModel,planExhaustedString } = useAppSelector((state) => state.model);
   useEffect(() => {
     const foundJobPost = jobPostsForEmployer.find(
       (job) => job._id === jobPostId
@@ -185,7 +187,7 @@ const EmployJobArea = ({ setIsOpenSidebar, jobApp, jobPostId }: IProps) => {
       <ChatModal />
       <FeedbackModal />
       <CandidateFilterByJobApp />
-      {subscriptionModelEmployer && <SubscriptionModalForEmployer />}
+      {planExhaustedModel && <ExhaustedPlanModal />}
     </>
   );
 };

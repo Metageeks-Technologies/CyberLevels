@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ActionDropdown from "./action-dropdown-jobApp";
 import { getDate } from "@/utils/helper";
 import Link from "next/link";
+import { useAppSelector } from "@/redux/hook";
+import ExhaustedPlanModal from "../../model/ExhaustedPlanModel";
 
 const CandidateJobItem = ({
   title,
@@ -22,6 +24,10 @@ const CandidateJobItem = ({
   jobAppId: string;
   jobId?: string;
 }) => {
+  const { planExhaustedModel,planExhaustedString } = useAppSelector((state) => state.model);
+  // useEffect(() => {
+
+  // },[planExhaustedModel])
   return (
     <>
       <tr
@@ -55,6 +61,7 @@ const CandidateJobItem = ({
             </button>
 
             <ActionDropdown jobAppId={jobAppId} />
+            {planExhaustedModel && <ExhaustedPlanModal />}
           </div>
         </td>
       </tr>

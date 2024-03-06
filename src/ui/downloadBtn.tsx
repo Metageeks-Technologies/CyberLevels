@@ -1,5 +1,8 @@
 import instance from "@/lib/axios";
-import { getallJobAppByJobPostWithCandidate, updateJobAppStatus } from "@/redux/features/jobApp/api";
+import {
+  getallJobAppByJobPostWithCandidate,
+  updateJobAppStatus,
+} from "@/redux/features/jobApp/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import axios from "axios";
 import React from "react";
@@ -12,14 +15,16 @@ const ResumeDownloadButton = ({
   id,
   candidateId,
   jobPostId,
+  updateStatus = true,
 }: {
   fileName: string;
   s3Key: string;
   text?: string;
   style?: string;
-  id: string;
-  candidateId: string;
-  jobPostId: string;
+  id?: string;
+  candidateId?: string;
+  jobPostId?: string;
+  updateStatus?: boolean;
 }) => {
   const dispatch = useAppDispatch();
   const { currUser } = useAppSelector((s) => s.persistedReducer.user);
@@ -28,21 +33,27 @@ const ResumeDownloadButton = ({
     (state) => state.employerCandidateByJobAppFilter
   );
   const handleDownloadClick = async () => {
-    await updateJobAppStatus(
+    if (updateStatus) {
+      await updateJobAppStatus(
+        dispatch,
+        {
+          status: "Under Review",
+          employerId: currUser,
+          candidateId,
+          id,
+          redirectUrl: `${process.env.NEXT_PUBLIC_HOME_ENDPOINT}/dashboard/candidate-dashboard/jobs`,
+        },
+        socket
+      );
+    }
+    getallJobAppByJobPostWithCandidate(
       dispatch,
-      {
-        status: "Under Review",
-        employerId: currUser,
-        candidateId,
-        id,
-        redirectUrl: `${process.env.NEXT_PUBLIC_HOME_ENDPOINT}/dashboard/candidate-dashboard/jobs`,
-      },
-      socket
+      jobPostId as string,
+      filterState
     );
-    getallJobAppByJobPostWithCandidate(dispatch, jobPostId, filterState);
     const { data } = await instance.post("/candidate/download", { s3Key });
     // console.log("downloaded data", data);
-    
+
     const { data: resume } = await axios(data.url, {
       responseType: "blob",
     });
@@ -55,7 +66,6 @@ const ResumeDownloadButton = ({
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
   };
 
   return (

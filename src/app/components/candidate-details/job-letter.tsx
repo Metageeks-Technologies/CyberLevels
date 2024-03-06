@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import GptLoader from "@/ui/loader";
 import { notifyInfo } from "@/utils/toast";
 import { createJobApp } from "@/redux/features/jobApp/api";
+import ExhaustedPlanModal from "../model/ExhaustedPlanModel";
 
 const JobLetter = ({
   setForm,
@@ -25,6 +26,7 @@ const JobLetter = ({
   >;
 }) => {
   const dispatch = useAppDispatch();
+  const {planExhaustedModel} = useAppSelector((state) =>state.model)
   //   const [jobLetter, setJobLetter] = useState("");
   const [isSaved, setSaved] = useState(false);
   const [isSkip, setSkip] = useState(false);
@@ -149,6 +151,7 @@ const JobLetter = ({
           </button>
         )}
       </div>
+      {planExhaustedModel && <ExhaustedPlanModal />}
     </div>
   );
 };

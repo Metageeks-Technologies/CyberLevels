@@ -9,7 +9,7 @@ import LoginModal from "../../common/popup/login-modal";
 import { registerJobPostView } from "@/redux/features/jobPost/api";
 import { useRouter } from "next/navigation";
 import { notifyError, notifyWarn } from "@/utils/toast";
-import { setProfileCompleteModel, setSubscriptionModel } from "@/redux/features/model/slice";
+import { setPlanExhaustedModel, setProfileCompleteModel, setSubscriptionModel } from "@/redux/features/model/slice";
 import ProfileCompleteModal from "../../model/completeProfile";
 import { ICompany } from "@/types/company-type";
 import SubscriptionModal from "../../model/subscriptionModel";
@@ -70,7 +70,7 @@ const JobGridItem = ({
   const handleGetDetails = () => {
     // getCompanyDetails(dispatch, id);
 
-    dispatch(setSubscriptionModel(true));
+    dispatch(setPlanExhaustedModel({value:true,plan:"Job Save"}));
     // setModalShown(true);
   };
   const handleSubscribePopup = () => {};

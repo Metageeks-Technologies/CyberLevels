@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { notifyWarn } from "@/utils/toast";
 // item.isFav;
 import ProfileCompleteModal from "../model/completeProfile";
-import { setProfileCompleteModel, setSubscriptionModel } from "@/redux/features/model/slice";
+import { setPlanExhaustedModel, setProfileCompleteModel, setSubscriptionModel } from "@/redux/features/model/slice";
 import SubscriptionModal from "../model/subscriptionModel";
 
 const CompanyListItem = ({ item }: { item: ICompany }) => {
@@ -68,7 +68,7 @@ const CompanyListItem = ({ item }: { item: ICompany }) => {
   const handleGetDetails = () => {
     // getCompanyDetails(dispatch, id);
 
-    dispatch(setSubscriptionModel(true));
+    dispatch(setPlanExhaustedModel({value:true,plan:"Company Save"}));
     // setModalShown(true);
   };
   const handleSubscribePopup = () => {};

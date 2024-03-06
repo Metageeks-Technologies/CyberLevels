@@ -10,7 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import ProfileCompleteModal from "../../model/completeProfile";
-import { setProfileCompleteModel } from "@/redux/features/model/slice";
+import { setPlanExhaustedModel, setProfileCompleteModel } from "@/redux/features/model/slice";
 import { setSubscriptionModel } from "@/redux/features/model/slice";
 import SubscriptionModal from "../../model/subscriptionModel";
 
@@ -63,7 +63,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
   const handleGetDetails = () => {
     // getCompanyDetails(dispatch, id);
     // console.log("Hello")
-    dispatch(setSubscriptionModel(true));
+    dispatch(setPlanExhaustedModel({value:true,plan:"Job Save"}));
     // setModalShown(true);
   };
   const handleSubscribePopup = () => {};

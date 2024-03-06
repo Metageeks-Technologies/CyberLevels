@@ -8,7 +8,7 @@ import { ICandidate } from "@/types/user-type";
 import { notifyError } from "@/utils/toast";
 import Image from "next/image";
 import avatar from "@/assets/dashboard/images/avatar_04.jpg";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardHeader from "./dashboard-header";
 import Location from "./profile/Location";
 import Social from "./profile/OnTheWeb";
@@ -26,6 +26,8 @@ import {
 
 import SelfDeclaration from "./profile/SelfDecalration";
 import Preferences from "./profile/Preferences";
+import ProfileCompleteModelSuccess from "../../model/ProfileCompeteSuccessModel";
+import { setProfileCompleteModelSuccess } from "@/redux/features/model/slice";
 // props type
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,6 +38,12 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
   );
   const dispatch = useAppDispatch();
   const user = currCandidate as ICandidate;
+  const {profileCompleteSuccessModel } = useAppSelector((state) => state.model);
+  const [showCompleteModal,setShowCompleteModal] = useState<boolean|undefined>(undefined)
+    if(currCandidate?.isProfileCompleted && showCompleteModal===undefined){
+      setShowCompleteModal(true);
+    }
+    
 
   const { photoFile: file } = useAppSelector(
     (state) => state.candidate.candidateDashboard
@@ -196,6 +204,7 @@ const DashboardProfileArea = ({ setIsOpenSidebar }: IProps) => {
           <Preferences />
         </div>
       </div>
+        {showCompleteModal && <ProfileCompleteModelSuccess setShowCompleteModal={setShowCompleteModal} />}
     </>
   );
 };

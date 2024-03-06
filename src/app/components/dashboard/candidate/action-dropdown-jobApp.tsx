@@ -1,7 +1,7 @@
 import view from "@/assets/dashboard/images/icon/icon_18.svg";
 import share from "@/assets/dashboard/images/icon/icon_19.svg";
 import { setCurrJobApp } from "@/redux/features/jobApp/slice";
-import { setSubscriptionModel } from "@/redux/features/model/slice";
+import { setPlanExhaustedModel, setSubscriptionModel } from "@/redux/features/model/slice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import Image from "next/image";
 
@@ -12,7 +12,7 @@ const ActionDropdown = ({ jobAppId }: { jobAppId: string }) => {
   const handleGetDetails = () => {
     // getCompanyDetails(dispatch, id);
 
-    dispatch(setSubscriptionModel(true));
+    dispatch(setPlanExhaustedModel({value:true,plan:"Feedback"}));
     // setModalShown(true);
   };
   return (
