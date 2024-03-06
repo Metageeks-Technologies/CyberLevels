@@ -31,6 +31,7 @@ import {
 
 const CreateCompany = () => {
   const dispatch = useDispatch();
+  const [category,setCategory] = useState("")
   const { loading } = useSelector(
     (state: RootState) => state.company.companyList
   );
@@ -178,6 +179,9 @@ const CreateCompany = () => {
       setValidForm({ ...validForm, founderName: false });
     }
   }, [form.founderName]);
+  useEffect(() => {
+   setForm({...form,category:category})
+  },[category])
   useEffect(() => {
     if (isValidEmail(form.email)) {
       setValidForm({ ...validForm, email: true });
@@ -499,21 +503,25 @@ const CreateCompany = () => {
           <div className="col-md-6">
             <div className="dash-input-wrapper mb-30">
               <label htmlFor="category">Category*</label>
-              <input
+              {/* <input
                 name="category"
                 value={form.category}
                 onChange={handleInputChange}
                 type="text"
                 placeholder="Account, Finance, Marketing"
-              />
-              {!validForm.category && (
-                <p style={{ color: "red" }}>Enter Valid Category</p>
-              )}
-              {/* <AutocompletePosition
+              /> */}
+              <AutocompletePosition
                   selected={category}
                   setSelected={setCategory}
                   endPoint="companyCategory"
-                /> */}
+                  showAdd={true}
+                  placeholder="Category"
+                  addTo="Company Category"
+                  top={true}
+                  />
+                  {!validForm.category && (
+                    <p style={{ color: "red" }}>Enter Valid Category</p>
+                  )}
             </div>
           </div>
         </div>

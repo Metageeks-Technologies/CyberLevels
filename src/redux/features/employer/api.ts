@@ -133,7 +133,24 @@ export const addNotificationToCandidate = async (dispatch: AppDispatch, bodyObj:
         dispatch(requestFailDash(e.message))
     }
 }
-
+export const addCompanyCategoryToDB = async(dispatch:AppDispatch,title:string) => {
+    dispatch(requestStartDash());
+    try {
+        const { data } = await instance.post(
+            `/companyCategory/add`, { categoryName: title }
+        );
+        console.log(data);
+        dispatch(requestSuccessDash())
+        notifySuccess("Category added successfully");
+        return true;
+    } catch (error) {
+        // console.log(error);
+        const e = error as any;
+        dispatch(requestFailDash(e.response?.data.message));
+        notifyError(e.response?.data.message);
+        return false;
+    }
+}
 export const addPositionToDB = async (
     dispatch: AppDispatch,
     title: string
