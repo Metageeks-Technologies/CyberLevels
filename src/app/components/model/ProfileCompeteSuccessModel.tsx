@@ -15,7 +15,7 @@ const ProfileCompleteModelSuccess = ({setShowCompleteModal}:{setShowCompleteModa
   return (
     <div
       style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
-      className={`modal-backdrop  fade ${profileCompleteSuccessModel ? "show" : ""}`}
+      className={`modal-backdrop  fade ${profileCompleteSuccessModel ? "show opacity-100" : ""}`}
       onClick={handleClose}
     >
       <div

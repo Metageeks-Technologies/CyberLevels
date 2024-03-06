@@ -14,7 +14,7 @@ const ExhaustedPlanModal = () => {
   return (
     <div
       style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
-      className={`modal-backdrop  fade ${planExhaustedModel ? "show" : ""}`}
+      className={`modal-backdrop  fade ${planExhaustedModel ? "show opacity-100" : ""}`}
       onClick={handleClose}
     >
       <div
