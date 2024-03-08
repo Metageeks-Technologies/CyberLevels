@@ -22,6 +22,7 @@ import { AxiosError } from "axios";
 import { AppDispatch } from "@/redux/store";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import { useAppDispatch } from "@/redux/hook";
+import { setPlanExhaustedModel } from "../model/slice";
 
 // dashboard
 export const getAllJobAppByCandidate = async (
@@ -111,6 +112,7 @@ export const createJobApp = async (dispatch: AppDispatch, bodyObj: any) => {
     const response = e.response as any;
     const msg = response.data.message as string;
     dispatch(requestFail(msg));
+    dispatch(setPlanExhaustedModel({value:true,plan:"Apply"}));
     notifyError(msg);
   }
 };

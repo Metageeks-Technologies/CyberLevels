@@ -17,6 +17,7 @@ import ChatWithGpt from "../common/chat-with-gpt";
 import { setSubscriptionModel } from "@/redux/features/model/slice";
 import SubscriptionModal from "../model/subscriptionModel";
 import Experience from "../dashboard/candidate/resume/Experience";
+import ExhaustedPlanModal from "../model/ExhaustedPlanModel";
 
 const JobDetailsV1Area = ({
   job,
@@ -68,6 +69,7 @@ const JobDetailsV1Area = ({
   // }, []);
 
   // console.log(allJobAppByCandidate);
+  const { planExhaustedModel,planExhaustedString } = useAppSelector((state) => state.model);
   const checkIsApplied = () => {
     const applicationsByCurrentCandidate = allJobAppByCandidate.filter(
       (application) => String(application.jobPost) === String(job._id)
@@ -561,6 +563,7 @@ const JobDetailsV1Area = ({
       </div>
       {sidebar && <GptSidebar setSidebar={setSidebar} />}
       <QuestionModal question={job?.testQuestions} jobId={job?._id} />
+      {planExhaustedModel && <ExhaustedPlanModal />}
     </>
   );
 };

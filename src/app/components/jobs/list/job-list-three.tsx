@@ -10,6 +10,7 @@ import JobGridItem from "../grid/job-grid-item";
 import ListItemTwo from "./list-item-2";
 import Loader from "@/ui/loader";
 import { useSearchParams } from "next/navigation";
+import ExhaustedPlanModal from "../../model/ExhaustedPlanModel";
 
 const JobListThree = ({
   itemsPerPage,
@@ -39,6 +40,7 @@ const JobListThree = ({
     dispatch(setSalary(values[0]));
     console.log(values);
   };
+  const { planExhaustedModel,planExhaustedString } = useAppSelector((state) => state.model);
 
   useEffect(() => {
     getJObPosts(
@@ -194,6 +196,7 @@ const JobListThree = ({
               )}
             </div>
           </div>
+          {planExhaustedModel && <ExhaustedPlanModal />}
         </div>
       </section>
     </>

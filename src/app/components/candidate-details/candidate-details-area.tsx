@@ -12,8 +12,9 @@ import { useAppSelector, useAppDispatch } from "@/redux/hook";
 import { getCandidateDetails } from "@/redux/features/candidate/api";
 import RequestModal from "./popup/request";
 import ResumeDownloadButton from "@/ui/downloadBtn";
-import { setSubscriptionModelEmployer } from "@/redux/features/model/slice";
+import { setPlanExhaustedModel, setSubscriptionModelEmployer } from "@/redux/features/model/slice";
 import SubscriptionModalForEmployer from "../model/subscriptionModelEmployer";
+import ExhaustedPlanModal from "../model/ExhaustedPlanModel";
 
 const CandidateDetailsArea = ({ id }: { id: string }) => {
   const dispatch = useAppDispatch();
@@ -25,14 +26,15 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
   useEffect(() => {
     getCandidateDetails(dispatch, id);
   }, [id]);
-
+  const { planExhaustedModel,planExhaustedString } = useAppSelector((state) => state.model);
   const {subscriptionModelEmployer} = useAppSelector((state) => state.model)
   const handleGetDetails = () => {
     // getCompanyDetails(dispatch, id);
 
-    dispatch(setSubscriptionModelEmployer(true));
+    dispatch(setPlanExhaustedModel({value:true,plan:"Request"}));
     // setModalShown(true);
   };
+  
   return (
     <>
       {candidate && (
@@ -120,6 +122,7 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
                           style="btn-ten fw-500 text-white w-100 text-center tran3s mt-15"
                           fileName={candidate.resumes[0]?.name}
                           s3Key={candidate.resumes[0].s3Key}
+                          updateStatus={false}
                         />
                       )} */}
                       {/* {(userRole === "employer" &&
@@ -182,7 +185,7 @@ const CandidateDetailsArea = ({ id }: { id: string }) => {
             </div>
           </section>
           <RequestModal candidateId={candidate._id} />
-          {subscriptionModelEmployer && <SubscriptionModalForEmployer />}
+          {planExhaustedModel && <ExhaustedPlanModal />}
         </>
       )}
     </>

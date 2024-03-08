@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import CompanyGridItem from "./company-grid-item";
 import CompanyListItem from "./company-list-item";
 import CompanyV1Filter from "./filter/company-v1-filter";
+import ExhaustedPlanModal from "../model/ExhaustedPlanModel";
 
 const CompanyV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
   const dispatch = useAppDispatch();
@@ -29,6 +30,7 @@ const CompanyV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
     // dispatch(setSubscriptionModel(true));
     getCompanies(dispatch, filterState, page, currUser ? currUser : "");
   }, [name, teamSize, page, location]);
+  const { planExhaustedModel,planExhaustedString } = useAppSelector((state) => state.model);
 
   const handlePageClick = (event: { selected: number }) => {
     dispatch(setPage(event.selected + 1));
@@ -120,7 +122,7 @@ const CompanyV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
                   <div
                     className={`accordion-box list-style ${
                       jobType === "list" ? "show" : ""
-                    }`}
+                    }`} 
                   >
                     {companies?.map((item) => (
                       <CompanyListItem key={item._id} item={item} />
@@ -163,6 +165,7 @@ const CompanyV1Area = ({ style_2 = false }: { style_2?: boolean }) => {
               )}
             </div>
           </div>
+          {planExhaustedModel && <ExhaustedPlanModal />}
         </div>
       </section>
     </>

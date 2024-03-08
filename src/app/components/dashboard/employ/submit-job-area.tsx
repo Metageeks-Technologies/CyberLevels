@@ -30,6 +30,8 @@ import {
   isValidSalaryNumber,
 } from "@/utils/helper";
 import { notifyInfo } from "@/utils/toast";
+import ExhaustedPlanModal from "../../model/ExhaustedPlanModel";
+import { setPlanExhaustedModel } from "@/redux/features/model/slice";
 
 type IProps = {
   setIsOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -233,7 +235,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
     benefits: benefits,
     deadlineDate,
   };
-
+  const { planExhaustedModel,planExhaustedString } = useAppSelector((state) => state.model);
   const handleSubmit = async () => {
     if (
       primarySkills.length === 0 ||
@@ -329,6 +331,7 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
 
   const draftDescription = async () => {
     setLoadingLocal({ ...loadingLocal, description: true });
+    
     const query = `Help me in writing to the point job description for a job post with given information .
                     job title:${bodyObj.title} job type:${
       bodyObj.jobType
@@ -354,6 +357,8 @@ const SubmitJobArea = ({ setIsOpenSidebar }: IProps) => {
   };
   const draftQuestion = async () => {
     setLoadingLocal({ ...loadingLocal, question: true });
+
+    
     // const query = `generate 4 easy to medium  question with answer in multiple choice of exact four option on the topic ${bodyObj.primarySkills.join(
     //   ","
     // )}. do not give any extra information or text just question and corresponding answer. give the response in a way that question, options and answer should be in same group or new line.`;
@@ -836,6 +841,7 @@ Please follow this format for all questions.`;
             Cancel
           </a> */}
         </div>
+        {planExhaustedModel && <ExhaustedPlanModal />}
       </div>
     </div>
   );

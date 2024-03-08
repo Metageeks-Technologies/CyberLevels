@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import { Combobox, Transition } from "@headlessui/react";
 import instance from "@/lib/axios";
-import { addPositionToDB } from "@/redux/features/employer/api";
+import { addCompanyCategoryToDB, addPositionToDB } from "@/redux/features/employer/api";
 import { useAppDispatch } from "@/redux/hook";
 import { notifySuccess, notifyError } from "@/utils/toast";
 interface Props {
@@ -13,6 +13,8 @@ interface Props {
   placeholder?: string;
   showAdd?: boolean;
   disabled?:boolean;
+  addTo?:string;
+  top?:boolean
 }
 
 function AutocompletePosition({
@@ -23,6 +25,8 @@ function AutocompletePosition({
   placeholder = "Job Title",
   showAdd = false,
   disabled = false,
+  top=false,
+  addTo = "Position",
 }: Props) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -56,7 +60,13 @@ function AutocompletePosition({
   }, [query]);
 
   const handleAdd = async () => {
-    await addPositionToDB(dispatch, query);
+    if(addTo==="Position"){
+      await addPositionToDB(dispatch, query);
+
+    }
+    else{
+      await addCompanyCategoryToDB(dispatch,query);
+    }
     setSelected(query);
   };
   return (
@@ -77,7 +87,7 @@ function AutocompletePosition({
                 className="skill-add btn-one position-absolute px-3 py-0"
                 style={{
                   zIndex: 10,
-                  top: false ? "50%" : "12%",
+                  top: top ? "50%" : "12%",
                   right: "5%",
                   transform: "translateY(-50%)",
                 }}

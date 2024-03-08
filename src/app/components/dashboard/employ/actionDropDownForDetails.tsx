@@ -7,7 +7,7 @@ import {
 } from "@/redux/features/jobApp/api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { setCurrJobApp } from "@/redux/features/jobApp/slice";
-import { setSubscriptionModelEmployer } from "@/redux/features/model/slice";
+import { setPlanExhaustedModel, setSubscriptionModelEmployer } from "@/redux/features/model/slice";
 // const  enum: ['Received', 'Under Review', 'Shortlisted', "Not Selected"]
 
 const ActionDropdown = ({
@@ -46,7 +46,7 @@ const ActionDropdown = ({
     }
   };
   const handleGetDetails = () => {
-    dispatch(setSubscriptionModelEmployer(true));
+    dispatch(setPlanExhaustedModel({value:true,plan:"Chat/Feedback"}));
   };
   const { loading } = useAppSelector((state) => state.jobApplication);
   return (

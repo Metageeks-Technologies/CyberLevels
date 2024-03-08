@@ -14,6 +14,7 @@ import { notifyWarn } from "@/utils/toast";
 import LoginModal from "../common/popup/login-modal";
 import ProfileCompleteModal from "../model/completeProfile";
 import {
+  setPlanExhaustedModel,
   setProfileCompleteModel,
   setSubscriptionModel,
 } from "@/redux/features/model/slice";
@@ -66,7 +67,7 @@ const CompanyGridItem = ({ item }: { item: ICompany }) => {
   const handleGetDetails = () => {
     // getCompanyDetails(dispatch, id);
 
-    dispatch(setSubscriptionModel(true));
+    dispatch(setPlanExhaustedModel({value:true,plan:"Company Save"}));
     // setModalShown(true);
   };
   const handleSubscribePopup = () => {};

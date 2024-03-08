@@ -4,6 +4,7 @@ import { MagicWand } from "@phosphor-icons/react";
 import GptLoader from "@/ui/loader";
 import { getSuggestion } from "@/redux/features/jobPost/api";
 import { notifyInfo } from "@/utils/toast";
+import ExhaustedPlanModal from "../model/ExhaustedPlanModel";
 
 const Suggestion = ({
   setStep,
@@ -16,7 +17,7 @@ const Suggestion = ({
   const [isSaved, setSaved] = useState(false);
   const [suggestionWithAi, setSuggestionWithAi] = useState("");
   const { jobPost, gptLoading } = useAppSelector((state) => state.jobPost);
-
+const {planExhaustedModel} = useAppSelector((state) =>state.model)
   const { currCandidate } = useAppSelector(
     (state) => state.candidate.candidateDashboard
   );
@@ -96,6 +97,7 @@ const Suggestion = ({
           </button>
         </div>
       )} */}
+      {planExhaustedModel && <ExhaustedPlanModal />}
     </div>
   );
 };
