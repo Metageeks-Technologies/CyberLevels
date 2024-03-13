@@ -59,14 +59,15 @@ function AutocompletePosition({
     callApi();
   }, [query]);
 
-  const handleAdd = async () => {
+  const handleAdd =  () => {
     if(addTo==="Position"){
-      await addPositionToDB(dispatch, query);
+       addPositionToDB(dispatch, query);
 
     }
     else{
-      await addCompanyCategoryToDB(dispatch,query);
+       addCompanyCategoryToDB(dispatch,query);
     }
+    // addCompanyCategoryToDB(dispatch,query);
     setSelected(query);
   };
   return (
