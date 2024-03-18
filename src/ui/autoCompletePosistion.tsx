@@ -2,7 +2,10 @@ import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import { Combobox, Transition } from "@headlessui/react";
 import instance from "@/lib/axios";
-import { addCompanyCategoryToDB, addPositionToDB } from "@/redux/features/employer/api";
+import {
+  addCompanyCategoryToDB,
+  addPositionToDB,
+} from "@/redux/features/employer/api";
 import { useAppDispatch } from "@/redux/hook";
 import { notifySuccess, notifyError } from "@/utils/toast";
 interface Props {
@@ -12,9 +15,9 @@ interface Props {
   suggestionsProp?: string[];
   placeholder?: string;
   showAdd?: boolean;
-  disabled?:boolean;
-  addTo?:string;
-  top?:boolean
+  disabled?: boolean;
+  addTo?: string;
+  top?: boolean;
 }
 
 function AutocompletePosition({
@@ -25,7 +28,7 @@ function AutocompletePosition({
   placeholder = "Job Title",
   showAdd = false,
   disabled = false,
-  top=false,
+  top = false,
   addTo = "Position",
 }: Props) {
   const [query, setQuery] = useState("");
@@ -60,12 +63,11 @@ function AutocompletePosition({
   }, [query]);
 
   const handleAdd = async () => {
-    if(addTo==="Position"){
+    console.log("handleAdd");
+    if (addTo === "Position") {
       await addPositionToDB(dispatch, query);
-
-    }
-    else{
-      await addCompanyCategoryToDB(dispatch,query);
+    } else {
+      await addCompanyCategoryToDB(dispatch, query);
     }
     setSelected(query);
   };
@@ -92,7 +94,7 @@ function AutocompletePosition({
                   transform: "translateY(-50%)",
                 }}
               >
-                Add
+                add
               </p>
             )}
           </div>

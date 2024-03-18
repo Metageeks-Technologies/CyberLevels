@@ -52,6 +52,7 @@ function AutocompleteCategory({
   }, [query]);
 
   const handleAdd = async () => {
+    // console.log("handleAdd");
     await addJobCategoryToDB(dispatch, query);
     setSelected(query);
   };
