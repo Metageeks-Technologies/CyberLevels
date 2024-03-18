@@ -9,7 +9,7 @@ import FancyBanner from "./components/fancy-banner/fancy-banner";
 import FeatureFour from "./components/features/feature-four";
 import FeatureOne from "./components/features/feature-one";
 import FeedbackTwo from "./components/feedBacks/feedback-one";
-import HeroBanner from "./components/hero-banners/hero-banner";
+import HeroBanner from "./components/hero-banners/hero-banner-four";
 import HowItWorks from "./components/how-it-works/how-it-works";
 import JobPortalIntro from "./components/job-portal-intro/job-portal-intro";
 import DownloadButton from "../ui/downloadBtn";
@@ -27,7 +27,7 @@ export default function Home() {
       {/* hero banner end */}
 
       {/* category section start */}
-      <CategorySection />
+      {/* <CategorySection /> */}
       {/* category section end */}
 
       {/* <a
@@ -44,13 +44,12 @@ export default function Home() {
       </a> */}
 
       {/* feature one start */}
-      <FeatureFour />
+      {/* <FeatureFour /> */}
       {/* feature one end */}
       {/* how works start */}
       <HowItWorks />
       {/* how works end */}
       {/* expert one section start */}
-      <ExpertsOne />
       {/* expert one section end */}
       {/* feedback one start */}
 
@@ -58,12 +57,27 @@ export default function Home() {
       {/* feedback one end */}
       {/* text feature two start */}
       <FeatureOne />
+      <div
+        style={{ paddingTop: "0", marginBottom: "100px" }}
+        className="footer-one d-flex justify-content-center"
+      >
+        <div className="col-lg-4 mb-20 footer-newsletter">
+          <h2 className={`footer-title text-black`}>Join Our Newsletter</h2>
+          <p className={`text-black`}>Join & get important new regularly</p>
+          <form action="#" className={`d-flex border-style`}>
+            <input type="email" placeholder="Enter your email*" />
+            <button>Send</button>
+          </form>
+          <p className="note">We only send interesting and relevant emails.</p>
+        </div>
+      </div>
       {/* text feature two end */}
+      {/* <ExpertsOne /> */}
       {/* blog section one start */}
-      <BlogOne />
+      {/* <BlogOne /> */}
       {/* blog section one end */}
       {/* fancy banner start */}
-      <FancyBanner />
+      {/* <FancyBanner /> */}
       {/* fancy banner end */}
       {/* job portal intro start */}
       {/* <JobPortalIntro /> */}

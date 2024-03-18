@@ -7,7 +7,10 @@ import man_2 from "@/assets/images/assets/people-6.jpg";
 import screen_1 from "@/assets/images/assets/screen_01.png";
 import screen_2 from "@/assets/images/assets/screen_02.png";
 import screen_3 from "@/assets/images/assets/screen_03.png";
-import shape from "@/assets/images/shape/shape_06.svg";
+// import shape from "@/assets/images/shape/shape_06.svg";
+import main_img from "@/assets/images/assets/ils_01.svg";
+import shape from "@/assets/images/assets/ils_01_02.svg";
+import tree_img from "@/assets/images/assets/ils_01_01.svg";
 
 // FeatureImgData
 export function FeatureImgData() {
@@ -72,24 +75,59 @@ const FeatureOne = () => {
           <div className="col-lg-5 order-lg-last">
             <div className="ps-xxl-4 wow fadeInRight">
               <div className="title-one">
-                <h2>Get over 50.000+ talented experts in CyberLevels.</h2>
+                <h3>Unrivaled recruiting technology</h3>
               </div>
-              <p className="mt-40 md-mt-20 mb-40 md-mb-20">
-                A full hybrid workforce management tools are yours to use, as
-                well as access to our top 1% of talent.{" "}
+              <p className="mt-20 md-mt-20 mb-40 md-mb-20">
+                Find relevant jobs within seconds using our proprietary
+                IntelliSearch.
               </p>
-              <ul className="list-style-one style-none">
+              {/* <ul className="list-style-one style-none">
                 <li>Seamless searching</li>
                 <li>Get top 3% experts for your project</li>
                 <li>Protected payments system</li>
-              </ul>
-              <Link href="/register" className="btn-one lg mt-50 md-mt-30">
-                Post a Job
-              </Link>
+              </ul> */}
+              <div className="title-one">
+                <h3>A true match</h3>
+              </div>
+              <p className="mt-20 md-mt-20 mb-40 md-mb-20">
+                Our recruiters will find you exciting job opportunities with the
+                compensation, benefits, career growth and company culture you
+                always wanted.
+              </p>
+              <div className="title-one">
+                <h2>Faster. Smarter. Better.</h2>
+              </div>
+              <div className=" btn-group display-flex gap-4 ">
+                <Link href="/register" className="btn-one  lg mt-50 md-mt-30">
+                  Find me a job
+                </Link>
+                <Link href="/register" className="btn-one lg mt-50 md-mt-30">
+                  Find me a candidate
+                </Link>
+              </div>
             </div>
           </div>
           <div className="col-lg-7 col-md-11 m-auto order-lg-first">
-            <FeatureImgData />
+            {/* <FeatureImgData /> */}
+            <div className="img-box">
+              <Image
+                src={"/discover.png"}
+                width={600}
+                height={387}
+                alt="main-img"
+                className="lazy-img main-img"
+              />
+              {/* <Image
+                src={shape}
+                alt="shape"
+                className="lazy-img shapes screen_01"
+              /> */}
+              {/* <Image
+                src={tree_img}
+                alt="tree_img"
+                className="lazy-img shapes screen_02 wow fadeInLeft"
+              /> */}
+            </div>
           </div>
         </div>
       </div>
