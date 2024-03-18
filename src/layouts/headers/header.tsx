@@ -84,7 +84,7 @@ const Header = () => {
                   )}
                   {isAuthenticated && (
                     <li
-                      style={{ width: "50px", height: "50px" , marginRight:'10px'}}
+                      style={{ width: "50px", height: "50px" , marginRight:'10px', marginLeft:'10px'}}
                       className="rounded user-avatar rounded-circle "
                     >
                       <Image

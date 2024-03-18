@@ -324,10 +324,10 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
 
                     </ul>
                     <button
-                            className=" tran3s w-100 mt-30 mx-auto current-plan"
+                            className=" tran3s w-100 mt-30 mx-auto text-xs "
                             style={{
                               lineHeight: "25px",
-                              fontWeight: "500",
+                              fontWeight: "300",
                               borderRadius: "30px",
                               cursor: "initial",
                             }}
@@ -363,10 +363,10 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                       
                     </ul>
                     <button
-                            className=" tran3s w-100 mt-30 mx-auto current-plan"
+                            className=" tran3s w-100 mt-30 mx-auto text-xs"
                             style={{
                               lineHeight: "25px",
-                              fontWeight: "500",
+                              fontWeight: "300",
                               borderRadius: "30px",
                               cursor: "initial",
                             }}

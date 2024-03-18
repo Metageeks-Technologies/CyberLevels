@@ -80,7 +80,7 @@ const nav_data: {
     icon: nav_5,
     icon_active: nav_5_active,
     link: "/dashboard/admin-dashboard/submit-job",
-    title: "Submit Job",
+    title: "Create Job",
   },
 
   {
