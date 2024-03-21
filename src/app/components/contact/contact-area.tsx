@@ -35,10 +35,11 @@ const ContactArea = () => {
                     </div>
                     <h5 className="title">Contact Info</h5>
                     <p>
-                      Open a chat or give us call at <br />
+                      Open a chat or connect with us at <br />
                       <a href="tel:310.841.5500" className="call">
-                        310.841.5500
+                       310.841.5500                        
                       </a>
+                      <span>contact@cyberlevels.com</span> 
                     </p>
                   </div>
                 </div>

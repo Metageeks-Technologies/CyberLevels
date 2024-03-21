@@ -11,6 +11,8 @@ import screen_3 from "@/assets/images/assets/screen_03.png";
 import main_img from "@/assets/images/assets/ils_01.svg";
 import shape from "@/assets/images/assets/ils_01_02.svg";
 import tree_img from "@/assets/images/assets/ils_01_01.svg";
+import { useAppSelector } from "@/redux/hook";
+import LoginModal from "@/app/components/common/popup/login-modal";
 
 // FeatureImgData
 export function FeatureImgData() {
@@ -68,6 +70,7 @@ export function FeatureImgData() {
 }
 
 const FeatureOne = () => {
+  const { isAuthenticated, userRole } = useAppSelector((state) => state.persistedReducer.user);
   return (
     <section className="text-feature-one position-relative pt-180 xl-pt-150 lg-pt-100 md-pt-80 pb-180 xl-pb-150">
       <div className="container">
@@ -98,12 +101,35 @@ const FeatureOne = () => {
                 <h2>Faster. Smarter. Better.</h2>
               </div>
               <div className=" btn-group display-flex gap-4 ">
-                <Link href="/register" className="btn-one  lg mt-50 md-mt-30">
+              {!isAuthenticated && (
+                <>
+                  <Link href="#" 
+                   className="btn-one lg mt-50 md-mt-30"
+                   data-bs-toggle="modal"
+                   data-bs-target="#loginModal"
+                  >
+                    Find me a job
+                  </Link>
+                  <Link href="#" 
+                   className="btn-one lg mt-50 md-mt-30"
+                   data-bs-toggle="modal"
+                   data-bs-target="#loginModal"
+                  >
+                    Find me a candidate
+                  </Link>
+                </>
+              )}
+              <LoginModal />
+              {isAuthenticated && userRole === "candidate" && (
+                <Link href="/job-list-v1?jobCode=" className="btn-one lg mt-50 md-mt-30">
                   Find me a job
                 </Link>
-                <Link href="/register" className="btn-one lg mt-50 md-mt-30">
+              )}
+              {isAuthenticated && userRole === "employer" && (
+                <Link href="/candidates-v1" className="btn-one lg mt-50 md-mt-30">
                   Find me a candidate
                 </Link>
+              )}
               </div>
             </div>
           </div>

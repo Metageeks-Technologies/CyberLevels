@@ -84,7 +84,7 @@ const FilterArea = ({
           </div>
         </div>
         <div className="filter-block bottom-line pb-25 mt-25">
-          <SearchLocation location={location} setLocationFilter={setLocation} />
+          <SearchLocation  />
         </div>
         {/* <!-- /.filter-block --> */}
         {/* <!-- /.filter-block --> */}

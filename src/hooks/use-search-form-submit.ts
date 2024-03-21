@@ -13,12 +13,14 @@ const useSearchFormSubmit = () => {
   const generateQueryParams = () => {
     const queryParams = [];
 
-    if (categoryVal) {
-      queryParams.push(`category=${categoryVal}`);
-    }
+    
 
     if (locationVal) {
       queryParams.push(`location=${locationVal}`);
+    }
+
+    if (categoryVal) {
+      queryParams.push(`category=hello`);
     }
 
     if (searchText) {
@@ -29,7 +31,7 @@ const useSearchFormSubmit = () => {
       queryParams.push(`company=${company}`);
     }
 
-    return queryParams.join("&");
+    return queryParams.join("&&");
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -37,7 +39,8 @@ const useSearchFormSubmit = () => {
     const queryParams = generateQueryParams();
 
     if (queryParams) {
-      router.push(`/job-search?${queryParams}`);
+      router.push(`/job-list-v1?${queryParams}`);
+      // router.push(`/job-list-v1?${locationVal}&${categoryVal}`)
     } else {
       router.push(`/`);
       setCategoryVal("");

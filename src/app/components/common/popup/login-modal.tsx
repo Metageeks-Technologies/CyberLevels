@@ -163,7 +163,12 @@ const LoginModal = () => {
             onChange={handleCheckboxChange}
             className="me-2"
           />
-           I hereby accepts all the Terms and Conditions.
+          I hereby accept all the{' '}
+          <Link href="/privacy-policy">
+          <span className="text-blue-700" style={{ color: 'blue', textDecoration: 'underline' }}>Terms and Conditions</span>
+
+          </Link>
+          .
         </label>
       </div>
           </div>

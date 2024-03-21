@@ -8,10 +8,17 @@ import screen_4 from "@/assets/images/assets/screen_13.png";
 import JobLocationSelect from "../select/job-location";
 import JobCategorySelect from "../select/job-category";
 import useSearchFormSubmit from "@/hooks/use-search-form-submit";
+import SearchLocation from "@/app/components/jobs/filter/SearchLocation";
+import { setLocation } from "@/redux/features/filterJobPostSlice";
+import { useAppDispatch } from "@/redux/hook";
+import JobType from "../jobs/filter/job-type";
 
 const HeroBannerFour = () => {
   const { handleSubmit, setLocationVal, setCategoryVal, setSearchText } =
     useSearchFormSubmit();
+
+    const dispatch = useAppDispatch();
+
   // handleSearchInput
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
@@ -43,23 +50,29 @@ const HeroBannerFour = () => {
                   >
                     <form onSubmit={handleSubmit}>
                       <div className="row align-items-center">
-                        <div className="col-md-3">
+                        <div className="col-md-5">
                           <div className="input-box">
                             <div className="label">Job Categories</div>
                             <JobCategorySelect
                               setCategoryVal={setCategoryVal}
                             />
+                            {/* <JobType 
+                              setCategoryVal={setCategoryVal}
+                            /> */}
                           </div>
                         </div>
-                        <div className="col-md-3">
+                        <div className="col-md-4">
                           <div className="input-box">
                             <div className="label">Location</div>
                             <JobLocationSelect
                               setLocationVal={setLocationVal}
                             />
+                            {/* <SearchLocation
+                              setLocationVal={setLocationVal}
+                            /> */}
                           </div>
                         </div>
-                        <div className="col-md-3">
+                        {/* <div className="col-md-3">
                           <div className="input-box border-left">
                             <div className="label">Keywords or Title</div>
                             <input
@@ -69,7 +82,7 @@ const HeroBannerFour = () => {
                               className="keyword"
                             />
                           </div>
-                        </div>
+                        </div> */}
                         <div className="col-md-3 sm-mb-10 sm-mt-10">
                           <button
                             type="submit"

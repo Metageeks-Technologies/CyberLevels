@@ -262,7 +262,7 @@ const job_data = [
     date: '15 Feb 2024',
     company: 'CyberDefend Solutions',
     location: 'USA, Dallas',
-    category: ['Cybersecurity'],
+    category: ['Finance'],
     experience: 'Intermediate',
     salary: 95000,
     salary_duration: 'Annual',

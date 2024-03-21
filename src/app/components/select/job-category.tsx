@@ -19,7 +19,7 @@ const JobCategorySelect = ({
     };
   });
   const handleCategory = (item: { value: string; label: string }) => {
-    setCategoryVal(item.value);
+    setCategoryVal("item.value");
   };
   return (
     <NiceSelect
@@ -33,3 +33,4 @@ const JobCategorySelect = ({
 };
 
 export default JobCategorySelect;
+
