@@ -19,6 +19,9 @@ const LoginModal = () => {
   const dispatch = useDispatch();
 
   const handleCheckboxChange = () => {
+    if (isCheckboxChecked) {
+      setError("");
+    }
     setIsCheckboxChecked((prev) => !prev);
   };
 
@@ -26,9 +29,26 @@ const LoginModal = () => {
     ? `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/candidate/auth/google`
     : "#";
 
-    const linkedinHref = isCheckboxChecked
+  const linkedinHref = isCheckboxChecked
     ? `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/candidate/auth/linkedin`
     : "#";
+
+  const [error, setError] = useState("");
+  const handleLoginWithGoogle = () => {
+    if (isCheckboxChecked) {
+      dispatch(setLoggerWithGoogle(activeTab));
+    } else {
+      setError("Please accept the terms and conditions");
+    }
+  };
+
+  const handleLoginWithLinkedIn = () => {
+    if (isCheckboxChecked) {
+      dispatch(setLoggerWithLn(activeTab));
+    } else {
+      setError("Please accept the terms and conditions");
+    }
+  };
 
   return (
     <div
@@ -102,70 +122,68 @@ const LoginModal = () => {
                   <div className="line"></div>
                 </div>
               )}
-              
-              <div className="row " style={{ padding: "20px" }}>              
+
+              <div className="row " style={{ padding: "20px" }}>
                 <div className="col-md-6 ">
-                <a
-          onClick={() => {
-            if (isCheckboxChecked) {
-              dispatch(setLoggerWithGoogle(activeTab));
-            }
-          }}
-          href={googleHref}
-          className={`social-use-btn d-flex align-items-center justify-content-center tran3s w-100 mt-10 ${
-            !isCheckboxChecked ? "disabled " : ""
-          }`}
-          style={{ padding: "20px",  backgroundColor: !isCheckboxChecked ? "lightgrey" : ""   }}
-        >
-          <Image src={google} alt="google-img" />
-          <span className="ps-2">Login with Google</span>
-        </a>
+                  <a
+                    onClick={handleLoginWithGoogle}
+                    href={googleHref}
+                    className={`social-use-btn d-flex align-items-center justify-content-center tran3s w-100 mt-10 ${
+                      !isCheckboxChecked ? "disabled " : ""
+                    }`}
+                    style={{
+                      padding: "20px",
+                      backgroundColor: !isCheckboxChecked ? "lightgrey" : "",
+                    }}
+                  >
+                    <Image src={google} alt="google-img" />
+                    <span className="ps-2">Login with Google</span>
+                  </a>
                 </div>
                 <div className="col-md-6">
-        <a
-          onClick={() => {
-            if (isCheckboxChecked) {
-              dispatch(setLoggerWithLn(activeTab));
-            }
-          }}
-          href={linkedinHref}
-          className={`social-use-btn d-flex align-items-center justify-content-center tran3s w-100 mt-10 ${
-            !isCheckboxChecked ? "disabled" : ""
-          }`}
-          style={{ padding: "20px",  backgroundColor: !isCheckboxChecked ? "lightgrey" : ""  }}
-        >
-          <Image
-            height={30}
-            width={30}
-            src={
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/LinkedIn_icon_circle.svg/800px-LinkedIn_icon_circle.svg.png"
-            }
-            alt="linkedIn-img"
-          />
-          <span className="ps-2 " style={{ whiteSpace: "nowrap" }}>
-            Login with LinkedIn
-          </span>
-        </a>
-      </div>
+                  <a
+                    onClick={handleLoginWithLinkedIn}
+                    href={linkedinHref}
+                    className={`social-use-btn d-flex align-items-center justify-content-center tran3s w-100 mt-10 ${
+                      !isCheckboxChecked ? "disabled" : ""
+                    }`}
+                    style={{
+                      padding: "20px",
+                      backgroundColor: !isCheckboxChecked ? "lightgrey" : "",
+                    }}
+                  >
+                    <Image
+                      height={30}
+                      width={30}
+                      src={
+                        "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/LinkedIn_icon_circle.svg/800px-LinkedIn_icon_circle.svg.png"
+                      }
+                      alt="linkedIn-img"
+                    />
+                    <span className="ps-2 " style={{ whiteSpace: "nowrap" }}>
+                      Login with LinkedIn
+                    </span>
+                  </a>
+                </div>
               </div>
-              {/* <p className="text-center mt-10">
-                Do not have an account?{" "}
-                <Link href="/register" className="fw-500">
-                  Sign up
-                </Link>
-              </p> */}
+              {error && (
+                <p className="text-center text-danger mt-10">*{error}</p>
+              )}
             </div>
-            <div className="d-flex justify-content-center " style={{fontSize:'small'}}>
-        <label>
-          <input
-            type="checkbox"
-            checked={isCheckboxChecked}
-            onChange={handleCheckboxChange}
-            className="me-2"
-          />
-           I hereby accepts all the Terms and Conditions.
-        </label>
-      </div>
+            <div
+              className="d-flex justify-content-center "
+              style={{ fontSize: "small" }}
+            >
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isCheckboxChecked}
+                  onChange={handleCheckboxChange}
+                  className="me-2"
+                />
+                I hereby accepts all the Terms and Conditions.
+              </label>
+            </div>
           </div>
         </div>
       </div>

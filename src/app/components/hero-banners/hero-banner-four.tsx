@@ -1,13 +1,9 @@
 "use client";
-import React from "react";
-import Image from "next/image";
-import screen_1 from "@/assets/images/assets/screen_10.png";
-import screen_2 from "@/assets/images/assets/screen_11.png";
-import screen_3 from "@/assets/images/assets/screen_12.png";
-import screen_4 from "@/assets/images/assets/screen_13.png";
-import JobLocationSelect from "../select/job-location";
-import JobCategorySelect from "../select/job-category";
 import useSearchFormSubmit from "@/hooks/use-search-form-submit";
+import { useRouter } from "next/navigation";
+import React from "react";
+import JobCategorySelect from "../select/job-category";
+import JobLocationSelect from "../select/job-location";
 
 const HeroBannerFour = () => {
   const { handleSubmit, setLocationVal, setCategoryVal, setSearchText } =
@@ -15,6 +11,10 @@ const HeroBannerFour = () => {
   // handleSearchInput
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
+  };
+  const router = useRouter();
+  const handleClick = () => {
+    router.replace("/job-list-v1?jobCode=&location=Delhi&jobType=full-time");
   };
   return (
     <>
@@ -71,12 +71,12 @@ const HeroBannerFour = () => {
                           </div>
                         </div>
                         <div className="col-md-3 sm-mb-10 sm-mt-10">
-                          <button
-                            type="submit"
+                          <div
+                            onClick={handleClick}
                             className="text-uppercase btn-five border6 tran3s m-auto"
                           >
                             Search
-                          </button>
+                          </div>
                         </div>
                       </div>
                     </form>

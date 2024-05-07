@@ -30,7 +30,9 @@
   max-height: 25rem;
   // width: 100% !important;
 }
-
+.backgrop-opacity-1 {
+  --bs-backdrop-opacity: 1;
+}
 ._my_nice_select_options {
   background-color: white;
   // max-height: 15rem;
@@ -684,7 +686,7 @@ div[data-preview] p {
   color: black !important;
 }
 
-.h-45{
+.h-45 {
   height: 45px !important;
 }
 
@@ -700,11 +702,11 @@ div[data-preview] p {
   border-color: #ededed;
 }
 
-.skillWrapper{
+.skillWrapper {
   flex-wrap: nowrap;
 }
 @media screen and (max-width: 768px) {
-  .skillWrapper{
+  .skillWrapper {
     flex-wrap: wrap;
   }
 }

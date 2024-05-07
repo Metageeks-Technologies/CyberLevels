@@ -13,7 +13,9 @@ const ProfileCompleteModal = () => {
   return (
     <div
       style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
-      className={`modal-backdrop  fade ${profileCompleteModel ? "show" : ""}`}
+      className={`modal-backdrop backgrop-opacity-1 fade ${
+        profileCompleteModel ? "show" : ""
+      }`}
       onClick={handleClose}
     >
       <div
@@ -36,7 +38,12 @@ const ProfileCompleteModal = () => {
                   <h2 className=" mb-3 py-3">Complete your profile</h2>
                 </div>
                 <div className="text-center d-sm-none">
-                <h3 className=" mb-3 py-3" style={{color:'#244034', fontWeight:'normal'}}>Complete your profile</h3>
+                  <h3
+                    className=" mb-3 py-3"
+                    style={{ color: "#244034", fontWeight: "normal" }}
+                  >
+                    Complete your profile
+                  </h3>
                 </div>
 
                 <div className="d-flex row  mx-auto mb-3  ">

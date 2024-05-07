@@ -9,7 +9,11 @@ import LoginModal from "../../common/popup/login-modal";
 import { registerJobPostView } from "@/redux/features/jobPost/api";
 import { useRouter } from "next/navigation";
 import { notifyError, notifyWarn } from "@/utils/toast";
-import { setPlanExhaustedModel, setProfileCompleteModel, setSubscriptionModel } from "@/redux/features/model/slice";
+import {
+  setPlanExhaustedModel,
+  setProfileCompleteModel,
+  setSubscriptionModel,
+} from "@/redux/features/model/slice";
 import ProfileCompleteModal from "../../model/completeProfile";
 import { ICompany } from "@/types/company-type";
 import SubscriptionModal from "../../model/subscriptionModel";
@@ -34,7 +38,7 @@ const JobGridItem = ({
     (state) => state.candidate.candidateDashboard
   );
   const { currAdmin } = useAppSelector((state) => state.admin);
-  const {userRole} = useAppSelector((state) => state.persistedReducer.user);
+  const { userRole } = useAppSelector((state) => state.persistedReducer.user);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const isActive = (isAuthenticated && item?.isSaved) || false;
@@ -70,10 +74,11 @@ const JobGridItem = ({
   const handleGetDetails = () => {
     // getCompanyDetails(dispatch, id);
 
-    dispatch(setPlanExhaustedModel({value:true,plan:"Job Save"}));
+    dispatch(setPlanExhaustedModel({ value: true, plan: "Job Save" }));
     // setModalShown(true);
   };
   const handleSubscribePopup = () => {};
+  console.log("logo", item);
   return (
     <>
       <div
@@ -88,7 +93,7 @@ const JobGridItem = ({
           >
             <Image
               src={
-                typeof item.companyId !== "string" && item.companyId.logo
+                typeof item.companyId !== "string" && item.companyId?.logo
                   ? item.companyId.logo
                   : job_img_1
               }
@@ -109,11 +114,12 @@ const JobGridItem = ({
           >
             <div className="logo" onClick={() => handleViewClick(item._id)}>
               <Image
-                src={
-                  typeof item.companyId !== "string" && item.companyId.logo
-                    ? item.companyId.logo
-                    : job_img_1
-                }
+                src={job_img_1}
+                // src={
+                //   typeof item.companyId !== "string" && item.companyId.logo
+                //     ? item.companyId.logo
+                //     : job_img_1
+                // }
                 width={50}
                 height={50}
                 alt="logo"
@@ -132,21 +138,20 @@ const JobGridItem = ({
               isActive ? "active" : ""
             }`}
             title={`${isActive ? "Remove Job" : "Save Job"}`}
-            style={{display:currCandidate?"block":"none"}}
+            style={{ display: currCandidate ? "block" : "none" }}
           >
             <i className="bi bi-bookmark-dash"></i>
           </button>
         ) : (
           <button
-          data-bs-toggle="modal"
-          data-bs-target="#loginModal"
-          type="button"
-          //  className="apply-btn text-center tran3s"
-          onClick={handleSubscribePopup}
+            data-bs-toggle="modal"
+            data-bs-target="#loginModal"
+            type="button"
+            //  className="apply-btn text-center tran3s"
+            onClick={handleSubscribePopup}
           >
-         {userRole === "candidate" &&
-                currCandidate?.subscription.offering.isSaveApplicable ===
-                  true ? 
+            {userRole === "candidate" &&
+            currCandidate?.subscription.offering.isSaveApplicable === true ? (
               <button
                 type="button"
                 disabled={loading}
@@ -159,7 +164,7 @@ const JobGridItem = ({
               >
                 <i className="bi bi-bookmark-dash"></i>
               </button>
-              :
+            ) : (
               <button
                 type="button"
                 disabled={loading}
@@ -172,11 +177,9 @@ const JobGridItem = ({
               >
                 <i className="bi bi-bookmark-dash"></i>
               </button>
-              }
-
-                
-              </button>
-              )}
+            )}
+          </button>
+        )}
         <div className="d-flex gap-2 mt-40 mb-40  flex-wrap cursor-pointer">
           {item?.jobType?.map((val, index) =>
             isAuthenticated ? (
@@ -258,12 +261,8 @@ const JobGridItem = ({
                 className="title fw-500 tran3s"
               >
                 {item.title}
-                
               </div>
-              <div
-              className="title fw-500 tran3s">
-              {item.jobCode}
-              </div>
+              <div className="title fw-500 tran3s">{item.jobCode}</div>
             </div>
             <div className="job-salary">
               <span className="fw-500 text-dark">
@@ -295,7 +294,7 @@ const JobGridItem = ({
       <LoginModal />
       {profileCompleteModel ? <ProfileCompleteModal /> : null}
       {/* login modal end */}
-      {subscriptionModel && <SubscriptionModal /> }
+      {subscriptionModel && <SubscriptionModal />}
     </>
   );
 };

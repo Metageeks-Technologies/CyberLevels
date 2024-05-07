@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Metadata } from "next";
 import Header from "@/layouts/headers/header";

@@ -11,6 +11,8 @@ import ListItemTwo from "./list-item-2";
 import Loader from "@/ui/loader";
 import { useSearchParams } from "next/navigation";
 import ExhaustedPlanModal from "../../model/ExhaustedPlanModel";
+import { setJobType } from "@/redux/features/filterJobPostSlice";
+import { setLocation } from "@/redux/features/filterJobPostSlice";
 
 const JobListThree = ({
   itemsPerPage,
@@ -40,19 +42,36 @@ const JobListThree = ({
     dispatch(setSalary(values[0]));
     console.log(values);
   };
-  const { planExhaustedModel,planExhaustedString } = useAppSelector((state) => state.model);
+  const { planExhaustedModel, planExhaustedString } = useAppSelector(
+    (state) => state.model
+  );
+  useEffect(() => {
+    const jobTypeByParams = searchParams.get("jobType");
+    const jobLocationByParams = searchParams.get("location");
+    if (jobTypeByParams) dispatch(setJobType(jobTypeByParams));
+    if (jobLocationByParams) dispatch(setLocation([jobLocationByParams]));
+  }, []);
+  console.log(
+    searchParams.get("jobCode"),
+    searchParams.get("location"),
+
+    "params"
+  );
 
   useEffect(() => {
     getJObPosts(
       dispatch,
       { ...filterState, jobCode: searchParams.get("jobCode") || "" },
+      //  searchParams.get("jobCode")
       page,
       currUser ? currUser : ""
     );
   }, [
-    location,
+    // location,
     jobCategory,
-    jobType,
+    // jobType,
+    searchParams.get("location"),
+    searchParams.get("jobType"),
     workMode,
     salary,
     searchParams.get("jobCode"),
@@ -66,6 +85,8 @@ const JobListThree = ({
     console.log("from pagination", event.selected);
     dispatch(setPage(event.selected + 1));
   };
+
+  console.log("allJobPost", allJobPost);
 
   return (
     <>

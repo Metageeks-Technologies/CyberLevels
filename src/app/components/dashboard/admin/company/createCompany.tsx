@@ -31,7 +31,7 @@ import {
 
 const CreateCompany = () => {
   const dispatch = useDispatch();
-  const [category,setCategory] = useState("")
+  const [category, setCategory] = useState("");
   const { loading } = useSelector(
     (state: RootState) => state.company.companyList
   );
@@ -172,16 +172,16 @@ const CreateCompany = () => {
     website: true,
     fundingAmount: true,
   });
+  // useEffect(() => {
+  //   if (isPureString(form.founderName)) {
+  //     setValidForm({ ...validForm, founderName: true });
+  //   } else {
+  //     setValidForm({ ...validForm, founderName: false });
+  //   }
+  // }, [form.founderName]);
   useEffect(() => {
-    if (isPureString(form.founderName)) {
-      setValidForm({ ...validForm, founderName: true });
-    } else {
-      setValidForm({ ...validForm, founderName: false });
-    }
-  }, [form.founderName]);
-  useEffect(() => {
-   setForm({...form,category:category})
-  },[category])
+    setForm({ ...form, category: category });
+  }, [category]);
   useEffect(() => {
     if (isValidEmail(form.email)) {
       setValidForm({ ...validForm, email: true });
@@ -463,7 +463,7 @@ const CreateCompany = () => {
           </div>
           <div className="col-md-6">
             <div className="dash-input-wrapper mb-30">
-              <label htmlFor="founderName">Founder Name*</label>
+              <label htmlFor="founderName">CEO*</label>
               <input
                 type="text"
                 name="founderName"
@@ -511,17 +511,17 @@ const CreateCompany = () => {
                 placeholder="Account, Finance, Marketing"
               /> */}
               <AutocompletePosition
-                  selected={category}
-                  setSelected={setCategory}
-                  endPoint="companyCategory"
-                  showAdd={true}
-                  placeholder="Category"
-                  addTo="Company Category"
-                  top={true}
-                  />
-                  {!validForm.category && (
-                    <p style={{ color: "red" }}>Enter Valid Category</p>
-                  )}
+                selected={category}
+                setSelected={setCategory}
+                endPoint="companyCategory"
+                showAdd={true}
+                placeholder="Category"
+                addTo="Company Category"
+                top={true}
+              />
+              {!validForm.category && (
+                <p style={{ color: "red" }}>Enter Valid Category</p>
+              )}
             </div>
           </div>
         </div>

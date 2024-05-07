@@ -17,7 +17,7 @@ export interface IFilterState {
 
 // Define the initial state using that type
 const initialState: IFilterState = {
-  location: [],
+  location: ["Delhi"],
   jobType: [],
   jobCategory: [],
   workMode: [],
@@ -70,8 +70,8 @@ export const filterSlice = createSlice({
     },
     setJobCode: (state, action: PayloadAction<string>) => {
       // if (state.jobCode !== action.payload) {
-        state.jobCode = action.payload
-        console.log(action.payload,"from slice")
+      state.jobCode = action.payload
+      console.log(action.payload, "from slice")
       // }
     },
     setStatus: (state, action: PayloadAction<string>) => {

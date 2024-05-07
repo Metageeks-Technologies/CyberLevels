@@ -10,7 +10,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import ProfileCompleteModal from "../../model/completeProfile";
-import { setPlanExhaustedModel, setProfileCompleteModel } from "@/redux/features/model/slice";
+import {
+  setPlanExhaustedModel,
+  setProfileCompleteModel,
+} from "@/redux/features/model/slice";
 import { setSubscriptionModel } from "@/redux/features/model/slice";
 import SubscriptionModal from "../../model/subscriptionModel";
 
@@ -63,7 +66,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
   const handleGetDetails = () => {
     // getCompanyDetails(dispatch, id);
     // console.log("Hello")
-    dispatch(setPlanExhaustedModel({value:true,plan:"Job Save"}));
+    dispatch(setPlanExhaustedModel({ value: true, plan: "Job Save" }));
     // setModalShown(true);
   };
   const handleSubscribePopup = () => {};
@@ -77,10 +80,11 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                 <div className="logo" onClick={() => handleViewClick(item._id)}>
                   <Image
                     src={
-                      typeof item.companyId !== "string" && item.companyId.logo
+                      typeof item.companyId !== "string" && item.companyId?.logo
                         ? item.companyId.logo
                         : job_img_1
                     }
+                    // src={job_img_1}
                     width={60}
                     height={60}
                     alt="logo"
@@ -123,35 +127,35 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
             </div>
             <div className="col-md-3 col-sm-6">
               <div className="btn-group d-flex align-items-center justify-content-sm-end xs-mt-20">
-              {userRole === "candidate" &&
+                {userRole === "candidate" &&
                 currCandidate?.subscription.offering.isSaveApplicable ===
-                  true ? 
+                  true ? (
                   <button
-                  type="button"
-                  disabled={loading}
-                  onClick={() => handleSaveJob(item._id)}
-                  className={`save-btn text-center rounded-circle tran3s me-3 cursor-pointer ${
-                    isActive ? "active" : ""
-                  }`}
-                  style={{display:currCandidate?"block":"none"}}
-                  title={`${isActive ? "Remove Job" : "Save Job"}`}
-                >
-                  <i className="bi bi-bookmark-dash"></i>
-                </button>
-                :
-                <button
-                  type="button"
-                  disabled={loading}
-                  onClick={handleGetDetails}
-                  className={`save-btn text-center rounded-circle tran3s me-3 cursor-pointer ${
-                    isActive ? "active" : ""
-                  }`}
-                  style={{display:currCandidate?"block":"none"}}
-                  title={`${isActive ? "Remove Job" : "Save Job"}`}
-                >
-                  <i className="bi bi-bookmark-dash"></i>
-                </button>
-                }
+                    type="button"
+                    disabled={loading}
+                    onClick={() => handleSaveJob(item._id)}
+                    className={`save-btn text-center rounded-circle tran3s me-3 cursor-pointer ${
+                      isActive ? "active" : ""
+                    }`}
+                    style={{ display: currCandidate ? "block" : "none" }}
+                    title={`${isActive ? "Remove Job" : "Save Job"}`}
+                  >
+                    <i className="bi bi-bookmark-dash"></i>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    disabled={loading}
+                    onClick={handleGetDetails}
+                    className={`save-btn text-center rounded-circle tran3s me-3 cursor-pointer ${
+                      isActive ? "active" : ""
+                    }`}
+                    style={{ display: currCandidate ? "block" : "none" }}
+                    title={`${isActive ? "Remove Job" : "Save Job"}`}
+                  >
+                    <i className="bi bi-bookmark-dash"></i>
+                  </button>
+                )}
                 <div
                   onClick={() => handleViewClick(item._id)}
                   // href={"/dashboard/candidate-dashboard/membership"}
@@ -179,12 +183,13 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                     // onClick={() => handleViewClick(item._id)}
                   >
                     <Image
-                      src={
-                        typeof item.companyId !== "string" &&
-                        item.companyId.logo
-                          ? item.companyId.logo
-                          : job_img_1
-                      }
+                      src={job_img_1}
+                      // src={
+                      //   typeof item.companyId !== "string" &&
+                      //   item.companyId.logo
+                      //     ? item.companyId.logo
+                      //     : job_img_1
+                      // }
                       width={60}
                       height={60}
                       alt="logo"
@@ -204,8 +209,8 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                       className="title fw-500 tran3s"
                     >
                       {`${item.title?.slice(0, 20)} ${
-                      item.title?.length > 20 ? ".." : ""
-                    }(${item.jobCode})`}
+                        item.title?.length > 20 ? ".." : ""
+                      }(${item.jobCode})`}
                     </div>
                   </div>
                 </div>
@@ -227,7 +232,6 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
               </div>
               <div className="col-md-3 col-sm-6">
                 <div className="btn-group d-flex align-items-center justify-content-sm-end xs-mt-20">
-              
                   <button
                     type="button"
                     disabled={loading}
@@ -235,12 +239,10 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
                     className={`save-btn text-center rounded-circle tran3s me-3 cursor-pointer ${
                       isActive ? "active" : ""
                     }`}
-                    
                     title={`${isActive ? "Remove Job" : "Save Job"}`}
-                    >
-                      <i className="bi bi-bookmark-dash"></i>
-                    </button>
-                 
+                  >
+                    <i className="bi bi-bookmark-dash"></i>
+                  </button>
 
                   <div
                     // onClick={() => handleViewClick(item._id)}
@@ -259,7 +261,7 @@ const ListItemTwo = ({ item }: { item: IJobPost }) => {
       {/* login modal start */}
       <LoginModal />
       {profileCompleteModel ? <ProfileCompleteModal /> : null}
-      {subscriptionModel && <SubscriptionModal /> }
+      {subscriptionModel && <SubscriptionModal />}
       {/* login modal end */}
     </>
   );

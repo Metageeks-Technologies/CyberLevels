@@ -11,10 +11,10 @@ interface Props {
   >;
   endPoint: string;
   employerId?: string | undefined;
-  top?:boolean
-  showCreate?:boolean
-  disabled?:boolean
-  borderNone?:boolean
+  top?: boolean;
+  showCreate?: boolean;
+  disabled?: boolean;
+  borderNone?: boolean;
 }
 
 function AutocompletePosition({
@@ -22,10 +22,10 @@ function AutocompletePosition({
   setSelected,
   endPoint,
   employerId = "",
-  top=false,
-  showCreate=false,
-  disabled=false,
-  borderNone=false,
+  top = false,
+  showCreate = false,
+  disabled = false,
+  borderNone = false,
 }: Props) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -79,7 +79,7 @@ function AutocompletePosition({
             name: selectedOption ? selectedOption.person.name : "",
             companyId: selectedOption ? selectedOption.person._id : "",
           });
-          showCreate=false;
+          showCreate = false;
         }}
         disabled={disabled}
       >
@@ -90,9 +90,9 @@ function AutocompletePosition({
               placeholder="Company Name"
               displayValue={() => selected.name}
               onChange={(event) => setQuery(event.target.value)}
-              style={{border: borderNone?"none":""}}
+              style={{ border: borderNone ? "none" : "" }}
             />
-            {selected?.companyId==="" && query.length >= 3 && showCreate && (
+            {selected?.companyId === "" && query.length >= 3 && showCreate && (
               <p
                 onClick={() => {
                   router.push("/dashboard/employer-dashboard/company");

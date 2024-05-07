@@ -18,7 +18,7 @@ function AutocompleteCategory({
   setSelected,
   endPoint,
   suggestionsProp = [],
-  placeholder = "Job Title",
+  placeholder = "Job Category",
 }: Props) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
