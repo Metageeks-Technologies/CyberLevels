@@ -11,6 +11,7 @@ interface Props {
   endPoint: string;
   suggestionsProp?: string[];
   placeholder?: string;
+  isAddButton?: boolean;
 }
 
 function AutocompleteCategory({
@@ -19,6 +20,7 @@ function AutocompleteCategory({
   endPoint,
   suggestionsProp = [],
   placeholder = "Job Category",
+  isAddButton = true,
 }: Props) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -67,7 +69,7 @@ function AutocompleteCategory({
               displayValue={() => selected}
               onChange={(event) => setQuery(event.target.value)}
             />
-            {query.length >= 3 && (
+            {isAddButton && query.length >= 3 && (
               <p
                 onClick={handleAdd}
                 title="Create A new company if not found"

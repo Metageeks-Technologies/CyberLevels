@@ -33,6 +33,9 @@
 .backgrop-opacity-1 {
   --bs-backdrop-opacity: 1;
 }
+.input-border-none input {
+  border: none;
+}
 ._my_nice_select_options {
   background-color: white;
   // max-height: 15rem;

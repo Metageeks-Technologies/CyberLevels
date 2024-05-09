@@ -69,7 +69,9 @@ const JobDetailsV1Area = ({
   // }, []);
 
   // console.log(allJobAppByCandidate);
-  const { planExhaustedModel,planExhaustedString } = useAppSelector((state) => state.model);
+  const { planExhaustedModel, planExhaustedString } = useAppSelector(
+    (state) => state.model
+  );
   const checkIsApplied = () => {
     const applicationsByCurrentCandidate = allJobAppByCandidate.filter(
       (application) => String(application.jobPost) === String(job._id)
@@ -101,144 +103,150 @@ const JobDetailsV1Area = ({
             <div className="col-xxl-9 col-xl-8">
               <div className="details-post-data row hello me-xxl-5 pe-xxl-4">
                 {currCandidate ? (
-                <div className="d-sm-flex justify-content-between  ">
-                  <div className="col-sm-6 ">
-                    <div className="post-date">
-                      {readableString} by
-                      <a className="fw-500 ms-2  text-dark">{company?.name}</a>
+                  <div className="d-sm-flex justify-content-between  ">
+                    <div className="col-sm-6 ">
+                      <div className="post-date">
+                        {readableString} by
+                        <a className="fw-500 ms-2  text-dark">
+                          {company?.name}
+                        </a>
+                      </div>
+                      <h3 className="post-title pe-3">{`${job?.title} (${job.jobCode})`}</h3>
+                      <div className=" d-flex justify-items-center w-100 justify-content-between align-items-center   ">
+                        <ul className="share-buttons d-flex flex-wrap style-none">
+                          <li>
+                            <a
+                              target="_blank"
+                              href={`https://twitter.com/intent/tweet?text=${""}&url=${URL}`}
+                              // href={company?.socialSites?.twitter}
+                              className="d-flex align-items-center justify-content-center"
+                            >
+                              <i className="bi bi-twitter"></i>
+                              <span>Twitter</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              target="_blank"
+                              href={`https://www.linkedin.com/sharing/share-offsite/?url=${URL}`}
+                              // href={company?.socialSites?.linkedIn}
+                              className="d-flex align-items-center justify-content-center"
+                            >
+                              <i className="bi bi-linkedin"></i>
+                              <span>LinkedIn</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
-                    <h3 className="post-title pe-3">{`${job?.title} (${job.jobCode})`}</h3>
-                    <div className=" d-flex justify-items-center w-100 justify-content-between align-items-center   ">
-                      <ul className="share-buttons d-flex flex-wrap style-none">
-                        <li>
-                          <a
-                            target="_blank"
-                            href={`https://twitter.com/intent/tweet?text=${""}&url=${URL}`}
-                            // href={company?.socialSites?.twitter}
-                            className="d-flex align-items-center justify-content-center"
-                          >
-                            <i className="bi bi-twitter"></i>
-                            <span>Twitter</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            target="_blank"
-                            href={`https://www.linkedin.com/sharing/share-offsite/?url=${URL}`}
-                            // href={company?.socialSites?.linkedIn}
-                            className="d-flex align-items-center justify-content-center"
-                          >
-                            <i className="bi bi-linkedin"></i>
-                            <span>LinkedIn</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  {job.matchScore !== -1 && 
-                  <div className="gap-3 col-sm-6 mt-3 ">
-                    {job.matchScore != undefined && (
-                      <div className="job-match">
-                        <span
-                          className={` ${
-                            job.matchScore >= 80
-                              ? "text-success"
-                              : job.matchScore >= 60
-                              ? "text-primary"
-                              : "text-warning"
-                          } fw-bold `}
-                        >
-                          {job.matchScore} %
-                        </span>{" "}
-                        <span className=" fw-medium ">
-                          {" "}
-                          match with your profile.
-                        </span>
-                        <div>
-                          <div>Your profile is missing these key skills:</div>
-                          {missingSKills.length > 0 && (
-                            <div className="">
-                              <div className=" fw-medium mt-3 ">
-                                Primary Skills:
+                    {job.matchScore !== -1 && (
+                      <div className="gap-3 col-sm-6 mt-3 ">
+                        {job.matchScore != undefined && (
+                          <div className="job-match">
+                            <span
+                              className={` ${
+                                job.matchScore >= 80
+                                  ? "text-success"
+                                  : job.matchScore >= 60
+                                  ? "text-primary"
+                                  : "text-warning"
+                              } fw-bold `}
+                            >
+                              {job.matchScore} %
+                            </span>{" "}
+                            <span className=" fw-medium ">
+                              {" "}
+                              match with your profile.
+                            </span>
+                            <div>
+                              <div>
+                                Your profile is missing these key skills:
                               </div>
-                              <ul className="p-0  gap-2 mt-2 flex-wrap  d-flex shadow-none ">
-                                {missingSKills.map((skill, index) => (
-                                  <li
-                                    className="website-btn d-flex justify-content-center gap-1 "
-                                    key={index}
-                                  >
-                                    <span>
-                                      <i className="bi bi-x-circle"></i>
-                                    </span>
-                                    {skill}
-                                  </li>
-                                ))}
-                              </ul>
+                              {missingSKills.length > 0 && (
+                                <div className="">
+                                  <div className=" fw-medium mt-3 ">
+                                    Primary Skills:
+                                  </div>
+                                  <ul className="p-0  gap-2 mt-2 flex-wrap  d-flex shadow-none ">
+                                    {missingSKills.map((skill, index) => (
+                                      <li
+                                        className="website-btn d-flex justify-content-center gap-1 "
+                                        key={index}
+                                      >
+                                        <span>
+                                          <i className="bi bi-x-circle"></i>
+                                        </span>
+                                        {skill}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
                             </div>
-                          )}
-                        </div>
-                        <div>
-                          {secMissingSKills.length > 0 && (
-                            <div className="">
-                              <div className="fw-medium mt-3">
-                                Secondary Skills:
-                              </div>
-                              <ul className="p-0  gap-2 mt-2 flex-wrap  d-flex shadow-none ">
-                                {secMissingSKills.map((skill, index) => (
-                                  <li
-                                    className="website-btn d-flex justify-content-center gap-1 "
-                                    key={index}
-                                    >
-                                    <span>
-                                      <i className="bi bi-x-circle"></i>
-                                    </span>
-                                    {skill}
-                                  </li>
-                                ))}
-                              </ul>
+                            <div>
+                              {secMissingSKills.length > 0 && (
+                                <div className="">
+                                  <div className="fw-medium mt-3">
+                                    Secondary Skills:
+                                  </div>
+                                  <ul className="p-0  gap-2 mt-2 flex-wrap  d-flex shadow-none ">
+                                    {secMissingSKills.map((skill, index) => (
+                                      <li
+                                        className="website-btn d-flex justify-content-center gap-1 "
+                                        key={index}
+                                      >
+                                        <span>
+                                          <i className="bi bi-x-circle"></i>
+                                        </span>
+                                        {skill}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
-                  }
-                </div>
-                ):(
+                ) : (
                   <div className="d-flex justify-content-between  ">
-                  <div className="">
-                    <div className="post-date">
-                      {readableString} by
-                      <a className="fw-500 ms-2  text-dark">{company?.name}</a>
+                    <div className="">
+                      <div className="post-date">
+                        {readableString} by
+                        <a className="fw-500 ms-2  text-dark">
+                          {company?.name}
+                        </a>
+                      </div>
+                      <h3 className="post-title pe-3">{`${job?.title} (${job.jobCode})`}</h3>
+                      <div className=" d-flex justify-items-center w-100 justify-content-between align-items-center   ">
+                        <ul className="share-buttons d-flex flex-wrap style-none">
+                          <li>
+                            <a
+                              target="_blank"
+                              href={`https://twitter.com/intent/tweet?text=${""}&url=${URL}`}
+                              // href={company?.socialSites?.twitter}
+                              className="d-flex align-items-center justify-content-center"
+                            >
+                              <i className="bi bi-twitter"></i>
+                              <span>Twitter</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              target="_blank"
+                              href={`https://www.linkedin.com/sharing/share-offsite/?url=${URL}`}
+                              // href={company?.socialSites?.linkedIn}
+                              className="d-flex align-items-center justify-content-center"
+                            >
+                              <i className="bi bi-linkedin"></i>
+                              <span>LinkedIn</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
-                    <h3 className="post-title pe-3">{`${job?.title} (${job.jobCode})`}</h3>
-                    <div className=" d-flex justify-items-center w-100 justify-content-between align-items-center   ">
-                      <ul className="share-buttons d-flex flex-wrap style-none">
-                        <li>
-                          <a
-                            target="_blank"
-                            href={`https://twitter.com/intent/tweet?text=${""}&url=${URL}`}
-                            // href={company?.socialSites?.twitter}
-                            className="d-flex align-items-center justify-content-center"
-                          >
-                            <i className="bi bi-twitter"></i>
-                            <span>Twitter</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            target="_blank"
-                            href={`https://www.linkedin.com/sharing/share-offsite/?url=${URL}`}
-                            // href={company?.socialSites?.linkedIn}
-                            className="d-flex align-items-center justify-content-center"
-                          >
-                            <i className="bi bi-linkedin"></i>
-                            <span>LinkedIn</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
                   </div>
                 )}
 
@@ -401,7 +409,8 @@ const JobDetailsV1Area = ({
                     <li className="col-xl-7 col-md-4 col-sm-6">
                       <span>Salary</span>
                       <div>
-                        {job?.salary?.currency?.symbol} {job?.salary.minimum}-{job?.salary.maximum} {job?.salary?.period}
+                        {job?.salary?.currency?.symbol} {job?.salary.minimum}-
+                        {job?.salary.maximum} {job?.salary?.period}
                       </div>
                     </li>
                     <li className="col-xl-5 col-md-4 col-sm-6">
@@ -447,6 +456,7 @@ const JobDetailsV1Area = ({
                       <span>Date</span>
                       <div>{readableString} </div>
                     </li>
+
                     <li className="col-xl-5 col-md-4 col-sm-6">
                       <span>Experience</span>
                       <div>
@@ -459,6 +469,10 @@ const JobDetailsV1Area = ({
                           </span>
                         ))}
                       </div>
+                    </li>
+                    <li className="col-xl-7 col-md-4 col-sm-6">
+                      <span>Job Category</span>
+                      <div>{job.jobCategory} </div>
                     </li>
                   </ul>
                   <div className="job-tags d-flex flex-wrap pt-15">
@@ -475,18 +489,18 @@ const JobDetailsV1Area = ({
                         </a>
                       ))}
                   </div>
-                  {job.matchScore !== -1 && 
-                  <button
-                  disabled={loading || isApplied}
-                  className={`${
-                    isApplied ? "btn-one-applied" : "btn-one"
-                  }  w-100 mt-25 `}
-                    data-bs-toggle="modal"
-                    data-bs-target="#questionModal"
-                  >
-                    {isApplied ? "Applied" : "Apply Now"}
-                  </button>
-                }
+                  {job.matchScore !== -1 && (
+                    <button
+                      disabled={loading || isApplied}
+                      className={`${
+                        isApplied ? "btn-one-applied" : "btn-one"
+                      }  w-100 mt-25 `}
+                      data-bs-toggle="modal"
+                      data-bs-target="#questionModal"
+                    >
+                      {isApplied ? "Applied" : "Apply Now"}
+                    </button>
+                  )}
                   {/* <button
                   type="button"
                     disabled={loading || isApplied}

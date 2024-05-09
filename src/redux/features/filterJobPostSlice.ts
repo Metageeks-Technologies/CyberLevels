@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { json } from "stream/consumers";
 import { string } from "yup";
 
 // Define a type for the slice state
@@ -12,19 +13,22 @@ export interface IFilterState {
   preferredExperience: string[];
   status: string;
   jobCode: string;
+  jobTitle: string;
 
 }
 
+
 // Define the initial state using that type
 const initialState: IFilterState = {
-  location: ["Delhi"],
+  location: [],
   jobType: [],
   jobCategory: [],
   workMode: [],
   salary: -1,
   preferredExperience: [],
   status: "active",
-  jobCode: ""
+  jobCode: "",
+  jobTitle: ""
 };
 
 export const filterSlice = createSlice({
@@ -33,6 +37,9 @@ export const filterSlice = createSlice({
   reducers: {
     setLocation: (state, action: PayloadAction<string[]>) => {
       state.location = action.payload;
+    },
+    setJobTitle: (state, action: PayloadAction<string>) => {
+      state.jobTitle = action.payload;
     },
     setJobType: (state, action: PayloadAction<string>) => {
       if (state.jobType.includes(action.payload)) {
@@ -86,8 +93,10 @@ export const filterSlice = createSlice({
         state.workMode = [],
         state.salary = -1,
         state.preferredExperience = [],
-        state.jobCode = ""
+        state.jobCode = "",
+        state.jobTitle = "";
     },
+
   },
 });
 
@@ -100,7 +109,8 @@ export const {
   setWorkMode,
   resetFilter,
   setStatus,
-  setJobCode
+  setJobCode,
+  setJobTitle
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

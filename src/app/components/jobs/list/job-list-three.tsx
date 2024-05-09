@@ -30,6 +30,7 @@ const JobListThree = ({
     salary,
     preferredExperience,
     workMode,
+    jobTitle,
   } = filterState;
   const { allJobPost, totalJobPost, totalNumOfPage, loading, page } =
     useAppSelector((state) => state.jobPost);
@@ -45,38 +46,40 @@ const JobListThree = ({
   const { planExhaustedModel, planExhaustedString } = useAppSelector(
     (state) => state.model
   );
-  useEffect(() => {
-    const jobTypeByParams = searchParams.get("jobType");
-    const jobLocationByParams = searchParams.get("location");
-    if (jobTypeByParams) dispatch(setJobType(jobTypeByParams));
-    if (jobLocationByParams) dispatch(setLocation([jobLocationByParams]));
-  }, []);
-  console.log(
-    searchParams.get("jobCode"),
-    searchParams.get("location"),
+  // useEffect(() => {
 
-    "params"
-  );
+  //   if (bannerParams?.location) {
+  //     dispatch(setLocation(["Delhi"]));
+  //     console.log([bannerParams?.location], "location");
+  //   }
+  // }, []);
 
   useEffect(() => {
+    const bannerParams = JSON.parse(
+      localStorage.getItem("bannerParams") || "{}"
+    );
     getJObPosts(
       dispatch,
-      { ...filterState, jobCode: searchParams.get("jobCode") || "" },
+      {
+        ...filterState,
+        jobCode: searchParams.get("jobCode") || "",
+        location: [bannerParams.location],
+        jobCategory: [bannerParams.jobCategory],
+      },
       //  searchParams.get("jobCode")
       page,
       currUser ? currUser : ""
     );
   }, [
-    // location,
+    location,
     jobCategory,
-    // jobType,
-    searchParams.get("location"),
-    searchParams.get("jobType"),
+    jobType,
     workMode,
     salary,
     searchParams.get("jobCode"),
     preferredExperience,
     page,
+    jobTitle,
   ]);
 
   // Usage

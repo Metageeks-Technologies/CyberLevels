@@ -2,17 +2,10 @@
 import FooterOne from "@/layouts/footers/footer-one";
 import Header from "@/layouts/headers/header";
 import Wrapper from "@/layouts/wrapper";
-import BlogOne from "./components/blogs/blog-one";
-import CategorySection from "./components/category/category-section";
-import ExpertsOne from "./components/experts/experts-one";
-import FancyBanner from "./components/fancy-banner/fancy-banner";
-import FeatureFour from "./components/features/feature-four";
 import FeatureOne from "./components/features/feature-one";
 import FeedbackTwo from "./components/feedBacks/feedback-one";
 import HeroBanner from "./components/hero-banners/hero-banner-four";
 import HowItWorks from "./components/how-it-works/how-it-works";
-import JobPortalIntro from "./components/job-portal-intro/job-portal-intro";
-import DownloadButton from "../ui/downloadBtn";
 export default function Home() {
   console.log("from the dashboard");
 

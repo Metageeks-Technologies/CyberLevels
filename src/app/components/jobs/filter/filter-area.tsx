@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import JobLocations from "./job-locations";
 import JobType from "./job-type";
 import JobExperience from "./job-experience";
@@ -14,6 +14,10 @@ import SearchJobCodeFilter from "../../jobs/filter/my-jobpost-filter-employer/se
 import SearchJobCode from "./job-code";
 import { useRouter } from "next/navigation";
 import SearchLocation from "./SearchLocation";
+import AutocompletePosition from "@/ui/autoCompletePosistion";
+import { setTitle as setJobTitle } from "@/redux/features/employer/employerJobPostFilterSlice";
+import { useAppSelector } from "@/redux/hook";
+
 // prop type
 type IProps = {
   priceValue: number[];
@@ -36,6 +40,11 @@ const FilterArea = ({
     setPriceValue([0, maxPrice]);
     router.push(`job-list-v1`);
   };
+  const [title, setTitle] = useState<string>("");
+  useEffect(() => {
+    dispatch(setJobTitle(title));
+    console.log(title);
+  }, [title]);
   return (
     <div
       className="filter-area-tab offcanvas offcanvas-start"
@@ -69,6 +78,35 @@ const FilterArea = ({
 
         {/* <!-- /.filter-block --> */}
         <SearchJobCode />
+        <div className="filter-block bottom-line pb-25 mt-25">
+          <a
+            className="filter-title fw-500 text-dark"
+            data-bs-toggle="collapse"
+            href="#collapseJobType"
+            role="button"
+            aria-expanded="false"
+          >
+            Title / Keyword
+          </a>
+          <div className="collapse input-border-none show" id="collapseJobType">
+            <div
+              style={{
+                backgroundColor: "white",
+                border: "1px solid #ededed",
+                borderRadius: "7px",
+              }}
+              className=" px-2 "
+            >
+              <AutocompletePosition
+                selected={title}
+                setSelected={setTitle}
+                endPoint="jobTitle"
+                showAdd={false}
+                placeholder="Enter Title"
+              />
+            </div>
+          </div>
+        </div>
         <div className="filter-block bottom-line pb-25 mt-25">
           <a
             className="filter-title fw-500 text-dark"

@@ -71,6 +71,7 @@ export const getJObPosts = async (
     preferredExperience,
     status,
     jobCode,
+    jobTitle,
   } = queryObject;
 
   dispatch(requestStart());
@@ -84,7 +85,7 @@ export const getJObPosts = async (
         ","
       )}&preferredExperience=${preferredExperience.join(
         ","
-      )}&salary=${salary}&status=${status}&page=${page}&candidateId=${candidateId}`
+      )}&salary=${salary}&status=${status}&page=${page}&candidateId=${candidateId}&title=${jobTitle}`
     );
     console.log(jobCode);
 
@@ -219,8 +220,8 @@ export const askToGptForCan = async (dispatch: AppDispatch, query: string) => {
     const response = e.response as any;
     notifyError(response.data.message || "Something went wrong, try later");
     if (response.data.message === "You have exhausted your token limit") {
-        dispatch(setPlanExhaustedModel({ value: true, plan: "AI" }));
-      }
+      dispatch(setPlanExhaustedModel({ value: true, plan: "AI" }));
+    }
     dispatch(askGptEnd());
   }
 };
