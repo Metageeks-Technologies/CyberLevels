@@ -58,6 +58,9 @@ const JobListThree = ({
     const bannerParams = JSON.parse(
       localStorage.getItem("bannerParams") || "{}"
     );
+    const bannerParamsCount = JSON.parse(
+      localStorage.getItem("bannerParamsCount") || ""
+    );
 
     if (bannerParams.hasOwnProperty("title")) {
       getJObPosts(
@@ -73,7 +76,8 @@ const JobListThree = ({
         page,
         currUser ? currUser : ""
       );
-      localStorage.removeItem("bannerParams");
+      if (bannerParamsCount === 1) localStorage.removeItem("bannerParams");
+      localStorage.setItem("bannerParamsCount", JSON.stringify(1));
     } else {
       getJObPosts(
         dispatch,

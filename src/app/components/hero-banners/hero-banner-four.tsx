@@ -26,6 +26,8 @@ const HeroBannerFour = () => {
     // router.replace("/job-list-v1?jobCode=&location=Delhi&jobType=full-time");
     const bannerParams = { location, jobCategory, title };
     localStorage.setItem("bannerParams", JSON.stringify(bannerParams));
+    localStorage.setItem("bannerParamsCount", JSON.stringify(2));
+
     router.push("/job-list-v1");
   };
   return (
