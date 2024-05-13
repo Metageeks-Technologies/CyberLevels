@@ -14,7 +14,7 @@ import SearchJobCodeFilter from "../../jobs/filter/my-jobpost-filter-employer/se
 import SearchJobCode from "./job-code";
 import { useRouter } from "next/navigation";
 import SearchLocation from "./SearchLocation";
-import AutocompletePosition from "@/ui/autoCompletePosistion";
+import AutocompletePosition from "@/ui/autoCompleteJobTitleForfilter";
 import { setTitle as setJobTitle } from "@/redux/features/employer/employerJobPostFilterSlice";
 import { useAppSelector } from "@/redux/hook";
 
@@ -41,10 +41,7 @@ const FilterArea = ({
     router.push(`job-list-v1`);
   };
   const [title, setTitle] = useState<string>("");
-  useEffect(() => {
-    dispatch(setJobTitle(title));
-    console.log(title);
-  }, [title]);
+
   return (
     <div
       className="filter-area-tab offcanvas offcanvas-start"

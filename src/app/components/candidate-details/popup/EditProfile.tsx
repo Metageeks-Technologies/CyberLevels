@@ -23,7 +23,6 @@ const EditProfile = () => {
   // const [firstNameCheck,setFirstNameCheck] = useState(false);
   const [allFieldsCheck, setAllFieldsCheck] = useState(false);
   const [validDescription, setValidDescription] = useState(true);
- 
 
   const [form, setForm] = useState({
     firstName: user?.firstName || "",
@@ -33,15 +32,15 @@ const EditProfile = () => {
     experienceInYears: user?.experienceInYears || "",
   });
   useEffect(() => {
-    setValue(user?.phoneNumber)
+    setValue(user?.phoneNumber);
     setForm({
       firstName: user?.firstName || "",
-    lastName: user?.lastName || "",
-    bio: user?.bio || "",
-    phoneNumber: user?.phoneNumber || "",
-    experienceInYears: user?.experienceInYears || "",
-    })
-  },[currCandidate])
+      lastName: user?.lastName || "",
+      bio: user?.bio || "",
+      phoneNumber: user?.phoneNumber || "",
+      experienceInYears: user?.experienceInYears || "",
+    });
+  }, [currCandidate]);
 
   useEffect(() => {
     if (
@@ -64,28 +63,31 @@ const EditProfile = () => {
     } else {
       setPhoneValidState(true);
     }
-  
+
     // First name validation
     if (!isPureString(form.firstName || "")) {
       setFirstNameValidState(false);
     } else {
       setFirstNameValidState(true);
     }
-  
+
     // Last name validation
     if (!isPureString(form.lastName || "")) {
       setLastNameValidState(false);
     } else {
       setLastNameValidState(true);
     }
-  
+
     // Experience in years validation
-    if (parseInt(form.experienceInYears as string) >= 0 && parseInt(form.experienceInYears as string)<= 70) {
+    if (
+      parseInt(form.experienceInYears as string) >= 0 &&
+      parseInt(form.experienceInYears as string) <= 70
+    ) {
       setExperienceInYearsValidState(true);
     } else {
       setExperienceInYearsValidState(false);
     }
-  
+
     // Bio validation
     if (checkValidDescription(form.bio, 200)) {
       setValidDescription(true);
@@ -93,7 +95,6 @@ const EditProfile = () => {
       setValidDescription(false);
     }
   }, [value, form.firstName, form.lastName, form.experienceInYears, form.bio]);
-  
 
   const handleSave = async () => {
     // validation
@@ -108,12 +109,11 @@ const EditProfile = () => {
       !value ||
       !form.experienceInYears
     ) {
-      
       notifyInfo("Field with * can't be empty");
       return;
     }
     if (!isValidPhoneNumber(value)) {
-      notifyInfo("Enter a valid phone number");
+      notifyInfo("Enter a valid phone number with country code");
       return;
     }
     if (!experienceInYearsValidState) {
@@ -176,7 +176,10 @@ const EditProfile = () => {
                       onChange={handleInputChange}
                       value={form.firstName}
                       placeholder="James"
-                      style={{ borderColor: !form.firstName?"red":"", borderRadius: !form.firstName?"5px":"" }}
+                      style={{
+                        borderColor: !form.firstName ? "red" : "",
+                        borderRadius: !form.firstName ? "5px" : "",
+                      }}
                       // style={{borderColor:formCheck.firstName?"red":"",border:"1px"}}
                     />
                     {!firstNameValidState && (
@@ -193,7 +196,10 @@ const EditProfile = () => {
                       onChange={handleInputChange}
                       value={form.lastName}
                       placeholder="brown"
-                      style={{ borderColor: !form.lastName?"red":"", borderRadius: !form.lastName?"5px":"" }}
+                      style={{
+                        borderColor: !form.lastName ? "red" : "",
+                        borderRadius: !form.lastName ? "5px" : "",
+                      }}
                     />
                     {!lastNameValidState && (
                       <p style={{ color: "red" }}>
@@ -218,19 +224,27 @@ const EditProfile = () => {
                       // style={{ borderColor: !value?"red":"", borderRadius: !value?"5px":"" }}
                     />
                     {!phoneValidState && (
-                      <p style={{ color: "red" }}>Enter Valid Phone Number</p>
+                      <p style={{ color: "red" }}>
+                        Enter Valid Phone Number with Country Code
+                      </p>
                     )}
                     {/* <input type="text" placeholder="Brower" /> */}
                   </div>
                   <div className="dash-input-wrapper mb-30">
-                    <label htmlFor="experience in years">Years of experience*</label>
+                    <label htmlFor="experience in years">
+                      Years of experience*
+                    </label>
                     <input
                       type="number"
                       name="experienceInYears"
                       onChange={handleInputChange}
                       value={form.experienceInYears}
                       placeholder="Enter your experience in years"
-                      style={{ borderColor: form.experienceInYears===""?"red":"", borderRadius: form.experienceInYears===""?"5px":"" }}
+                      style={{
+                        borderColor: form.experienceInYears === "" ? "red" : "",
+                        borderRadius:
+                          form.experienceInYears === "" ? "5px" : "",
+                      }}
                     />
                   </div>
                   {!experienceInYearsValidState && (
@@ -246,12 +260,16 @@ const EditProfile = () => {
                       value={form.bio}
                       name="bio"
                       onChange={handleInputChange}
-                      style={{ borderColor: !form.bio?"red":"", borderRadius: !form.bio?"5px":"" }}
+                      style={{
+                        borderColor: !form.bio ? "red" : "",
+                        borderRadius: !form.bio ? "5px" : "",
+                      }}
                     ></textarea>
                   </div>
                   {!validDescription && (
                     <p style={{ color: "red" }}>
-                      Description must have {form.bio.trim().replace(/\s+/g, "").length}/200
+                      Description must have{" "}
+                      {form.bio.trim().replace(/\s+/g, "").length}/200
                       characters
                     </p>
                   )}

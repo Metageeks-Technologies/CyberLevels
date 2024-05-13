@@ -58,18 +58,34 @@ const JobListThree = ({
     const bannerParams = JSON.parse(
       localStorage.getItem("bannerParams") || "{}"
     );
-    getJObPosts(
-      dispatch,
-      {
-        ...filterState,
-        jobCode: searchParams.get("jobCode") || "",
-        location: [bannerParams.location],
-        jobCategory: [bannerParams.jobCategory],
-      },
-      //  searchParams.get("jobCode")
-      page,
-      currUser ? currUser : ""
-    );
+
+    if (bannerParams.hasOwnProperty("title")) {
+      getJObPosts(
+        dispatch,
+        {
+          ...filterState,
+          jobCode: searchParams.get("jobCode") || "",
+          location: [bannerParams.location],
+          jobCategory: [bannerParams.jobCategory],
+          jobTitle: bannerParams.title,
+        },
+        //  searchParams.get("jobCode")
+        page,
+        currUser ? currUser : ""
+      );
+      localStorage.removeItem("bannerParams");
+    } else {
+      getJObPosts(
+        dispatch,
+        {
+          ...filterState,
+          jobCode: searchParams.get("jobCode") || "",
+        },
+        //  searchParams.get("jobCode")
+        page,
+        currUser ? currUser : ""
+      );
+    }
   }, [
     location,
     jobCategory,
