@@ -17,6 +17,7 @@ import SearchLocation from "./SearchLocation";
 import AutocompletePosition from "@/ui/autoCompleteJobTitleForfilter";
 import { setTitle as setJobTitle } from "@/redux/features/employer/employerJobPostFilterSlice";
 import { useAppSelector } from "@/redux/hook";
+import AutocompleteCategory from "@/ui/autoCompleteJobCategoryForFilter";
 
 // prop type
 type IProps = {
@@ -41,6 +42,8 @@ const FilterArea = ({
     router.push(`job-list-v1`);
   };
   const [title, setTitle] = useState<string>("");
+
+  const [jobCategory, setJobCategory] = useState("");
 
   return (
     <div
@@ -186,8 +189,24 @@ const FilterArea = ({
           >
             Category
           </a>
-          <div className="collapse" id="collapseCategory">
-            <JobCategory />
+          <div className="collapse input-border-none" id="collapseCategory">
+            {/* <JobCategory /> */}
+            <div
+              style={{
+                backgroundColor: "white",
+                border: "1px solid #ededed",
+                borderRadius: "7px",
+              }}
+              className=" px-2 "
+            >
+              <AutocompleteCategory
+                selected={jobCategory}
+                setSelected={setJobCategory}
+                endPoint="jobCategory"
+                isAddButton={false}
+                placeholder="Select Job Category"
+              />
+            </div>
           </div>
         </div>
         {/* <!-- /.filter-block --> */}
