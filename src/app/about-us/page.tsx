@@ -22,29 +22,9 @@ const AboutUsPage = () => {
         <Header />
         {/* header end */}
 
-        {/* breadcrumb start */}
-        <CandidateProfileBreadcrumb title="About us" subtitle="About" />
-        {/* breadcrumb end */}
-
-        {/* text feature area start */}
-        <FeatureEleven />
-        {/* text feature area end */}
-
         {/* feature one start */}
         <FeatureOne />
         {/* feature one end */}
-
-        {/* how works start */}
-        <HowItWorks />
-        {/* how works end */}
-
-        {/* feedback one start */}
-        <FeedbackOne about_p={true} />
-        {/* feedback one end */}
-
-        {/* job portal intro start */}
-        {/* <JobPortalIntro top_border={true} /> */}
-        {/* job portal intro end */}
 
         {/* footer start */}
         <FooterOne />

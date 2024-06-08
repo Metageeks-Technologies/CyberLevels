@@ -1,16 +1,10 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
 import man_1 from "@/assets/images/assets/people-4.jpg";
 import girl from "@/assets/images/assets/people-5.jpg";
 import man_2 from "@/assets/images/assets/people-6.jpg";
-import screen_1 from "@/assets/images/assets/screen_01.png";
-import screen_2 from "@/assets/images/assets/screen_02.png";
-import screen_3 from "@/assets/images/assets/screen_03.png";
+import Image from "next/image";
+import Link from "next/link";
 // import shape from "@/assets/images/shape/shape_06.svg";
-import main_img from "@/assets/images/assets/ils_01.svg";
 import shape from "@/assets/images/assets/ils_01_02.svg";
-import tree_img from "@/assets/images/assets/ils_01_01.svg";
 
 // FeatureImgData
 export function FeatureImgData() {
@@ -75,11 +69,15 @@ const FeatureOne = () => {
           <div className="col-lg-5 order-lg-last">
             <div className="ps-xxl-4 wow fadeInRight">
               <div className="title-one">
-                <h3>Unrivaled recruiting technology</h3>
+                <h3>Who we are?</h3>
               </div>
               <p className="mt-20 md-mt-20 mb-40 md-mb-20">
-                Find relevant jobs within seconds using our proprietary
-                IntelliSearch.
+                Welcome to CyberLevels, the future of job searching and
+                recruitment. We are an innovative AI-based job portal dedicated
+                to transforming the way job seekers and employers connect. Our
+                platform leverages cutting-edge artificial intelligence to match
+                the right talent with the right opportunities, ensuring a
+                seamless and efficient hiring process for all.
               </p>
               {/* <ul className="list-style-one style-none">
                 <li>Seamless searching</li>
@@ -87,46 +85,88 @@ const FeatureOne = () => {
                 <li>Protected payments system</li>
               </ul> */}
               <div className="title-one">
-                <h3>A true match</h3>
+                <h3>Our Mission</h3>
               </div>
               <p className="mt-20 md-mt-20 mb-40 md-mb-20">
-                Our recruiters will find you exciting job opportunities with the
-                compensation, benefits, career growth and company culture you
-                always wanted.
+                At CyberLevels, our mission is to bridge the gap between job
+                seekers and employers by providing an intelligent, best AI based
+                services , user-friendly, and efficient platform that
+                revolutionizes the recruitment landscape. We aim to empower
+                individuals by helping them find their dream jobs and to support
+                companies in discovering the perfect candidates for their needs.
               </p>
               <div className="title-one">
-                <h2>Faster. Smarter. Better.</h2>
+                <h3>What We Do</h3>
               </div>
-              <div className=" btn-group display-flex gap-4 ">
-                <Link href="/register" className="btn-one  lg mt-50 md-mt-30">
-                  Find me a job
-                </Link>
-                <Link href="/register" className="btn-one lg mt-50 md-mt-30">
-                  Find me a candidate
-                </Link>
+              <p className="mt-20 md-mt-20 mb-40 md-mb-20">
+                We utilize advanced AI algorithms and machine learning
+                techniques to analyze and understand job requirements, candidate
+                skills, and market trends. Our platform offers:
+              </p>
+              <ul className="list-style-one style-none">
+                <li>
+                  <strong> Personalized Job Matches:</strong> Our AI-powered
+                  system learns from your preferences and behavior to suggest
+                  the most relevant job opportunities tailored just for you.
+                </li>
+                <li>
+                  <strong> Efficient Recruitment:</strong> Employers can find
+                  the best-fit candidates quickly and efficiently, thanks to our
+                  intelligent matching algorithms that go beyond keywords to
+                  understand the nuances of job descriptions and resumes
+                </li>
+                <li>
+                  <strong> Comprehensive Job Listings:</strong> We aggregate job
+                  postings from a wide range of industries and locations,
+                  ensuring you have access to the most up-to-date and diverse
+                  opportunities.
+                </li>
+
+                <li>
+                  <strong> Comprehensive Job Listings:</strong> We aggregate job
+                  postings from a wide range of industries and locations,
+                  ensuring you have access to the most up-to-date and diverse
+                  opportunities.
+                </li>
+              </ul>
+
+              <div className="title-one mt-4">
+                <h3>Our Values</h3>
               </div>
-            </div>
-          </div>
-          <div className="col-lg-7 col-md-11 m-auto order-lg-first">
-            {/* <FeatureImgData /> */}
-            <div className="img-box">
-              <Image
-                src={"/discover.png"}
-                width={600}
-                height={387}
-                alt="main-img"
-                className="lazy-img main-img"
-              />
-              {/* <Image
-                src={shape}
-                alt="shape"
-                className="lazy-img shapes screen_01"
-              /> */}
-              {/* <Image
-                src={tree_img}
-                alt="tree_img"
-                className="lazy-img shapes screen_02 wow fadeInLeft"
-              /> */}
+
+              <ul className="list-style-one style-none">
+                <li>
+                  <strong> Innovation: </strong> We are committed to constantly
+                  improving and innovating our platform to stay ahead of the
+                  curve in the ever-evolving job market.
+                </li>
+                <li>
+                  <strong> Integrity:</strong> We operate with the highest
+                  standards of integrity, ensuring transparency and honesty in
+                  all our interactions.
+                </li>
+                <li>
+                  <strong> Empowerment:</strong>We strive to empower individuals
+                  and businesses alike, helping them achieve their goals through
+                  our intelligent matching solutions.
+                </li>
+
+                <li>
+                  <strong> Diversity:</strong> We celebrate diversity and
+                  inclusivity, promoting equal opportunities for all job seekers
+                  and creating a diverse talent pool for employers.
+                </li>
+              </ul>
+
+              <div className="title-one mt-4">
+                <h3>Join Us</h3>
+              </div>
+              <p className="mt-20 md-mt-20 mb-40 md-mb-20">
+                Whether you are a job seeker looking for your next career move
+                or an employer searching for top talent, CyberLevels is here to
+                help you every step of the way. Join us today and experience the
+                future of recruitment.
+              </p>
             </div>
           </div>
         </div>
