@@ -22,10 +22,7 @@ const ContactArea = () => {
                       <Image src={icon_1} alt="icon" />
                     </div>
                     <h5 className="title">Our Address</h5>
-                    <p>
-                      Bass Hill Plaza Medical Centre <br />
-                      Sydney, Australia
-                    </p>
+                    <p>2015, Sheppard Avenue East,North York, M2J 0B3</p>
                   </div>
                 </div>
                 <div className="col-md-4">
@@ -35,9 +32,8 @@ const ContactArea = () => {
                     </div>
                     <h5 className="title">Contact Info</h5>
                     <p>
-                      Open a chat or give us call at <br />
                       <a href="tel:310.841.5500" className="call">
-                        310.841.5500
+                        contact@cyberlevels.com
                       </a>
                     </p>
                   </div>
@@ -49,10 +45,8 @@ const ContactArea = () => {
                     </div>
                     <h5 className="title">Live Support</h5>
                     <p>
-                      live chat service <br />
-                      <a href="#" className="webaddress">
-                        www.CyberLevels.com
-                      </a>
+                      Available on our website https://www.cyberlevels.com/ from
+                      9 AM to 6 PM (Monday to Friday).
                     </p>
                   </div>
                 </div>

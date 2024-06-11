@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const SocialLinks = () => {
   return (
@@ -9,7 +9,7 @@ const SocialLinks = () => {
         </a>
       </li>
       <li>
-        <a href="https://metageeks.tech/">
+        <a href="https://www.cyberlevels.com/">
           <i className="bi bi-globe"></i>
         </a>
       </li>

@@ -19,7 +19,7 @@ const ContactPage = () => {
         {/* header end */}
 
         {/*MapArea start */}
-        <MapArea />
+        {/* <MapArea /> */}
         {/*MapArea end */}
 
         {/* contact area start */}

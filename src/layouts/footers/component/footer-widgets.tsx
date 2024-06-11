@@ -23,9 +23,6 @@ export function WidgetOne({
         <li>
           <Link href="/candidates-v1">Candidates</Link>
         </li>
-        <li>
-          <Link href="/pricing">Pricing</Link>
-        </li>
       </ul>
     </div>
   );

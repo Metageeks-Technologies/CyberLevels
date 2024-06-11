@@ -49,9 +49,9 @@ export default function Home() {
       <FeedbackTwo />
       {/* feedback one end */}
       {/* text feature two start */}
-      <FeatureOne />
+      {/* <FeatureOne /> */}
       <div
-        style={{ paddingTop: "0", marginBottom: "100px" }}
+        style={{ paddingTop: "0", marginBottom: "100px", marginTop: "100px" }}
         className="footer-one d-flex justify-content-center"
       >
         <div className="col-lg-4 mb-20 footer-newsletter">
