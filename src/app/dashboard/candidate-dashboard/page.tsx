@@ -11,7 +11,7 @@ const CandidateDashboardPage = () => {
     (state) => state.candidate.candidateDashboard
   );
 
-  return <Wrapper>{currCandidate && <CandidateDashboardMain />}</Wrapper>;
+  return <Wrapper>{<CandidateDashboardMain />}</Wrapper>;
 };
 
 export default CandidateDashboardPage;

@@ -9,6 +9,7 @@ import { notifyError } from "@/utils/toast";
 import { getDate } from "@/utils/helper";
 import { valetedCoupon } from "@/redux/features/subscription/slice";
 import CouponModel from "../../common/popup/coupon-model";
+import { loadStripe } from "@stripe/stripe-js";
 declare global {
   interface Window {
     Razorpay: any;
@@ -27,6 +28,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
 
   const { coupon } = useAppSelector((s) => s.subscription);
 
+  // checkout  handler for razorpay
   const checkoutHandler = async (
     event: React.MouseEvent<HTMLButtonElement>,
     sub: ICandidateSub,
@@ -89,6 +91,56 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
     razor.open();
     dispatch(valetedCoupon(null));
   };
+
+  //checout handler for stripe
+  const checkoutHandlerStripe = async (
+    event: React.MouseEvent<HTMLButtonElement>,
+    sub: ICandidateSub,
+    price: Price
+  )=>{
+    // const stripePromise= loadStripe(process.env.PUBLISHABLE_KEY as string);
+
+    if (!currCandidate) {
+      notifyError("Please login to proceed");
+      return;
+    }
+    const bodyObj = {
+      amount: coupon
+        ? price?.amount -
+        Math.floor((price?.amount * coupon.discountPercentage) / 100)
+        : price?.amount,
+      currency: price?.currency.abbreviation,
+      duration: price?.duration,
+      user: currCandidate?._id,
+      userModel: "Candidate",
+      product: sub._id,
+      productModel: "CandidateSub",
+      coupon: coupon?._id || "",
+    };
+    console.log("bodyObj", bodyObj);
+
+    const headers={
+      'Content-Type': 'application/json'
+    }
+
+    try{
+      const response=await fetch(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/payment/checkoutStripeCandidate`,{
+        method:"POST",
+        headers,
+        body:JSON.stringify(bodyObj)
+      });
+  
+      const data=await response.json();
+      console.log(data);
+      if(data.url){
+        window.location.replace(data.url);
+      }
+    }
+    catch(err){
+      console.log(`error :${err}`);
+    }
+
+  }
 
   const dispatch = useAppDispatch();
   const { candidateSub } = useAppSelector((s) => s.subscription);
@@ -281,12 +333,20 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                             disabled={
                               item.subscriptionType === "foundational"
                             }
-                            onClick={(e) =>
-                              checkoutHandler(
+                            onClick={(e) =>{
+                              //for razorpay
+                              // checkoutHandler(
+                              //   e,
+                              //   item,
+                              //   item.price[isYearly ? 1 : 0]
+                              // )
+                              // for stripe
+                              checkoutHandlerStripe(
                                 e,
                                 item,
                                 item.price[isYearly ? 1 : 0]
                               )
+                            }
                             }
                             className={`get-plan-btn tran3s w-100 mt-30 mx-auto ${item.subscriptionType === "foundational" &&
                               "disabled"

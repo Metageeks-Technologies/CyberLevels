@@ -43,6 +43,7 @@ const resolver: Resolver<IFormData> = async (values) => {
       : {},
   };
 };
+
 const ContactForm = () => {
   // react hook form
   const {
@@ -53,34 +54,19 @@ const ContactForm = () => {
   } = useForm<IFormData>({ resolver });
   // on submit
   const onSubmit = (data: IFormData) => {
-    const templateParams = {
-      name: data.name,
-      email: data.email,
-      subject: data.subject,
-      message: data.message,
-    };
     if (data) {
-      emailjs
-        .send(
-          'service_gnu2rla', 
-          'template_ilrquco', 
-          templateParams,
-          'tDbxqotWh8Z0dv0h6'
-        )
-        .then(
-          (response) => {
-            // console.log("SUCCESS!", response.status, response.text);
-            notifySuccess('Your message sent successfully');
-          },
-          (err) => {
-            // console.log("FAILED...", err);
-            notifyError(err?.text);
-          }
-        );
-    }
-
+      const response=fetch(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/sendEmail`,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body:JSON.stringify({ data }),
+      }
+    );
+    console.log(response);
     reset();
-  };
+    }
+  }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="messages"></div>
@@ -147,3 +133,4 @@ const ContactForm = () => {
 };
 
 export default ContactForm;
+

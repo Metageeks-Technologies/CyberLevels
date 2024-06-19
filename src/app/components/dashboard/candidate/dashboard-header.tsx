@@ -71,7 +71,7 @@ const DashboardHeader = ({ setIsOpenSidebar }: IProps) => {
   // const t=currCandidate?.notifications[0].timestamp
   const unreadNotification = currCandidate? currCandidate?.notifications.filter(
     (n) => n.isRead === false
-  ):currEmployer?.notifications.filter( (n) => n.isRead === false);
+  ):currEmployer?.notifications?.filter( (n) => n.isRead === false);
   // unreadNotification?.forEach((notification) => {
   //   notification.timestamp = new Date(notification.timestamp);
   // });

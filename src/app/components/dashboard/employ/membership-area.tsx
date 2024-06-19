@@ -9,6 +9,7 @@ import { notifyError } from "@/utils/toast";
 import { getDate } from "@/utils/helper";
 import { valetedCoupon } from "@/redux/features/subscription/slice";
 import CouponModel from "../../common/popup/coupon-model";
+import { loadStripe } from "@stripe/stripe-js";
 declare global {
   interface Window {
     Razorpay: any;
@@ -24,11 +25,13 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
   const subscription = currEmployer?.subscription as IEmployerSub;
   const { coupon } = useAppSelector((s) => s.subscription);
 
+  // checkout  handler for razorpay
   const checkoutHandler = async (
     event: React.MouseEvent<HTMLButtonElement>,
     sub: IEmployerSub,
     price: Price
   ) => {
+    console.log("payemnt+>>",sub,price);
     if (!currEmployer) {
       notifyError("Please login to proceed");
       return;
@@ -85,6 +88,55 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
     dispatch(valetedCoupon(null));
   };
 
+  // checkout  handler for stripe
+  const checkoutHandlerStripe = async (
+    event: React.MouseEvent<HTMLButtonElement>,
+    sub: IEmployerSub,
+    price: Price
+  )=>{
+    const stripe=loadStripe(process.env.STRIPE_PUBLISHABLE_KEY as string);
+  
+    if (!currEmployer) {
+      notifyError("Please login to proceed");
+      return;
+    }
+
+    const bodyObj = {
+      amount: coupon
+        ? price?.amount -
+          Math.floor((price?.amount * coupon.discountPercentage) / 100)
+        : price?.amount,
+      currency: price.currency.abbreviation,
+      duration: price.duration,
+      user: currEmployer?._id,
+      userModel: "Employer",
+      product: sub._id,
+      productModel: "EmployerSub",
+      coupon: coupon?._id || "",
+    };
+    console.log(bodyObj);
+    const headers={
+      'Content-Type': 'application/json'
+    }
+    try{
+      const response=await fetch(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/payment/checkoutStripeEmployer`,{
+        method:"POST",
+        headers,
+        body:JSON.stringify(bodyObj)
+      });
+  
+      const data=await response.json(); 
+      console.log(data);
+      
+      if(data.url){
+        window.location.replace(data.url);
+      }
+    }
+    catch(err){
+      console.log(`error :${err}`);
+    }
+  }
+  //checkout handler for stripe
   const dispatch = useAppDispatch();
   const { employSub } = useAppSelector((s) => s.subscription);
   const [isYearly, setIsYearly] = React.useState<boolean>(true);
@@ -119,11 +171,11 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                     </h4>
                     <ul className="style-none">
                       <li>
-                        {subscription.offering.jobPostLimit} jobs can be posted
+                        {subscription?.offering?.jobPostLimit} jobs can be posted
                         this month
                       </li>
                       <li>
-                        {subscription.offering.aiTokenLimit} Ai tokens left
+                        {subscription?.offering?.aiTokenLimit} Ai tokens left
                       </li>
                       <li>Candidate List newsletter</li>
                       <li>Job Tracking</li>
@@ -258,11 +310,8 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                             <button
                               disabled={item.subscriptionType === "essential"}
                               onClick={(e) =>
-                                checkoutHandler(
-                                  e,
-                                  item,
-                                  item.price[isYearly ? 1 : 0]
-                                )
+                              // for stripe payment 
+                              checkoutHandlerStripe(e,item,item.price[isYearly ? 1 : 0])
                               }
                               className={`get-plan-btn tran3s w-100 mt-30 mx-auto ${
                                 item.subscriptionType === "essential" &&

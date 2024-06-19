@@ -122,7 +122,7 @@ const EmployDashboardArea = ({ setIsOpenSidebar }: IProps) => {
             img={icon_3}
             title="Tokens Left"
             value={
-              currEmployer?.subscription?.offering.aiTokenLimit?.toString() ||
+              currEmployer?.subscription?.offering?.aiTokenLimit?.toString() ||
               ""
             }
           />
