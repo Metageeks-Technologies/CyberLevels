@@ -105,17 +105,13 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
       return;
     }
     const bodyObj = {
-      amount: coupon
-        ? price?.amount -
-        Math.floor((price?.amount * coupon.discountPercentage) / 100)
-        : price?.amount,
+      amount: price?.amount,
       currency: price?.currency.abbreviation,
       duration: price?.duration,
       user: currCandidate?._id,
       userModel: "Candidate",
       product: sub._id,
       productModel: "CandidateSub",
-      coupon: coupon?._id || "",
     };
     console.log("bodyObj", bodyObj);
 
