@@ -63,13 +63,14 @@ function AutocompletePosition({
   }, [query]);
 
   const handleAdd = () => {
-    if (addTo === "Position") {
-      addPositionToDB(dispatch, query);
-    } else {
-      addCompanyCategoryToDB(dispatch, query);
-    }
+      if (addTo === "Position") {
+        addPositionToDB(dispatch, query);
+      } else {
+        addCompanyCategoryToDB(dispatch, query);
+      }
+      setSelected(query);
+      setQuery("");
     // addCompanyCategoryToDB(dispatch,query);
-    setSelected(query);
   };
   return (
     <div className="nice-select" style={{ border: "none", padding: "0" }}>
@@ -81,22 +82,24 @@ function AutocompletePosition({
               placeholder={placeholder}
               displayValue={() => selected}
               onChange={(event) => setQuery(event.target.value)}
-            />
+            /> 
             {query.length >= 3 && showAdd && (
-              <p
-                onClick={handleAdd}
+              <Combobox.Button
+               onClick={handleAdd}
                 title="Create A new company if not found"
-                className="skill-add btn-one position-absolute px-3 py-0"
+                className="skill-add btn-one position-absolute px-3 py-2 d-flex justify-content-center align-items-center" 
                 style={{
                   zIndex: 10,
+                  width: "15%",
+                  height: "60%",
                   top: top ? "50%" : "12%",
                   right: "5%",
                   transform: "translateY(-50%)",
                 }}
               >
-                add
-              </p>
-            )}
+                Add
+              </Combobox.Button>
+             )}  
           </div>
           <Transition
             as={Fragment}

@@ -70,19 +70,21 @@ function AutocompleteCategory({
               onChange={(event) => setQuery(event.target.value)}
             />
             {isAddButton && query.length >= 3 && (
-              <p
+              <Combobox.Button
                 onClick={handleAdd}
                 title="Create A new company if not found"
-                className="skill-add btn-one position-absolute px-3 py-0"
+                className="skill-add btn-one position-absolute px-3 py-2 d-flex justify-content-center align-items-center"
                 style={{
                   zIndex: 10,
-                  top: false ? "50%" : "12%",
+                  width: "15%",
+                  height: "60%",
+                  top: true ? "50%" : "12%",
                   right: "5%",
                   transform: "translateY(-50%)",
                 }}
               >
                 Add
-              </p>
+              </Combobox.Button>
             )}
           </div>
           <Transition

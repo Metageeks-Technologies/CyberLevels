@@ -429,6 +429,7 @@ Please follow this format for all questions.`;
                   setSelected={setTitle}
                   endPoint="jobTitle"
                   showAdd={true}
+                  top={true}
                 />
                 {!validForm.title && (
                   <p style={{ color: "red" }}>Please Enter Valid Job Title</p>
@@ -628,6 +629,7 @@ Please follow this format for all questions.`;
             <AutocompleteSkill
               skills={primarySkills}
               setSkills={setPrimarySkills}
+              top={true}
             />
             {!validForm.priSkills && (
               <p style={{ color: "red" }}>Primary skills cannot be empty</p>
@@ -645,6 +647,7 @@ Please follow this format for all questions.`;
             <AutocompleteSkill
               skills={secondarySkills}
               setSkills={setSecondarySkills}
+              top={true}
             />
             {!validForm.secSkills && (
               <p style={{ color: "red" }}>Secondary skills cannot be empty</p>

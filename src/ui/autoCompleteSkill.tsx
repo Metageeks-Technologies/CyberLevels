@@ -78,12 +78,14 @@ function AutocompleteSkill({ skills, setSkills,top }: Props) {
               displayValue={() => ""}
               onChange={(event) => setQuery(event.target.value)}
             />
-            {query.length >= 3 && (
-              <p
+            {/* {query.length >= 3 && ( */}
+              <Combobox.Button
                 onClick={handleAddSkill}
                 title="Add this skill if not found in the list"
-                className="skill-add btn-one position-absolute px-3 py-1"
+                className="skill-add btn-one position-absolute px-3 py-2 d-flex justify-content-center align-items-center"
                 style={{
+                  width: "15%",
+                  height: "60%",
                   zIndex: 10,
                   top: top  ? "50%" : "12%",
                   right: "5%",
@@ -91,8 +93,8 @@ function AutocompleteSkill({ skills, setSkills,top }: Props) {
                 }}
               >
                 Add
-              </p>
-            )}
+              </Combobox.Button>
+            {/* )} */}
           </div>
           <Transition
             as={Fragment}
