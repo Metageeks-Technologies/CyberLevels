@@ -181,7 +181,11 @@ const LoginModal = () => {
                   onChange={handleCheckboxChange}
                   className="me-2"
                 />
-                I hereby accepts all the Terms and Conditions.
+                <span>I hereby accepts all the  </span>
+                <span>
+                  <Link href="/terms-and-conditions" target="_blank" rel="noopener noreferrer" style={{color:"blue"}}> Terms and Conditions.</Link>
+                  </span>
+                
               </label>
             </div>
           </div>

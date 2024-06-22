@@ -351,7 +351,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                             Choose Plan
                           </button>
                         )}
-                        {item.subscriptionType !== "foundational" &&
+                        {/* {item.subscriptionType !== "foundational" &&
                           subscription.hasOwnProperty("_id") &&
                           subscription._id !== item._id ? (
                           <>
@@ -382,7 +382,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                               </>
                             )}
                           </>
-                        ) : null}
+                        ) : null} */}
                       </div>
                     </div>
                   ))

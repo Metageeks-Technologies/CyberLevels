@@ -53,19 +53,32 @@ const ContactForm = () => {
     reset,
   } = useForm<IFormData>({ resolver });
   // on submit
-  const onSubmit = (data: IFormData) => {
-    if (data) {
-      const response=fetch(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/sendEmail`,{
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body:JSON.stringify({ data }),
+  const onSubmit =async (data: IFormData) => {
+    try {
+      if (data) {
+        const response= await fetch(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/v1/sendEmail`,{
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body:JSON.stringify({ data }),
+        }
+      );
+      const responseJson = await response.json();
+      console.log(responseJson);
+      if(responseJson.response.status===200){
+        notifySuccess("Email sent successfully. We will reach out to you soon");
       }
-    );
-    console.log(response);
-    reset();
+      else{
+        notifyError("Error occured while sending email.Please try again later");
+      }
+      reset();
+      }
+    } catch (error) {
+      console.log(`error occured while sending email ${error}`);
+      notifyError("Error occured while sending email.Please try again later");
     }
+    
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

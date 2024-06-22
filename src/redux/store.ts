@@ -77,8 +77,11 @@ export const store = configureStore({
     payment:paymentSlice,
     userFilter:userFilterSlice,
   },
-
-})
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+});
 
 
 

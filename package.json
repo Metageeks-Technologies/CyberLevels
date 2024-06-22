@@ -20,6 +20,7 @@
     "@mui/material-next": "^6.0.0-alpha.119",
     "@phosphor-icons/react": "^2.0.13",
     "@popperjs/core": "^2.11.8",
+    "@react-native-async-storage/async-storage": "^1.23.1",
     "@reduxjs/toolkit": "^1.9.5",
     "@stripe/stripe-js": "^3.5.0",
     "@tinymce/tinymce-react": "^4.3.0",
