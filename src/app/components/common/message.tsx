@@ -25,7 +25,8 @@ export default function Messenger() {
     setChat((prev) => [...prev, { message: text, role: "candidate" }]);
     const query = `${text} for the job description ${jobPost?.description} and primary skills required is ${jobPost?.primarySkills}`;
     const response = await queryToGpt(dispatch, currUser, query);
-    setChat((prev) => [...prev, { message: response.text, role: "gpt" }]);
+    console.log(response);
+    setChat((prev) => [...prev, { message: response?.text, role: "gpt" }]);
 
     setText("");
   };

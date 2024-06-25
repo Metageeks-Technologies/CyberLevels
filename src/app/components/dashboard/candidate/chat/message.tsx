@@ -5,11 +5,11 @@ import { useAppSelector } from "@/redux/hook";
 import { RootState } from "@/redux/store";
 
 const StyledResponse = ({ text }: { text: string }) => {
-  const textArr = text.split("\n");
+  const textArr = text?.split("\n");
 
   return (
     <div>
-      {textArr.map((val) => (
+      {textArr?.map((val) => (
         <p key={val}>{val}</p>
       ))}
     </div>

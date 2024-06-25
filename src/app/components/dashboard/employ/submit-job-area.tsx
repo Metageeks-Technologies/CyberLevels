@@ -379,7 +379,8 @@ Please follow this format for all questions.`;
       const data = await askToGpt(dispatch, query);
       if (data?.choices?.[0].message?.content) {
         let questions = data.choices[0].message.content.split("\n\n");
-        if (questions.length > 4) {
+        if (questions.length < 4) {
+          setLoadingLocal({ ...loadingLocal, question: false });
           notifyInfo("Not enough questions. Please generate again.");
           return;
         }
