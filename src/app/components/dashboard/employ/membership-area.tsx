@@ -10,9 +10,15 @@ import { getDate } from "@/utils/helper";
 import { valetedCoupon } from "@/redux/features/subscription/slice";
 import CouponModel from "../../common/popup/coupon-model";
 import { loadStripe } from "@stripe/stripe-js";
+import StripeEmployeePlans from "../../../components/price-table/price-table-employer"
 declare global {
   interface Window {
     Razorpay: any;
+  }
+  namespace JSX {
+    interface IntrinsicElements {
+      'stripe-pricing-table': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+    }
   }
 }
 
@@ -224,7 +230,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
               </div>
             </div>
 
-            <div className="d-flex justify-content-center ">
+            {/* <div className="d-flex justify-content-center ">
               <div className="subscription-tab align-content-center py-2  d-flex gap-3 px-2">
                 <p
                   onClick={handleToggle}
@@ -239,16 +245,16 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                   Monthly
                 </p>
               </div>
-            </div>
-
+            </div>                  */}
             <section className="pricing-section">
-              <div className="row justify-content-center">
+            <StripeEmployeePlans userId={currEmployer?._id || ''} />
+              {/* <div className="row justify-content-center">
                 {employSub.length > 0
-                  ? employSub.map((item) => (
-                      <div className="col-lg-5 col-md-6">
+                  ? employSub.map((item,index) => (
+                      <div className="col-lg-5 col-md-6" key={index}>
                         <div className="pricing-card-one mt-25">
                           <div className="pack-name">
-                            {item.subscriptionType}
+                            {item.subscriptionType}x
                           </div>
                           {item.price.length && item.price.length > 1 ? (
                             <div className="price fw-500">
@@ -321,7 +327,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                               Choose Plan
                             </button>
                           )}
-                          {/* <button
+                          <button
                             onClick={(e) =>
                               checkoutHandler(
                                 e,
@@ -335,7 +341,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                             subscription._id === item._id
                               ? "Current Plan"
                               : "Choose Plan"}
-                          </button> */}
+                          </button>
                         </div>
                       </div>
                     ))
@@ -425,7 +431,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                   </div>
                   </div>
                   
-              </div>
+              </div> */}
             </section>
           </div>
         </div>

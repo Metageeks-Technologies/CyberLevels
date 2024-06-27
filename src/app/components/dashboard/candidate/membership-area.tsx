@@ -10,9 +10,16 @@ import { getDate } from "@/utils/helper";
 import { valetedCoupon } from "@/redux/features/subscription/slice";
 import CouponModel from "../../common/popup/coupon-model";
 import { loadStripe } from "@stripe/stripe-js";
+import StripeCandidatePlans from "../../../components/price-table/price-table-candidate";
+import { ST } from "next/dist/shared/lib/utils";
 declare global {
   interface Window {
     Razorpay: any;
+  }
+  namespace JSX {
+    interface IntrinsicElements {
+      'stripe-pricing-table': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+    }
   }
 }
 
@@ -225,7 +232,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
               </div>
             </div>
 
-            <div className="d-flex justify-content-center ">
+            {/* <div className="d-flex justify-content-center ">
               <div className="subscription-tab align-content-center py-2  d-flex gap-3 px-2">
                 <p
                   onClick={handleToggle}
@@ -240,10 +247,12 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                   Monthly
                 </p>
               </div>
-            </div>
-
+            </div> */}
+            
+                     
             <section className="pricing-section">
-              <div className="row justify-content-center">
+            <StripeCandidatePlans userId={currCandidate?._id || ''}  />   
+              {/* <div className="row justify-content-center">
                 {candidateSub.length > 0
                   ? candidateSub.map((item) => (
                     <div className="col-lg-5 col-md-6">
@@ -330,13 +339,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                               item.subscriptionType === "foundational"
                             }
                             onClick={(e) =>{
-                              //for razorpay
-                              // checkoutHandler(
-                              //   e,
-                              //   item,
-                              //   item.price[isYearly ? 1 : 0]
-                              // )
-                              // for stripe
+                  
                               checkoutHandlerStripe(
                                 e,
                                 item,
@@ -351,7 +354,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                             Choose Plan
                           </button>
                         )}
-                        {/* {item.subscriptionType !== "foundational" &&
+                        {item.subscriptionType !== "foundational" &&
                           subscription.hasOwnProperty("_id") &&
                           subscription._id !== item._id ? (
                           <>
@@ -382,7 +385,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                               </>
                             )}
                           </>
-                        ) : null} */}
+                        ) : null} 
                       </div>
                     </div>
                   ))
@@ -477,7 +480,7 @@ const EmployMembershipArea = ({ setIsOpenSidebar }: IProps) => {
                           </button>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </section>
           </div>
         </div>

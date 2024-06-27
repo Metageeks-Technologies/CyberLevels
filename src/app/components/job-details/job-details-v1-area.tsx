@@ -83,7 +83,7 @@ const JobDetailsV1Area = ({
   };
   let isApplied = false;
   isApplied = checkIsApplied();
-  console.log(job.testQuestions, "test questions");
+  console.log(job?.testQuestions, "test questions");
   const test = 58;
 
   const description = job?.description.replaceAll("\\n", "<br/>");
@@ -572,9 +572,9 @@ const JobDetailsV1Area = ({
         </div>
       </section>
 
-      <div onClick={() => setSidebar(true)}>
+      {/* <div onClick={() => setSidebar(true)}>
         <ChatWithGpt />
-      </div>
+      </div> */}
       {sidebar && <GptSidebar setSidebar={setSidebar} />}
       <QuestionModal question={job?.testQuestions} jobId={job?._id} />
       {planExhaustedModel && <ExhaustedPlanModal />}

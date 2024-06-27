@@ -6200,6 +6200,14 @@ iframe {
   right: 10px;
   top: -35px;
 }
+.PricingTable {
+  height: 100%;
+  opacity: 1;
+  padding: var(--space-1);
+  transition: opacity .2s linear;
+  width: 100%;
+  background: transparent !important;
+}
 
 .cadidate-profile-sidebar .bg-wrapper {
   background: #fff;
